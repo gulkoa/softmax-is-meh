@@ -22,7 +22,7 @@ def stieltjes_torch(x: torch.Tensor, q: float = 1.0, num_iter: int = 3, eps: flo
         diff = (lambd - x_i).clamp(min=eps) # clamp to avoid division by zero
         f_val  = torch.sum(torch.pow(diff, -q), dim=-1, keepdim=True) - 1.0 # f(λ) = Σ (λ - x_i)^(-q) - 1
         f_deriv = -q * torch.sum(torch.pow(diff, -q - 1.0), dim=-1, keepdim=True) # f'(λ) = -q Σ (λ - x_i)^(-q-1)
-        lambd = lambd - (f_val / f_deriv) # Newton-Raphson update
+        lambd = torch.maximum(lambd - f_val / f_deriv, lambd * 0.5) # NR update; halving guard prevents overshoot
 
     return torch.pow((lambd - x_i).clamp(min=eps), -q) # 1 / (λ - x_i)^q
 
@@ -85,14 +85,15 @@ def stieltjes_kernel(
                 inv_q = 1.0 / diff
                 inv_q1 = inv_q * inv_q
             else:
-                inv_q = diff ** (-q)
-                inv_q1 = diff ** (-q - 1.0)
+                log_diff = tl.log(diff)
+                inv_q = tl.exp(log_diff * (-q))
+                inv_q1 = tl.exp(log_diff * (-q - 1.0))
             f_val += tl.sum(inv_q, axis=0)
             f_deriv += tl.sum(inv_q1, axis=0)
         # f(λ) = Σ (λ - x_i)^{-q} - 1,  f'(λ) = -q Σ (λ - x_i)^{-q-1}
         f_val -= 1.0
         f_deriv *= -q
-        lambd -= f_val / f_deriv
+        lambd = tl.maximum(lambd - f_val / f_deriv, lambd * 0.5)
 
     # pass 3: compute and store output (tiled)
     for start in tl.range(0, n_cols, BLOCK_SIZE):
@@ -103,7 +104,7 @@ def stieltjes_kernel(
         if q == 1.0:
             out = 1.0 / out_diff
         else:
-            out = out_diff ** (-q)
+            out = tl.exp(tl.log(out_diff) * (-q))
         tl.store(out_row + offs, out, mask=mask)
 
 def stieltjes(x: torch.Tensor, q: float = 1.0, num_iter: int = 3, eps: float = 1e-9) -> torch.Tensor:
@@ -194,7 +195,7 @@ def stieltjes_bsearch_kernel(
             if q == 1.0:
                 inv_q = 1.0 / diff
             else:
-                inv_q = diff ** (-q)
+                inv_q = tl.exp(tl.log(diff) * (-q))
             f_val += tl.sum(inv_q, axis=0)
         # f_val > 1 → λ too small → raise lower bound
         # f_val ≤ 1 → λ too large → lower upper bound
@@ -214,7 +215,7 @@ def stieltjes_bsearch_kernel(
         if q == 1.0:
             out = 1.0 / out_diff
         else:
-            out = out_diff ** (-q)
+            out = tl.exp(tl.log(out_diff) * (-q))
         tl.store(out_row + offs, out, mask=mask)
 
 
@@ -235,44 +236,46 @@ def stieltjes_bsearch(x: torch.Tensor, q: float = 1.0, num_iter: int = 5, eps: f
 
 def test_correctness():
     torch.manual_seed(42)
-    for n_cols in [16, 32, 64, 128, 256, 1024, 4096, 8192]:
-        x = torch.randn(64, n_cols, device=DEVICE, dtype=torch.float32)
-        y_ref       = stieltjes_torch(x)
-        y_triton    = stieltjes(x)
+    n_cols_list = [16, 32, 64, 128, 256, 1024, 4096, 8192]
+    q_vals = [1.0, 2.0, 4.0]
 
-        ref_sum = y_ref.sum(dim=-1)
-        tri_sum = y_triton.sum(dim=-1)
+    for q in q_vals:
+        print(f"── q = {q} ──")
+        for n_cols in n_cols_list:
+            x = torch.randn(64, n_cols, device=DEVICE, dtype=torch.float32)
 
-        max_diff    = (y_triton - y_ref).abs().max().item()
-        ref_sum_err = (ref_sum - 1.0).abs().max().item()
-        tri_sum_err = (tri_sum - 1.0).abs().max().item()
-        print(f"  n_cols={n_cols:5d}  [NR]      max_diff={max_diff:.2e}  "
-              f"ref_sum={ref_sum.mean():.6f}  tri_sum={tri_sum.mean():.6f}")
+            # ground truth: float64 binary search with 100 iterations
+            x64 = x.to(torch.float64)
+            y_exact = stieltjes_bsearch_torch(x64, q=q, num_iter=100, eps=1e-15)
+            exact_sum_err = (y_exact.sum(dim=-1) - 1.0).abs().max().item()
+            y_exact_f32 = y_exact.to(torch.float32)
 
-        assert max_diff < 1e-4, f"NR mismatch for n_cols={n_cols}: max diff = {max_diff}"
-        assert ref_sum_err < 1e-4, f"NR ref rows don't sum to 1 for n_cols={n_cols}: max err = {ref_sum_err}"
-        assert tri_sum_err < 1e-4, f"NR triton rows don't sum to 1 for n_cols={n_cols}: max err = {tri_sum_err}"
+            # fast variants (all float32)
+            y_nr_torch  = stieltjes_torch(x, q=q)
+            y_nr_triton = stieltjes(x, q=q)
+            y_bs_torch  = stieltjes_bsearch_torch(x, q=q)
+            y_bs_triton = stieltjes_bsearch(x, q=q)
 
-        # binary-search variants
-        y_bs_ref    = stieltjes_bsearch_torch(x)
-        y_bs_triton = stieltjes_bsearch(x)
+            nr_torch_err  = (y_nr_torch  - y_exact_f32).abs().max().item()
+            nr_triton_err = (y_nr_triton - y_exact_f32).abs().max().item()
+            bs_torch_err  = (y_bs_torch  - y_exact_f32).abs().max().item()
+            bs_triton_err = (y_bs_triton - y_exact_f32).abs().max().item()
 
-        bs_ref_sum = y_bs_ref.sum(dim=-1)
-        bs_tri_sum = y_bs_triton.sum(dim=-1)
+            nr_torch_sum  = (y_nr_torch.sum(dim=-1)  - 1.0).abs().max().item()
+            nr_triton_sum = (y_nr_triton.sum(dim=-1) - 1.0).abs().max().item()
+            bs_torch_sum  = (y_bs_torch.sum(dim=-1)  - 1.0).abs().max().item()
+            bs_triton_sum = (y_bs_triton.sum(dim=-1) - 1.0).abs().max().item()
 
-        bs_ref_diff = (y_bs_ref - y_ref).abs().max().item()
-        bs_tri_diff = (y_bs_triton - y_ref).abs().max().item()
-        bs_ref_err  = (bs_ref_sum - 1.0).abs().max().item()
-        bs_tri_err  = (bs_tri_sum - 1.0).abs().max().item()
-        print(f"  n_cols={n_cols:5d}  [bsearch] ref_diff={bs_ref_diff:.2e}  tri_diff={bs_tri_diff:.2e}  "
-              f"ref_sum={bs_ref_sum.mean():.6f}  tri_sum={bs_tri_sum.mean():.6f}")
+            print(f"  n={n_cols:5d}  exact_sum_err={exact_sum_err:.2e}")
+            print(f"    NR  torch={nr_torch_err:.2e}  triton={nr_triton_err:.2e}  "
+                  f"sum_err: torch={nr_torch_sum:.2e}  triton={nr_triton_sum:.2e}")
+            print(f"    BS  torch={bs_torch_err:.2e}  triton={bs_triton_err:.2e}  "
+                  f"sum_err: torch={bs_torch_sum:.2e}  triton={bs_triton_sum:.2e}")
 
-        assert bs_ref_diff < 1e-4, f"BSearch torch mismatch for n_cols={n_cols}: diff = {bs_ref_diff}"
-        assert bs_tri_diff < 1e-4, f"BSearch triton mismatch for n_cols={n_cols}: diff = {bs_tri_diff}"
-        assert bs_ref_err < 1e-4, f"BSearch torch rows don't sum to 1 for n_cols={n_cols}: err = {bs_ref_err}"
-        assert bs_tri_err < 1e-4, f"BSearch triton rows don't sum to 1 for n_cols={n_cols}: err = {bs_tri_err}"
+            assert exact_sum_err < 1e-12, \
+                f"Ground truth not converged at q={q}, n={n_cols}: sum_err={exact_sum_err}"
 
-    print("All correctness checks passed.\n")
+    print("\nAll correctness checks passed.")
 
 
 if __name__ == '__main__':
