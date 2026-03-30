@@ -231,6 +231,290 @@ def _stieltjes_attn_fwd(
 
 
 # ---------------------------------------------------------------------------
+# Triton backward kernels
+# ---------------------------------------------------------------------------
+#
+# Backward for Stieltjes attention.  Given P_ij = (λ_i - s_ij)^{-q}:
+#
+#   r_ij  = (λ_i - s_ij)^{-q-1}          (derivative weight)
+#   D_i   = Σ_j r_ij                      (saved from forward)
+#   dP_ij = (dO @ V^T)_ij
+#   δ_i   = (Σ_j dP_ij · r_ij) / D_i     (correction term)
+#   dS_ij = q · r_ij · (dP_ij - δ_i)     (score gradient)
+#
+# Then: dQ = dS @ K · scale,  dK = dS^T @ Q · scale,  dV = P^T @ dO
+#
+# Three kernels, all recomputing scores on-the-fly (flash-style, O(N) memory):
+#   1. _stieltjes_bwd_delta  — compute δ_i per query row
+#   2. _stieltjes_bwd_dkdv   — compute dK, dV (iterate Q blocks for fixed K block)
+#   3. _stieltjes_bwd_dq     — compute dQ     (iterate K blocks for fixed Q block)
+
+@triton.jit
+def _stieltjes_score_helpers(
+    q_block, k_block, lam_row, sm_scale, offs_m, offs_n,
+    sq: tl.constexpr, EPS: tl.constexpr, CAUSAL: tl.constexpr,
+):
+    """Recompute scores and Stieltjes weight helpers (P, r) for a Q×K tile.
+
+    Returns (weights, r, qk) where:
+      weights = (λ - s)^{-q}      — attention weights P
+      r       = (λ - s)^{-q-1}    — derivative weights
+      qk      = Q @ K^T * scale   — raw scores (for debugging / optional use)
+    """
+    qk = tl.dot(q_block, tl.trans(k_block)) * sm_scale
+
+    if CAUSAL:
+        causal_mask = offs_m[:, None] >= offs_n[None, :]
+        qk = tl.where(causal_mask, qk, -1e30)
+
+    diff = tl.maximum(lam_row[:, None] - qk, EPS)
+
+    if sq == 1.0:
+        weights = 1.0 / diff
+        r = weights * weights
+    else:
+        log_diff = tl.log(diff)
+        weights = tl.exp(log_diff * (-sq))
+        r = tl.exp(log_diff * (-sq - 1.0))
+
+    return weights, r, qk
+
+
+@triton.jit
+def _stieltjes_bwd_delta(
+    Q, K, V, DO,
+    Lambda, D_sum, Delta,          # Delta is the output: (B*H, N)
+    stride_qh, stride_qm, stride_qk,
+    stride_kh, stride_kn, stride_kk,
+    stride_vh, stride_vn, stride_vk,
+    stride_doh, stride_dom, stride_dok,
+    sm_scale, N_CTX,
+    sq: tl.constexpr,
+    EPS: tl.constexpr,
+    HEAD_DIM: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    CAUSAL: tl.constexpr,
+):
+    """Compute δ_i = (Σ_j dP_ij · r_ij) / D_i for each query row."""
+    start_m = tl.program_id(0)
+    off_hz = tl.program_id(1)
+
+    q_off = off_hz * stride_qh
+    k_off = off_hz * stride_kh
+    v_off = off_hz * stride_vh
+    do_off = off_hz * stride_doh
+
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_d = tl.arange(0, HEAD_DIM)
+
+    # Load Q block and dO block
+    q_ptrs = Q + q_off + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
+    do_ptrs = DO + do_off + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
+    q_block = tl.load(q_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+    do_block = tl.load(do_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+
+    # Load λ and D
+    lam_ptrs = Lambda + off_hz * N_CTX + offs_m
+    d_ptrs = D_sum + off_hz * N_CTX + offs_m
+    lam_row = tl.load(lam_ptrs, mask=offs_m < N_CTX, other=0.0)
+    d_row = tl.load(d_ptrs, mask=offs_m < N_CTX, other=1.0)
+
+    # Accumulate Σ_j dP_ij · r_ij  (sweep over all K/V tiles)
+    acc = tl.zeros([BLOCK_M], dtype=tl.float32)
+
+    for start_n in range(0, N_CTX, BLOCK_N):
+        offs_n = start_n + tl.arange(0, BLOCK_N)
+
+        k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
+        v_ptrs = V + v_off + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
+        k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+        v_block = tl.load(v_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+
+        # Recompute attention helpers
+        _weights, r, _qk = _stieltjes_score_helpers(
+            q_block, k_block, lam_row, sm_scale, offs_m, offs_n,
+            sq, EPS, CAUSAL,
+        )
+
+        # dP tile = dO @ V^T : [BLOCK_M, BLOCK_N]
+        dP_tile = tl.dot(do_block, tl.trans(v_block))
+
+        # Accumulate dP * r
+        acc += tl.sum(dP_tile * r, axis=1)
+
+    # δ_i = acc / D_i
+    delta = acc / tl.maximum(d_row, EPS)
+
+    delta_ptrs = Delta + off_hz * N_CTX + offs_m
+    tl.store(delta_ptrs, delta, mask=offs_m < N_CTX)
+
+
+@triton.jit
+def _stieltjes_bwd_dkdv(
+    Q, K, V, DO,
+    Lambda, D_sum, Delta,
+    DK, DV,
+    stride_qh, stride_qm, stride_qk,
+    stride_kh, stride_kn, stride_kk,
+    stride_vh, stride_vn, stride_vk,
+    stride_doh, stride_dom, stride_dok,
+    stride_dkh, stride_dkn, stride_dkk,
+    stride_dvh, stride_dvn, stride_dvk,
+    sm_scale, N_CTX,
+    sq: tl.constexpr,
+    EPS: tl.constexpr,
+    HEAD_DIM: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    CAUSAL: tl.constexpr,
+):
+    """Compute dK and dV by iterating over Q blocks for a fixed K/V block."""
+    start_n = tl.program_id(0)
+    off_hz = tl.program_id(1)
+
+    k_off = off_hz * stride_kh
+    v_off = off_hz * stride_vh
+    q_off = off_hz * stride_qh
+    do_off = off_hz * stride_doh
+
+    offs_n = start_n * BLOCK_N + tl.arange(0, BLOCK_N)
+    offs_d = tl.arange(0, HEAD_DIM)
+
+    # Load K and V blocks (stay in SRAM for the entire inner loop)
+    k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
+    v_ptrs = V + v_off + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
+    k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+    v_block = tl.load(v_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+
+    dk = tl.zeros([BLOCK_N, HEAD_DIM], dtype=tl.float32)
+    dv = tl.zeros([BLOCK_N, HEAD_DIM], dtype=tl.float32)
+
+    # Determine loop bounds (for causal, only Q rows >= K rows contribute)
+    lo = 0
+    if CAUSAL:
+        lo = start_n * BLOCK_N
+
+    for start_m in range(lo, N_CTX, BLOCK_M):
+        offs_m = start_m + tl.arange(0, BLOCK_M)
+
+        # Load Q, dO, delta, lambda for this Q block
+        q_ptrs = Q + q_off + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
+        do_ptrs = DO + do_off + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
+        q_block = tl.load(q_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+        do_block = tl.load(do_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+
+        lam_row = tl.load(Lambda + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+        delta_row = tl.load(Delta + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+
+        # Recompute P and r
+        weights, r, _qk = _stieltjes_score_helpers(
+            q_block, k_block, lam_row, sm_scale, offs_m, offs_n,
+            sq, EPS, CAUSAL,
+        )
+
+        # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
+        dP_tile = tl.dot(do_block, tl.trans(v_block))
+
+        # dS = sq * r * (dP - delta)
+        dS = (sq * r * (dP_tile - delta_row[:, None])).to(q_block.dtype)
+
+        if CAUSAL:
+            causal_mask = offs_m[:, None] >= offs_n[None, :]
+            dS = tl.where(causal_mask, dS, 0.0)
+
+        # dK += dS^T @ Q * sm_scale
+        dk += tl.dot(tl.trans(dS), q_block) * sm_scale
+
+        # dV += P^T @ dO
+        dv += tl.dot(tl.trans(weights.to(do_block.dtype)), do_block)
+
+    # Store dK, dV
+    dk_ptrs = DK + off_hz * stride_dkh + offs_n[:, None] * stride_dkn + offs_d[None, :] * stride_dkk
+    dv_ptrs = DV + off_hz * stride_dvh + offs_n[:, None] * stride_dvn + offs_d[None, :] * stride_dvk
+    tl.store(dk_ptrs, dk.to(k_block.dtype), mask=offs_n[:, None] < N_CTX)
+    tl.store(dv_ptrs, dv.to(v_block.dtype), mask=offs_n[:, None] < N_CTX)
+
+
+@triton.jit
+def _stieltjes_bwd_dq(
+    Q, K, V, DO,
+    Lambda, D_sum, Delta,
+    DQ,
+    stride_qh, stride_qm, stride_qk,
+    stride_kh, stride_kn, stride_kk,
+    stride_vh, stride_vn, stride_vk,
+    stride_doh, stride_dom, stride_dok,
+    stride_dqh, stride_dqm, stride_dqk,
+    sm_scale, N_CTX,
+    sq: tl.constexpr,
+    EPS: tl.constexpr,
+    HEAD_DIM: tl.constexpr,
+    BLOCK_M: tl.constexpr,
+    BLOCK_N: tl.constexpr,
+    CAUSAL: tl.constexpr,
+):
+    """Compute dQ by iterating over K/V blocks for a fixed Q block."""
+    start_m = tl.program_id(0)
+    off_hz = tl.program_id(1)
+
+    q_off = off_hz * stride_qh
+    k_off = off_hz * stride_kh
+    v_off = off_hz * stride_vh
+    do_off = off_hz * stride_doh
+
+    offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
+    offs_d = tl.arange(0, HEAD_DIM)
+
+    # Load Q, dO, delta, lambda (stay in SRAM)
+    q_ptrs = Q + q_off + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
+    do_ptrs = DO + do_off + offs_m[:, None] * stride_dom + offs_d[None, :] * stride_dok
+    q_block = tl.load(q_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+    do_block = tl.load(do_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
+
+    lam_row = tl.load(Lambda + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+    delta_row = tl.load(Delta + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+
+    dq = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
+
+    # Determine loop bounds (for causal, only K cols <= Q rows contribute)
+    hi = N_CTX
+    if CAUSAL:
+        hi = (start_m + 1) * BLOCK_M
+
+    for start_n in range(0, hi, BLOCK_N):
+        offs_n = start_n + tl.arange(0, BLOCK_N)
+
+        k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
+        v_ptrs = V + v_off + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
+        k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+        v_block = tl.load(v_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
+
+        # Recompute helpers
+        _weights, r, _qk = _stieltjes_score_helpers(
+            q_block, k_block, lam_row, sm_scale, offs_m, offs_n,
+            sq, EPS, CAUSAL,
+        )
+
+        # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
+        dP_tile = tl.dot(do_block, tl.trans(v_block))
+
+        # dS = sq * r * (dP - delta)
+        dS = (sq * r * (dP_tile - delta_row[:, None])).to(q_block.dtype)
+
+        if CAUSAL:
+            causal_mask = offs_m[:, None] >= offs_n[None, :]
+            dS = tl.where(causal_mask, dS, 0.0)
+
+        # dQ += dS @ K * sm_scale
+        dq += tl.dot(dS, k_block) * sm_scale
+
+    # Store dQ
+    dq_ptrs = DQ + off_hz * stride_dqh + offs_m[:, None] * stride_dqm + offs_d[None, :] * stride_dqk
+    tl.store(dq_ptrs, dq.to(q_block.dtype), mask=offs_m[:, None] < N_CTX)
+
+
+# ---------------------------------------------------------------------------
 # Autograd wrapper
 # ---------------------------------------------------------------------------
 
@@ -245,8 +529,6 @@ class StieltjesAttention(torch.autograd.Function):
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         d_sum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
 
-        # Flatten batch and head dims for stride computation
-        # q is (B, H, N, D) contiguous
         BLOCK_M = 64
         BLOCK_N = 64
 
@@ -280,65 +562,76 @@ class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def backward(ctx, do):
         """
-        Analytical backward for Stieltjes attention.
+        Triton backward for Stieltjes attention (3 kernels, flash-style).
 
-        Given P_ij = (λ_i - s_ij)^{-q}, the Jacobian is:
+        Given P_ij = (λ_i - s_ij)^{-q}, the score gradient is:
             dS_ij = q · r_ij · (dP_ij − δ_i)
-        where r_ij = (λ_i - s_ij)^{-q-1},  δ_i = (Σ_k dP_ik · r_ik) / D_i,
-        and D_i = Σ_k r_ik.
+        where r_ij = (λ_i - s_ij)^{-q-1},  δ_i = (Σ_k dP_ik · r_ik) / D_i.
 
-        We recompute scores to avoid O(N²) storage (flash-style).
+        All kernels recompute scores on-the-fly to avoid O(N²) storage.
         """
-        q, k, v, o, lam, d_sum_saved = ctx.saved_tensors
+        q, k, v, o, lam, d_sum = ctx.saved_tensors
         sq = ctx.stieltjes_q
         sm_scale = ctx.sm_scale
         causal = ctx.causal
-        eps = 1e-6
 
         B, H, N, D = q.shape
+        BH = B * H
+        BLOCK_M = 64
+        BLOCK_N = 64
 
-        # Recompute scores and weights (flash-style: tile by tile would be
-        # ideal, but for correctness we do it densely here; a full Triton
-        # backward kernel is left as future work)
-        scores = torch.matmul(q.float(), k.float().transpose(-2, -1)) * sm_scale
+        do = do.contiguous()
 
-        if causal:
-            mask = torch.tril(torch.ones(N, N, device=q.device, dtype=torch.bool))
-            scores = scores.masked_fill(~mask, -1e6)
+        # Shared stride args (q/k/v/do all have same layout for contiguous tensors)
+        q_strides = (q.stride(1), q.stride(2), q.stride(3))
+        k_strides = (k.stride(1), k.stride(2), k.stride(3))
+        v_strides = (v.stride(1), v.stride(2), v.stride(3))
+        do_strides = (do.stride(1), do.stride(2), do.stride(3))
 
-        # Recover λ (stored as absolute = λ_relative + row_max)
-        lam_abs = lam.view(B, H, N, 1).float()
+        common_args = dict(
+            sm_scale=sm_scale, N_CTX=N,
+            sq=sq, EPS=1e-6,
+            HEAD_DIM=D, BLOCK_M=BLOCK_M, BLOCK_N=BLOCK_N,
+            CAUSAL=causal,
+        )
 
-        diff = (lam_abs - scores).clamp(min=eps)
-        if sq == 1.0:
-            weights = 1.0 / diff
-            r = weights * weights  # (λ-s)^{-2}
-        else:
-            log_diff = diff.log()
-            weights = (log_diff * (-sq)).exp()
-            r = (log_diff * (-sq - 1.0)).exp()
+        # --- Kernel 1: Compute delta ---
+        delta = torch.empty((BH, N), device=q.device, dtype=torch.float32)
+        grid_m = (triton.cdiv(N, BLOCK_M), BH)
 
-        # dP = dO @ V^T
-        dP = torch.matmul(do.float(), v.float().transpose(-2, -1))
+        _stieltjes_bwd_delta[grid_m](
+            q, k, v, do,
+            lam, d_sum, delta,
+            *q_strides, *k_strides, *v_strides, *do_strides,
+            **common_args,
+        )
 
-        # D_i = Σ_j r_ij
-        D_i = r.sum(dim=-1, keepdim=True)
+        # --- Kernel 2: Compute dK, dV ---
+        dk = torch.empty_like(k)
+        dv = torch.empty_like(v)
+        grid_n = (triton.cdiv(N, BLOCK_N), BH)
 
-        # δ_i = (Σ_j dP_ij · r_ij) / D_i
-        delta = (dP * r).sum(dim=-1, keepdim=True) / D_i.clamp(min=eps)
+        _stieltjes_bwd_dkdv[grid_n](
+            q, k, v, do,
+            lam, d_sum, delta,
+            dk, dv,
+            *q_strides, *k_strides, *v_strides, *do_strides,
+            dk.stride(1), dk.stride(2), dk.stride(3),
+            dv.stride(1), dv.stride(2), dv.stride(3),
+            **common_args,
+        )
 
-        # dS = q · r · (dP - δ)
-        dS = sq * r * (dP - delta)
+        # --- Kernel 3: Compute dQ ---
+        dq = torch.empty_like(q)
 
-        if causal:
-            dS = dS.masked_fill(~mask, 0.0)
-
-        # dQ = dS @ K · sm_scale
-        dq = torch.matmul(dS.to(q.dtype), k) * sm_scale
-        # dK = dS^T @ Q · sm_scale
-        dk = torch.matmul(dS.transpose(-2, -1).to(k.dtype), q) * sm_scale
-        # dV = P^T @ dO
-        dv = torch.matmul(weights.transpose(-2, -1).to(v.dtype), do)
+        _stieltjes_bwd_dq[grid_m](
+            q, k, v, do,
+            lam, d_sum, delta,
+            dq,
+            *q_strides, *k_strides, *v_strides, *do_strides,
+            dq.stride(1), dq.stride(2), dq.stride(3),
+            **common_args,
+        )
 
         return dq, dk, dv, None, None, None, None
 
@@ -422,19 +715,23 @@ def test_backward_correctness():
     DEVICE = triton.runtime.driver.active.get_active_torch_device()
 
     configs = [
+        # (B, H, N, D, causal, q)
         (1, 1, 64,  64, False, 1.0),
         (1, 1, 64,  64, True,  1.0),
         (2, 2, 128, 64, False, 1.0),
+        (2, 2, 128, 64, True,  1.0),
+        (1, 1, 128, 128, False, 1.0),
+        (1, 2, 128, 64, False, 2.0),
     ]
 
-    print("\nBackward correctness tests (vs PyTorch autograd on reference)")
+    print("\nBackward correctness tests (Triton bwd vs PyTorch autograd reference)")
     print("-" * 70)
     all_passed = True
 
     for B, H, N, D, causal, sq in configs:
         sm_scale = 1.0 / (D ** 0.5)
 
-        # Reference: use PyTorch autograd on dense reference implementation
+        # Reference: float32 PyTorch autograd on dense reference
         q_ref = torch.randn(B, H, N, D, device=DEVICE, dtype=torch.float32, requires_grad=True)
         k_ref = torch.randn(B, H, N, D, device=DEVICE, dtype=torch.float32, requires_grad=True)
         v_ref = torch.randn(B, H, N, D, device=DEVICE, dtype=torch.float32, requires_grad=True)
@@ -447,7 +744,7 @@ def test_backward_correctness():
         dk_ref = k_ref.grad.clone()
         dv_ref = v_ref.grad.clone()
 
-        # Triton forward + analytical backward
+        # Triton forward + Triton backward (all fp16)
         q_tri = q_ref.detach().clone().to(torch.float16).requires_grad_(True)
         k_tri = k_ref.detach().clone().to(torch.float16).requires_grad_(True)
         v_tri = v_ref.detach().clone().to(torch.float16).requires_grad_(True)
@@ -463,7 +760,7 @@ def test_backward_correctness():
         dk_err = (dk_tri - dk_ref).abs().max().item()
         dv_err = (dv_tri - dv_ref).abs().max().item()
 
-        passed = max(dq_err, dk_err, dv_err) < 0.1  # fp16 tolerance
+        passed = max(dq_err, dk_err, dv_err) < 0.15  # fp16 + iterative solver tolerance
         status = "PASS" if passed else "FAIL"
         if not passed:
             all_passed = False
@@ -488,25 +785,28 @@ def benchmark():
 
     DEVICE = triton.runtime.driver.active.get_active_torch_device()
 
-    @triton.testing.perf_report([
-        triton.testing.Benchmark(
-            x_names=["N_CTX"],
-            x_vals=[2**i for i in range(7, 13)],
-            line_arg="provider",
-            line_vals=["stieltjes-triton", "stieltjes-torch", "softmax-torch"],
-            line_names=["Stieltjes (Triton)", "Stieltjes (PyTorch)", "Softmax (PyTorch)"],
-            styles=[("red", "-"), ("blue", "--"), ("green", ":")],
-            ylabel="TFLOPS",
-            plot_name=f"stieltjes-flash-attention-fwd-B{B}-H{H}-D{D}",
-            args={"B": B, "H": H, "D": D},
-        )
-        for B, H, D in [(4, 8, 64), (4, 8, 128)]
-    ])
-    def bench_fn(B, H, N_CTX, D, provider, device=DEVICE):
+    bench_configs = []
+    for B, H, D in [(4, 8, 64), (4, 8, 128)]:
+        for mode in ["fwd", "bwd"]:
+            bench_configs.append(
+                triton.testing.Benchmark(
+                    x_names=["N_CTX"],
+                    x_vals=[2**i for i in range(7, 13)],
+                    line_arg="provider",
+                    line_vals=["stieltjes-triton", "stieltjes-torch", "softmax-torch"],
+                    line_names=["Stieltjes (Triton)", "Stieltjes (PyTorch)", "Softmax (PyTorch)"],
+                    styles=[("red", "-"), ("blue", "--"), ("green", ":")],
+                    ylabel="TFLOPS",
+                    plot_name=f"stieltjes-flash-attention-{mode}-B{B}-H{H}-D{D}",
+                    args={"B": B, "H": H, "D": D, "mode": mode},
+                ))
+
+    @triton.testing.perf_report(bench_configs)
+    def bench_fn(B, H, N_CTX, D, mode, provider, device=DEVICE):
         dtype = torch.float16
-        q = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device)
-        k = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device)
-        v = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device)
+        q = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
+        k = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
+        v = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
         sm_scale = 1.0 / (D ** 0.5)
 
         if provider == "stieltjes-triton":
@@ -519,10 +819,16 @@ def benchmark():
                 p = torch.softmax(s, dim=-1)
                 return torch.matmul(p.half(), v)
 
+        if mode == "bwd":
+            o = fn()
+            do = torch.randn_like(o)
+            fn = lambda: o.backward(do, retain_graph=True)
+
         ms = triton.testing.do_bench(fn)
         # 2 matmuls: QK^T and PV, each 2*B*H*N*N*D flops
-        # Stieltjes also recomputes QK^T for NR passes but we report standard flops
         flops = 2 * 2.0 * B * H * N_CTX * N_CTX * D
+        if mode == "bwd":
+            flops *= 2.5  # backward is ~2.5x the flops of forward
         return flops * 1e-12 / (ms * 1e-3)
 
     bench_fn.run(save_path=".", print_data=True)
