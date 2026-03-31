@@ -482,7 +482,7 @@ def _stieltjes_bwd_dq(
     if CAUSAL:
         hi = (start_m + 1) * BLOCK_M
 
-    for start_n in range(0, hi, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
 
         k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
