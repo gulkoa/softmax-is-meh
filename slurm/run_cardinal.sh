@@ -70,7 +70,7 @@ run_benchmarks() {
     echo ""
     echo "====== Stieltjes Flash Attention: Benchmarks ======"
     python3 -c "
-import sys, os; sys.path.insert(0, 'triton')
+import sys, os; sys.path.insert(0, os.path.abspath('triton'))
 os.chdir('results')
 from stieltjes_flash_attn import benchmark
 benchmark()
