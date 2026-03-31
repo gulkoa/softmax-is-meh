@@ -109,17 +109,19 @@ def _stieltjes_attn_fwd(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    # off_hz indexes into the flattened (B, H) dims.
-    # For contiguous (B, H, N, D) tensors: stride_qz = H*N*D, stride_qh = N*D.
-    # We need: byte offset = off_z * stride_qz + off_h * stride_qh.
-    # But since stride_qz = H * stride_qh for contiguous tensors and
-    # off_hz = off_z * H + off_h, we can compute the combined offset as:
-    # off_z * H * stride_qh + off_h * stride_qh = off_hz * stride_qh.
-    q_offset = off_hz * stride_qh
-    k_offset = off_hz * stride_kh
-    v_offset = off_hz * stride_vh
-    o_offset = off_hz * stride_oh
+    # off_hz indexes into the flattened (B, H) dims: off_hz = off_z * H + off_h.
+    # Recover batch and head indices and compute base offsets using both z and h strides.
+    # For standard contiguous (B, H, N, D) layout, stride_qz = H * stride_qh and
+    # H_eff below equals the true number of heads, so this reduces to the original
+    # formula q_offset = off_hz * stride_qh, etc.
+    H_eff = stride_qz // stride_qh
+    off_z = off_hz // H_eff
+    off_h = off_hz % H_eff
 
+    q_offset = off_z * stride_qz + off_h * stride_qh
+    k_offset = off_z * stride_kz + off_h * stride_kh
+    v_offset = off_z * stride_vz + off_h * stride_vh
+    o_offset = off_z * stride_oz + off_h * stride_oh
     # -- load Q block --
     offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
     offs_d = tl.arange(0, HEAD_DIM)
