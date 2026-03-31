@@ -149,9 +149,9 @@ def _stieltjes_attn_fwd(
     # ===== PASS 2: Newton-Raphson for λ =====
     # After centering by row_max, scores are ≤ 0 and λ must be > 0.
     # Init: n^{1/q} is exact for uniform scores.
-    lambd = tl.full([BLOCK_M], value=float(N_CTX), dtype=tl.float32)
-    # For causal, effective n_cols varies per row but N_CTX^{1/q} is a safe overestimate
-    # that NR will quickly correct.
+    lambd = tl.full([BLOCK_M], value=float(N_CTX) ** (1.0 / sq), dtype=tl.float32)
+    # For causal, effective n_cols varies per row but N_CTX^{1/q} remains a safe
+    # overestimate that NR will quickly correct.
 
     for _nr in tl.static_range(NUM_ITER):
         f_val = tl.zeros([BLOCK_M], dtype=tl.float32)
