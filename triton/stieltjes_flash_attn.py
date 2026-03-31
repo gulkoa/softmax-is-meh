@@ -325,7 +325,7 @@ def _stieltjes_bwd_delta(
     # Accumulate Σ_j dP_ij · r_ij  (sweep over all K/V tiles)
     acc = tl.zeros([BLOCK_M], dtype=tl.float32)
 
-    for start_n in range(0, N_CTX, BLOCK_N):
+    for start_n in tl.static_range(0, N_CTX, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
 
         k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
