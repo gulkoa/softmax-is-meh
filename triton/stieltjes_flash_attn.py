@@ -397,7 +397,7 @@ def _stieltjes_bwd_dkdv(
     if CAUSAL:
         lo = start_n * BLOCK_N
 
-    for start_m in range(lo, N_CTX, BLOCK_M):
+    for start_m in tl.range(lo, N_CTX, BLOCK_M):
         offs_m = start_m + tl.arange(0, BLOCK_M)
 
         # Load Q, dO, delta, lambda for this Q block
