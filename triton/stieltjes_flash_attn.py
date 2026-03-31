@@ -129,7 +129,7 @@ def _stieltjes_attn_fwd(
     # ===== PASS 1: Row-wise max of QK^T =====
     row_max = tl.full([BLOCK_M], value=-1e30, dtype=tl.float32)
 
-    for start_n in range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, N_CTX, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
