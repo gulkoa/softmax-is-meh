@@ -34,21 +34,7 @@ echo "=========================================="
 
 # --- Environment setup ---
 # Activate the uv-managed virtual environment (Python 3.13+, torch, triton, etc.)
-# Walk up from the submit directory (or script location) looking for the repo
-# root, identified by the presence of triton/pyproject.toml.
-_search="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-while [ "$_search" != "/" ]; do
-    if [ -f "$_search/triton/pyproject.toml" ]; then
-        REPO_DIR="$_search"
-        break
-    fi
-    _search="$(dirname "$_search")"
-done
-
-if [ -z "${REPO_DIR:-}" ]; then
-    echo "ERROR: Could not find repo root (no triton/pyproject.toml found)" >&2
-    exit 1
-fi
+REPO_DIR="/users/PAS2402/alexg/softmax/softmax-is-meh"
 
 source "${REPO_DIR}/triton/.venv/bin/activate"
 
