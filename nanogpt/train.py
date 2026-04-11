@@ -154,8 +154,12 @@ def main():
             x, y = x.to(device), y.to(device)
             optimizer.zero_grad()
             logits, loss = model(x, targets=y)
+            if torch.isnan(loss) or torch.isinf(loss):
+                print(f"  WARNING: NaN/Inf loss at batch {train_batches}, skipping")
+                optimizer.zero_grad()
+                continue
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
             train_loss_sum += loss.item()
             train_batches += 1
