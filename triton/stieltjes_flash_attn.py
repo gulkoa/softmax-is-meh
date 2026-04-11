@@ -23,7 +23,7 @@ import torch
 import triton
 import triton.language as tl
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
+DEVICE = torch.device("cuda")
 
 
 # ---------------------------------------------------------------------------
@@ -60,7 +60,7 @@ def stieltjes_attention_ref(
     if causal:
         N = scores.shape[-1]
         mask = torch.tril(torch.ones(N, N, device=scores.device, dtype=torch.bool))
-        scores = scores.masked_fill(~mask, -1e6)
+        scores = scores.masked_fill(~mask, -1e30)
 
     # --- Stieltjes normalization along last dim ---
     sq = stieltjes_q
@@ -101,6 +101,7 @@ def _stieltjes_attn_fwd(
     sq: tl.constexpr,        # Stieltjes q parameter
     NUM_ITER: tl.constexpr,  # Newton-Raphson iterations
     EPS: tl.constexpr,
+    LAMBDA_INIT: tl.constexpr,  # precomputed N_CTX^{1/q} on host
     HEAD_DIM: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
@@ -149,7 +150,7 @@ def _stieltjes_attn_fwd(
     # ===== PASS 2: Newton-Raphson for λ =====
     # After centering by row_max, scores are ≤ 0 and λ must be > 0.
     # Init: n^{1/q} is exact for uniform scores.
-    lambd = tl.full([BLOCK_M], value=float(N_CTX) ** (1.0 / sq), dtype=tl.float32)
+    lambd = tl.full([BLOCK_M], value=LAMBDA_INIT, dtype=tl.float32)
     # For causal, effective n_cols varies per row but N_CTX^{1/q} remains a safe
     # overestimate that NR will quickly correct.
 
@@ -157,7 +158,7 @@ def _stieltjes_attn_fwd(
         f_val = tl.zeros([BLOCK_M], dtype=tl.float32)
         f_deriv = tl.zeros([BLOCK_M], dtype=tl.float32)
 
-        for start_n in range(0, N_CTX, BLOCK_N):
+        for start_n in tl.range(0, N_CTX, BLOCK_N):
             offs_n = start_n + tl.arange(0, BLOCK_N)
             k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
             k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
@@ -192,7 +193,7 @@ def _stieltjes_attn_fwd(
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
     d_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # Σ(λ-s)^{-q-1} for backward
 
-    for start_n in range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, N_CTX, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         v_ptrs = V + v_offset + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
@@ -286,10 +287,10 @@ def _stieltjes_score_helpers(
 def _stieltjes_bwd_delta(
     Q, K, V, DO,
     Lambda, D_sum, Delta,          # Delta is the output: (B*H, N)
-    stride_qh, stride_qm, stride_qk,
-    stride_kh, stride_kn, stride_kk,
-    stride_vh, stride_vn, stride_vk,
-    stride_doh, stride_dom, stride_dok,
+    stride_qz, stride_qh, stride_qm, stride_qk,
+    stride_kz, stride_kh, stride_kn, stride_kk,
+    stride_vz, stride_vh, stride_vn, stride_vk,
+    stride_doz, stride_doh, stride_dom, stride_dok,
     sm_scale, N_CTX,
     sq: tl.constexpr,
     EPS: tl.constexpr,
@@ -302,10 +303,14 @@ def _stieltjes_bwd_delta(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    q_off = off_hz * stride_qh
-    k_off = off_hz * stride_kh
-    v_off = off_hz * stride_vh
-    do_off = off_hz * stride_doh
+    H_eff = stride_qz // stride_qh
+    off_z = off_hz // H_eff
+    off_h = off_hz % H_eff
+
+    q_off = off_z * stride_qz + off_h * stride_qh
+    k_off = off_z * stride_kz + off_h * stride_kh
+    v_off = off_z * stride_vz + off_h * stride_vh
+    do_off = off_z * stride_doz + off_h * stride_doh
 
     offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
     offs_d = tl.arange(0, HEAD_DIM)
@@ -325,7 +330,7 @@ def _stieltjes_bwd_delta(
     # Accumulate Σ_j dP_ij · r_ij  (sweep over all K/V tiles)
     acc = tl.zeros([BLOCK_M], dtype=tl.float32)
 
-    for start_n in tl.static_range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, N_CTX, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
 
         k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
@@ -355,14 +360,14 @@ def _stieltjes_bwd_delta(
 @triton.jit
 def _stieltjes_bwd_dkdv(
     Q, K, V, DO,
-    Lambda, D_sum, Delta,
+    Lambda, Delta,
     DK, DV,
-    stride_qh, stride_qm, stride_qk,
-    stride_kh, stride_kn, stride_kk,
-    stride_vh, stride_vn, stride_vk,
-    stride_doh, stride_dom, stride_dok,
-    stride_dkh, stride_dkn, stride_dkk,
-    stride_dvh, stride_dvn, stride_dvk,
+    stride_qz, stride_qh, stride_qm, stride_qk,
+    stride_kz, stride_kh, stride_kn, stride_kk,
+    stride_vz, stride_vh, stride_vn, stride_vk,
+    stride_doz, stride_doh, stride_dom, stride_dok,
+    stride_dkz, stride_dkh, stride_dkn, stride_dkk,
+    stride_dvz, stride_dvh, stride_dvn, stride_dvk,
     sm_scale, N_CTX,
     sq: tl.constexpr,
     EPS: tl.constexpr,
@@ -375,10 +380,14 @@ def _stieltjes_bwd_dkdv(
     start_n = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    k_off = off_hz * stride_kh
-    v_off = off_hz * stride_vh
-    q_off = off_hz * stride_qh
-    do_off = off_hz * stride_doh
+    H_eff = stride_qz // stride_qh
+    off_z = off_hz // H_eff
+    off_h = off_hz % H_eff
+
+    k_off = off_z * stride_kz + off_h * stride_kh
+    v_off = off_z * stride_vz + off_h * stride_vh
+    q_off = off_z * stride_qz + off_h * stride_qh
+    do_off = off_z * stride_doz + off_h * stride_doh
 
     offs_n = start_n * BLOCK_N + tl.arange(0, BLOCK_N)
     offs_d = tl.arange(0, HEAD_DIM)
@@ -432,8 +441,10 @@ def _stieltjes_bwd_dkdv(
         dv += tl.dot(tl.trans(weights.to(do_block.dtype)), do_block)
 
     # Store dK, dV
-    dk_ptrs = DK + off_hz * stride_dkh + offs_n[:, None] * stride_dkn + offs_d[None, :] * stride_dkk
-    dv_ptrs = DV + off_hz * stride_dvh + offs_n[:, None] * stride_dvn + offs_d[None, :] * stride_dvk
+    dk_off = off_z * stride_dkz + off_h * stride_dkh
+    dv_off = off_z * stride_dvz + off_h * stride_dvh
+    dk_ptrs = DK + dk_off + offs_n[:, None] * stride_dkn + offs_d[None, :] * stride_dkk
+    dv_ptrs = DV + dv_off + offs_n[:, None] * stride_dvn + offs_d[None, :] * stride_dvk
     tl.store(dk_ptrs, dk.to(k_block.dtype), mask=offs_n[:, None] < N_CTX)
     tl.store(dv_ptrs, dv.to(v_block.dtype), mask=offs_n[:, None] < N_CTX)
 
@@ -441,13 +452,13 @@ def _stieltjes_bwd_dkdv(
 @triton.jit
 def _stieltjes_bwd_dq(
     Q, K, V, DO,
-    Lambda, D_sum, Delta,
+    Lambda, Delta,
     DQ,
-    stride_qh, stride_qm, stride_qk,
-    stride_kh, stride_kn, stride_kk,
-    stride_vh, stride_vn, stride_vk,
-    stride_doh, stride_dom, stride_dok,
-    stride_dqh, stride_dqm, stride_dqk,
+    stride_qz, stride_qh, stride_qm, stride_qk,
+    stride_kz, stride_kh, stride_kn, stride_kk,
+    stride_vz, stride_vh, stride_vn, stride_vk,
+    stride_doz, stride_doh, stride_dom, stride_dok,
+    stride_dqz, stride_dqh, stride_dqm, stride_dqk,
     sm_scale, N_CTX,
     sq: tl.constexpr,
     EPS: tl.constexpr,
@@ -460,10 +471,14 @@ def _stieltjes_bwd_dq(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    q_off = off_hz * stride_qh
-    k_off = off_hz * stride_kh
-    v_off = off_hz * stride_vh
-    do_off = off_hz * stride_doh
+    H_eff = stride_qz // stride_qh
+    off_z = off_hz // H_eff
+    off_h = off_hz % H_eff
+
+    q_off = off_z * stride_qz + off_h * stride_qh
+    k_off = off_z * stride_kz + off_h * stride_kh
+    v_off = off_z * stride_vz + off_h * stride_vh
+    do_off = off_z * stride_doz + off_h * stride_doh
 
     offs_m = start_m * BLOCK_M + tl.arange(0, BLOCK_M)
     offs_d = tl.arange(0, HEAD_DIM)
@@ -512,7 +527,8 @@ def _stieltjes_bwd_dq(
         dq += tl.dot(dS, k_block) * sm_scale
 
     # Store dQ
-    dq_ptrs = DQ + off_hz * stride_dqh + offs_m[:, None] * stride_dqm + offs_d[None, :] * stride_dqk
+    dq_off = off_z * stride_dqz + off_h * stride_dqh
+    dq_ptrs = DQ + dq_off + offs_m[:, None] * stride_dqm + offs_d[None, :] * stride_dqk
     tl.store(dq_ptrs, dq.to(q_block.dtype), mask=offs_m[:, None] < N_CTX)
 
 
@@ -522,7 +538,7 @@ def _stieltjes_bwd_dq(
 
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
-    def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=5):
+    def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=3):
         B, H, N, D = q.shape
         assert k.shape == v.shape == (B, H, N, D)
         assert D in {16, 32, 64, 128, 256}
@@ -531,8 +547,11 @@ class StieltjesAttention(torch.autograd.Function):
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         d_sum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
 
-        BLOCK_M = 64
-        BLOCK_N = 64
+        # Select block sizes based on head dimension
+        if D <= 64:
+            BLOCK_M, BLOCK_N = 128, 64
+        else:
+            BLOCK_M, BLOCK_N = 64, 64
 
         grid = (triton.cdiv(N, BLOCK_M), B * H)
 
@@ -548,13 +567,14 @@ class StieltjesAttention(torch.autograd.Function):
             sq=stieltjes_q,
             NUM_ITER=num_iter,
             EPS=1e-6,
+            LAMBDA_INIT=float(N) ** (1.0 / stieltjes_q),
             HEAD_DIM=D,
             BLOCK_M=BLOCK_M,
             BLOCK_N=BLOCK_N,
             CAUSAL=causal,
         )
 
-        ctx.save_for_backward(q, k, v, o, lam, d_sum)
+        ctx.save_for_backward(q, k, v, lam, d_sum)
         ctx.sm_scale = sm_scale
         ctx.causal = causal
         ctx.stieltjes_q = stieltjes_q
@@ -572,23 +592,25 @@ class StieltjesAttention(torch.autograd.Function):
 
         All kernels recompute scores on-the-fly to avoid O(N²) storage.
         """
-        q, k, v, o, lam, d_sum = ctx.saved_tensors
+        q, k, v, lam, d_sum = ctx.saved_tensors
         sq = ctx.stieltjes_q
         sm_scale = ctx.sm_scale
         causal = ctx.causal
 
         B, H, N, D = q.shape
         BH = B * H
-        BLOCK_M = 64
-        BLOCK_N = 64
+        if D <= 64:
+            BLOCK_M, BLOCK_N = 128, 64
+        else:
+            BLOCK_M, BLOCK_N = 64, 64
 
         do = do.contiguous()
 
-        # Shared stride args (q/k/v/do all have same layout for contiguous tensors)
-        q_strides = (q.stride(1), q.stride(2), q.stride(3))
-        k_strides = (k.stride(1), k.stride(2), k.stride(3))
-        v_strides = (v.stride(1), v.stride(2), v.stride(3))
-        do_strides = (do.stride(1), do.stride(2), do.stride(3))
+        # Pass all 4 strides (B, H, N, D) for correct non-contiguous support
+        q_strides = (q.stride(0), q.stride(1), q.stride(2), q.stride(3))
+        k_strides = (k.stride(0), k.stride(1), k.stride(2), k.stride(3))
+        v_strides = (v.stride(0), v.stride(1), v.stride(2), v.stride(3))
+        do_strides = (do.stride(0), do.stride(1), do.stride(2), do.stride(3))
 
         common_args = dict(
             sm_scale=sm_scale, N_CTX=N,
@@ -615,11 +637,11 @@ class StieltjesAttention(torch.autograd.Function):
 
         _stieltjes_bwd_dkdv[grid_n](
             q, k, v, do,
-            lam, d_sum, delta,
+            lam, delta,
             dk, dv,
             *q_strides, *k_strides, *v_strides, *do_strides,
-            dk.stride(1), dk.stride(2), dk.stride(3),
-            dv.stride(1), dv.stride(2), dv.stride(3),
+            dk.stride(0), dk.stride(1), dk.stride(2), dk.stride(3),
+            dv.stride(0), dv.stride(1), dv.stride(2), dv.stride(3),
             **common_args,
         )
 
@@ -628,17 +650,17 @@ class StieltjesAttention(torch.autograd.Function):
 
         _stieltjes_bwd_dq[grid_m](
             q, k, v, do,
-            lam, d_sum, delta,
+            lam, delta,
             dq,
             *q_strides, *k_strides, *v_strides, *do_strides,
-            dq.stride(1), dq.stride(2), dq.stride(3),
+            dq.stride(0), dq.stride(1), dq.stride(2), dq.stride(3),
             **common_args,
         )
 
         return dq, dk, dv, None, None, None, None
 
 
-def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0, num_iter=5):
+def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0, num_iter=3):
     """
     Stieltjes flash attention.
 
@@ -647,7 +669,7 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0, n
         causal: whether to apply causal masking
         sm_scale: attention scale factor (default: 1/sqrt(D))
         stieltjes_q: order of the Stieltjes transform (default 1.0)
-        num_iter: Newton-Raphson iterations (default 5)
+        num_iter: Newton-Raphson iterations (default 3)
     """
     if sm_scale is None:
         sm_scale = 1.0 / (q.shape[-1] ** 0.5)
@@ -660,7 +682,7 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0, n
 
 def test_forward_correctness():
     torch.manual_seed(42)
-    DEVICE = triton.runtime.driver.active.get_active_torch_device()
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
 
     configs = [
         # (B, H, N, D, causal, q)
@@ -672,6 +694,11 @@ def test_forward_correctness():
         (1, 2, 256, 64, True,  2.0),
         (1, 1, 128, 128, False, 1.0),
         (1, 1, 128, 128, True,  1.0),
+        # Larger N to catch tiling bugs across multiple blocks
+        (1, 2, 512, 64,  False, 1.0),
+        (1, 2, 512, 64,  True,  1.0),
+        (1, 1, 1024, 64, False, 1.0),
+        (1, 1, 1024, 64, True,  2.0),
     ]
 
     print("Forward correctness tests")
@@ -714,7 +741,7 @@ def test_forward_correctness():
 
 def test_backward_correctness():
     torch.manual_seed(42)
-    DEVICE = triton.runtime.driver.active.get_active_torch_device()
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
 
     configs = [
         # (B, H, N, D, causal, q)
@@ -724,6 +751,10 @@ def test_backward_correctness():
         (2, 2, 128, 64, True,  1.0),
         (1, 1, 128, 128, False, 1.0),
         (1, 2, 128, 64, False, 2.0),
+        # Larger N to catch tiling bugs across multiple blocks
+        (1, 2, 512, 64, False, 1.0),
+        (1, 2, 512, 64, True,  1.0),
+        (1, 1, 1024, 64, False, 1.0),
     ]
 
     print("\nBackward correctness tests (Triton bwd vs PyTorch autograd reference)")
@@ -785,7 +816,7 @@ def test_backward_correctness():
 def benchmark():
     import triton.testing
 
-    DEVICE = triton.runtime.driver.active.get_active_torch_device()
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
 
     bench_configs = []
     for B, H, D in [(4, 8, 64), (4, 8, 128)]:
@@ -805,21 +836,29 @@ def benchmark():
 
     @triton.testing.perf_report(bench_configs)
     def bench_fn(B, H, N_CTX, D, mode, provider, device=DEVICE):
-        dtype = torch.float16
-        q = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
-        k = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
-        v = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
         sm_scale = 1.0 / (D ** 0.5)
 
         if provider == "stieltjes-triton":
+            dtype = torch.float16
+            q = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
+            k = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
+            v = torch.randn(B, H, N_CTX, D, dtype=dtype, device=device, requires_grad=True)
             fn = lambda: stieltjes_attention(q, k, v, sm_scale=sm_scale)
         elif provider == "stieltjes-torch":
-            fn = lambda: stieltjes_attention_ref(q.float(), k.float(), v.float(), sm_scale)
+            # Use float32 inputs directly so backward flows through
+            q = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
+            k = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
+            v = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
+            fn = lambda: stieltjes_attention_ref(q, k, v, sm_scale)
         elif provider == "softmax-torch":
+            # Use float32 inputs directly so backward flows through
+            q = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
+            k = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
+            v = torch.randn(B, H, N_CTX, D, dtype=torch.float32, device=device, requires_grad=True)
             def fn():
-                s = torch.matmul(q.float(), k.float().transpose(-2, -1)) * sm_scale
+                s = torch.matmul(q, k.transpose(-2, -1)) * sm_scale
                 p = torch.softmax(s, dim=-1)
-                return torch.matmul(p.half(), v)
+                return torch.matmul(p, v)
 
         if mode == "bwd":
             o = fn()
