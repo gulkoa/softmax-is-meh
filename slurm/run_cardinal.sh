@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=stieltjes-flash-attn
 #SBATCH --partition=gpu
-#SBATCH --account=ACCOUNT         # <-- REPLACE with your OSC project code (e.g. PAS1234)
+#SBATCH --account=PAS2836         # <-- REPLACE with your OSC project code (e.g. PAS1234)
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=12
@@ -28,26 +28,49 @@ set -euo pipefail
 echo "=========================================="
 echo "Job ID:        $SLURM_JOB_ID"
 echo "Node:          $(hostname)"
-echo "GPUs:          $SLURM_GPUS_ON_NODE"
+# echo "GPUs:          $SLURM_GPUS_ON_NODE"
 echo "Start time:    $(date)"
 echo "=========================================="
 
 # --- Environment setup ---
-module load pytorch/2.8.0
+# Activate the uv-managed virtual environment (Python 3.13+, torch, triton, etc.)
+# Walk up from the submit directory (or script location) looking for the repo
+# root, identified by the presence of triton/pyproject.toml.
+_search="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+while [ "$_search" != "/" ]; do
+    if [ -f "$_search/triton/pyproject.toml" ]; then
+        REPO_DIR="$_search"
+        break
+    fi
+    _search="$(dirname "$_search")"
+done
+
+if [ -z "${REPO_DIR:-}" ]; then
+    echo "ERROR: Could not find repo root (no triton/pyproject.toml found)" >&2
+    exit 1
+fi
+
+source "${REPO_DIR}/triton/.venv/bin/activate"
+
+python -c "import torch; import triton" 2>/dev/null || {
+    echo "ERROR: venv at ${REPO_DIR}/triton/.venv/ is missing torch or triton" >&2
+    echo "Run: cd ${REPO_DIR}/triton && uv sync" >&2
+    exit 1
+}
 
 # Verify GPU access
-python3 -c "
+python -c "
 import torch
 print(f'PyTorch {torch.__version__}')
 print(f'CUDA available: {torch.cuda.is_available()}')
 for i in range(torch.cuda.device_count()):
-    print(f'  GPU {i}: {torch.cuda.get_device_name(i)}  ({torch.cuda.get_device_properties(i).total_mem / 1e9:.1f} GB)')
+    print(f'  GPU {i}: {torch.cuda.get_device_name(i)}  ({torch.cuda.get_device_properties(i).total_memory / 1e9:.1f} GB)')
 import triton
 print(f'Triton {triton.__version__}')
 "
 
 # --- Navigate to repo ---
-cd "$SLURM_SUBMIT_DIR"
+cd "$REPO_DIR"
 mkdir -p results
 
 # --- Parse arguments ---
@@ -56,7 +79,7 @@ MODE="${1:-default}"
 run_tests() {
     echo ""
     echo "====== Stieltjes Flash Attention: Correctness Tests ======"
-    python3 -c "
+    python -c "
 import sys; sys.path.insert(0, 'triton')
 from stieltjes_flash_attn import test_forward_correctness, test_backward_correctness
 fwd = test_forward_correctness()
@@ -69,7 +92,7 @@ if not (fwd and bwd):
 run_benchmarks() {
     echo ""
     echo "====== Stieltjes Flash Attention: Benchmarks ======"
-    python3 -c "
+    python -c "
 import sys, os; sys.path.insert(0, os.path.abspath('triton'))
 os.chdir('results')
 from stieltjes_flash_attn import benchmark
@@ -80,19 +103,19 @@ benchmark()
 run_all_kernels() {
     echo ""
     echo "====== Stieltjes kernel (standalone) ======"
-    python3 triton/stieltjes.py
+    python triton/stieltjes.py
 
     echo ""
     echo "====== Stieltjes Flash Attention ======"
-    python3 triton/stieltjes_flash_attn.py
+    python triton/stieltjes_flash_attn.py
 
     echo ""
     echo "====== Stieltjes Benchmarks ======"
-    cd triton && python3 bench_stieltjes.py && cd ..
+    cd triton && python bench_stieltjes.py && cd ..
 
     echo ""
     echo "====== Convergence Benchmarks ======"
-    cd triton && python3 bench_convergence.py && cd ..
+    cd triton && python bench_convergence.py && cd ..
 }
 
 case "$MODE" in
