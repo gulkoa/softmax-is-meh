@@ -23,3 +23,4 @@ for Q in 1.0 2.0 4.0 8.0; do
     python nanogpt/train.py --task bfs --attn stieltjes --q "$Q" --out "$OUTDIR" --epochs 50
     python nanogpt/analyze.py --checkpoint "$OUTDIR/model.pt" \
         --task bfs --attn stieltjes --q "$Q" --out "$OUTDIR/analysis"
+done
