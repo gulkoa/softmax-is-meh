@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus-per-node=1
-#SBATCH --time=12:00:00
+#SBATCH --time=04:00:00
 #SBATCH --output=results/nanogpt-bfs-longctx-%j.out
 #SBATCH --error=results/nanogpt-bfs-longctx-%j.err
 

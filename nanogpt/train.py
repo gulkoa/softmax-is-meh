@@ -61,6 +61,7 @@ def parse_args():
     parser.add_argument("--train-samples", type=int, default=50000)
     parser.add_argument("--val-samples", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--resume", action="store_true", help="Resume from checkpoint.pt in --out dir")
     return parser.parse_args()
 
 
@@ -137,19 +138,32 @@ def main():
     # Optimizer
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
 
-    # CSV logging
+    # Resume from checkpoint if requested
+    start_epoch = 1
+    if args.resume:
+        ckpt_path = os.path.join(args.out, "checkpoint.pt")
+        if os.path.exists(ckpt_path):
+            ckpt = torch.load(ckpt_path, map_location=device)
+            model.load_state_dict(ckpt["model"])
+            optimizer.load_state_dict(ckpt["optimizer"])
+            start_epoch = ckpt["epoch"] + 1
+            print(f"Resumed from checkpoint at epoch {ckpt['epoch']}")
+
+    # CSV logging (append if resuming)
     csv_path = os.path.join(args.out, "metrics.csv")
-    csv_file = open(csv_path, "w", newline="")
+    csv_mode = "a" if args.resume and start_epoch > 1 else "w"
+    csv_file = open(csv_path, csv_mode, newline="")
     writer = csv.DictWriter(
         csv_file,
         fieldnames=["epoch", "train_loss", "val_loss", "val_accuracy", "epoch_time_s"],
     )
-    writer.writeheader()
+    if csv_mode == "w":
+        writer.writeheader()
     csv_file.flush()
 
     # Training loop
     model.train()
-    for epoch in range(1, args.epochs + 1):
+    for epoch in range(start_epoch, args.epochs + 1):
         epoch_start = time.time()
 
         # --- Train ---
@@ -208,6 +222,16 @@ def main():
             f"val_acc={val_accuracy:.4f} | "
             f"time={epoch_time:.1f}s"
         )
+
+        # Checkpoint every 10 epochs (for resuming after wall time)
+        if epoch % 10 == 0:
+            ckpt_path = os.path.join(args.out, "checkpoint.pt")
+            torch.save({
+                "epoch": epoch,
+                "model": model.state_dict(),
+                "optimizer": optimizer.state_dict(),
+                "config": config_dict,
+            }, ckpt_path)
 
     csv_file.close()
 
