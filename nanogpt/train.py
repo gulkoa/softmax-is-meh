@@ -223,15 +223,17 @@ def main():
             f"time={epoch_time:.1f}s"
         )
 
-        # Checkpoint every 10 epochs (for resuming after wall time)
-        if epoch % 10 == 0:
+        # Checkpoint every 10 epochs or at final epoch (for resuming after wall time)
+        if epoch % 10 == 0 or epoch == args.epochs:
             ckpt_path = os.path.join(args.out, "checkpoint.pt")
+            tmp_path = ckpt_path + ".tmp"
             torch.save({
                 "epoch": epoch,
                 "model": model.state_dict(),
                 "optimizer": optimizer.state_dict(),
                 "config": config_dict,
-            }, ckpt_path)
+            }, tmp_path)
+            os.replace(tmp_path, ckpt_path)
 
     csv_file.close()
 

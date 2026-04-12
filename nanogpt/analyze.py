@@ -174,6 +174,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", required=True, help="Output directory")
     parser.add_argument("--num-samples", type=int, default=500)
     parser.add_argument("--seq-len", type=int, default=128)
+    parser.add_argument("--max-arr-len", type=int, default=16)
+    parser.add_argument("--max-val", type=int, default=64)
     return parser.parse_args()
 
 
@@ -249,6 +251,8 @@ def main() -> None:
     task_cfg = TaskConfig(
         task_name=args.task,
         seq_len=args.seq_len,
+        max_arr_len=args.max_arr_len,
+        max_val=args.max_val,
         num_samples=args.num_samples,
     )
     dataset = CLRSDataset(task_cfg, seed=0)
