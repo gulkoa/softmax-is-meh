@@ -24,6 +24,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "triton"))
 try:
     from stieltjes_flash_attn import stieltjes_attention as _stieltjes_attention
+    from stieltjes_flash_attn import stieltjes_attention_ref as _stieltjes_attention_ref
     _STIELTJES_AVAILABLE = True
 except Exception:
     _STIELTJES_AVAILABLE = False
@@ -44,6 +45,7 @@ class GPTConfig:
     attn_type: str = "softmax"   # "softmax" or "stieltjes"
     stieltjes_q: float = 1.0
     stieltjes_num_iter: int = 3
+    stieltjes_use_triton: bool = False  # False = PyTorch ref (stable for training), True = Triton kernel (fast inference)
 
 
 # ---------------------------------------------------------------------------
@@ -61,6 +63,7 @@ class CausalSelfAttention(nn.Module):
         self.attn_type = config.attn_type
         self.stieltjes_q = config.stieltjes_q
         self.stieltjes_num_iter = config.stieltjes_num_iter
+        self.stieltjes_use_triton = config.stieltjes_use_triton
         self.dropout_p = config.dropout
 
         # Single projection for Q, K, V
@@ -86,14 +89,24 @@ class CausalSelfAttention(nn.Module):
         sm_scale = 1.0 / math.sqrt(self.head_dim)
 
         if self.attn_type == "stieltjes":
-            # Stieltjes flash attention (requires CUDA / Triton)
-            y = _stieltjes_attention(
-                q, k, v,
-                causal=True,
-                sm_scale=sm_scale,
-                stieltjes_q=self.stieltjes_q,
-                num_iter=self.stieltjes_num_iter,
-            )  # (B, H, T, D)
+            if self.stieltjes_use_triton:
+                # Triton kernel — fast but backward pass has numerical issues
+                y = _stieltjes_attention(
+                    q, k, v,
+                    causal=True,
+                    sm_scale=sm_scale,
+                    stieltjes_q=self.stieltjes_q,
+                    num_iter=self.stieltjes_num_iter,
+                )
+            else:
+                # PyTorch reference — stable for training via autograd
+                y = _stieltjes_attention_ref(
+                    q, k, v,
+                    sm_scale=sm_scale,
+                    causal=True,
+                    stieltjes_q=self.stieltjes_q,
+                    num_iter=self.stieltjes_num_iter,
+                )
         else:
             # Standard softmax attention with causal mask
             # Scores: (B, H, T, T)
