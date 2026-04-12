@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus-per-node=1
-#SBATCH --time=04:00:00
+#SBATCH --time=12:00:00
 #SBATCH --output=results/nanogpt-max-longctx-%j.out
 #SBATCH --error=results/nanogpt-max-longctx-%j.err
 
@@ -18,7 +18,7 @@ REPO_DIR="/users/PAS2402/alexg/softmax/softmax-is-meh"
 source "${REPO_DIR}/triton/.venv/bin/activate"
 cd "$REPO_DIR"
 
-COMMON="--task max --seq-len 4096 --max-arr-len 1024 --max-val 256 --epochs 30 --batch-size 2 --train-samples 10000 --val-samples 1000"
+COMMON="--task max --seq-len 4096 --max-arr-len 1024 --max-val 256 --lr 1e-4 --epochs 30 --batch-size 2 --train-samples 50000 --val-samples 5000"
 
 # Softmax baseline
 OUTDIR="results/max_softmax_ctx4096"
