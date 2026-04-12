@@ -113,6 +113,20 @@ for i in range(100):
 print('OK — 100 samples verified')
 "
 
+run_test "bfs no vocab collision at max scale" python -c "
+import sys; sys.path.insert(0, 'nanogpt')
+from data import CLRSDataset, TaskConfig, SEPARATOR, PAD
+cfg = TaskConfig(task_name='bfs', num_samples=50, seq_len=4096, max_arr_len=255, max_val=256)
+ds = CLRSDataset(cfg, seed=99)
+for i in range(50):
+    tokens = ds.samples[i]
+    for j, t in enumerate(tokens):
+        if t == SEPARATOR:
+            break  # found real separator
+        assert t < SEPARATOR, f'Sample {i} pos {j}: token {t} collides with SEPARATOR ({SEPARATOR})'
+print('OK — 50 large BFS samples, no vocab collisions')
+"
+
 run_test "bfs output correct" python -c "
 import sys; sys.path.insert(0, 'nanogpt')
 from data import CLRSDataset, TaskConfig, SEPARATOR, PAD

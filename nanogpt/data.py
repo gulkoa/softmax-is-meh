@@ -75,7 +75,9 @@ def _generate_binary_search(cfg: TaskConfig) -> List[int]:
 
 def _generate_bfs(cfg: TaskConfig) -> List[int]:
     """Random connected graph -> BFS visit order from node 0."""
-    n_nodes = random.randint(4, min(cfg.max_arr_len, 256))
+    # Cap at 255 so n_nodes token (encoded as first input token) stays in 0-255 vocab range
+    # n_nodes=256 would collide with SEPARATOR token (256)
+    n_nodes = random.randint(4, min(cfg.max_arr_len, 255))
 
     # Build a random spanning tree to ensure connectivity
     adj = [[] for _ in range(n_nodes)]
