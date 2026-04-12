@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus-per-node=1
-#SBATCH --time=04:00:00
+#SBATCH --time=08:00:00
 #SBATCH --output=results/nanogpt-max-longctx-%j.out
 #SBATCH --error=results/nanogpt-max-longctx-%j.err
 
@@ -28,7 +28,7 @@ python nanogpt/train.py $COMMON --attn softmax --out "$OUTDIR"
 python nanogpt/analyze.py --checkpoint "$OUTDIR/model.pt" --task max --attn softmax --out "$OUTDIR/analysis" --seq-len 4096 --max-arr-len 1024 --max-val 256
 
 # Stieltjes at key q values
-for Q in 1.0 2.0 8.0 32.0; do
+for Q in 1.0 2.0 8.0 32.0 64.0; do
     OUTDIR="results/max_stieltjes_q${Q}_ctx4096"
     mkdir -p "$OUTDIR"
     echo "=== Max stieltjes q=$Q ctx=4096 ==="

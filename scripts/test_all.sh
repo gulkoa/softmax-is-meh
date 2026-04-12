@@ -113,6 +113,26 @@ for i in range(100):
 print('OK — 100 samples verified')
 "
 
+run_test "needle task correctness" python -c "
+import sys; sys.path.insert(0, 'nanogpt')
+from data import CLRSDataset, TaskConfig, SEPARATOR, PAD
+cfg = TaskConfig(task_name='needle', num_samples=100, seq_len=4096, max_arr_len=2000)
+ds = CLRSDataset(cfg, seed=42)
+for i in range(100):
+    tokens = ds.samples[i]
+    sep_idx = tokens.index(SEPARATOR)
+    input_arr = tokens[:sep_idx]
+    output_part = [t for t in tokens[sep_idx+1:] if t != PAD]
+    assert len(output_part) == 1, f'Sample {i}: expected 1 output, got {len(output_part)}'
+    needle_val = output_part[0]
+    assert 128 <= needle_val <= 254, f'Sample {i}: needle value {needle_val} out of range'
+    assert needle_val in input_arr, f'Sample {i}: needle not in input'
+    # Exactly one needle
+    n_needles = sum(1 for t in input_arr if t >= 128)
+    assert n_needles == 1, f'Sample {i}: {n_needles} needles (expected 1)'
+print('OK — 100 needle samples verified')
+"
+
 run_test "bfs no vocab collision at max scale" python -c "
 import sys; sys.path.insert(0, 'nanogpt')
 from data import CLRSDataset, TaskConfig, SEPARATOR, PAD

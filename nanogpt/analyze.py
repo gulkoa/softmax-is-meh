@@ -166,7 +166,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--task",
         required=True,
-        choices=["sorting", "binary_search", "bfs", "max"],
+        choices=["sorting", "binary_search", "bfs", "max", "needle"],
     )
     parser.add_argument(
         "--attn",

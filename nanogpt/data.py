@@ -124,6 +124,27 @@ def _generate_bfs(cfg: TaskConfig) -> List[int]:
 # ---------------------------------------------------------------------------
 # Task registry
 # ---------------------------------------------------------------------------
+def _generate_needle(cfg: TaskConfig) -> List[int]:
+    """Needle-in-haystack: find the one 'needle' token in a sea of 'background' tokens.
+
+    Background values: [0, 127]
+    Needle values: [128, 254] (distinctly separated from background)
+    Output: [needle_value]
+
+    Designed to test long-range attention. The needle appears at a random position
+    in a long input (potentially thousands of tokens). The model must attend across
+    the entire sequence to find the needle.
+    """
+    arr_len = random.randint(cfg.max_arr_len // 2, cfg.max_arr_len)
+    # Background: 0-127 (128 values)
+    arr = [random.randint(0, 127) for _ in range(arr_len)]
+    # Needle: 128-254 (127 values, distinctly separated from background)
+    needle_pos = random.randint(0, arr_len - 1)
+    needle_val = random.randint(128, 254)
+    arr[needle_pos] = needle_val
+    return _encode_sequence(arr, [needle_val], cfg.seq_len)
+
+
 def _generate_max(cfg: TaskConfig) -> List[int]:
     """Random array -> [max_value, max_index]."""
     # Cap array length to 256 so max_idx fits in vocab (0-255)
@@ -139,6 +160,7 @@ TASK_GENERATORS = {
     "binary_search": _generate_binary_search,
     "bfs": _generate_bfs,
     "max": _generate_max,
+    "needle": _generate_needle,
 }
 
 
