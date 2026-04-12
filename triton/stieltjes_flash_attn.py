@@ -68,7 +68,12 @@ def stieltjes_attention_ref(
     x = scores - s_max  # centered; max = 0
 
     n_cols = scores.shape[-1]
-    lambd = torch.full_like(s_max, float(n_cols) ** (1.0 / sq))
+    if causal:
+        # Per-row init: row i has (i+1) valid positions, so use (i+1)^{1/q}
+        row_counts = torch.arange(1, n_cols + 1, device=scores.device, dtype=scores.dtype)
+        lambd = row_counts.pow(1.0 / sq).view(1, 1, -1, 1).expand_as(s_max)
+    else:
+        lambd = torch.full_like(s_max, float(n_cols) ** (1.0 / sq))
 
     for _ in range(num_iter):
         diff = (lambd - x).clamp(min=eps)

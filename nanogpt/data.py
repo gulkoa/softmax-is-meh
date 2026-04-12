@@ -124,7 +124,8 @@ def _generate_bfs(cfg: TaskConfig) -> List[int]:
 # ---------------------------------------------------------------------------
 def _generate_max(cfg: TaskConfig) -> List[int]:
     """Random array -> [max_value, max_index]."""
-    arr_len = random.randint(4, cfg.max_arr_len)
+    # Cap array length to 256 so max_idx fits in vocab (0-255)
+    arr_len = random.randint(4, min(cfg.max_arr_len, 256))
     arr = [random.randint(0, cfg.max_val - 1) for _ in range(arr_len)]
     max_val = max(arr)
     max_idx = arr.index(max_val)
