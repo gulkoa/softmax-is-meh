@@ -18,7 +18,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from model import GPTConfig, GPT
-from data import CLRSDataset, TaskConfig, VOCAB_SIZE, PAD
+from data import CLRSDataset, TaskConfig, VOCAB_SIZE, PAD, SEPARATOR
 
 
 # ---------------------------------------------------------------------------
@@ -42,7 +42,7 @@ def compute_accuracy(model, dataloader, device):
                 sep_positions = (x[i] == SEPARATOR).nonzero(as_tuple=True)[0]
                 if len(sep_positions) == 0:
                     continue
-                output_start = sep_positions[-1].item() + 1  # position after last SEPARATOR
+                output_start = sep_positions[-1].item()  # model at this position predicts first output token
                 output_mask = torch.zeros_like(y[i], dtype=torch.bool)
                 output_mask[output_start:] = True
                 output_mask &= (y[i] != PAD)
