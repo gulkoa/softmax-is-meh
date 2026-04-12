@@ -1,0 +1,16 @@
+{
+  "task": "max",
+  "attn": "stieltjes",
+  "q": 2.0,
+  "out": "results/max_stieltjes_q2.0_v3",
+  "epochs": 50,
+  "batch_size": 64,
+  "lr": 0.0003,
+  "seq_len": 128,
+  "max_arr_len": 16,
+  "max_val": 64,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42,
+  "resume": false
+}
