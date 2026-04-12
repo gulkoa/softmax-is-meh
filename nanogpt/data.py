@@ -122,10 +122,20 @@ def _generate_bfs(cfg: TaskConfig) -> List[int]:
 # ---------------------------------------------------------------------------
 # Task registry
 # ---------------------------------------------------------------------------
+def _generate_max(cfg: TaskConfig) -> List[int]:
+    """Random array -> [max_value, max_index]."""
+    arr_len = random.randint(4, cfg.max_arr_len)
+    arr = [random.randint(0, cfg.max_val - 1) for _ in range(arr_len)]
+    max_val = max(arr)
+    max_idx = arr.index(max_val)
+    return _encode_sequence(arr, [max_val, max_idx], cfg.seq_len)
+
+
 TASK_GENERATORS = {
     "sorting": _generate_sorting,
     "binary_search": _generate_binary_search,
     "bfs": _generate_bfs,
+    "max": _generate_max,
 }
 
 
