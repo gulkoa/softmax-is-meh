@@ -87,16 +87,34 @@ def main():
 
     B, H, D = 4, 8, 64
     n_values = [256, 1024, 4096]
-    q_values = [1.0, 2.0, 4.0, 8.0]
+    q_values = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0]
 
     fieldnames = [
         "N", "q", "init_name", "init_value", "iteration",
         "mean_rel_error", "max_rel_error", "mean_abs_f",
     ]
-    rows = []
+
+    # Read existing results so we don't re-run and can preserve data
+    existing_keys = set()
+    existing_rows = []
+    if os.path.exists(out_path):
+        with open(out_path, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                key = (row["N"], row["q"])
+                existing_keys.add(key)
+                existing_rows.append(row)
+        print(f"Loaded {len(existing_rows)} existing rows covering "
+              f"{len(existing_keys)} (N,q) combos. Will skip those.", flush=True)
+
+    rows = list(existing_rows)  # start with existing data
 
     for N in n_values:
         for sq in q_values:
+            key = (str(N), str(sq))
+            if key in existing_keys:
+                print(f"SKIP N={N} q={sq} (already in CSV)", flush=True)
+                continue
             # Generate random Q, K to get realistic score distributions
             Q = torch.randn(B, H, N, D, device=DEVICE, dtype=torch.float32)
             K = torch.randn(B, H, N, D, device=DEVICE, dtype=torch.float32)
