@@ -16,7 +16,7 @@ N_COLS = 4096
 N_ROWS = 64
 MAX_NR_ITER = 64
 MAX_BS_ITER = 64
-Q_VALS = [1.0, 2.0, 4.0]
+Q_VALS = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0]
 
 
 def ground_truth(x, q):

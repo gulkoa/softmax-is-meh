@@ -1,0 +1,13 @@
+N,mode,provider,tflops,ms,B,H,D
+8192,fwd,stieltjes-triton,63.3707,2.1688,1,8,64
+8192,fwd,softmax-torch,33.5427,4.0974,1,8,64
+8192,bwd,stieltjes-triton,77.2191,4.4496,1,8,64
+8192,bwd,softmax-torch,34.2575,10.0298,1,8,64
+16384,fwd,stieltjes-triton,64.3365,8.5450,1,8,64
+16384,fwd,softmax-torch,43.7045,12.5789,1,8,64
+16384,bwd,stieltjes-triton,79.7582,17.2319,1,8,64
+16384,bwd,softmax-torch,37.7380,36.4192,1,8,64
+32768,fwd,stieltjes-triton,65.4801,33.5831,1,8,64
+32768,fwd,softmax-torch,42.7383,51.4532,1,8,64
+32768,bwd,stieltjes-triton,80.8702,67.9801,1,8,64
+32768,bwd,softmax-torch,35.7136,153.9345,1,8,64

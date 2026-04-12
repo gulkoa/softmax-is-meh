@@ -1,0 +1,1 @@
+sinteractive -A PAS2836 -g 1 -N 1 -t 01:00:00

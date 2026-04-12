@@ -1,0 +1,14 @@
+{
+  "task": "sorting",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "out": "results/sorting_stieltjes_q4.0",
+  "epochs": 50,
+  "batch_size": 64,
+  "lr": 0.0003,
+  "seq_len": 128,
+  "max_arr_len": 16,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42
+}

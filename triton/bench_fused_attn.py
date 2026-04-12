@@ -2,12 +2,7 @@ import importlib
 import torch
 import triton
 
-# fused-att.py has a hyphen, so use importlib
-fused_att = importlib.import_module('fused-att')
-attention = fused_att.attention
-is_blackwell = fused_att.is_blackwell
-is_hopper = fused_att.is_hopper
-DEVICE = fused_att.DEVICE
+from fused_att import attention, is_blackwell, is_hopper, DEVICE
 
 try:
     from flash_attn.flash_attn_interface import \
@@ -17,39 +12,30 @@ except BaseException:
     HAS_FLASH = False
 
 TORCH_HAS_FP8 = hasattr(torch, 'float8_e5m2')
-BATCH, N_HEADS = 4, 32
-
-configs = []
-for HEAD_DIM in [64, 128]:
-    for mode in ["fwd", "bwd"]:
-        for causal in [True, False]:
-            enable_ws = mode == "fwd" and (is_blackwell() or (is_hopper() and not causal))
-            for warp_specialize in [False, True] if enable_ws else [False]:
-                configs.append(
-                    triton.testing.Benchmark(
-                        x_names=["N_CTX"],
-                        x_vals=[2**i for i in range(10, 15)],
-                        line_arg="provider",
-                        line_vals=["triton-fp16"] + (["triton-fp8"] if TORCH_HAS_FP8 else []) +
-                        (["flash"] if HAS_FLASH else []),
-                        line_names=["Triton [FP16]"] + (["Triton [FP8]"] if TORCH_HAS_FP8 else []) +
-                        (["Flash-2"] if HAS_FLASH else []),
-                        styles=[("red", "-"), ("blue", "-"), ("green", "-")],
-                        ylabel="TFLOPS",
-                        plot_name=
-                        f"fused-attention-batch{BATCH}-head{N_HEADS}-d{HEAD_DIM}-{mode}-causal={causal}-warp_specialize={warp_specialize}",
-                        args={
-                            "H": N_HEADS,
-                            "BATCH": BATCH,
-                            "HEAD_DIM": HEAD_DIM,
-                            "mode": mode,
-                            "causal": causal,
-                            "warp_specialize": warp_specialize,
-                        },
-                    ))
+BATCH, N_HEADS, HEAD_DIM = 4, 32, 64
 
 
-@triton.testing.perf_report(configs)
+@triton.testing.perf_report(
+    triton.testing.Benchmark(
+        x_names=['N_CTX'],
+        x_vals=[2**i for i in range(8, 15)],
+        line_arg='provider',
+        line_vals=['triton-fp16'] + (['triton-fp8'] if TORCH_HAS_FP8 else []) +
+        (['flash'] if HAS_FLASH else []),
+        line_names=['Triton [FP16]'] + (['Triton [FP8]'] if TORCH_HAS_FP8 else []) +
+        (['Flash-2'] if HAS_FLASH else []),
+        styles=[('red', '-'), ('blue', '-'), ('green', '-')],
+        ylabel='TFLOPS',
+        plot_name='fused-attention-performance',
+        args={
+            'H': N_HEADS,
+            'BATCH': BATCH,
+            'HEAD_DIM': HEAD_DIM,
+            'mode': 'fwd',
+            'causal': False,
+            'warp_specialize': False,
+        },
+    ))
 def benchmark(BATCH, H, N_CTX, HEAD_DIM, causal, warp_specialize, mode, provider, device=DEVICE):
     assert mode in ["fwd", "bwd"]
     dtype = torch.float16

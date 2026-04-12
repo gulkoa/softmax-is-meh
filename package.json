@@ -1,0 +1,19 @@
+{
+  "name": "softmax-is-meh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "none",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gulkoa/softmax-is-meh.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gulkoa/softmax-is-meh/issues"
+  },
+  "homepage": "https://github.com/gulkoa/softmax-is-meh#readme"
+}

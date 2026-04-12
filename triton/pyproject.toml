@@ -1,5 +1,5 @@
 [project]
-name = "triton-learn"
+name = "triton-env"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -11,4 +11,5 @@ dependencies = [
     "pytest>=9.0.2",
     "torch>=2.10.0",
     "triton>=3.6.0",
+    "uv>=0.10.12",
 ]

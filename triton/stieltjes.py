@@ -237,7 +237,7 @@ def stieltjes_bsearch(x: torch.Tensor, q: float = 1.0, num_iter: int = 5, eps: f
 def test_correctness():
     torch.manual_seed(42)
     n_cols_list = [16, 32, 64, 128, 256, 1024, 4096, 8192]
-    q_vals = [1.0, 2.0, 4.0]
+    q_vals = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0]
 
     for q in q_vals:
         print(f"── q = {q} ──")

@@ -1,0 +1,14 @@
+{
+  "task": "binary_search",
+  "attn": "stieltjes",
+  "q": 1.0,
+  "out": "results/binary_search_stieltjes_q1.0_v2",
+  "epochs": 50,
+  "batch_size": 64,
+  "lr": 0.0001,
+  "seq_len": 128,
+  "max_arr_len": 16,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42
+}
