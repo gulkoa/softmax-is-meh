@@ -36,7 +36,7 @@ def plot_nr_vs_bs():
         by_method_q.setdefault((method, q), []).append((iter_n, err))
 
     # Plot NR vs BS for representative q values
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
 
     q_values = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0]
     okabe = ["#000000", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#CC79A7", "#0072B2"]
