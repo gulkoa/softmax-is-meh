@@ -18,7 +18,7 @@ REPO_DIR="/users/PAS2402/alexg/softmax/softmax-is-meh"
 source "${REPO_DIR}/triton/.venv/bin/activate"
 cd "$REPO_DIR"
 
-COMMON="--task max --seq-len 4096 --max-arr-len 1024 --epochs 30 --batch-size 2 --train-samples 10000 --val-samples 1000"
+COMMON="--task max --seq-len 4096 --max-arr-len 1024 --max-val 256 --epochs 30 --batch-size 2 --train-samples 10000 --val-samples 1000"
 
 # Softmax baseline
 OUTDIR="results/max_softmax_ctx4096"
