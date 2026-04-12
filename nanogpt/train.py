@@ -57,6 +57,7 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--seq-len", type=int, default=128)
     parser.add_argument("--max-arr-len", type=int, default=16)
+    parser.add_argument("--max-val", type=int, default=64)
     parser.add_argument("--train-samples", type=int, default=50000)
     parser.add_argument("--val-samples", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=42)
@@ -68,6 +69,8 @@ def main():
 
     # Reproducibility
     torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(args.seed)
 
     # Output directory
     os.makedirs(args.out, exist_ok=True)
@@ -86,12 +89,14 @@ def main():
         task_name=args.task,
         seq_len=args.seq_len,
         max_arr_len=args.max_arr_len,
+        max_val=args.max_val,
         num_samples=args.train_samples,
     )
     val_cfg = TaskConfig(
         task_name=args.task,
         seq_len=args.seq_len,
         max_arr_len=args.max_arr_len,
+        max_val=args.max_val,
         num_samples=args.val_samples,
     )
 

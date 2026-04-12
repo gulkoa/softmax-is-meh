@@ -75,7 +75,7 @@ def _generate_binary_search(cfg: TaskConfig) -> List[int]:
 
 def _generate_bfs(cfg: TaskConfig) -> List[int]:
     """Random connected graph -> BFS visit order from node 0."""
-    n_nodes = random.randint(4, min(cfg.max_arr_len, 12))
+    n_nodes = random.randint(4, min(cfg.max_arr_len, 64))
 
     # Build a random spanning tree to ensure connectivity
     adj = [[] for _ in range(n_nodes)]

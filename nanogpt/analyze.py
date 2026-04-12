@@ -55,7 +55,7 @@ def _compute_stieltjes_weights(
     s_max = masked_scores.max(dim=-1, keepdim=True).values
     # Replace -inf s_max (happens on the very first token row) with 0
     s_max = s_max.nan_to_num(nan=0.0, posinf=0.0, neginf=0.0)
-    centered = scores - s_max
+    centered = masked_scores - s_max
 
     lambd = torch.full_like(s_max, float(T) ** (1.0 / sq))
     for _ in range(10):
