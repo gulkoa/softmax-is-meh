@@ -131,6 +131,7 @@ def compute_entropy(attn_weights: torch.Tensor) -> torch.Tensor:
     """
     eps = 1e-10
     w = attn_weights.clamp(min=eps)
+    w = w / w.sum(dim=-1, keepdim=True).clamp(min=eps)  # normalize to proper distribution
     entropy = -(w * w.log()).sum(dim=-1)  # (B, H, T)
     return entropy.mean(dim=(0, 2))  # (H,)
 

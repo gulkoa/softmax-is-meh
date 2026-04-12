@@ -79,6 +79,9 @@ def stieltjes_attention_ref(
     diff = (lambd - x).clamp(min=eps)
     weights = diff.pow(-sq)  # (B, H, N, N), rows sum to ~1
 
+    if causal:
+        weights = weights.masked_fill(~mask, 0.0)
+
     o = torch.matmul(weights.to(v.dtype), v)
     return o
 

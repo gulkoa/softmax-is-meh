@@ -118,7 +118,9 @@ class CausalSelfAttention(nn.Module):
             )
             att = att.masked_fill(causal_mask, float("-inf"))
             att = F.softmax(att, dim=-1)
-            att = self.attn_dropout(att)
+            # Note: attention dropout disabled for fair comparison with Stieltjes
+            # path, which computes attention internally without dropout.
+            # Both paths still get resid_dropout on the output projection.
 
             y = att @ v  # (B, H, T, D)
 

@@ -26,6 +26,7 @@ from data import CLRSDataset, TaskConfig, VOCAB_SIZE, PAD
 # ---------------------------------------------------------------------------
 
 def compute_accuracy(model, dataloader, device):
+    """Compute output-only accuracy (positions after SEPARATOR only)."""
     model.eval()
     correct = total = 0
     with torch.no_grad():
@@ -35,9 +36,18 @@ def compute_accuracy(model, dataloader, device):
             if isinstance(logits, tuple):
                 logits = logits[0]
             preds = logits.argmax(dim=-1)
-            mask = (y != PAD)
-            correct += ((preds == y) & mask).sum().item()
-            total += mask.sum().item()
+            # Only count positions after the last SEPARATOR in x (the output portion)
+            # This measures algorithmic task performance, not input memorization
+            for i in range(x.shape[0]):
+                sep_positions = (x[i] == SEPARATOR).nonzero(as_tuple=True)[0]
+                if len(sep_positions) == 0:
+                    continue
+                output_start = sep_positions[-1].item() + 1  # position after last SEPARATOR
+                output_mask = torch.zeros_like(y[i], dtype=torch.bool)
+                output_mask[output_start:] = True
+                output_mask &= (y[i] != PAD)
+                correct += ((preds[i] == y[i]) & output_mask).sum().item()
+                total += output_mask.sum().item()
     model.train()
     return correct / total if total > 0 else 0.0
 
