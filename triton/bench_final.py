@@ -42,6 +42,7 @@ def gbs(B, H, N, D, ms):
 
 
 def run_softmax(B, H, N, D, causal, mode):
+    """Naive softmax attention — materializes N×N matrix. O(N²) memory."""
     dtype = torch.float16
     q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype, requires_grad=(mode == "bwd"))
     k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype, requires_grad=(mode == "bwd"))
@@ -55,6 +56,29 @@ def run_softmax(B, H, N, D, causal, mode):
             scores = scores.masked_fill(mask, float("-inf"))
         attn = torch.softmax(scores, dim=-1)
         return torch.matmul(attn, v)
+
+    if mode == "fwd":
+        fn = fwd
+    else:
+        o = fwd()
+        do = torch.randn_like(o)
+        fn = lambda: o.backward(do, retain_graph=True)
+
+    ms = triton.testing.do_bench(fn)
+    return ms
+
+
+def run_flash_sdpa(B, H, N, D, causal, mode):
+    """PyTorch scaled_dot_product_attention — dispatches to cuDNN flash attention."""
+    dtype = torch.float16
+    q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype, requires_grad=(mode == "bwd"))
+    k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype, requires_grad=(mode == "bwd"))
+    v = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype, requires_grad=(mode == "bwd"))
+
+    def fwd():
+        return torch.nn.functional.scaled_dot_product_attention(
+            q, k, v, is_causal=causal,
+        )
 
     if mode == "fwd":
         fn = fwd
@@ -98,7 +122,7 @@ def main():
 
     total_configs = (
         len(N_VALS) * len(D_VALS) * len(CAUSAL) * len(MODES) *
-        (len(PROVIDERS) - 1 + len(Q_VALS))  # softmax once, stieltjes per q
+        (2 + len(Q_VALS))  # softmax + flash_sdpa + stieltjes per q
     )
     done = 0
 
@@ -128,6 +152,30 @@ def main():
                             writer.writerow(dict(
                                 N=N, D=D, causal=causal, q="-", mode=mode,
                                 provider="softmax", tflops="OOM",
+                                ms="OOM", gbs="OOM", B=B, H=H,
+                            ))
+                            torch.cuda.empty_cache()
+
+                        fh.flush()
+
+                        # --- flash SDPA (cuDNN) ---
+                        done += 1
+                        tag = f"[{done}/{total_configs}] N={N} D={D} causal={causal} mode={mode} provider=flash_sdpa q=-"
+                        print(tag, flush=True)
+                        try:
+                            ms = run_flash_sdpa(B, H, N, D, causal, mode)
+                            tf = flops(B, H, N, D, mode, causal) * 1e-12 / (ms * 1e-3)
+                            gb = gbs(B, H, N, D, ms)
+                            writer.writerow(dict(
+                                N=N, D=D, causal=causal, q="-", mode=mode,
+                                provider="flash_sdpa", tflops=f"{tf:.4f}",
+                                ms=f"{ms:.4f}", gbs=f"{gb:.4f}", B=B, H=H,
+                            ))
+                        except torch.cuda.OutOfMemoryError:
+                            print(f"  OOM", flush=True)
+                            writer.writerow(dict(
+                                N=N, D=D, causal=causal, q="-", mode=mode,
+                                provider="flash_sdpa", tflops="OOM",
                                 ms="OOM", gbs="OOM", B=B, H=H,
                             ))
                             torch.cuda.empty_cache()
