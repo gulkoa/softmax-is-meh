@@ -39,7 +39,8 @@ def plot_nr_vs_bs():
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
     q_values = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0]
-    colors = plt.cm.viridis(np.linspace(0, 0.9, len(q_values)))
+    okabe = ["#000000", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#CC79A7", "#0072B2"]
+    colors = okabe[:len(q_values)]
 
     for ax, method in zip(axes, ["NR", "BS"]):
         for q, color in zip(q_values, colors):
@@ -59,7 +60,7 @@ def plot_nr_vs_bs():
                    label="float32 precision")
 
     fig.tight_layout()
-    out = FIGS / "nr_vs_bs_convergence.pdf"
+    out = FIGS / "nr_vs_bs_convergence.png"
     fig.savefig(out, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  saved {out}")
@@ -77,7 +78,8 @@ def plot_lambda_init():
     init_order = ["n^(1/q)", "n^(1/q)/2", "n^(1/q)*2",
                   "max+n^(1/2q)", "eps=1.0", "eps=0.1"]
     # Deduplicate: max+1 and eps=1.0 are identical, skip max+1
-    colors = plt.cm.viridis(np.linspace(0, 0.9, len(init_order)))
+    okabe = ["#000000", "#E69F00", "#56B4E9", "#009E73", "#D55E00", "#CC79A7"]
+    colors = okabe[:len(init_order)]
 
     fig, axes = plt.subplots(1, len(q_values), figsize=(4.5 * len(q_values), 5),
                              squeeze=False)
@@ -105,7 +107,7 @@ def plot_lambda_init():
 
     fig.suptitle("Lambda initial guess convergence (N=1024)", fontsize=14, y=1.02)
     fig.tight_layout()
-    out = FIGS / "lambda_init_convergence.pdf"
+    out = FIGS / "lambda_init_convergence.png"
     fig.savefig(out, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  saved {out}")

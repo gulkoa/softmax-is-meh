@@ -66,7 +66,7 @@ def plot_attn_grid(task, q_values, layer=0, head=0, max_T=128, out_name=None):
     fig.suptitle(f"Attention patterns: {task.replace('_', ' ')} task, layer {layer}, head {head}",
                  fontsize=13)
     fig.tight_layout()
-    out = THESIS_FIGS / (out_name or f"attn_heatmap_{task}_L{layer}H{head}.pdf")
+    out = THESIS_FIGS / (out_name or f"attn_heatmap_{task}_L{layer}H{head}.png")
     fig.savefig(out, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  saved {out}")
@@ -82,7 +82,9 @@ def plot_attn_decay(task, q_values, layer=0, head=0, max_T=128, out_name=None):
         configs.append((f"{task}_stieltjes_q{q}_v3", f"Stieltjes q={q}"))
 
     fig, ax = plt.subplots(figsize=(7, 5))
-    colors = plt.cm.viridis(np.linspace(0, 0.9, len(configs)))
+    # Okabe-Ito colorblind-safe palette (high contrast)
+    okabe = ["#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"]
+    colors = okabe[:len(configs)]
 
     for (run, title), color in zip(configs, colors):
         attn = load_attn(run)
@@ -123,13 +125,13 @@ def plot_attn_decay(task, q_values, layer=0, head=0, max_T=128, out_name=None):
     ax.legend(fontsize=9, loc="best")
     ax.grid(True, which="both", alpha=0.3)
     fig.tight_layout()
-    out = THESIS_FIGS / (out_name or f"attn_decay_{task}_L{layer}H{head}.pdf")
+    out = THESIS_FIGS / (out_name or f"attn_decay_{task}_L{layer}H{head}.png")
     fig.savefig(out, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  saved {out}")
 
 
-def plot_entropy_across_layers(tasks, q_values, out_name="entropy_per_layer.pdf"):
+def plot_entropy_across_layers(tasks, q_values, out_name="entropy_per_layer.png"):
     """Line plot: entropy vs layer index, one line per (task, attn, q)."""
     import csv
     fig, axes = plt.subplots(1, len(tasks), figsize=(5 * len(tasks), 4),
@@ -148,7 +150,8 @@ def plot_entropy_across_layers(tasks, q_values, out_name="entropy_per_layer.pdf"
             ax.plot(layers, ents, "k-o", label="softmax", linewidth=2)
 
         # Stieltjes per q
-        colors = plt.cm.viridis(np.linspace(0, 0.9, len(q_values)))
+        okabe = ["#E69F00", "#56B4E9", "#009E73", "#D55E00", "#CC79A7", "#0072B2"]
+        colors = okabe[:len(q_values)]
         for q, color in zip(q_values, colors):
             path = RESULTS / f"{task}_stieltjes_q{q}_v3" / "analysis" / "entropy.csv"
             if not path.exists():
@@ -201,7 +204,7 @@ def main():
     print("\n2. Heatmap grids (layer 5, head 0):")
     for task in args.tasks:
         plot_attn_grid(task, args.q_values, layer=5, head=0,
-                       out_name=f"attn_heatmap_{task}_L5H0.pdf")
+                       out_name=f"attn_heatmap_{task}_L5H0.png")
 
     print("\n3. Attention decay plots (layer 0):")
     for task in args.tasks:

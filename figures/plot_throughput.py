@@ -51,13 +51,14 @@ def plot_tflops(rows, mode="fwd", d=64, causal=False, out_name=None):
             by_provider.setdefault(f"Stieltjes q={q}", []).append((N, tf))
 
     # Colors: softmax baselines in gray, stieltjes in colors
+    # Distinct high-contrast colors (Okabe-Ito palette, colorblind-friendly)
     colors = {
-        "naive softmax": ("gray", ":"),
-        "flash SDPA (cuDNN)": ("black", "--"),
-        "Stieltjes q=1.0": ("#1f77b4", "-"),
-        "Stieltjes q=2.0": ("#2ca02c", "-"),
-        "Stieltjes q=4.0": ("#d62728", "-"),
-        "Stieltjes q=8.0": ("#9467bd", "-"),
+        "naive softmax": ("#999999", ":"),       # gray
+        "flash SDPA (cuDNN)": ("#000000", "--"),  # black
+        "Stieltjes q=1.0": ("#0072B2", "-"),     # blue
+        "Stieltjes q=2.0": ("#E69F00", "-"),     # orange
+        "Stieltjes q=4.0": ("#CC79A7", "-"),     # pink
+        "Stieltjes q=8.0": ("#009E73", "-"),     # green
     }
 
     for label in ["naive softmax", "flash SDPA (cuDNN)",
@@ -79,20 +80,20 @@ def plot_tflops(rows, mode="fwd", d=64, causal=False, out_name=None):
     ax.legend(fontsize=9, loc="best")
     ax.grid(True, which="both", alpha=0.3)
     fig.tight_layout()
-    out = FIGS / (out_name or f"throughput_{mode}_d{d}_causal{causal}.pdf")
+    out = FIGS / (out_name or f"throughput_{mode}_d{d}_causal{causal}.png")
     fig.savefig(out, dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"  saved {out}")
 
 
-def plot_memory_ceiling(rows, out_name="memory_ceiling.pdf"):
+def plot_memory_ceiling(rows, out_name="memory_ceiling.png"):
     """Show where each provider OOMs."""
     fig, ax = plt.subplots(figsize=(8, 5))
 
     providers = ["softmax", "flash_sdpa", "stieltjes"]
     labels = {"softmax": "naive softmax", "flash_sdpa": "flash SDPA",
               "stieltjes": "Stieltjes q=1"}
-    colors = {"softmax": "gray", "flash_sdpa": "black", "stieltjes": "#1f77b4"}
+    colors = {"softmax": "#999999", "flash_sdpa": "#000000", "stieltjes": "#0072B2"}
 
     for prov in providers:
         ns_ok, ns_oom = [], []
