@@ -57,7 +57,9 @@ def _compute_stieltjes_weights(
     s_max = s_max.nan_to_num(nan=0.0, posinf=0.0, neginf=0.0)
     centered = masked_scores - s_max
 
-    lambd = torch.full_like(s_max, float(T) ** (1.0 / sq))
+    # Per-row init for causal: row i has (i+1) valid positions
+    row_counts = torch.arange(1, T + 1, device=scores.device, dtype=scores.dtype)
+    lambd = row_counts.pow(1.0 / sq).view(1, 1, -1, 1).expand_as(s_max)
     for _ in range(10):
         diff = (lambd - centered).clamp(min=1e-6)
         f_val = diff.pow(-sq).sum(dim=-1, keepdim=True) - 1.0

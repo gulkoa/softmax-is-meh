@@ -37,8 +37,8 @@ def flops(B, H, N, D, mode, causal):
 
 
 def gbs(B, H, N, D, ms):
-    """Approximate memory bandwidth: read Q,K,V + write O, each BxHxNxD fp16."""
-    return 2 * B * H * N * D * 2 * 1e-9 / (ms * 1e-3)
+    """Approximate memory bandwidth: read Q,K,V + write O = 4 tensors, each BxHxNxD fp16."""
+    return 4 * B * H * N * D * 2 * 1e-9 / (ms * 1e-3)
 
 
 def run_softmax(B, H, N, D, causal, mode):
