@@ -208,6 +208,13 @@ def main():
                             shuffle=False, num_workers=0,
                             pin_memory=(device.type == "cuda"))
 
+    # The Triton kernel uses a scalar LAMBDA_INIT = N^{1/q} for all rows;
+    # the PyTorch ref uses per-row (i+1)^{1/q} under causal masking. At the
+    # default num_iter=3 this divergence is large enough at q=4 causal to
+    # destroy downstream accuracy (confirmed: ref=0.916 vs triton=0.002 on
+    # the same q=4 needle checkpoint). num_iter=10 converges; use that
+    # whenever we go through the Triton path.
+    num_iter = 10 if args.use_triton else 3
     gpt_cfg = GPTConfig(
         vocab_size=VOCAB_SIZE,
         block_size=args.seq_len,
@@ -217,6 +224,7 @@ def main():
         dropout=args.dropout,
         attn_type=args.attn,
         stieltjes_q=args.q,
+        stieltjes_num_iter=num_iter,
         pos_enc=saved_pos_enc,
         stieltjes_use_triton=args.use_triton,
     )
