@@ -74,6 +74,8 @@ def parse_args():
     parser.add_argument("--resume", action="store_true", help="Resume from checkpoint.pt in --out dir")
     parser.add_argument("--pos-enc", default="learned", choices=["learned", "none"],
                         help="Positional encoding: 'learned' (GPT-2 wpe, default) or 'none' (NoPE — needed for length-extrapolated eval).")
+    parser.add_argument("--needle-margin", default="distinctive", choices=["distinctive", "subtle"],
+                        help="Needle distinguishability for the 'needle' task: 'distinctive' (default, +128 above bg — too easy at long context), 'subtle' (margin=1 above max distractor — exposes softmax dilution).")
     return parser.parse_args()
 
 
@@ -104,6 +106,7 @@ def main():
         max_arr_len=args.max_arr_len,
         max_val=args.max_val,
         num_samples=args.train_samples,
+        needle_margin=args.needle_margin,
     )
     val_cfg = TaskConfig(
         task_name=args.task,
@@ -111,6 +114,7 @@ def main():
         max_arr_len=args.max_arr_len,
         max_val=args.max_val,
         num_samples=args.val_samples,
+        needle_margin=args.needle_margin,
     )
 
     print("Generating training data...")

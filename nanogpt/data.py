@@ -34,6 +34,7 @@ class TaskConfig:
     max_arr_len: int = 16    # max input array length
     max_val: int = 64        # max integer value
     num_samples: int = 10000
+    needle_margin: str = "distinctive"  # "distinctive" (default, +128 above bg) or "subtle" (+1 above bg)
 
 
 # ---------------------------------------------------------------------------
@@ -127,21 +128,32 @@ def _generate_bfs(cfg: TaskConfig) -> List[int]:
 def _generate_needle(cfg: TaskConfig) -> List[int]:
     """Needle-in-haystack: find the one 'needle' token in a sea of 'background' tokens.
 
-    Background values: [0, 127]
-    Needle values: [128, 254] (distinctly separated from background)
-    Output: [needle_value]
-
-    Designed to test long-range attention. The needle appears at a random position
-    in a long input (potentially thousands of tokens). The model must attend across
-    the entire sequence to find the needle.
+    Two modes (cfg.needle_margin):
+      - "distinctive" (default): background ∈ [0,127], needle ∈ [128,254].
+        Targets are categorically distinguishable, so token-value matching alone
+        suffices regardless of context length — softmax does not dilute.
+      - "subtle": background ∈ [0,127] but the needle is uniquely-valued in
+        the haystack and is the *maximum* of the array. Output: needle value.
+        With margin=1, the needle's logit only marginally exceeds distractors,
+        which is the regime where softmax dilution actually bites at long
+        context.
     """
     arr_len = random.randint(cfg.max_arr_len // 2, cfg.max_arr_len)
-    # Background: 0-127 (128 values)
-    arr = [random.randint(0, 127) for _ in range(arr_len)]
-    # Needle: 128-254 (127 values, distinctly separated from background)
-    needle_pos = random.randint(0, arr_len - 1)
-    needle_val = random.randint(128, 254)
-    arr[needle_pos] = needle_val
+    if cfg.needle_margin == "subtle":
+        # Generate background ∈ [0, 126]; pick a needle value in [1, 127] that
+        # is strictly greater than every other token. Equivalent to "find the
+        # max element in a long sequence where the max is only marginally
+        # larger than other values."
+        arr = [random.randint(0, 126) for _ in range(arr_len)]
+        needle_pos = random.randint(0, arr_len - 1)
+        needle_val = max(arr) + 1  # margin of exactly 1 over the runner-up
+        arr[needle_pos] = needle_val
+    else:
+        # Default distinctive mode (current behaviour).
+        arr = [random.randint(0, 127) for _ in range(arr_len)]
+        needle_pos = random.randint(0, arr_len - 1)
+        needle_val = random.randint(128, 254)
+        arr[needle_pos] = needle_val
     return _encode_sequence(arr, [needle_val], cfg.seq_len)
 
 

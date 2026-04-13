@@ -110,9 +110,11 @@ def parse_args():
                    choices=["sorting", "binary_search", "bfs", "max", "needle"])
     p.add_argument("--attn", required=True, choices=["softmax", "stieltjes"])
     p.add_argument("--q", type=float, default=1.0)
-    p.add_argument("--seq-len", type=int, default=128)
-    p.add_argument("--max-arr-len", type=int, default=16)
-    p.add_argument("--max-val", type=int, default=64)
+    # None defaults mean "take value from training config.json".
+    # Pass an explicit value on the CLI to override (e.g. for length-extrapolated eval).
+    p.add_argument("--seq-len", type=int, default=None)
+    p.add_argument("--max-arr-len", type=int, default=None)
+    p.add_argument("--max-val", type=int, default=None)
     p.add_argument("--val-samples", type=int, default=5000)
     p.add_argument("--batch-size", type=int, default=64)
     p.add_argument("--seed", type=int, default=42,
@@ -132,6 +134,9 @@ def parse_args():
     p.add_argument("--use-triton", action="store_true",
                    help="Use the Triton stieltjes kernel for forward (faster at long "
                         "context, fwd-only). Default: PyTorch reference.")
+    p.add_argument("--needle-margin", default=None, choices=["distinctive", "subtle"],
+                   help="Override needle distinguishability mode for eval. Default: "
+                        "take from training config.json.")
     return p.parse_args()
 
 
@@ -145,22 +150,32 @@ def main():
     out_path = Path(args.out) if args.out else ckpt_path.parent / "accuracy_fixed.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Prefer values from training config.json when available — they describe
-    # the actual trained model. CLI flags still win if explicitly passed, but
-    # seq_len/max_arr_len/max_val must match training or the model won't load.
+    # Fill in any CLI args that weren't explicitly passed from the training
+    # config.json. Explicit CLI values always win (e.g. passing
+    # --max-arr-len 8184 to eval at longer context than training).
     cfg_path = ckpt_path.parent / "config.json"
     saved_pos_enc = "learned"
     saved_train_seq_len = None
     if cfg_path.is_file():
         try:
             saved = json.loads(cfg_path.read_text())
-            for key in ("seq_len", "max_arr_len", "max_val"):
-                if key in saved:
+            for key in ("seq_len", "max_arr_len", "max_val", "needle_margin"):
+                if getattr(args, key, None) is None and key in saved:
                     setattr(args, key, saved[key])
             saved_train_seq_len = saved.get("seq_len")
             saved_pos_enc = saved.get("pos_enc", "learned")
         except Exception as e:
             print(f"WARN: could not parse {cfg_path}: {e}", file=sys.stderr)
+
+    # Any remaining None values fall back to legacy defaults for safety.
+    if args.seq_len is None:
+        args.seq_len = 128
+    if args.max_arr_len is None:
+        args.max_arr_len = 16
+    if args.max_val is None:
+        args.max_val = 64
+    if getattr(args, "needle_margin", None) is None:
+        args.needle_margin = "distinctive"
 
     # Determine actual eval seq_len: --eval-seq-len overrides saved value.
     eval_seq_len = args.eval_seq_len if args.eval_seq_len is not None else args.seq_len
@@ -186,6 +201,7 @@ def main():
         max_arr_len=args.max_arr_len,
         max_val=args.max_val,
         num_samples=args.val_samples,
+        needle_margin=args.needle_margin,
     )
     val_ds = CLRSDataset(val_cfg, seed=args.seed + 1)
     val_loader = DataLoader(val_ds, batch_size=args.batch_size,
