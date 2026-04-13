@@ -158,8 +158,23 @@ def _generate_needle(cfg: TaskConfig) -> List[int]:
 
 
 def _generate_max(cfg: TaskConfig) -> List[int]:
-    """Random array -> [max_value, max_index]."""
-    # Cap array length to 256 so max_idx fits in vocab (0-255)
+    """Random array -> [max_value, max_index] (or just [max_value] for long arrays).
+
+    The index is dropped from the output when max_arr_len > 256 because
+    positions > 255 cannot be represented in the current vocab. This unblocks
+    the long-context dilution test (where attention over thousands of input
+    tokens is the point of the experiment).
+    """
+    if cfg.max_arr_len > 256:
+        # Long-context mode: arr can span the full configured length; output
+        # is just the max value. Min is 256 so we still get a meaningful
+        # haystack even on the short end of the random range.
+        arr_len = random.randint(256, cfg.max_arr_len)
+        arr = [random.randint(0, cfg.max_val - 1) for _ in range(arr_len)]
+        max_val = max(arr)
+        return _encode_sequence(arr, [max_val], cfg.seq_len)
+    # Default short-context mode (unchanged): arr capped at 256, output
+    # includes max_index.
     arr_len = random.randint(4, min(cfg.max_arr_len, 256))
     arr = [random.randint(0, cfg.max_val - 1) for _ in range(arr_len)]
     max_val = max(arr)
