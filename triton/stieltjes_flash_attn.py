@@ -60,7 +60,7 @@ def stieltjes_attention_ref(
     if causal:
         N = scores.shape[-1]
         mask = torch.tril(torch.ones(N, N, device=scores.device, dtype=torch.bool))
-        scores = scores.masked_fill(~mask, -1e30)
+        scores = scores.masked_fill(~mask, torch.finfo(scores.dtype).min)
 
     # --- Stieltjes normalization along last dim ---
     sq = stieltjes_q
