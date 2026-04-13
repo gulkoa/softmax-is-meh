@@ -72,6 +72,8 @@ def parse_args():
     parser.add_argument("--val-samples", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--resume", action="store_true", help="Resume from checkpoint.pt in --out dir")
+    parser.add_argument("--pos-enc", default="learned", choices=["learned", "none"],
+                        help="Positional encoding: 'learned' (GPT-2 wpe, default) or 'none' (NoPE — needed for length-extrapolated eval).")
     return parser.parse_args()
 
 
@@ -141,6 +143,7 @@ def main():
         dropout=0.1,
         attn_type=args.attn,
         stieltjes_q=args.q,
+        pos_enc=args.pos_enc,
     )
     model = GPT(gpt_cfg).to(device)
     print(f"Model parameters: {model.num_params():,}")

@@ -46,6 +46,7 @@ class GPTConfig:
     stieltjes_q: float = 1.0
     stieltjes_num_iter: int = 3
     stieltjes_use_triton: bool = False  # False = PyTorch ref (stable for training), True = Triton kernel (fast inference)
+    pos_enc: str = "learned"  # "learned" (default, GPT-2 wpe) or "none" (NoPE — needed for length-extrapolated eval)
 
 
 # ---------------------------------------------------------------------------
@@ -163,13 +164,17 @@ class GPT(nn.Module):
         super().__init__()
         self.config = config
 
-        self.transformer = nn.ModuleDict(dict(
+        modules = dict(
             wte=nn.Embedding(config.vocab_size, config.n_embd),
-            wpe=nn.Embedding(config.block_size, config.n_embd),
             drop=nn.Dropout(config.dropout),
             h=nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
             ln_f=nn.LayerNorm(config.n_embd),
-        ))
+        )
+        if config.pos_enc == "learned":
+            modules["wpe"] = nn.Embedding(config.block_size, config.n_embd)
+        elif config.pos_enc != "none":
+            raise ValueError(f"Unknown pos_enc: {config.pos_enc!r} (expected 'learned' or 'none')")
+        self.transformer = nn.ModuleDict(modules)
 
         # LM head (no bias); weight-tied to token embedding
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
@@ -197,15 +202,20 @@ class GPT(nn.Module):
         targets: torch.Tensor | None = None,
     ):
         B, T = idx.shape
-        assert T <= self.config.block_size, (
-            f"Sequence length {T} exceeds block_size {self.config.block_size}"
-        )
-
-        pos = torch.arange(T, dtype=torch.long, device=idx.device)  # (T,)
+        # The block_size assertion only applies when learned positional embeddings are used,
+        # because the wpe table has fixed length. NoPE has no such constraint.
+        if self.config.pos_enc == "learned":
+            assert T <= self.config.block_size, (
+                f"Sequence length {T} exceeds block_size {self.config.block_size}"
+            )
 
         tok_emb = self.transformer.wte(idx)   # (B, T, n_embd)
-        pos_emb = self.transformer.wpe(pos)   # (T, n_embd) — broadcasts over B
-        x = self.transformer.drop(tok_emb + pos_emb)
+        if self.config.pos_enc == "learned":
+            pos = torch.arange(T, dtype=torch.long, device=idx.device)  # (T,)
+            pos_emb = self.transformer.wpe(pos)   # (T, n_embd) — broadcasts over B
+            x = self.transformer.drop(tok_emb + pos_emb)
+        else:
+            x = self.transformer.drop(tok_emb)
 
         for block in self.transformer.h:
             x = block(x)
