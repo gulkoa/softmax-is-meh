@@ -1,0 +1,20 @@
+=== eval results/needle_softmax_q1.0_seq2048_nope_ascend (checkpoint.pt) at seq=2048 bs=4 ===
+{"checkpoint": "results/needle_softmax_q1.0_seq2048_nope_ascend/checkpoint.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.008496836616409003, "accuracy_input_echo": 0.00785144355383596, "output_token_count": 500, "input_token_count": 768139, "all_token_count": 768639, "output_start_stats": {"n": 500, "min": 1022, "max": 2040, "mean": 1536.2779541015625}}
+=== eval results/needle_softmax_q1.0_seq2048_nope_ascend (checkpoint.pt) at seq=4096 bs=2 ===
+{"checkpoint": "results/needle_softmax_q1.0_seq2048_nope_ascend/checkpoint.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 4096, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.00706845723805321, "accuracy_input_echo": 0.006744261370166439, "output_token_count": 500, "input_token_count": 1531376, "all_token_count": 1531876, "output_start_stats": {"n": 500, "min": 2046, "max": 4087, "mean": 3062.751953125}}
+=== eval results/needle_softmax_q1.0_seq2048_nope_ascend (checkpoint.pt) at seq=8192 bs=1 ===
+{"checkpoint": "results/needle_softmax_q1.0_seq2048_nope_ascend/checkpoint.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 8192, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.004837025548829395, "accuracy_input_echo": 0.004676395437237808, "output_token_count": 500, "input_token_count": 3097685, "all_token_count": 3098185, "output_start_stats": {"n": 500, "min": 4106, "max": 8184, "mean": 6195.3701171875}}
+=== eval results/needle_softmax_q1.0_seq2048_nope_ascend (checkpoint.pt) at seq=16384 bs=1 ===
+{"checkpoint": "results/needle_softmax_q1.0_seq2048_nope_ascend/checkpoint.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 16384, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.004196168070334833, "accuracy_input_echo": 0.004114536120318375, "output_token_count": 500, "input_token_count": 6099351, "all_token_count": 6099851, "output_start_stats": {"n": 500, "min": 8200, "max": 16368, "mean": 12198.7021484375}}
+=== eval results/needle_softmax_q1.0_seq2048_nope_ascend (checkpoint.pt) at seq=32768 bs=1 ===
+  FAILED at seq=32768
+SKIP results/needle_stieltjes_q4.0_seq2048_nope_ascend: no model.pt or checkpoint.pt yet
+=== summary ===
+  seq  run                                                        fixed  pe
+  256  needle_softmax_seq256_ascend                             1.0000  learned
+  256  needle_stieltjes_q2.0_seq256_ascend                      1.0000  learned
+  256  needle_stieltjes_q4.0_seq256_ascend                      0.1594  learned
+  512  needle_softmax_seq512_ascend                             0.9992  learned
+  512  needle_stieltjes_q2.0_seq512_ascend                      1.0000  learned
+  512  needle_stieltjes_q4.0_seq512_ascend                      0.1510  learned
+  1024  needle_softmax_seq1024_ascend                            0.9996  learned

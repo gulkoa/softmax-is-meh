@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/needle_softmax_q1.0_seq2048_nope_ascend/checkpoint.pt",
+  "task": "needle",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 16384,
+  "val_samples": 500,
+  "seed": 42,
+  "accuracy_fixed": 1.0,
+  "accuracy_all": 0.004196168070334833,
+  "accuracy_input_echo": 0.004114536120318375,
+  "output_token_count": 500,
+  "input_token_count": 6099351,
+  "all_token_count": 6099851,
+  "output_start_stats": {
+    "n": 500,
+    "min": 8200,
+    "max": 16368,
+    "mean": 12198.7021484375
+  }
+}

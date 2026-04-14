@@ -1,0 +1,2 @@
+Wrote results/subtle_needle_softmax_q1.0_seq2048_nope_ascend/accuracy_fixed.json
+[2026-04-14T03:52:09.887] error: *** JOB 4913120 ON a0186 CANCELLED AT 2026-04-14T03:52:09 DUE TO TIME LIMIT ***

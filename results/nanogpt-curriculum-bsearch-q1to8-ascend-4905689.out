@@ -1,0 +1,69 @@
+Using device: cuda
+Schedule: [(1, 1.0), (13, 2.0), (25, 4.0), (37, 8.0)]
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+[schedule] epoch 1: q -> 1.0
+Epoch   1/50 | q=1 | train_loss=2.4261 | val_loss=2.2554 | val_acc=0.6416 | time=57.4s
+  [checkpoint] results/binary_search_curriculum_q1to8_ascend/model_epoch001_q1.pt
+Epoch   2/50 | q=1 | train_loss=2.2233 | val_loss=2.1887 | val_acc=0.7694 | time=56.2s
+Epoch   3/50 | q=1 | train_loss=2.1771 | val_loss=2.1657 | val_acc=0.8262 | time=56.3s
+Epoch   4/50 | q=1 | train_loss=2.1515 | val_loss=2.1459 | val_acc=0.8688 | time=56.4s
+Epoch   5/50 | q=1 | train_loss=2.1358 | val_loss=2.1490 | val_acc=0.8610 | time=56.4s
+Epoch   6/50 | q=1 | train_loss=2.1217 | val_loss=2.1371 | val_acc=0.8990 | time=56.4s
+Epoch   7/50 | q=1 | train_loss=2.1109 | val_loss=2.1363 | val_acc=0.9118 | time=56.4s
+Epoch   8/50 | q=1 | train_loss=2.0983 | val_loss=2.1265 | val_acc=0.9478 | time=56.4s
+Epoch   9/50 | q=1 | train_loss=2.0872 | val_loss=2.1288 | val_acc=0.9550 | time=56.4s
+Epoch  10/50 | q=1 | train_loss=2.0732 | val_loss=2.1392 | val_acc=0.9540 | time=56.3s
+Epoch  11/50 | q=1 | train_loss=2.0576 | val_loss=2.1396 | val_acc=0.9532 | time=56.3s
+Epoch  12/50 | q=1 | train_loss=2.0416 | val_loss=2.1536 | val_acc=0.9466 | time=56.3s
+[schedule] epoch 13: q -> 2.0
+Epoch  13/50 | q=2 | train_loss=2.1095 | val_loss=2.1585 | val_acc=0.9234 | time=56.7s
+  [checkpoint] results/binary_search_curriculum_q1to8_ascend/model_epoch013_q2.pt
+Epoch  14/50 | q=2 | train_loss=2.0453 | val_loss=2.1552 | val_acc=0.9536 | time=56.7s
+Epoch  15/50 | q=2 | train_loss=2.0183 | val_loss=2.1646 | val_acc=0.9660 | time=56.7s
+Epoch  16/50 | q=2 | train_loss=1.9974 | val_loss=2.1802 | val_acc=0.9680 | time=56.7s
+Epoch  17/50 | q=2 | train_loss=1.9810 | val_loss=2.1934 | val_acc=0.9818 | time=56.7s
+Epoch  18/50 | q=2 | train_loss=1.9632 | val_loss=2.2058 | val_acc=0.9748 | time=56.7s
+Epoch  19/50 | q=2 | train_loss=1.9515 | val_loss=2.2261 | val_acc=0.9760 | time=56.7s
+Epoch  20/50 | q=2 | train_loss=1.9413 | val_loss=2.2380 | val_acc=0.9830 | time=56.7s
+Epoch  21/50 | q=2 | train_loss=1.9310 | val_loss=2.2547 | val_acc=0.9842 | time=56.7s
+Epoch  22/50 | q=2 | train_loss=1.9271 | val_loss=2.2596 | val_acc=0.9888 | time=56.7s
+Epoch  23/50 | q=2 | train_loss=1.9194 | val_loss=2.2814 | val_acc=0.9880 | time=56.7s
+Epoch  24/50 | q=2 | train_loss=1.9118 | val_loss=2.2882 | val_acc=0.9864 | time=56.7s
+[schedule] epoch 25: q -> 4.0
+Epoch  25/50 | q=4 | train_loss=1.9608 | val_loss=2.2727 | val_acc=0.9746 | time=57.0s
+  [checkpoint] results/binary_search_curriculum_q1to8_ascend/model_epoch025_q4.pt
+Epoch  26/50 | q=4 | train_loss=1.9278 | val_loss=2.2804 | val_acc=0.9864 | time=57.0s
+Epoch  27/50 | q=4 | train_loss=1.9178 | val_loss=2.2931 | val_acc=0.9872 | time=57.0s
+Epoch  28/50 | q=4 | train_loss=1.9113 | val_loss=2.3036 | val_acc=0.9866 | time=57.0s
+Epoch  29/50 | q=4 | train_loss=1.9073 | val_loss=2.3167 | val_acc=0.9898 | time=57.0s
+Epoch  30/50 | q=4 | train_loss=1.9024 | val_loss=2.3204 | val_acc=0.9840 | time=57.0s
+Epoch  31/50 | q=4 | train_loss=1.8978 | val_loss=2.3296 | val_acc=0.9924 | time=57.0s
+Epoch  32/50 | q=4 | train_loss=1.8927 | val_loss=2.3341 | val_acc=0.9930 | time=57.0s
+Epoch  33/50 | q=4 | train_loss=1.8877 | val_loss=2.3455 | val_acc=0.9924 | time=57.0s
+Epoch  34/50 | q=4 | train_loss=1.8822 | val_loss=2.3560 | val_acc=0.9930 | time=56.9s
+Epoch  35/50 | q=4 | train_loss=1.8744 | val_loss=2.3582 | val_acc=0.9898 | time=56.9s
+Epoch  36/50 | q=4 | train_loss=1.8700 | val_loss=2.3695 | val_acc=0.9936 | time=56.9s
+[schedule] epoch 37: q -> 8.0
+Epoch  37/50 | q=8 | train_loss=3.8741 | val_loss=3.3459 | val_acc=0.1036 | time=56.9s
+  [checkpoint] results/binary_search_curriculum_q1to8_ascend/model_epoch037_q8.pt
+Epoch  38/50 | q=8 | train_loss=3.3090 | val_loss=3.1547 | val_acc=0.1176 | time=56.9s
+Epoch  39/50 | q=8 | train_loss=3.1022 | val_loss=3.0224 | val_acc=0.1246 | time=56.9s
+Epoch  40/50 | q=8 | train_loss=2.9899 | val_loss=2.9317 | val_acc=0.1244 | time=56.9s
+Epoch  41/50 | q=8 | train_loss=2.9407 | val_loss=2.9373 | val_acc=0.1278 | time=56.9s
+Epoch  42/50 | q=8 | train_loss=2.9436 | val_loss=2.8933 | val_acc=0.1388 | time=56.9s
+Epoch  43/50 | q=8 | train_loss=2.9014 | val_loss=2.9333 | val_acc=0.1562 | time=56.9s
+Epoch  44/50 | q=8 | train_loss=2.9212 | val_loss=2.8620 | val_acc=0.1534 | time=56.9s
+Epoch  45/50 | q=8 | train_loss=2.8413 | val_loss=2.7780 | val_acc=0.1624 | time=56.8s
+Epoch  46/50 | q=8 | train_loss=2.8249 | val_loss=2.7610 | val_acc=0.1594 | time=56.8s
+Epoch  47/50 | q=8 | train_loss=2.8174 | val_loss=2.7332 | val_acc=0.2102 | time=56.8s
+Epoch  48/50 | q=8 | train_loss=2.7413 | val_loss=2.6827 | val_acc=0.2082 | time=56.8s
+Epoch  49/50 | q=8 | train_loss=2.6927 | val_loss=2.6255 | val_acc=0.2246 | time=56.8s
+Epoch  50/50 | q=8 | train_loss=2.6324 | val_loss=2.5791 | val_acc=0.2670 | time=56.8s
+  [checkpoint] results/binary_search_curriculum_q1to8_ascend/model_epoch050_q8.pt
+Done. Artifacts in results/binary_search_curriculum_q1to8_ascend
+{"checkpoint": "results/binary_search_curriculum_q1to8_ascend/model.pt", "task": "binary_search", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.267, "accuracy_all": 0.23131203117090307, "accuracy_input_echo": 0.22834737244346973, "output_token_count": 5000, "input_token_count": 60189, "all_token_count": 65189, "output_start_stats": {"n": 5000, "min": 6, "max": 18, "mean": 12.037799835205078}}
+Saved entropy    -> results/binary_search_curriculum_q1to8_ascend/analysis_ascend/entropy.csv
+Saved concentration -> results/binary_search_curriculum_q1to8_ascend/analysis_ascend/concentration.csv
+Saved sample_attn   -> results/binary_search_curriculum_q1to8_ascend/analysis_ascend/sample_attn.pt

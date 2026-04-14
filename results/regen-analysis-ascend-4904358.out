@@ -1,0 +1,56 @@
+=== Re-analyzing bfs_stieltjes_q16.0_v3 (task=bfs attn=stieltjes q=16.0 seq_len=128) -> results/bfs_stieltjes_q16.0_v3//analysis_ascend ===
+Saved entropy    -> results/bfs_stieltjes_q16.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/bfs_stieltjes_q16.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/bfs_stieltjes_q16.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing bfs_stieltjes_q32.0_v3 (task=bfs attn=stieltjes q=32.0 seq_len=128) -> results/bfs_stieltjes_q32.0_v3//analysis_ascend ===
+Saved entropy    -> results/bfs_stieltjes_q32.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/bfs_stieltjes_q32.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/bfs_stieltjes_q32.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing bfs_stieltjes_q64.0_v3 (task=bfs attn=stieltjes q=64.0 seq_len=128) -> results/bfs_stieltjes_q64.0_v3//analysis_ascend ===
+Saved entropy    -> results/bfs_stieltjes_q64.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/bfs_stieltjes_q64.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/bfs_stieltjes_q64.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing max_stieltjes_q1.0_v3 (task=max attn=stieltjes q=1.0 seq_len=128) -> results/max_stieltjes_q1.0_v3//analysis_ascend ===
+Saved entropy    -> results/max_stieltjes_q1.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/max_stieltjes_q1.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/max_stieltjes_q1.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing max_stieltjes_q16.0_v3 (task=max attn=stieltjes q=16.0 seq_len=128) -> results/max_stieltjes_q16.0_v3//analysis_ascend ===
+Saved entropy    -> results/max_stieltjes_q16.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/max_stieltjes_q16.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/max_stieltjes_q16.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing max_stieltjes_q2.0_v3 (task=max attn=stieltjes q=2.0 seq_len=128) -> results/max_stieltjes_q2.0_v3//analysis_ascend ===
+Saved entropy    -> results/max_stieltjes_q2.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/max_stieltjes_q2.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/max_stieltjes_q2.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing max_stieltjes_q4.0_v3 (task=max attn=stieltjes q=4.0 seq_len=128) -> results/max_stieltjes_q4.0_v3//analysis_ascend ===
+Saved entropy    -> results/max_stieltjes_q4.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/max_stieltjes_q4.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/max_stieltjes_q4.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing max_stieltjes_q8.0_v3 (task=max attn=stieltjes q=8.0 seq_len=128) -> results/max_stieltjes_q8.0_v3//analysis_ascend ===
+Saved entropy    -> results/max_stieltjes_q8.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/max_stieltjes_q8.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/max_stieltjes_q8.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q16.0_lowlr (task=sorting attn=stieltjes q=16.0 seq_len=128) -> results/sorting_stieltjes_q16.0_lowlr//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q16.0_lowlr//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q16.0_lowlr//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q16.0_lowlr//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q16.0_v3 (task=sorting attn=stieltjes q=16.0 seq_len=128) -> results/sorting_stieltjes_q16.0_v3//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q16.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q16.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q16.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q32.0_lowlr (task=sorting attn=stieltjes q=32.0 seq_len=128) -> results/sorting_stieltjes_q32.0_lowlr//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q32.0_lowlr//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q32.0_lowlr//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q32.0_lowlr//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q32.0_v3 (task=sorting attn=stieltjes q=32.0 seq_len=128) -> results/sorting_stieltjes_q32.0_v3//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q32.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q32.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q32.0_v3//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q64.0_lowlr (task=sorting attn=stieltjes q=64.0 seq_len=128) -> results/sorting_stieltjes_q64.0_lowlr//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q64.0_lowlr//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q64.0_lowlr//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q64.0_lowlr//analysis_ascend/sample_attn.pt
+=== Re-analyzing sorting_stieltjes_q64.0_v3 (task=sorting attn=stieltjes q=64.0 seq_len=128) -> results/sorting_stieltjes_q64.0_v3//analysis_ascend ===
+Saved entropy    -> results/sorting_stieltjes_q64.0_v3//analysis_ascend/entropy.csv
+Saved concentration -> results/sorting_stieltjes_q64.0_v3//analysis_ascend/concentration.csv
+Saved sample_attn   -> results/sorting_stieltjes_q64.0_v3//analysis_ascend/sample_attn.pt

@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/needle_stieltjes_q4.0_seq2048_nope_ascend/checkpoint.pt",
+  "task": "needle",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "seq_len": 32768,
+  "val_samples": 500,
+  "seed": 42,
+  "accuracy_fixed": 0.0,
+  "accuracy_all": 0.007864622279675553,
+  "accuracy_input_echo": 0.007864938811618025,
+  "output_token_count": 500,
+  "input_token_count": 12423110,
+  "all_token_count": 12423610,
+  "output_start_stats": {
+    "n": 500,
+    "min": 16393,
+    "max": 32758,
+    "mean": 24846.220703125
+  }
+}

@@ -1,0 +1,39 @@
+=== max-longctx softmax q=1.0 seq=2048 NoPE ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,746,624
+Epoch   1/30 | train_loss=4.1661 | val_loss=4.1598 | val_acc=1.0000 | time=677.1s
+Epoch   2/30 | train_loss=4.1600 | val_loss=4.1592 | val_acc=1.0000 | time=676.4s
+Epoch   3/30 | train_loss=4.1591 | val_loss=4.1588 | val_acc=1.0000 | time=676.5s
+Epoch   4/30 | train_loss=4.1587 | val_loss=4.1585 | val_acc=1.0000 | time=676.5s
+Epoch   5/30 | train_loss=4.1585 | val_loss=4.1585 | val_acc=1.0000 | time=676.3s
+Epoch   6/30 | train_loss=4.1585 | val_loss=4.1584 | val_acc=1.0000 | time=676.3s
+Epoch   7/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=676.5s
+Epoch   8/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=676.4s
+Epoch   9/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=676.4s
+Epoch  10/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=676.4s
+Epoch  11/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=677.3s
+Epoch  12/30 | train_loss=4.1584 | val_loss=4.1584 | val_acc=1.0000 | time=677.2s
+Epoch  13/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.2s
+Epoch  14/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.1s
+Epoch  15/30 | train_loss=4.1583 | val_loss=4.1583 | val_acc=1.0000 | time=677.1s
+Epoch  16/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=676.8s
+Epoch  17/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=676.9s
+Epoch  18/30 | train_loss=4.1583 | val_loss=4.1583 | val_acc=1.0000 | time=677.0s
+Epoch  19/30 | train_loss=4.1583 | val_loss=4.1583 | val_acc=1.0000 | time=677.0s
+Epoch  20/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.3s
+Epoch  21/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.3s
+Epoch  22/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.3s
+Epoch  23/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.0s
+Epoch  24/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.1s
+Epoch  25/30 | train_loss=4.1583 | val_loss=4.1583 | val_acc=1.0000 | time=677.1s
+Epoch  26/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=677.1s
+Epoch  27/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=676.6s
+Epoch  28/30 | train_loss=4.1583 | val_loss=4.1583 | val_acc=1.0000 | time=677.1s
+Epoch  29/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=676.9s
+Epoch  30/30 | train_loss=4.1583 | val_loss=4.1584 | val_acc=1.0000 | time=676.7s
+Model saved to results/max_longctx_softmax_q1.0_seq2048_nope_ascend/model.pt
+Metrics saved to results/max_longctx_softmax_q1.0_seq2048_nope_ascend/metrics.csv
+{"checkpoint": "results/max_longctx_softmax_q1.0_seq2048_nope_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9994, "accuracy_all": 0.016542920570130223, "accuracy_input_echo": 0.015687871148020748, "output_token_count": 5000, "input_token_count": 5747370, "all_token_count": 5752370, "output_start_stats": {"n": 5000, "min": 256, "max": 2039, "mean": 1149.4739990234375}}
+=== max-longctx stieltjes q=4.0 seq=2048 NoPE ===

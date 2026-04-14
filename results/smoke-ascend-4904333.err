@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/triton/runtime/jit.py", line 461, in __init__
+    self.raw_src, self.starting_line_number = inspect.getsourcelines(fn)
+                                              ~~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "/users/PAS2402/alexg/.local/share/uv/python/cpython-3.14.3-linux-x86_64-gnu/lib/python3.14/inspect.py", line 1143, in getsourcelines
+    lines, lnum = findsource(object)
+                  ~~~~~~~~~~^^^^^^^^
+  File "/users/PAS2402/alexg/.local/share/uv/python/cpython-3.14.3-linux-x86_64-gnu/lib/python3.14/inspect.py", line 978, in findsource
+    raise OSError('could not get source code')
+OSError: could not get source code
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/triton/runtime/jit.py", line 935, in jit
+    return decorator(fn)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/triton/runtime/jit.py", line 923, in decorator
+    return JITFunction(
+        fn,
+    ...<6 lines>...
+        launch_metadata=launch_metadata,
+    )
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/triton/runtime/jit.py", line 756, in __init__
+    super().__init__(fn)
+    ~~~~~~~~~~~~~~~~^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/triton/runtime/jit.py", line 463, in __init__
+    raise ValueError("@jit functions should be defined in a Python file") from e
+ValueError: @jit functions should be defined in a Python file

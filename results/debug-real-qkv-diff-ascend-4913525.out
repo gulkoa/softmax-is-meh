@@ -1,0 +1,7 @@
+captured Q/K/V shape: (4, 6, 2047, 64)  dtype: torch.float32
+Q stats: mean=-0.0853  std=1.7053  max=9.368
+num_iter= 3  max_abs=33.49124  mean_abs=1.909884  ref_magnitude=31.352  tri_magnitude=25.307  argmax_agree=0.3088
+num_iter= 5  max_abs=37.04677  mean_abs=2.002527  ref_magnitude=8.734  tri_magnitude=31.352  argmax_agree=0.3379
+num_iter=10  max_abs=10.23917  mean_abs=1.223902  ref_magnitude=6.536  tri_magnitude=6.959  argmax_agree=0.3091
+num_iter=20  max_abs=10.23917  mean_abs=1.223902  ref_magnitude=6.536  tri_magnitude=6.959  argmax_agree=0.3091
+num_iter=50  max_abs=10.23917  mean_abs=1.223902  ref_magnitude=6.536  tri_magnitude=6.959  argmax_agree=0.3091

@@ -1,0 +1,15 @@
+=== Per-layer ref vs triton divergence (first batch) ===
+     attn0  max_abs=130.6023  mean_abs=4.48215  a_max=131.800  b_max=65.300  nan=0/0 inf=0/0
+    block0  max_abs=274.1557  mean_abs=6.07532  a_max=200.199  b_max=156.382  nan=0/0 inf=0/0
+     attn1  max_abs=131.9120  mean_abs=2.82948  a_max=128.949  b_max=63.872  nan=0/0 inf=0/0
+    block1  max_abs=506.7064  mean_abs=9.95202  a_max=481.670  b_max=344.359  nan=0/0 inf=0/0
+     attn2  max_abs=112.0124  mean_abs=2.92637  a_max=108.809  b_max=69.557  nan=0/0 inf=0/0
+    block2  max_abs=887.1062  mean_abs=13.46260  a_max=871.593  b_max=654.376  nan=0/0 inf=0/0
+     attn3  max_abs=186.4992  mean_abs=2.46861  a_max=178.087  b_max=145.964  nan=0/0 inf=0/0
+    block3  max_abs=1078.9044  mean_abs=16.26875  a_max=1264.524  b_max=976.005  nan=0/0 inf=0/0
+     attn4  max_abs=359.9545  mean_abs=3.02567  a_max=359.995  b_max=101.792  nan=0/0 inf=0/0
+    block4  max_abs=1636.1685  mean_abs=18.82814  a_max=1893.440  b_max=1261.631  nan=0/0 inf=0/0
+     attn5  max_abs=232.6229  mean_abs=3.05882  a_max=226.730  b_max=80.469  nan=0/0 inf=0/0
+    block5  max_abs=2022.0088  mean_abs=21.17382  a_max=2318.659  b_max=1475.052  nan=0/0 inf=0/0
+    logits  max_abs=28.1989  mean_abs=2.12233  a_max=19.699  b_max=17.058  nan=0/0 inf=0/0
+argmax agree over all positions: 0.1396

@@ -1,0 +1,10 @@
+ref     num_iter= 3  accuracy_fixed=0.9160
+ref     num_iter= 5  accuracy_fixed=0.2520
+ref     num_iter=10  accuracy_fixed=0.1460
+ref     num_iter=20  accuracy_fixed=0.1460
+ref     num_iter=50  accuracy_fixed=0.1460
+triton  num_iter= 3  accuracy_fixed=0.0040
+triton  num_iter= 5  accuracy_fixed=0.0040
+triton  num_iter=10  accuracy_fixed=0.0040
+triton  num_iter=20  accuracy_fixed=0.0040
+triton  num_iter=50  accuracy_fixed=0.0040

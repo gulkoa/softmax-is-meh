@@ -1,0 +1,17 @@
+{
+  "task": "needle",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "out": "results/needle_stieltjes_q4.0_seq1024_ascend",
+  "epochs": 30,
+  "batch_size": 4,
+  "lr": 0.0001,
+  "seq_len": 1024,
+  "max_arr_len": 1016,
+  "max_val": 64,
+  "train_samples": 20000,
+  "val_samples": 2000,
+  "seed": 42,
+  "resume": false,
+  "pos_enc": "learned"
+}

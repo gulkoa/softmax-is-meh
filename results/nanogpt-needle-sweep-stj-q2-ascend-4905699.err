@@ -1,0 +1,3 @@
+Wrote results/needle_stieltjes_q2.0_seq256_ascend/accuracy_fixed.json
+Wrote results/needle_stieltjes_q2.0_seq512_ascend/accuracy_fixed.json
+[2026-04-13T12:08:00.009] error: *** JOB 4905699 ON a0150 CANCELLED AT 2026-04-13T12:08:00 DUE TO TIME LIMIT ***

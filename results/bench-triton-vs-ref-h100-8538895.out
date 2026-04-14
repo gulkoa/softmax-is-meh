@@ -1,0 +1,66 @@
+=== H100 bench Triton vs PyTorch-ref (num_iter=3, per-row init) ===
+Tue Apr 14 01:31:50 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   35C    P0             71W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+  B=1 H=8 N=  128 D=64 q=2.0 c=0  fwd: triton=0.091ms ref=0.266ms  speedup=2.92x
+  B=1 H=8 N=  128 D=64 q=2.0 c=1  fwd: triton=0.111ms ref=0.332ms  speedup=3.00x
+  B=1 H=8 N=  128 D=64 q=4.0 c=0  fwd: triton=0.091ms ref=0.306ms  speedup=3.35x
+  B=1 H=8 N=  128 D=64 q=4.0 c=1  fwd: triton=0.111ms ref=0.333ms  speedup=3.01x
+  B=1 H=8 N=  512 D=64 q=2.0 c=0  fwd: triton=0.211ms ref=0.279ms  speedup=1.32x
+  B=1 H=8 N=  512 D=64 q=2.0 c=1  fwd: triton=0.244ms ref=0.330ms  speedup=1.35x
+  B=1 H=8 N=  512 D=64 q=4.0 c=0  fwd: triton=0.212ms ref=0.309ms  speedup=1.46x
+  B=1 H=8 N=  512 D=64 q=4.0 c=1  fwd: triton=0.245ms ref=0.387ms  speedup=1.58x
+  B=1 H=8 N= 1024 D=64 q=2.0 c=0  fwd: triton=0.380ms ref=0.582ms  speedup=1.53x
+  B=1 H=8 N= 1024 D=64 q=2.0 c=1  fwd: triton=0.437ms ref=0.677ms  speedup=1.55x
+  B=1 H=8 N= 1024 D=64 q=4.0 c=0  fwd: triton=0.385ms ref=0.699ms  speedup=1.82x
+  B=1 H=8 N= 1024 D=64 q=4.0 c=1  fwd: triton=0.436ms ref=0.779ms  speedup=1.78x
+  B=1 H=8 N= 2048 D=64 q=2.0 c=0  fwd: triton=0.729ms ref=2.585ms  speedup=3.55x
+  B=1 H=8 N= 2048 D=64 q=2.0 c=1  fwd: triton=0.808ms ref=2.928ms  speedup=3.62x
+  B=1 H=8 N= 2048 D=64 q=4.0 c=0  fwd: triton=0.723ms ref=2.768ms  speedup=3.83x
+  B=1 H=8 N= 2048 D=64 q=4.0 c=1  fwd: triton=0.810ms ref=3.144ms  speedup=3.88x
+  B=1 H=8 N= 4096 D=64 q=2.0 c=0  fwd: triton=1.551ms ref=9.498ms  speedup=6.13x
+  B=1 H=8 N= 4096 D=64 q=2.0 c=1  fwd: triton=1.960ms ref=10.929ms  speedup=5.57x
+  B=1 H=8 N= 4096 D=64 q=4.0 c=0  fwd: triton=1.558ms ref=10.195ms  speedup=6.54x
+  B=1 H=8 N= 4096 D=64 q=4.0 c=1  fwd: triton=1.964ms ref=11.773ms  speedup=6.00x
+  B=4 H=8 N=  128 D=64 q=2.0 c=0  fwd: triton=0.086ms ref=0.265ms  speedup=3.07x
+  B=4 H=8 N=  128 D=64 q=2.0 c=1  fwd: triton=0.104ms ref=0.330ms  speedup=3.16x
+  B=4 H=8 N=  128 D=64 q=4.0 c=0  fwd: triton=0.086ms ref=0.265ms  speedup=3.08x
+  B=4 H=8 N=  128 D=64 q=4.0 c=1  fwd: triton=0.104ms ref=0.328ms  speedup=3.14x
+  B=4 H=8 N=  512 D=64 q=2.0 c=0  fwd: triton=0.213ms ref=0.601ms  speedup=2.82x
+  B=4 H=8 N=  512 D=64 q=2.0 c=1  fwd: triton=0.246ms ref=0.701ms  speedup=2.84x
+  B=4 H=8 N=  512 D=64 q=4.0 c=0  fwd: triton=0.214ms ref=0.714ms  speedup=3.34x
+  B=4 H=8 N=  512 D=64 q=4.0 c=1  fwd: triton=0.249ms ref=0.787ms  speedup=3.16x
+  B=4 H=8 N= 1024 D=64 q=2.0 c=0  fwd: triton=0.405ms ref=2.593ms  speedup=6.41x
+  B=4 H=8 N= 1024 D=64 q=2.0 c=1  fwd: triton=0.469ms ref=2.961ms  speedup=6.31x
+  B=4 H=8 N= 1024 D=64 q=4.0 c=0  fwd: triton=0.399ms ref=2.855ms  speedup=7.15x
+  B=4 H=8 N= 1024 D=64 q=4.0 c=1  fwd: triton=0.469ms ref=3.176ms  speedup=6.78x
+  B=4 H=8 N= 2048 D=64 q=2.0 c=0  fwd: triton=1.530ms ref=9.461ms  speedup=6.18x
+  B=4 H=8 N= 2048 D=64 q=2.0 c=1  fwd: triton=1.867ms ref=10.810ms  speedup=5.79x
+  B=4 H=8 N= 2048 D=64 q=4.0 c=0  fwd: triton=1.525ms ref=10.335ms  speedup=6.78x
+  B=4 H=8 N= 2048 D=64 q=4.0 c=1  fwd: triton=1.902ms ref=11.554ms  speedup=6.07x
+  B=1 H=8 N= 1024 D=128 q=2.0 c=0  fwd: triton=0.122ms ref=0.580ms  speedup=4.77x
+  B=1 H=8 N= 1024 D=128 q=2.0 c=1  fwd: triton=0.182ms ref=0.670ms  speedup=3.68x
+  B=1 H=8 N= 1024 D=128 q=4.0 c=0  fwd: triton=0.122ms ref=0.695ms  speedup=5.71x
+  B=1 H=8 N= 1024 D=128 q=4.0 c=1  fwd: triton=0.190ms ref=0.768ms  speedup=4.04x
+  B=1 H=8 N= 2048 D=128 q=2.0 c=0  fwd: triton=0.327ms ref=2.588ms  speedup=7.92x
+  B=1 H=8 N= 2048 D=128 q=2.0 c=1  fwd: triton=0.415ms ref=2.954ms  speedup=7.11x
+  B=1 H=8 N= 2048 D=128 q=4.0 c=0  fwd: triton=0.325ms ref=2.833ms  speedup=8.73x
+  B=1 H=8 N= 2048 D=128 q=4.0 c=1  fwd: triton=0.412ms ref=3.192ms  speedup=7.75x
+Wrote results/bench_triton_vs_ref_ascend_a100.csv

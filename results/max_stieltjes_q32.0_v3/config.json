@@ -12,5 +12,5 @@
   "train_samples": 50000,
   "val_samples": 5000,
   "seed": 42,
-  "resume": false
+  "resume": true
 }

@@ -12,5 +12,6 @@
   "train_samples": 50000,
   "val_samples": 5000,
   "seed": 42,
-  "resume": true
+  "resume": true,
+  "pos_enc": "learned"
 }

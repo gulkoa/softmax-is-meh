@@ -1,0 +1,39 @@
+=== subtle_needle softmax q=1.0 seq=2048 NoPE ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,746,624
+Epoch   1/30 | train_loss=4.8514 | val_loss=4.8471 | val_acc=0.9995 | time=689.7s
+Epoch   2/30 | train_loss=4.8470 | val_loss=4.8453 | val_acc=1.0000 | time=689.7s
+Epoch   3/30 | train_loss=4.8452 | val_loss=4.8454 | val_acc=1.0000 | time=690.1s
+Epoch   4/30 | train_loss=4.8448 | val_loss=4.8455 | val_acc=1.0000 | time=690.2s
+Epoch   5/30 | train_loss=4.8445 | val_loss=4.8455 | val_acc=1.0000 | time=690.3s
+Epoch   6/30 | train_loss=4.8444 | val_loss=4.8451 | val_acc=1.0000 | time=690.3s
+Epoch   7/30 | train_loss=4.8444 | val_loss=4.8448 | val_acc=1.0000 | time=690.3s
+Epoch   8/30 | train_loss=4.8443 | val_loss=4.8448 | val_acc=1.0000 | time=690.4s
+Epoch   9/30 | train_loss=4.8443 | val_loss=4.8450 | val_acc=1.0000 | time=690.4s
+Epoch  10/30 | train_loss=4.8443 | val_loss=4.8450 | val_acc=1.0000 | time=690.6s
+Epoch  11/30 | train_loss=4.8443 | val_loss=4.8446 | val_acc=1.0000 | time=690.7s
+Epoch  12/30 | train_loss=4.8443 | val_loss=4.8447 | val_acc=1.0000 | time=690.6s
+Epoch  13/30 | train_loss=4.8442 | val_loss=4.8446 | val_acc=1.0000 | time=689.8s
+Epoch  14/30 | train_loss=4.8442 | val_loss=4.8448 | val_acc=1.0000 | time=689.9s
+Epoch  15/30 | train_loss=4.8442 | val_loss=4.8446 | val_acc=1.0000 | time=690.2s
+Epoch  16/30 | train_loss=4.8442 | val_loss=4.8447 | val_acc=1.0000 | time=690.3s
+Epoch  17/30 | train_loss=4.8442 | val_loss=4.8445 | val_acc=1.0000 | time=690.4s
+Epoch  18/30 | train_loss=4.8442 | val_loss=4.8445 | val_acc=1.0000 | time=690.8s
+Epoch  19/30 | train_loss=4.8442 | val_loss=4.8447 | val_acc=1.0000 | time=690.5s
+Epoch  20/30 | train_loss=4.8442 | val_loss=4.8446 | val_acc=1.0000 | time=690.5s
+Epoch  21/30 | train_loss=4.8442 | val_loss=4.8445 | val_acc=1.0000 | time=690.5s
+Epoch  22/30 | train_loss=4.8442 | val_loss=4.8446 | val_acc=1.0000 | time=690.6s
+Epoch  23/30 | train_loss=4.8442 | val_loss=4.8444 | val_acc=1.0000 | time=690.6s
+Epoch  24/30 | train_loss=4.8442 | val_loss=4.8445 | val_acc=1.0000 | time=690.6s
+Epoch  25/30 | train_loss=4.8442 | val_loss=4.8444 | val_acc=1.0000 | time=690.5s
+Epoch  26/30 | train_loss=4.8441 | val_loss=4.8445 | val_acc=1.0000 | time=690.7s
+Epoch  27/30 | train_loss=4.8441 | val_loss=4.8445 | val_acc=1.0000 | time=690.6s
+Epoch  28/30 | train_loss=4.8441 | val_loss=4.8444 | val_acc=1.0000 | time=690.8s
+Epoch  29/30 | train_loss=4.8441 | val_loss=4.8444 | val_acc=1.0000 | time=690.7s
+Epoch  30/30 | train_loss=4.8441 | val_loss=4.8445 | val_acc=1.0000 | time=690.7s
+Model saved to results/subtle_needle_softmax_q1.0_seq2048_nope_ascend/model.pt
+Metrics saved to results/subtle_needle_softmax_q1.0_seq2048_nope_ascend/metrics.csv
+{"checkpoint": "results/subtle_needle_softmax_q1.0_seq2048_nope_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 5000, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.008476999019245394, "accuracy_input_echo": 0.007827327555377392, "output_token_count": 5000, "input_token_count": 7630957, "all_token_count": 7635957, "output_start_stats": {"n": 5000, "min": 1020, "max": 2040, "mean": 1526.19140625}}
+=== subtle_needle stieltjes q=4.0 seq=2048 NoPE ===

@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/sorting_softmax_ascend_retrain/model.pt",
+  "task": "sorting",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 128,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 0.9976646706586826,
+  "accuracy_all": 0.5315069860279441,
+  "accuracy_input_echo": 0.06534930139720559,
+  "output_token_count": 50100,
+  "input_token_count": 50100,
+  "all_token_count": 100200,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 4,
+    "max": 16,
+    "mean": 10.020000457763672
+  }
+}

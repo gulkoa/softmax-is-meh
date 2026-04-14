@@ -1,0 +1,39 @@
+{
+  "task": "binary_search",
+  "attn": "stieltjes",
+  "q_schedule": "1@1,2@11,4@21,8@31,16@41",
+  "q_schedule_file": null,
+  "out": "results/binary_search_curriculum_q1to16_ascend",
+  "epochs": 50,
+  "batch_size": 64,
+  "lr": 0.0003,
+  "seq_len": 128,
+  "max_arr_len": 16,
+  "max_val": 64,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42,
+  "eval_each_block": true,
+  "schedule": [
+    [
+      1,
+      1.0
+    ],
+    [
+      11,
+      2.0
+    ],
+    [
+      21,
+      4.0
+    ],
+    [
+      31,
+      8.0
+    ],
+    [
+      41,
+      16.0
+    ]
+  ]
+}

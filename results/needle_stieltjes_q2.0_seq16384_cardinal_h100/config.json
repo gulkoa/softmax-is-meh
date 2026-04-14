@@ -1,0 +1,19 @@
+{
+  "task": "needle",
+  "attn": "stieltjes",
+  "q": 2.0,
+  "out": "results/needle_stieltjes_q2.0_seq16384_cardinal_h100",
+  "epochs": 15,
+  "batch_size": 1,
+  "lr": 0.0001,
+  "seq_len": 16384,
+  "max_arr_len": 16376,
+  "max_val": 64,
+  "train_samples": 4000,
+  "val_samples": 500,
+  "seed": 42,
+  "resume": false,
+  "pos_enc": "learned",
+  "needle_margin": "distinctive",
+  "stieltjes_num_iter": 3
+}

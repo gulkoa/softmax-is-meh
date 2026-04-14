@@ -1,0 +1,6 @@
+=== host ===
+a0259.ten.osc.edu
+=== nvidia-smi ===
+GPU 0: NVIDIA A100-PCIE-40GB (UUID: GPU-70d43e1a-88be-7099-9670-44379c219975)
+GPU 1: NVIDIA A100-PCIE-40GB (UUID: GPU-03102e96-ae41-4c36-73cf-84ddc06e0ea2)
+=== torch ===

@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/needle_stieltjes_q2.0_seq256_ascend/model.pt",
+  "task": "needle",
+  "attn": "stieltjes",
+  "q": 2.0,
+  "seq_len": 256,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 1.0,
+  "accuracy_all": 0.0143892319505475,
+  "accuracy_input_echo": 0.009060811234540937,
+  "output_token_count": 5000,
+  "input_token_count": 924862,
+  "all_token_count": 929862,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 124,
+    "max": 248,
+    "mean": 184.97239685058594
+  }
+}

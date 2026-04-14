@@ -1,0 +1,17 @@
+{
+  "task": "sorting",
+  "attn": "softmax",
+  "q": 1.0,
+  "out": "results/sorting_softmax_ctx1024_unique",
+  "epochs": 30,
+  "batch_size": 8,
+  "lr": 0.0001,
+  "seq_len": 1024,
+  "max_arr_len": 256,
+  "max_val": 256,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42,
+  "resume": true,
+  "pos_enc": "learned"
+}

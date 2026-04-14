@@ -1,0 +1,89 @@
+  B=1 H=8 N=  128 D=64 q=2.0 c=0  fwd: triton=0.190ms ref=0.652ms  speedup=3.43x
+SKIP fwd ref B=1 H=8 N=128 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=128 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N=  128 D=64 q=2.0 c=1  fwd: triton=0.203ms ref=nanms  speedup=nanx
+  B=1 H=8 N=  128 D=64 q=4.0 c=0  fwd: triton=0.186ms ref=0.684ms  speedup=3.68x
+SKIP fwd ref B=1 H=8 N=128 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=128 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N=  128 D=64 q=4.0 c=1  fwd: triton=0.202ms ref=nanms  speedup=nanx
+  B=1 H=8 N=  512 D=64 q=2.0 c=0  fwd: triton=0.547ms ref=0.691ms  speedup=1.26x
+SKIP fwd ref B=1 H=8 N=512 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=512 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N=  512 D=64 q=2.0 c=1  fwd: triton=0.578ms ref=nanms  speedup=nanx
+  B=1 H=8 N=  512 D=64 q=4.0 c=0  fwd: triton=0.546ms ref=0.848ms  speedup=1.55x
+SKIP fwd ref B=1 H=8 N=512 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=512 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N=  512 D=64 q=4.0 c=1  fwd: triton=0.577ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 1024 D=64 q=2.0 c=0  fwd: triton=0.981ms ref=1.489ms  speedup=1.52x
+SKIP fwd ref B=1 H=8 N=1024 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=1024 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 1024 D=64 q=2.0 c=1  fwd: triton=1.056ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 1024 D=64 q=4.0 c=0  fwd: triton=1.025ms ref=1.284ms  speedup=1.25x
+SKIP fwd ref B=1 H=8 N=1024 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=1024 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 1024 D=64 q=4.0 c=1  fwd: triton=1.081ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 2048 D=64 q=2.0 c=0  fwd: triton=2.218ms ref=4.819ms  speedup=2.17x
+SKIP fwd ref B=1 H=8 N=2048 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=2048 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 2048 D=64 q=2.0 c=1  fwd: triton=2.325ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 2048 D=64 q=4.0 c=0  fwd: triton=2.217ms ref=4.981ms  speedup=2.25x
+SKIP fwd ref B=1 H=8 N=2048 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=2048 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 2048 D=64 q=4.0 c=1  fwd: triton=2.325ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 4096 D=64 q=2.0 c=0  fwd: triton=8.220ms ref=16.032ms  speedup=1.95x
+SKIP fwd ref B=1 H=8 N=4096 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=4096 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 4096 D=64 q=2.0 c=1  fwd: triton=8.224ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 4096 D=64 q=4.0 c=0  fwd: triton=8.219ms ref=18.778ms  speedup=2.28x
+SKIP fwd ref B=1 H=8 N=4096 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=4096 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 4096 D=64 q=4.0 c=1  fwd: triton=8.475ms ref=nanms  speedup=nanx
+  B=4 H=8 N=  128 D=64 q=2.0 c=0  fwd: triton=0.185ms ref=0.671ms  speedup=3.63x
+SKIP fwd ref B=4 H=8 N=128 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=128 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N=  128 D=64 q=2.0 c=1  fwd: triton=0.127ms ref=nanms  speedup=nanx
+  B=4 H=8 N=  128 D=64 q=4.0 c=0  fwd: triton=0.119ms ref=0.677ms  speedup=5.69x
+SKIP fwd ref B=4 H=8 N=128 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=128 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N=  128 D=64 q=4.0 c=1  fwd: triton=0.129ms ref=nanms  speedup=nanx
+  B=4 H=8 N=  512 D=64 q=2.0 c=0  fwd: triton=0.324ms ref=1.026ms  speedup=3.16x
+SKIP fwd ref B=4 H=8 N=512 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=512 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N=  512 D=64 q=2.0 c=1  fwd: triton=0.345ms ref=nanms  speedup=nanx
+  B=4 H=8 N=  512 D=64 q=4.0 c=0  fwd: triton=0.324ms ref=1.264ms  speedup=3.90x
+SKIP fwd ref B=4 H=8 N=512 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=512 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N=  512 D=64 q=4.0 c=1  fwd: triton=0.345ms ref=nanms  speedup=nanx
+  B=4 H=8 N= 1024 D=64 q=2.0 c=0  fwd: triton=1.179ms ref=4.347ms  speedup=3.69x
+SKIP fwd ref B=4 H=8 N=1024 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=1024 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N= 1024 D=64 q=2.0 c=1  fwd: triton=1.249ms ref=nanms  speedup=nanx
+  B=4 H=8 N= 1024 D=64 q=4.0 c=0  fwd: triton=1.179ms ref=5.029ms  speedup=4.26x
+SKIP fwd ref B=4 H=8 N=1024 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=1024 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N= 1024 D=64 q=4.0 c=1  fwd: triton=1.249ms ref=nanms  speedup=nanx
+  B=4 H=8 N= 2048 D=64 q=2.0 c=0  fwd: triton=3.517ms ref=16.094ms  speedup=4.58x
+SKIP fwd ref B=4 H=8 N=2048 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=2048 D=64 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N= 2048 D=64 q=2.0 c=1  fwd: triton=3.675ms ref=nanms  speedup=nanx
+  B=4 H=8 N= 2048 D=64 q=4.0 c=0  fwd: triton=3.493ms ref=18.868ms  speedup=5.40x
+SKIP fwd ref B=4 H=8 N=2048 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=4 H=8 N=2048 D=64 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=4 H=8 N= 2048 D=64 q=4.0 c=1  fwd: triton=3.689ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 1024 D=128 q=2.0 c=0  fwd: triton=1.049ms ref=1.199ms  speedup=1.14x
+SKIP fwd ref B=1 H=8 N=1024 D=128 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=1024 D=128 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 1024 D=128 q=2.0 c=1  fwd: triton=1.158ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 1024 D=128 q=4.0 c=0  fwd: triton=1.055ms ref=1.603ms  speedup=1.52x
+SKIP fwd ref B=1 H=8 N=1024 D=128 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=1024 D=128 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 1024 D=128 q=4.0 c=1  fwd: triton=1.158ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 2048 D=128 q=2.0 c=0  fwd: triton=3.119ms ref=4.596ms  speedup=1.47x
+SKIP fwd ref B=1 H=8 N=2048 D=128 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=2048 D=128 q=2.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 2048 D=128 q=2.0 c=1  fwd: triton=3.406ms ref=nanms  speedup=nanx
+  B=1 H=8 N= 2048 D=128 q=4.0 c=0  fwd: triton=3.165ms ref=5.087ms  speedup=1.61x
+SKIP fwd ref B=1 H=8 N=2048 D=128 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+SKIP bwd ref B=1 H=8 N=2048 D=128 q=4.0 c=True: value cannot be converted to type c10::Half without overflow
+  B=1 H=8 N= 2048 D=128 q=4.0 c=1  fwd: triton=3.407ms ref=nanms  speedup=nanx
+Wrote /users/PAS2402/alexg/softmax/softmax-is-meh/results/bench_triton_vs_ref_ascend_a100.csv

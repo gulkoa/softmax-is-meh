@@ -1,0 +1,19 @@
+{
+  "task": "binary_search",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "out": "results/binary_search_stieltjes_q4.0_numiter10_ascend_retrain",
+  "epochs": 50,
+  "batch_size": 64,
+  "lr": 0.0003,
+  "seq_len": 128,
+  "max_arr_len": 16,
+  "max_val": 64,
+  "train_samples": 50000,
+  "val_samples": 5000,
+  "seed": 42,
+  "resume": false,
+  "pos_enc": "learned",
+  "needle_margin": "distinctive",
+  "stieltjes_num_iter": 10
+}

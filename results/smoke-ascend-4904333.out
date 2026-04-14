@@ -1,0 +1,9 @@
+=== host ===
+a0259.ten.osc.edu
+=== nvidia-smi ===
+GPU 0: NVIDIA A100-PCIE-40GB (UUID: GPU-d1d08506-381f-8b4c-b596-4a8eae7f23ce)
+GPU 1: NVIDIA A100-PCIE-40GB (UUID: GPU-03102e96-ae41-4c36-73cf-84ddc06e0ea2)
+=== torch ===
+torch 2.10.0+cu128 cuda True device NVIDIA A100-PCIE-40GB cap (8, 0)
+triton 3.6.0
+=== tiny triton JIT compile check ===

@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/bfs_softmax_ascend_retrain/model.pt",
+  "task": "bfs",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 128,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 0.99476,
+  "accuracy_all": 0.785766185726553,
+  "accuracy_input_echo": 0.7212404134711571,
+  "output_token_count": 50000,
+  "input_token_count": 161946,
+  "all_token_count": 211946,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 11,
+    "max": 63,
+    "mean": 32.389198303222656
+  }
+}

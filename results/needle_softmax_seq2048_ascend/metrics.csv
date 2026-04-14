@@ -1,0 +1,3 @@
+epoch,train_loss,val_loss,val_accuracy,epoch_time_s
+1,4.869293,4.861493,0.000000,693.63
+2,4.860612,4.859596,0.006000,693.87

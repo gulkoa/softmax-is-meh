@@ -1,0 +1,17 @@
+{
+  "task": "needle",
+  "attn": "softmax",
+  "q": 1.0,
+  "out": "results/needle_softmax_ctx8192",
+  "epochs": 30,
+  "batch_size": 1,
+  "lr": 0.0001,
+  "seq_len": 8192,
+  "max_arr_len": 8000,
+  "max_val": 64,
+  "train_samples": 20000,
+  "val_samples": 2000,
+  "seed": 42,
+  "resume": true,
+  "pos_enc": "learned"
+}

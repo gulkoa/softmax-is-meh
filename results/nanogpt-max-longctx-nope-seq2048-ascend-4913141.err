@@ -1,0 +1,2 @@
+Wrote results/max_longctx_softmax_q1.0_seq2048_nope_ascend/accuracy_fixed.json
+[2026-04-14T10:37:08.020] error: *** JOB 4913141 ON a0158 CANCELLED AT 2026-04-14T10:37:08 DUE TO TIME LIMIT ***

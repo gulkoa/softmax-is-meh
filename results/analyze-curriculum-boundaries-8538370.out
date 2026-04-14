@@ -1,0 +1,8 @@
+=== analyze epoch 25 (start of q=4 phase) ===
+Saved entropy    -> results/binary_search_curriculum_q1to8_ascend/analysis_ep025_q4/entropy.csv
+Saved concentration -> results/binary_search_curriculum_q1to8_ascend/analysis_ep025_q4/concentration.csv
+Saved sample_attn   -> results/binary_search_curriculum_q1to8_ascend/analysis_ep025_q4/sample_attn.pt
+=== analyze epoch 037 (start of q=8 phase, post-collapse) ===
+Saved entropy    -> results/binary_search_curriculum_q1to8_ascend/analysis_ep037_q8/entropy.csv
+Saved concentration -> results/binary_search_curriculum_q1to8_ascend/analysis_ep037_q8/concentration.csv
+Saved sample_attn   -> results/binary_search_curriculum_q1to8_ascend/analysis_ep037_q8/sample_attn.pt

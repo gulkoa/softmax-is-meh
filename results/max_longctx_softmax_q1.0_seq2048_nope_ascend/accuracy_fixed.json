@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_longctx_softmax_q1.0_seq2048_nope_ascend/model.pt",
+  "task": "max",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 2048,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 0.9994,
+  "accuracy_all": 0.016542920570130223,
+  "accuracy_input_echo": 0.015687871148020748,
+  "output_token_count": 5000,
+  "input_token_count": 5747370,
+  "all_token_count": 5752370,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 256,
+    "max": 2039,
+    "mean": 1149.4739990234375
+  }
+}
