@@ -100,6 +100,9 @@ def _stieltjes_attn_fwd(
     Q, K, V, O,
     Lambda,  # (B*H, N) — stores λ per query row for backward
     D_sum,   # (B*H, N) — stores Σ(λ-s)^{-q-1} per query row for backward
+    LambdaInit,  # (N,) fp32 — per-row initial λ. For causal: (i+1)^{1/q};
+                 # for non-causal: N^{1/q} broadcast. Matches ref init so NR
+                 # converges in the same iteration count regardless of causal.
     stride_qz, stride_qh, stride_qm, stride_qk,
     stride_kz, stride_kh, stride_kn, stride_kk,
     stride_vz, stride_vh, stride_vn, stride_vk,
@@ -109,7 +112,6 @@ def _stieltjes_attn_fwd(
     sq: tl.constexpr,        # Stieltjes q parameter
     NUM_ITER: tl.constexpr,  # Newton-Raphson iterations
     EPS: tl.constexpr,
-    LAMBDA_INIT: tl.constexpr,  # precomputed N_CTX^{1/q} on host
     HEAD_DIM: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
@@ -157,10 +159,10 @@ def _stieltjes_attn_fwd(
 
     # ===== PASS 2: Newton-Raphson for λ =====
     # After centering by row_max, scores are ≤ 0 and λ must be > 0.
-    # Init: n^{1/q} is exact for uniform scores.
-    lambd = tl.full([BLOCK_M], value=LAMBDA_INIT, dtype=tl.float32)
-    # For causal, effective n_cols varies per row but N_CTX^{1/q} remains a safe
-    # overestimate that NR will quickly correct.
+    # Load per-row init. For causal this matches the ref's (i+1)^{1/q};
+    # for non-causal every entry is the same N^{1/q} value.
+    init_ptrs = LambdaInit + offs_m
+    lambd = tl.load(init_ptrs, mask=offs_m < N_CTX, other=1.0)
 
     for _nr in tl.static_range(NUM_ITER):
         f_val = tl.zeros([BLOCK_M], dtype=tl.float32)
@@ -555,6 +557,17 @@ class StieltjesAttention(torch.autograd.Function):
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         d_sum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
 
+        # Per-row LAMBDA_INIT. Matches ref's (i+1)^{1/q} for causal and the
+        # scalar N^{1/q} for non-causal. Using the same init as the ref makes
+        # NR converge in the same iteration count with the same trajectory,
+        # which is what correctness depends on.
+        if causal:
+            row_counts = torch.arange(1, N + 1, device=q.device, dtype=torch.float32)
+            lambda_init = row_counts.pow(1.0 / stieltjes_q)
+        else:
+            lambda_init = torch.full((N,), float(N) ** (1.0 / stieltjes_q),
+                                     device=q.device, dtype=torch.float32)
+
         # Select block sizes based on head dimension
         if D <= 64:
             BLOCK_M, BLOCK_N = 128, 64
@@ -566,6 +579,7 @@ class StieltjesAttention(torch.autograd.Function):
         _stieltjes_attn_fwd[grid](
             q, k, v, o,
             lam, d_sum,
+            lambda_init,
             q.stride(0), q.stride(1), q.stride(2), q.stride(3),
             k.stride(0), k.stride(1), k.stride(2), k.stride(3),
             v.stride(0), v.stride(1), v.stride(2), v.stride(3),
@@ -575,7 +589,6 @@ class StieltjesAttention(torch.autograd.Function):
             sq=stieltjes_q,
             NUM_ITER=num_iter,
             EPS=1e-6,
-            LAMBDA_INIT=float(N) ** (1.0 / stieltjes_q),
             HEAD_DIM=D,
             BLOCK_M=BLOCK_M,
             BLOCK_N=BLOCK_N,
