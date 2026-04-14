@@ -255,6 +255,37 @@ assert target_idx != PAD and target_idx != SEPARATOR, f'Output token is PAD/SEP:
 print(f'OK — target_idx={target_idx}')
 "
 
+# 5. Triton-vs-ref correctness (GPU-only; skipped on CPU-only systems)
+echo ""
+echo "--- Triton correctness (skipped if no CUDA) ---"
+run_test "triton matches ref on causal q=4 random" python -c "
+import sys; sys.path.insert(0, 'triton')
+import torch
+if not torch.cuda.is_available():
+    print('SKIP — no CUDA available')
+    sys.exit(0)
+from stieltjes_flash_attn import stieltjes_attention, stieltjes_attention_ref
+B, H, N, D = 1, 6, 512, 64
+torch.manual_seed(0)
+q = torch.randn(B, H, N, D, device='cuda', dtype=torch.float32)
+k = torch.randn_like(q); v = torch.randn_like(q)
+sm_scale = 1.0 / (D ** 0.5)
+with torch.no_grad():
+    # Ref uses num_iter=5 internally; Triton needs >=5 to converge at causal q=4.
+    ref = stieltjes_attention_ref(q, k, v, sm_scale=sm_scale, causal=True,
+                                  stieltjes_q=4.0, num_iter=5)
+    tri = stieltjes_attention(q, k, v, causal=True, sm_scale=sm_scale,
+                              stieltjes_q=4.0, num_iter=5)
+diff = (ref.float() - tri.float()).abs()
+max_abs = diff.max().item()
+# Per-row LAMBDA_INIT should give max_abs ~ 5e-3 at num_iter=5 for this shape.
+# Allow 0.05 as regression threshold (kernel rewrites must stay within 10x).
+assert max_abs < 0.05, f'Triton vs ref max_abs={max_abs:.5f} exceeds threshold (regression?)'
+argmax_agree = (ref.argmax(-1) == tri.argmax(-1)).float().mean().item()
+assert argmax_agree > 0.99, f'argmax_agree={argmax_agree:.4f} below 0.99'
+print(f'OK — max_abs={max_abs:.5f}, argmax_agree={argmax_agree:.4f}')
+"
+
 echo ""
 if [ "$FAILED" -eq 0 ]; then
     echo "=== ALL TESTS PASSED ==="
