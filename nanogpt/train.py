@@ -78,6 +78,8 @@ def parse_args():
                         help="Needle distinguishability for the 'needle' task: 'distinctive' (default, +128 above bg — too easy at long context), 'subtle' (margin=1 above max distractor — exposes softmax dilution).")
     parser.add_argument("--stieltjes-num-iter", type=int, default=3,
                         help="Newton-Raphson iterations inside the Stieltjes normalizer. Default 3 matches the historical training configuration. Raise to 10 for the 'NR-iter as implicit regularizer' probe.")
+    parser.add_argument("--dtype", default="fp32", choices=["fp32", "bf16"],
+                        help="Compute dtype. 'fp32' (default, historical). 'bf16' enables autocast around forward+loss for ~2x memory reduction at long context.")
     return parser.parse_args()
 
 
@@ -181,6 +183,18 @@ def main():
         writer.writeheader()
     csv_file.flush()
 
+    # Autocast context: active only when --dtype bf16 is explicitly requested.
+    use_bf16 = (args.dtype == "bf16")
+    amp_dtype = torch.bfloat16 if use_bf16 else torch.float32
+    if use_bf16:
+        print(f"Using bf16 autocast for forward pass (memory optimization at long context)")
+
+    def _autocast():
+        if use_bf16 and device.type == "cuda":
+            return torch.autocast(device_type="cuda", dtype=amp_dtype)
+        import contextlib
+        return contextlib.nullcontext()
+
     # Training loop
     model.train()
     for epoch in range(start_epoch, args.epochs + 1):
@@ -192,7 +206,8 @@ def main():
         for x, y in train_loader:
             x, y = x.to(device), y.to(device)
             optimizer.zero_grad()
-            logits, loss = model(x, targets=y)
+            with _autocast():
+                logits, loss = model(x, targets=y)
             if torch.isnan(loss) or torch.isinf(loss):
                 print(f"  WARNING: NaN/Inf loss at batch {train_batches}, skipping")
                 optimizer.zero_grad()
@@ -212,7 +227,8 @@ def main():
         with torch.no_grad():
             for x, y in val_loader:
                 x, y = x.to(device), y.to(device)
-                _, loss = model(x, targets=y)
+                with _autocast():
+                    _, loss = model(x, targets=y)
                 val_loss_sum += loss.item()
                 val_batches += 1
         model.train()
