@@ -76,6 +76,8 @@ def parse_args():
                         help="Positional encoding: 'learned' (GPT-2 wpe, default) or 'none' (NoPE — needed for length-extrapolated eval).")
     parser.add_argument("--needle-margin", default="distinctive", choices=["distinctive", "subtle"],
                         help="Needle distinguishability for the 'needle' task: 'distinctive' (default, +128 above bg — too easy at long context), 'subtle' (margin=1 above max distractor — exposes softmax dilution).")
+    parser.add_argument("--stieltjes-num-iter", type=int, default=3,
+                        help="Newton-Raphson iterations inside the Stieltjes normalizer. Default 3 matches the historical training configuration. Raise to 10 for the 'NR-iter as implicit regularizer' probe.")
     return parser.parse_args()
 
 
@@ -147,6 +149,7 @@ def main():
         dropout=0.1,
         attn_type=args.attn,
         stieltjes_q=args.q,
+        stieltjes_num_iter=args.stieltjes_num_iter,
         pos_enc=args.pos_enc,
     )
     model = GPT(gpt_cfg).to(device)
