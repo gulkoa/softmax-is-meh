@@ -80,6 +80,12 @@ def parse_args():
                         help="Newton-Raphson iterations inside the Stieltjes normalizer. Default 3 matches the historical training configuration. Raise to 10 for the 'NR-iter as implicit regularizer' probe.")
     parser.add_argument("--dtype", default="fp32", choices=["fp32", "bf16"],
                         help="Compute dtype. 'fp32' (default, historical). 'bf16' enables autocast around forward+loss for ~2x memory reduction at long context.")
+    parser.add_argument("--n-layer", type=int, default=6,
+                        help="Number of transformer blocks. Default 6 matches historical config; use 1 for fast probes on simple retrieval tasks.")
+    parser.add_argument("--n-head", type=int, default=6)
+    parser.add_argument("--n-embd", type=int, default=384)
+    parser.add_argument("--stieltjes-use-triton", action="store_true",
+                        help="Route stieltjes attention through the Triton flash kernel (autograd wrapper) during training. Default False = PyTorch reference path.")
     return parser.parse_args()
 
 
@@ -145,13 +151,14 @@ def main():
     gpt_cfg = GPTConfig(
         vocab_size=VOCAB_SIZE,
         block_size=args.seq_len,
-        n_layer=6,
-        n_head=6,
-        n_embd=384,
+        n_layer=args.n_layer,
+        n_head=args.n_head,
+        n_embd=args.n_embd,
         dropout=0.1,
         attn_type=args.attn,
         stieltjes_q=args.q,
         stieltjes_num_iter=args.stieltjes_num_iter,
+        stieltjes_use_triton=args.stieltjes_use_triton,
         pos_enc=args.pos_enc,
     )
     model = GPT(gpt_cfg).to(device)
