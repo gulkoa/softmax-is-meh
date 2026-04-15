@@ -266,8 +266,9 @@ def main():
             f"time={epoch_time:.1f}s"
         )
 
-        # Checkpoint every 10 epochs or at final epoch (for resuming after wall time)
-        if epoch % 10 == 0 or epoch == args.epochs:
+        # Checkpoint every epoch (cheap at our model scale; critical for
+        # short-walltime long-seq jobs that never reach ep 10).
+        if True:
             ckpt_path = os.path.join(args.out, "checkpoint.pt")
             tmp_path = ckpt_path + ".tmp"
             torch.save({
