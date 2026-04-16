@@ -35,7 +35,7 @@ from data import CLRSDataset, TaskConfig, VOCAB_SIZE, PAD, SEPARATOR  # noqa: E4
 from model import GPT, GPTConfig  # noqa: E402
 
 
-def compute_all_metrics(model, loader, device):
+def compute_all_metrics(model, loader, device, first_n_output=None):
     """Compute three variants of accuracy in one pass.
 
     - fixed: positions from last SEPARATOR onward (train.py current metric)
@@ -72,7 +72,13 @@ def compute_all_metrics(model, loader, device):
                 out_starts.append(out_start)
 
                 out_mask = torch.zeros_like(y[i], dtype=torch.bool)
-                out_mask[out_start:] = True
+                if first_n_output is not None:
+                    # Score only the first N output positions (e.g., skip max_idx
+                    # when NoPE makes it unlearnable)
+                    end_pos = min(out_start + first_n_output, y[i].shape[0])
+                    out_mask[out_start:end_pos] = True
+                else:
+                    out_mask[out_start:] = True
                 out_mask &= non_pad
                 n_out_correct += (match & out_mask).sum().item()
                 n_out_total += out_mask.sum().item()
@@ -107,8 +113,11 @@ def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--checkpoint", required=True, help="Path to model.pt (state_dict)")
     p.add_argument("--task", required=True,
-                   choices=["sorting", "binary_search", "bfs", "max", "needle", "top2_needle"])
-    p.add_argument("--attn", required=True, choices=["softmax", "stieltjes"])
+                   choices=["sorting", "binary_search", "bfs", "max", "needle", "top2_needle", "top3_needle"])
+    p.add_argument("--attn", required=True,
+                   choices=["softmax", "stieltjes", "stieltjes_jt",
+                            "stieltjes_jt_init", "stieltjes_no_safeguard",
+                            "stieltjes_max_eps"])
     p.add_argument("--q", type=float, default=1.0)
     # None defaults mean "take value from training config.json".
     # Pass an explicit value on the CLI to override (e.g. for length-extrapolated eval).
@@ -134,6 +143,10 @@ def parse_args():
     p.add_argument("--use-triton", action="store_true",
                    help="Use the Triton stieltjes kernel for forward (faster at long "
                         "context, fwd-only). Default: PyTorch reference.")
+    p.add_argument("--num-iter-override", type=int, default=None,
+                   help="Override stieltjes_num_iter (default: 10 for triton, 3 for ref).")
+    p.add_argument("--first-n-output", type=int, default=None,
+                   help="Score only first N output tokens (e.g., 1 to skip max_idx when NoPE).")
     p.add_argument("--needle-margin", default=None, choices=["distinctive", "subtle"],
                    help="Override needle distinguishability mode for eval. Default: "
                         "take from training config.json.")
@@ -221,7 +234,7 @@ def main():
     # destroy downstream accuracy (confirmed: ref=0.916 vs triton=0.002 on
     # the same q=4 needle checkpoint). num_iter=10 converges; use that
     # whenever we go through the Triton path.
-    num_iter = 10 if args.use_triton else 3
+    num_iter = args.num_iter_override if args.num_iter_override is not None else (10 if args.use_triton else 3)
     gpt_cfg = GPTConfig(
         vocab_size=VOCAB_SIZE,
         block_size=args.seq_len,
@@ -242,7 +255,8 @@ def main():
     else:
         model.load_state_dict(state)
 
-    metrics = compute_all_metrics(model, val_loader, device)
+    metrics = compute_all_metrics(model, val_loader, device,
+                                  first_n_output=args.first_n_output)
     result = {
         "checkpoint": str(ckpt_path),
         "task": args.task,

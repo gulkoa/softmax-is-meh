@@ -63,23 +63,22 @@ def stieltjes_attention_ref(
         scores = scores.masked_fill(~mask, torch.finfo(scores.dtype).min)
 
     # --- Stieltjes normalization along last dim ---
+    # 2026-04-16: switched to constant init=1.1 + pure NR (no half-step safeguard).
+    # Ablation showed per-row init `(i+1)^{1/q}` was the bug — at q=16 it caused
+    # val_acc to plateau at 0.377 vs 0.873 with const-1.1 init. The safeguard was
+    # masking the bug; with bad init it prevented total collapse but forced
+    # convergence to suboptimal lambda. Matches jtaylor-eng/probability-simplex-mappings.
     sq = stieltjes_q
     s_max = scores.max(dim=-1, keepdim=True).values
     x = scores - s_max  # centered; max = 0
 
-    n_cols = scores.shape[-1]
-    if causal:
-        # Per-row init: row i has (i+1) valid positions, so use (i+1)^{1/q}
-        row_counts = torch.arange(1, n_cols + 1, device=scores.device, dtype=scores.dtype)
-        lambd = row_counts.pow(1.0 / sq).view(1, 1, -1, 1).expand_as(s_max)
-    else:
-        lambd = torch.full_like(s_max, float(n_cols) ** (1.0 / sq))
+    lambd = torch.full_like(s_max, 1.1)
 
     for _ in range(num_iter):
         diff = (lambd - x).clamp(min=eps)
         f_val = diff.pow(-sq).sum(dim=-1, keepdim=True) - 1.0
         f_deriv = -sq * diff.pow(-sq - 1.0).sum(dim=-1, keepdim=True)
-        lambd = torch.maximum(lambd - f_val / f_deriv, lambd * 0.5)
+        lambd = lambd - f_val / f_deriv  # pure NR, no half-step
 
     diff = (lambd - x).clamp(min=eps)
     weights = diff.pow(-sq)  # (B, H, N, N), rows sum to ~1
@@ -197,7 +196,10 @@ def _stieltjes_attn_fwd(
         # f(λ) = Σ(λ-x)^{-q} - 1,  f'(λ) = -q Σ(λ-x)^{-q-1}
         f_val = f_val - 1.0
         f_deriv = f_deriv * (-sq)
-        lambd = tl.maximum(lambd - f_val / f_deriv, lambd * 0.5)
+        # 2026-04-16: removed half-step safeguard — pure NR. Ablation showed
+        # safeguard was masking the per-row-init bug; with constant init it's
+        # no longer needed and forces suboptimal convergence.
+        lambd = lambd - f_val / f_deriv
 
     # ===== PASS 3: Compute attention output P @ V =====
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
@@ -557,16 +559,12 @@ class StieltjesAttention(torch.autograd.Function):
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         d_sum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
 
-        # Per-row LAMBDA_INIT. Matches ref's (i+1)^{1/q} for causal and the
-        # scalar N^{1/q} for non-causal. Using the same init as the ref makes
-        # NR converge in the same iteration count with the same trajectory,
-        # which is what correctness depends on.
-        if causal:
-            row_counts = torch.arange(1, N + 1, device=q.device, dtype=torch.float32)
-            lambda_init = row_counts.pow(1.0 / stieltjes_q)
-        else:
-            lambda_init = torch.full((N,), float(N) ** (1.0 / stieltjes_q),
-                                     device=q.device, dtype=torch.float32)
+        # 2026-04-16: switched to constant init=1.1 to match the fixed
+        # `_stieltjes_attention_ref`. Ablation showed per-row init `(i+1)^{1/q}`
+        # was the bug — at q=16 it caused val_acc to plateau at 0.377 vs 0.873
+        # with const init. Constant init makes NR converge faster from a
+        # well-conditioned starting point regardless of N or causal vs not.
+        lambda_init = torch.full((N,), 1.1, device=q.device, dtype=torch.float32)
 
         # Select block sizes based on head dimension
         if D <= 64:

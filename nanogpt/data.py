@@ -208,6 +208,29 @@ def _generate_top2_needle(cfg: TaskConfig) -> List[int]:
     return _encode_sequence(arr, [top1_val, top2_val], cfg.seq_len)
 
 
+def _generate_top3_needle(cfg: TaskConfig) -> List[int]:
+    """Top-3 needle: subtle margins, random gaps. Strong multi-modal pressure.
+
+    - top1 ∈ [30, 126], δ1, δ2 ∈ {1,2,3} (random per sample): guess-baseline ≈ 1/107.
+    - top2 = top1 − δ1; top3 = top2 − δ2.
+    - Background strictly < top3.
+    - Output: [top1, top2, top3]. Each output position requires distinct attention
+      to its own planted position; single-mode attention cannot solve all three.
+    """
+    arr_len = random.randint(cfg.max_arr_len // 2, cfg.max_arr_len)
+    top1_val = random.randint(30, 126)
+    delta1 = random.randint(1, 3)
+    delta2 = random.randint(1, 3)
+    top2_val = max(top1_val - delta1, 2)
+    top3_val = max(top2_val - delta2, 1)
+    arr = [random.randint(0, top3_val - 1) for _ in range(arr_len)]
+    pos1, pos2, pos3 = random.sample(range(arr_len), 3)
+    arr[pos1] = top1_val
+    arr[pos2] = top2_val
+    arr[pos3] = top3_val
+    return _encode_sequence(arr, [top1_val, top2_val, top3_val], cfg.seq_len)
+
+
 TASK_GENERATORS = {
     "sorting": _generate_sorting,
     "binary_search": _generate_binary_search,
@@ -215,6 +238,7 @@ TASK_GENERATORS = {
     "max": _generate_max,
     "needle": _generate_needle,
     "top2_needle": _generate_top2_needle,
+    "top3_needle": _generate_top3_needle,
 }
 
 

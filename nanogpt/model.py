@@ -30,6 +30,67 @@ except Exception:
     _STIELTJES_AVAILABLE = False
 
 
+def _stieltjes_attention_configurable(
+    q, k, v, sm_scale, causal, stieltjes_q, num_iter=3,
+    init_mode="per_row",   # "per_row" (ours) or "const_1_1" (jtaylor)
+    use_safeguard=True,    # ours True, jtaylor False
+    eps=1e-6,
+):
+    """Stieltjes attention with toggleable design choices for ablation.
+
+    Combinations:
+      - init_mode="per_row", use_safeguard=True, eps=1e-6  → our `_ref` (baseline)
+      - init_mode="const_1_1", use_safeguard=False, eps=1e-9 → jtaylor exact
+      - init_mode="const_1_1", use_safeguard=True            → init-only ablation
+      - init_mode="per_row",   use_safeguard=False           → safeguard-only ablation
+    """
+    scores = torch.matmul(q, k.transpose(-2, -1)) * sm_scale
+    if causal:
+        N = scores.shape[-1]
+        mask = torch.tril(torch.ones(N, N, device=scores.device, dtype=torch.bool))
+        scores = scores.masked_fill(~mask, torch.finfo(scores.dtype).min)
+
+    x_max = scores.max(dim=-1, keepdim=True).values
+    x_i = scores - x_max
+
+    if init_mode == "const_1_1":
+        lambd = torch.full_like(x_max, 1.1)
+    elif init_mode == "per_row":
+        n_cols = scores.shape[-1]
+        if causal:
+            row_counts = torch.arange(1, n_cols + 1, device=scores.device, dtype=scores.dtype)
+            lambd = row_counts.pow(1.0 / stieltjes_q).view(1, 1, -1, 1).expand_as(x_max)
+        else:
+            lambd = torch.full_like(x_max, float(n_cols) ** (1.0 / stieltjes_q))
+    elif init_mode == "max_plus_eps":
+        # User-suggested: λ = max_i + small ε. After x_max subtraction max_i = 0,
+        # so λ_shifted = 0.01. Starts NR with very steep gradient (diff^{-q} huge).
+        lambd = torch.full_like(x_max, 0.01)
+    else:
+        raise ValueError(f"unknown init_mode={init_mode}")
+
+    for _ in range(num_iter):
+        diff = (lambd - x_i).clamp(min=eps)
+        f_val = diff.pow(-stieltjes_q).sum(dim=-1, keepdim=True) - 1.0
+        f_deriv = -stieltjes_q * diff.pow(-stieltjes_q - 1.0).sum(dim=-1, keepdim=True)
+        step = lambd - f_val / f_deriv
+        if use_safeguard:
+            step = torch.maximum(step, lambd * 0.5)
+        lambd = step
+
+    weights = (lambd - x_i).clamp(min=eps).pow(-stieltjes_q)
+    if causal:
+        weights = weights.masked_fill(~mask, 0.0)
+    return torch.matmul(weights.to(v.dtype), v)
+
+
+def _stieltjes_attention_jtaylor(q, k, v, sm_scale, causal, stieltjes_q, num_iter=3):
+    return _stieltjes_attention_configurable(
+        q, k, v, sm_scale, causal, stieltjes_q, num_iter=num_iter,
+        init_mode="const_1_1", use_safeguard=False, eps=1e-9,
+    )
+
+
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
@@ -89,7 +150,33 @@ class CausalSelfAttention(nn.Module):
 
         sm_scale = 1.0 / math.sqrt(self.head_dim)
 
-        if self.attn_type == "stieltjes":
+        if self.attn_type == "stieltjes_jt":
+            y = _stieltjes_attention_jtaylor(
+                q, k, v, sm_scale=sm_scale, causal=True,
+                stieltjes_q=self.stieltjes_q, num_iter=self.stieltjes_num_iter,
+            )
+        elif self.attn_type == "stieltjes_jt_init":
+            # ablation: jtaylor's init only, keep our half-step + eps
+            y = _stieltjes_attention_configurable(
+                q, k, v, sm_scale=sm_scale, causal=True,
+                stieltjes_q=self.stieltjes_q, num_iter=self.stieltjes_num_iter,
+                init_mode="const_1_1", use_safeguard=True, eps=1e-6,
+            )
+        elif self.attn_type == "stieltjes_no_safeguard":
+            # ablation: drop half-step, keep our per-row init + eps
+            y = _stieltjes_attention_configurable(
+                q, k, v, sm_scale=sm_scale, causal=True,
+                stieltjes_q=self.stieltjes_q, num_iter=self.stieltjes_num_iter,
+                init_mode="per_row", use_safeguard=False, eps=1e-6,
+            )
+        elif self.attn_type == "stieltjes_max_eps":
+            # ablation: λ_init = max + ε (user suggestion); pure NR (no safeguard)
+            y = _stieltjes_attention_configurable(
+                q, k, v, sm_scale=sm_scale, causal=True,
+                stieltjes_q=self.stieltjes_q, num_iter=self.stieltjes_num_iter,
+                init_mode="max_plus_eps", use_safeguard=False, eps=1e-9,
+            )
+        elif self.attn_type == "stieltjes":
             if self.stieltjes_use_triton:
                 # Triton kernel — fast but backward pass has numerical issues
                 y = _stieltjes_attention(
