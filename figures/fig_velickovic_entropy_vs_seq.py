@@ -113,9 +113,9 @@ Ns = np.array(EVAL_SEQS, dtype=float)
 ax.plot(Ns, np.log(Ns), color="gray", linestyle=":", alpha=0.5, label="log(N) = max entropy")
 ax.legend(loc="best", fontsize=9)
 
-out = os.path.join(OUT_DIR, "velickovic_entropy_vs_seq.png")
+out = os.path.join(OUT_DIR, "velickovic_entropy_vs_seq.pdf")
 fig.tight_layout()
-fig.savefig(out, dpi=120)
+fig.savefig(out)
 print(f"wrote {out}")
 
 if missing:

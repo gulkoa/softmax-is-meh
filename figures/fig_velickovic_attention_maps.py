@@ -103,9 +103,9 @@ def main():
         "(trained at seq=128, 1-layer subtle-needle)",
         fontsize=12,
     )
-    out = os.path.join(OUT_DIR, "velickovic_attention_map_grid.png")
+    out = os.path.join(OUT_DIR, "velickovic_attention_map_grid.pdf")
     fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig(out, dpi=120)
+    fig.savefig(out)
     print(f"wrote {out}")
 
 
