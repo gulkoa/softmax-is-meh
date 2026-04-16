@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/subtle_needle_1layer_stieltjes_q4.0_seq128_nope_ascend/model.pt",
+  "task": "needle",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "seq_len": 16384,
+  "val_samples": 500,
+  "seed": 42,
+  "accuracy_fixed": 0.998,
+  "accuracy_all": 0.02626580205672365,
+  "accuracy_input_echo": 0.015540495794794816,
+  "output_token_count": 500,
+  "input_token_count": 45301,
+  "all_token_count": 45801,
+  "output_start_stats": {
+    "n": 500,
+    "min": 60,
+    "max": 120,
+    "mean": 90.60199737548828
+  }
+}

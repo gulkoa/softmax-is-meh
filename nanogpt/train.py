@@ -58,7 +58,7 @@ def compute_accuracy(model, dataloader, device):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train nanoGPT on a CLRS task")
-    parser.add_argument("--task", required=True, choices=["sorting", "binary_search", "bfs", "max", "needle"])
+    parser.add_argument("--task", required=True, choices=["sorting", "binary_search", "bfs", "max", "needle", "top2_needle"])
     parser.add_argument("--attn", required=True, choices=["softmax", "stieltjes"])
     parser.add_argument("--q", type=float, default=1.0, help="Stieltjes q parameter")
     parser.add_argument("--out", required=True, help="Output directory for results")

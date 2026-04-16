@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/subtle_needle_1layer_softmax_seq128_nope_ascend/model.pt",
+  "task": "needle",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 2048,
+  "val_samples": 1000,
+  "seed": 42,
+  "accuracy_fixed": 0.999,
+  "accuracy_all": 0.030763350442284593,
+  "accuracy_input_echo": 0.020072871811858232,
+  "output_token_count": 1000,
+  "input_token_count": 90570,
+  "all_token_count": 91570,
+  "output_start_stats": {
+    "n": 1000,
+    "min": 60,
+    "max": 120,
+    "mean": 90.56999969482422
+  }
+}

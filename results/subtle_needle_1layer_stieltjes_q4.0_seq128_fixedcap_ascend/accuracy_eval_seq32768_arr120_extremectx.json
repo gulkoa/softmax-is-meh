@@ -1,0 +1,13 @@
+{
+  "checkpoint": "results/subtle_needle_1layer_stieltjes_q4.0_seq128_fixedcap_ascend/model.pt",
+  "task": "needle",
+  "needle_margin": "subtle",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "seq_len": 32768,
+  "max_arr_len": 120,
+  "val_samples": 200,
+  "accuracy_fixed": 0.99,
+  "n_total": 200,
+  "kernel_path": "triton"
+}

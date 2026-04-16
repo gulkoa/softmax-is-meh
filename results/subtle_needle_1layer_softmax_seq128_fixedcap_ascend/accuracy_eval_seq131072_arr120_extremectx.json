@@ -1,0 +1,13 @@
+{
+  "checkpoint": "results/subtle_needle_1layer_softmax_seq128_fixedcap_ascend/model.pt",
+  "task": "needle",
+  "needle_margin": "subtle",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 131072,
+  "max_arr_len": 120,
+  "val_samples": 200,
+  "accuracy_fixed": 1.0,
+  "n_total": 200,
+  "kernel_path": "sdpa_flash"
+}

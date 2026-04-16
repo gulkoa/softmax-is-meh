@@ -107,7 +107,7 @@ def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--checkpoint", required=True, help="Path to model.pt (state_dict)")
     p.add_argument("--task", required=True,
-                   choices=["sorting", "binary_search", "bfs", "max", "needle"])
+                   choices=["sorting", "binary_search", "bfs", "max", "needle", "top2_needle"])
     p.add_argument("--attn", required=True, choices=["softmax", "stieltjes"])
     p.add_argument("--q", type=float, default=1.0)
     # None defaults mean "take value from training config.json".

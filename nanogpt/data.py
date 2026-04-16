@@ -186,12 +186,35 @@ def _generate_max(cfg: TaskConfig) -> List[int]:
     return _encode_sequence(arr, [max_val, max_idx], cfg.seq_len)
 
 
+def _generate_top2_needle(cfg: TaskConfig) -> List[int]:
+    """Top-2 needle: subtle margin, random gap. Forces multi-modal attention.
+
+    - top1_val ∈ [20, 126] (random per sample): the array max.
+    - top2_val = top1_val − delta where delta ∈ {1, 2, 3} (random per sample):
+      subtle margin (≤ 3) but 3 possibilities so model can't just predict
+      "top1 − 1" without actually attending to the top-2 position.
+    - Background ∈ [0, top2_val − 1] strictly: all other elements below top-2.
+    - Output: [top1_val, top2_val]. Model must attend to BOTH planted positions
+      (single-mode attention to top-1 alone does not give top-2).
+    """
+    arr_len = random.randint(cfg.max_arr_len // 2, cfg.max_arr_len)
+    top1_val = random.randint(20, 126)
+    delta = random.randint(1, 3)
+    top2_val = max(top1_val - delta, 1)  # avoid 0 so background still has range
+    arr = [random.randint(0, top2_val - 1) for _ in range(arr_len)]
+    pos1, pos2 = random.sample(range(arr_len), 2)
+    arr[pos1] = top1_val
+    arr[pos2] = top2_val
+    return _encode_sequence(arr, [top1_val, top2_val], cfg.seq_len)
+
+
 TASK_GENERATORS = {
     "sorting": _generate_sorting,
     "binary_search": _generate_binary_search,
     "bfs": _generate_bfs,
     "max": _generate_max,
     "needle": _generate_needle,
+    "top2_needle": _generate_top2_needle,
 }
 
 
