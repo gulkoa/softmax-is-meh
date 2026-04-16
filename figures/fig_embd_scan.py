@@ -53,6 +53,7 @@ LINES = [
     ("stieltjes_q4.0",   "Stj q=4",   "#2A7DD4", "--", "^",  1.6),
     ("stieltjes_q8.0",   "Stj q=8",   "#1A5DAA", "-.", "D",  1.6),
     ("stieltjes_q16.0",  "Stj q=16",  "#FF6B2B", "-",  "*",  2.4),
+    ("stieltjes_q24.0",  "Stj q=24",  "#CC4400", ":",  "v",  1.6),
 ]
 
 
@@ -83,6 +84,13 @@ def main():
                     arrowprops=dict(arrowstyle="<->", color="#FF6B2B", lw=1.5))
         ax.text(16.8, (sm16 + q16_16) / 2, f"+{q16_16 - sm16:.2f}",
                 color="#FF6B2B", fontsize=8, va="center")
+
+    # Mark n_embd=12 crossover region
+    sm12 = data.get("softmax", {}).get(12)
+    if sm12 is not None:
+        ax.axvline(12, color="#aaaaaa", linewidth=0.8, linestyle="--", zorder=1)
+        ax.text(12.2, 0.50, "crossover\n≈n_embd=12", color="#888888",
+                fontsize=7, va="bottom")
 
     ax.set_xscale("log", base=2)
     ax.set_xticks([8, 16, 32, 64, 128])
