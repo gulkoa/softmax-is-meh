@@ -1,0 +1,6 @@
+=== subtle_needle_1layer_softmax_seq128_nope_ascend eval_seq=32768 ===
+FAILED
+=== subtle_needle_1layer_stieltjes_q4.0_seq128_nope_ascend eval_seq=32768 ===
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q4.0_seq128_nope_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 4.0, "seq_len": 32768, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.00011991322732055202, "accuracy_input_echo": 7.901835966228895e-05, "output_token_count": 500, "input_token_count": 12225007, "all_token_count": 12225507, "output_start_stats": {"n": 500, "min": 16388, "max": 32742, "mean": 24450.013671875}}
+=== subtle_needle_1layer_stieltjes_q8.0_seq128_nope_ascend eval_seq=32768 ===
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q8.0_seq128_nope_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 8.0, "seq_len": 32768, "val_samples": 500, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 9.071198437823479e-05, "accuracy_input_echo": 4.9815922395790855e-05, "output_token_count": 500, "input_token_count": 12225007, "all_token_count": 12225507, "output_start_stats": {"n": 500, "min": 16388, "max": 32742, "mean": 24450.013671875}}

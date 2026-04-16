@@ -1,0 +1,90 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 173, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/figures/extract_attention_patterns.py", line 136, in main
+    task=TaskConfig(
+         ~~~~~~~~~~^
+        name="needle",
+        ^^^^^^^^^^^^^^
+    ...<3 lines>...
+        needle_margin=args.needle_margin,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+TypeError: TaskConfig.__init__() got an unexpected keyword argument 'name'
