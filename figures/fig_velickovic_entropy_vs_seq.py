@@ -61,16 +61,23 @@ def load_mean_entropy(model_dir, eval_seq):
         return None
     if not rows:
         return None
-    # Find an entropy column
-    e_key = None
+    # analyze.py format: row per layer, column per head_{i}. Average all heads.
+    head_keys = [k for k in rows[0] if k.startswith("head_")]
+    if head_keys:
+        vals = []
+        for row in rows:
+            for k in head_keys:
+                try:
+                    vals.append(float(row[k]))
+                except (ValueError, TypeError):
+                    pass
+        return sum(vals) / len(vals) if vals else None
+    # Fallback: single entropy column
     for k in rows[0]:
         if "entropy" in k.lower():
-            e_key = k
-            break
-    if e_key is None:
-        return None
-    vals = [float(row[e_key]) for row in rows if row.get(e_key) not in (None, "")]
-    return sum(vals) / len(vals) if vals else None
+            vals = [float(row[k]) for row in rows if row.get(k) not in (None, "")]
+            return sum(vals) / len(vals) if vals else None
+    return None
 
 
 fig, ax = plt.subplots(figsize=(8, 5))
