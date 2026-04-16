@@ -29,7 +29,7 @@ CONFIGS = [
     ("stieltjes", 24.0, "stj q=24"),
     ("stieltjes", 32.0, "stj q=32"),
 ]
-EVAL_SEQS = [128, 512, 2048, 8192]
+EVAL_SEQS = [128, 512, 2048]  # 8192 OOMs the PyTorch reference across all rows
 KEEP_KEYS = 32  # we'll show the top-KEEP_KEYS attended keys (like simple.ipynb top-16)
 
 

@@ -54,7 +54,7 @@ def main() -> None:
            label="epoch 37, q=8 (val_acc 0.10)")
 
     ax.set_xlabel("transformer layer")
-    ax.set_ylabel("mean attention entropy (nats, avg over heads)")
+    ax.set_ylabel("mean attention entropy (nats)\naveraged over heads", fontsize=10)
     ax.set_xticks(layers)
     ax.grid(True, axis="y", alpha=0.3)
     ax.legend(fontsize=8, loc="upper right")

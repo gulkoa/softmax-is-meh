@@ -127,9 +127,10 @@ def main():
         ax.set_xlabel("Sequence length $N$", fontsize=11)
         ax.grid(True, alpha=0.3, linewidth=0.6)
 
-    ax_tflops.set_ylabel("Forward TFLOPS", fontsize=11)
+    ax_tflops.set_yscale("log")
+    ax_tflops.set_ylabel("Forward TFLOPS (log)", fontsize=11)
     ax_tflops.set_title(f"Throughput vs sequence length\n({gpu_tag}, B=1, H=8, D=64, q=4, causal)", fontsize=9)
-    ax_tflops.legend(fontsize=8, loc="upper left")
+    ax_tflops.legend(fontsize=8, loc="lower right")
 
     ax_mem.set_yscale("log")
     ax_mem.set_ylabel("Peak CUDA memory (MB)", fontsize=11)
