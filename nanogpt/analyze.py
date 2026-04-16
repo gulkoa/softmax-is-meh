@@ -179,6 +179,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seq-len", type=int, default=128)
     parser.add_argument("--max-arr-len", type=int, default=16)
     parser.add_argument("--max-val", type=int, default=64)
+    parser.add_argument("--n-layer", type=int, default=None,
+                        help="If None, read from config.json next to checkpoint")
+    parser.add_argument("--n-head", type=int, default=None)
+    parser.add_argument("--n-embd", type=int, default=None)
+    parser.add_argument("--needle-margin", default="distinctive",
+                        choices=["distinctive", "subtle"])
     return parser.parse_args()
 
 
@@ -187,6 +193,21 @@ def main() -> None:
 
     os.makedirs(args.out, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    # Try to load model shape from training config.json next to checkpoint
+    import json as _json
+    cfg_path = os.path.join(os.path.dirname(args.checkpoint), "config.json")
+    if os.path.isfile(cfg_path):
+        try:
+            saved = _json.loads(open(cfg_path).read())
+            if args.n_layer is None: args.n_layer = saved.get("n_layer", 6)
+            if args.n_head is None: args.n_head = saved.get("n_head", 6)
+            if args.n_embd is None: args.n_embd = saved.get("n_embd", 384)
+        except Exception as e:
+            print(f"WARN: could not parse {cfg_path}: {e}")
+    if args.n_layer is None: args.n_layer = 6
+    if args.n_head is None: args.n_head = 6
+    if args.n_embd is None: args.n_embd = 384
 
     # ------------------------------------------------------------------
     # 1. Load model from checkpoint
@@ -207,9 +228,9 @@ def main() -> None:
             config = GPTConfig(
                 vocab_size=VOCAB_SIZE,
                 block_size=args.seq_len,
-                n_layer=6,
-                n_head=6,
-                n_embd=384,
+                n_layer=args.n_layer,
+                n_head=args.n_head,
+                n_embd=args.n_embd,
                 attn_type=args.attn,
                 stieltjes_q=args.q,
             )
