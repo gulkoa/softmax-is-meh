@@ -1,0 +1,76 @@
+Wrote results/max_1layer_stieltjes_q16.0_seq2048_nope_h100/accuracy_eval_seq2048_scaledarr.json
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 263, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 245, in main
+    metrics = compute_all_metrics(model, val_loader, device)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 54, in compute_all_metrics
+    logits = model(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 221, in forward
+    x = block(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 157, in forward
+    x = x + self.attn(self.ln_1(x))   # pre-norm attention + residual
+            ~~~~~~~~~^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 104, in forward
+    y = _stieltjes_attention_ref(
+        q, k, v,
+    ...<3 lines>...
+        num_iter=self.stieltjes_num_iter,
+    )
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/../triton/stieltjes_flash_attn.py", line 79, in stieltjes_attention_ref
+    diff = (lambd - x).clamp(min=eps)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 23.99 GiB. GPU 0 has a total capacity of 93.09 GiB of which 18.14 GiB is free. Including non-PyTorch memory, this process has 74.94 GiB memory in use. Of the allocated memory 73.91 GiB is allocated by PyTorch, and 372.67 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 263, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 245, in main
+    metrics = compute_all_metrics(model, val_loader, device)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 54, in compute_all_metrics
+    logits = model(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 221, in forward
+    x = block(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 157, in forward
+    x = x + self.attn(self.ln_1(x))   # pre-norm attention + residual
+            ~~~~~~~~~^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 104, in forward
+    y = _stieltjes_attention_ref(
+        q, k, v,
+    ...<3 lines>...
+        num_iter=self.stieltjes_num_iter,
+    )
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/../triton/stieltjes_flash_attn.py", line 58, in stieltjes_attention_ref
+    scores = torch.matmul(q, k.transpose(-2, -1)) * sm_scale
+             ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 95.98 GiB. GPU 0 has a total capacity of 93.09 GiB of which 87.09 GiB is free. Including non-PyTorch memory, this process has 5.98 GiB memory in use. Of the allocated memory 5.30 GiB is allocated by PyTorch, and 20.70 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

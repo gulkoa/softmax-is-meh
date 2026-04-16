@@ -1,0 +1,7 @@
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1642 | val_loss=4.1608 | val_acc=1.0000 | time=279.0s
+Epoch   2/30 | train_loss=4.1589 | val_loss=4.1589 | val_acc=1.0000 | time=276.8s

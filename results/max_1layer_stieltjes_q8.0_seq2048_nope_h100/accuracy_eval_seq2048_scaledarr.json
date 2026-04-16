@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_1layer_stieltjes_q8.0_seq2048_nope_h100/model.pt",
+  "task": "max",
+  "attn": "stieltjes",
+  "q": 8.0,
+  "seq_len": 2048,
+  "val_samples": 2000,
+  "seed": 42,
+  "accuracy_fixed": 1.0,
+  "accuracy_all": 0.01653398229415486,
+  "accuracy_input_echo": 0.015683330277165584,
+  "output_token_count": 2000,
+  "input_token_count": 2312264,
+  "all_token_count": 2314264,
+  "output_start_stats": {
+    "n": 2000,
+    "min": 256,
+    "max": 2039,
+    "mean": 1156.1319580078125
+  }
+}

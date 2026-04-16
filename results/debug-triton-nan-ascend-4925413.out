@@ -1,0 +1,120 @@
+=== fp32 causal=False q=4 ===
+[ref] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=False dtype=torch.float32 steps=5 lr=0.001
+  step 0: loss=1.1209  OK
+    magnitudes: |out|=3.12 |dQ|=0.0117 |dK|=0.016 |dV|=0.0014
+  step 1: loss=1.1209  OK
+    magnitudes: |out|=3.12 |dQ|=0.0117 |dK|=0.016 |dV|=0.0014
+  step 2: loss=1.1209  OK
+    magnitudes: |out|=3.12 |dQ|=0.0117 |dK|=0.0159 |dV|=0.0014
+  step 3: loss=1.1209  OK
+    magnitudes: |out|=3.12 |dQ|=0.0117 |dK|=0.0159 |dV|=0.0014
+  step 4: loss=1.1209  OK
+    magnitudes: |out|=3.12 |dQ|=0.0117 |dK|=0.0159 |dV|=0.0014
+
+[triton] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=False dtype=torch.float32 steps=5 lr=0.001
+  step 0: loss=1.1204  OK
+    magnitudes: |out|=3.12 |dQ|=0.00313 |dK|=0.0045 |dV|=0.00139
+  step 1: loss=1.1204  OK
+    magnitudes: |out|=3.12 |dQ|=0.00313 |dK|=0.0045 |dV|=0.00139
+  step 2: loss=1.1204  OK
+    magnitudes: |out|=3.12 |dQ|=0.00313 |dK|=0.0045 |dV|=0.00139
+  step 3: loss=1.1204  OK
+    magnitudes: |out|=3.12 |dQ|=0.00313 |dK|=0.0045 |dV|=0.00139
+  step 4: loss=1.1204  OK
+    magnitudes: |out|=3.12 |dQ|=0.00313 |dK|=0.0045 |dV|=0.00139
+=== bf16 causal=False q=4 ===
+[ref] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=False dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.1172  OK
+    magnitudes: |out|=3.09 |dQ|=0.0125 |dK|=0.0151 |dV|=0.00141
+  step 1: loss=1.1172  OK
+    magnitudes: |out|=3.09 |dQ|=0.0125 |dK|=0.0151 |dV|=0.00141
+  step 2: loss=1.1172  OK
+    magnitudes: |out|=3.09 |dQ|=0.0125 |dK|=0.0151 |dV|=0.00141
+  step 3: loss=1.1172  OK
+    magnitudes: |out|=3.09 |dQ|=0.0125 |dK|=0.0151 |dV|=0.00141
+  step 4: loss=1.1172  OK
+    magnitudes: |out|=3.09 |dQ|=0.0125 |dK|=0.0151 |dV|=0.00141
+
+[triton] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=False dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.1172  OK
+    magnitudes: |out|=3.14 |dQ|=0.00316 |dK|=0.00449 |dV|=0.00139
+  step 1: loss=1.1172  OK
+    magnitudes: |out|=3.14 |dQ|=0.00316 |dK|=0.00449 |dV|=0.00139
+  step 2: loss=1.1172  OK
+    magnitudes: |out|=3.14 |dQ|=0.00316 |dK|=0.00449 |dV|=0.00139
+  step 3: loss=1.1172  OK
+    magnitudes: |out|=3.14 |dQ|=0.00316 |dK|=0.00449 |dV|=0.00139
+  step 4: loss=1.1172  OK
+    magnitudes: |out|=3.14 |dQ|=0.00316 |dK|=0.00449 |dV|=0.00139
+=== bf16 causal=True q=4 ===
+[ref] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.008 |dK|=0.00626 |dV|=0.00195
+  step 1: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.008 |dK|=0.00626 |dV|=0.00195
+  step 2: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.008 |dK|=0.00626 |dV|=0.00195
+  step 3: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.008 |dK|=0.00626 |dV|=0.00195
+  step 4: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.008 |dK|=0.00626 |dV|=0.00195
+
+[triton] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.00337 |dK|=0.00446 |dV|=0.00195
+  step 1: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.00337 |dK|=0.00446 |dV|=0.00195
+  step 2: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.00337 |dK|=0.00446 |dV|=0.00195
+  step 3: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.00337 |dK|=0.00446 |dV|=0.00195
+  step 4: loss=1.2500  OK
+    magnitudes: |out|=4.5 |dQ|=0.00337 |dK|=0.00446 |dV|=0.00195
+=== bf16 causal=True q=1 ===
+[ref] B=1 H=2 N=128 D=32 q=1.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000125 |dK|=0.000113 |dV|=0.00162
+  step 1: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000125 |dK|=0.000113 |dV|=0.00162
+  step 2: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000125 |dK|=0.000113 |dV|=0.00162
+  step 3: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000125 |dK|=0.000113 |dV|=0.00162
+  step 4: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000125 |dK|=0.000113 |dV|=0.00162
+
+[triton] B=1 H=2 N=128 D=32 q=1.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000128 |dK|=0.000113 |dV|=0.00162
+  step 1: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000128 |dK|=0.000113 |dV|=0.00162
+  step 2: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000128 |dK|=0.000113 |dV|=0.00162
+  step 3: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000128 |dK|=0.000113 |dV|=0.00162
+  step 4: loss=1.0625  OK
+    magnitudes: |out|=2.55 |dQ|=0.000128 |dK|=0.000113 |dV|=0.00162
+=== bf16 causal=True q=4 num_iter=1 ===
+[ref] B=1 H=2 N=128 D=32 q=4.0 num_iter=1 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.149 |dK|=0.111 |dV|=0.0161
+  step 1: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.149 |dK|=0.111 |dV|=0.0161
+  step 2: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.149 |dK|=0.111 |dV|=0.0161
+  step 3: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.149 |dK|=0.111 |dV|=0.0161
+  step 4: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.149 |dK|=0.111 |dV|=0.0161
+
+[triton] B=1 H=2 N=128 D=32 q=4.0 num_iter=1 causal=True dtype=torch.bfloat16 steps=5 lr=0.001
+  step 0: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.0297 |dK|=0.0261 |dV|=0.016
+  step 1: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.0297 |dK|=0.0261 |dV|=0.016
+  step 2: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.0297 |dK|=0.0261 |dV|=0.016
+  step 3: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.0297 |dK|=0.0261 |dV|=0.016
+  step 4: loss=1.6719  OK
+    magnitudes: |out|=9.81 |dQ|=0.0297 |dK|=0.0261 |dV|=0.016

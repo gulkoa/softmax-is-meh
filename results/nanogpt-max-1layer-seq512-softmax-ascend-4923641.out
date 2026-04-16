@@ -1,0 +1,40 @@
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1656 | val_loss=4.1586 | val_acc=0.9960 | time=12.8s
+Epoch   2/30 | train_loss=4.1557 | val_loss=4.1552 | val_acc=0.9960 | time=12.3s
+Epoch   3/30 | train_loss=4.1547 | val_loss=4.1544 | val_acc=0.9960 | time=12.3s
+Epoch   4/30 | train_loss=4.1544 | val_loss=4.1560 | val_acc=0.9960 | time=12.3s
+Epoch   5/30 | train_loss=4.1542 | val_loss=4.1555 | val_acc=0.9960 | time=12.3s
+Epoch   6/30 | train_loss=4.1541 | val_loss=4.1558 | val_acc=0.9960 | time=12.3s
+Epoch   7/30 | train_loss=4.1540 | val_loss=4.1587 | val_acc=1.0000 | time=12.3s
+Epoch   8/30 | train_loss=4.1539 | val_loss=4.1568 | val_acc=1.0000 | time=12.3s
+Epoch   9/30 | train_loss=4.1539 | val_loss=4.1560 | val_acc=1.0000 | time=12.3s
+Epoch  10/30 | train_loss=4.1538 | val_loss=4.1572 | val_acc=1.0000 | time=12.3s
+Epoch  11/30 | train_loss=4.1537 | val_loss=4.1566 | val_acc=1.0000 | time=12.3s
+Epoch  12/30 | train_loss=4.1537 | val_loss=4.1570 | val_acc=1.0000 | time=12.3s
+Epoch  13/30 | train_loss=4.1538 | val_loss=4.1572 | val_acc=1.0000 | time=12.3s
+Epoch  14/30 | train_loss=4.1538 | val_loss=4.1595 | val_acc=1.0000 | time=12.3s
+Epoch  15/30 | train_loss=4.1537 | val_loss=4.1590 | val_acc=1.0000 | time=12.3s
+Epoch  16/30 | train_loss=4.1535 | val_loss=4.1589 | val_acc=1.0000 | time=12.3s
+Epoch  17/30 | train_loss=4.1536 | val_loss=4.1574 | val_acc=1.0000 | time=12.3s
+Epoch  18/30 | train_loss=4.1535 | val_loss=4.1565 | val_acc=1.0000 | time=12.3s
+Epoch  19/30 | train_loss=4.1534 | val_loss=4.1596 | val_acc=1.0000 | time=12.3s
+Epoch  20/30 | train_loss=4.1535 | val_loss=4.1570 | val_acc=1.0000 | time=12.3s
+Epoch  21/30 | train_loss=4.1533 | val_loss=4.1577 | val_acc=1.0000 | time=12.3s
+Epoch  22/30 | train_loss=4.1533 | val_loss=4.1568 | val_acc=1.0000 | time=12.3s
+Epoch  23/30 | train_loss=4.1532 | val_loss=4.1572 | val_acc=1.0000 | time=12.3s
+Epoch  24/30 | train_loss=4.1532 | val_loss=4.1600 | val_acc=1.0000 | time=12.3s
+Epoch  25/30 | train_loss=4.1531 | val_loss=4.1588 | val_acc=1.0000 | time=12.3s
+Epoch  26/30 | train_loss=4.1531 | val_loss=4.1588 | val_acc=1.0000 | time=12.3s
+Epoch  27/30 | train_loss=4.1530 | val_loss=4.1588 | val_acc=1.0000 | time=12.3s
+Epoch  28/30 | train_loss=4.1530 | val_loss=4.1576 | val_acc=1.0000 | time=12.3s
+Epoch  29/30 | train_loss=4.1530 | val_loss=4.1575 | val_acc=1.0000 | time=12.3s
+Epoch  30/30 | train_loss=4.1530 | val_loss=4.1589 | val_acc=1.0000 | time=12.3s
+Model saved to results/max_1layer_softmax_seq512_nope_ascend/model.pt
+Metrics saved to results/max_1layer_softmax_seq512_nope_ascend/metrics.csv
+{"checkpoint": "results/max_1layer_softmax_seq512_nope_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 512, "val_samples": 2000, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.017994703505156803, "accuracy_input_echo": 0.015411807872528738, "output_token_count": 2000, "input_token_count": 760391, "all_token_count": 762391, "output_start_stats": {"n": 2000, "min": 256, "max": 504, "mean": 380.19549560546875}}
+{"checkpoint": "results/max_1layer_softmax_seq512_nope_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 1024, "val_samples": 2000, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.017994703505156803, "accuracy_input_echo": 0.015411807872528738, "output_token_count": 2000, "input_token_count": 760391, "all_token_count": 762391, "output_start_stats": {"n": 2000, "min": 256, "max": 504, "mean": 380.19549560546875}}
+{"checkpoint": "results/max_1layer_softmax_seq512_nope_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 2000, "seed": 42, "accuracy_fixed": 1.0, "accuracy_all": 0.017994703505156803, "accuracy_input_echo": 0.015411807872528738, "output_token_count": 2000, "input_token_count": 760391, "all_token_count": 762391, "output_start_stats": {"n": 2000, "min": 256, "max": 504, "mean": 380.19549560546875}}

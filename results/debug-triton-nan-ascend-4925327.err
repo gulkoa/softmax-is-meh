@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/debug_triton_nan_bwd.py", line 91, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/debug_triton_nan_bwd.py", line 82, in main
+    run("ref", args.B, args.H, args.N, args.D, args.q, args.num_iter,
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        args.causal, args.steps, args.lr, dtype, args.seed)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/debug_triton_nan_bwd.py", line 35, in run
+    out = stieltjes_attention_ref(Q, K, V, causal=causal, stieltjes_q=q,
+                                  num_iter=num_iter)
+TypeError: stieltjes_attention_ref() missing 1 required positional argument: 'sm_scale'

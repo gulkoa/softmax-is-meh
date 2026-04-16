@@ -1,0 +1,2 @@
+=== fp32 causal=False q=4 ===
+[ref] B=1 H=2 N=128 D=32 q=4.0 num_iter=3 causal=False dtype=torch.float32 steps=5 lr=0.001

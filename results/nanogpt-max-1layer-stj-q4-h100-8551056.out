@@ -1,0 +1,59 @@
+=== max 1-layer stj q=4 seq=2048 NoPE h100 ===
+Wed Apr 15 03:45:59 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   33C    P0             69W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1642 | val_loss=4.1598 | val_acc=1.0000 | time=178.5s
+Epoch   2/30 | train_loss=4.1590 | val_loss=4.1596 | val_acc=1.0000 | time=176.2s
+Epoch   3/30 | train_loss=4.1587 | val_loss=4.1593 | val_acc=1.0000 | time=176.2s
+Epoch   4/30 | train_loss=4.1586 | val_loss=4.1581 | val_acc=1.0000 | time=176.2s
+Epoch   5/30 | train_loss=4.1586 | val_loss=4.1601 | val_acc=1.0000 | time=176.2s
+Epoch   6/30 | train_loss=4.1584 | val_loss=4.1599 | val_acc=1.0000 | time=176.2s
+Epoch   7/30 | train_loss=4.1585 | val_loss=4.1595 | val_acc=1.0000 | time=176.3s
+Epoch   8/30 | train_loss=4.1583 | val_loss=4.1573 | val_acc=1.0000 | time=176.2s
+Epoch   9/30 | train_loss=4.1583 | val_loss=4.1596 | val_acc=1.0000 | time=176.2s
+Epoch  10/30 | train_loss=4.1582 | val_loss=4.1589 | val_acc=1.0000 | time=176.1s
+Epoch  11/30 | train_loss=4.1581 | val_loss=4.1575 | val_acc=1.0000 | time=176.2s
+Epoch  12/30 | train_loss=4.1581 | val_loss=4.1592 | val_acc=1.0000 | time=176.2s
+Epoch  13/30 | train_loss=4.1580 | val_loss=4.1598 | val_acc=1.0000 | time=176.2s
+Epoch  14/30 | train_loss=4.1580 | val_loss=4.1589 | val_acc=1.0000 | time=176.2s
+Epoch  15/30 | train_loss=4.1579 | val_loss=4.1580 | val_acc=1.0000 | time=176.2s
+Epoch  16/30 | train_loss=4.1579 | val_loss=4.1587 | val_acc=1.0000 | time=176.1s
+Epoch  17/30 | train_loss=4.1580 | val_loss=4.1587 | val_acc=1.0000 | time=176.2s
+Epoch  18/30 | train_loss=4.1579 | val_loss=4.1584 | val_acc=1.0000 | time=176.2s
+Epoch  19/30 | train_loss=4.1580 | val_loss=4.1588 | val_acc=1.0000 | time=176.2s
+Epoch  20/30 | train_loss=4.1579 | val_loss=4.1583 | val_acc=1.0000 | time=176.2s
+Epoch  21/30 | train_loss=4.1579 | val_loss=4.1587 | val_acc=1.0000 | time=176.3s
+Epoch  22/30 | train_loss=4.1579 | val_loss=4.1587 | val_acc=1.0000 | time=176.3s
+Epoch  23/30 | train_loss=4.1579 | val_loss=4.1593 | val_acc=1.0000 | time=176.6s
+Epoch  24/30 | train_loss=4.1580 | val_loss=4.1585 | val_acc=1.0000 | time=176.5s
+Epoch  25/30 | train_loss=4.1579 | val_loss=4.1595 | val_acc=1.0000 | time=176.6s
+Epoch  26/30 | train_loss=4.1580 | val_loss=4.1576 | val_acc=1.0000 | time=176.5s
+Epoch  27/30 | train_loss=4.1580 | val_loss=4.1577 | val_acc=1.0000 | time=176.6s
+Epoch  28/30 | train_loss=4.1580 | val_loss=4.1578 | val_acc=1.0000 | time=176.4s
+Epoch  29/30 | train_loss=4.1580 | val_loss=4.1604 | val_acc=1.0000 | time=176.2s
+Epoch  30/30 | train_loss=4.1579 | val_loss=4.1564 | val_acc=1.0000 | time=176.2s
+Model saved to results/max_1layer_stieltjes_q4.0_seq2048_nope_h100/model.pt
+Metrics saved to results/max_1layer_stieltjes_q4.0_seq2048_nope_h100/metrics.csv
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq2048_nope_h100/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 2048, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9994, "accuracy_all": 0.016447829329476374, "accuracy_input_echo": 0.015592697181493448, "output_token_count": 5000, "input_token_count": 5747370, "all_token_count": 5752370, "output_start_stats": {"n": 5000, "min": 256, "max": 2039, "mean": 1149.4739990234375}}

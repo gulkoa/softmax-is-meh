@@ -19,3 +19,24 @@ Tue Apr 14 06:56:46 2026
 |=========================================================================================|
 |  No running processes found                                                             |
 +-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 17,038,080
+Epoch   1/15 | train_loss=4.8593 | val_loss=4.8553 | val_acc=0.0000 | time=2803.7s
+Epoch   2/15 | train_loss=4.8551 | val_loss=4.8540 | val_acc=0.0060 | time=2803.0s
+Epoch   3/15 | train_loss=4.8541 | val_loss=4.8537 | val_acc=0.0100 | time=2803.7s
+Epoch   4/15 | train_loss=4.8537 | val_loss=4.8536 | val_acc=0.0100 | time=2802.7s
+Epoch   5/15 | train_loss=4.8534 | val_loss=4.8538 | val_acc=0.0060 | time=2802.7s
+Epoch   6/15 | train_loss=4.8531 | val_loss=4.8538 | val_acc=0.0140 | time=2801.9s
+Epoch   7/15 | train_loss=4.8529 | val_loss=4.8540 | val_acc=0.0060 | time=2799.6s
+Epoch   8/15 | train_loss=4.8527 | val_loss=4.8540 | val_acc=0.0060 | time=2799.5s
+Epoch   9/15 | train_loss=4.8524 | val_loss=4.8544 | val_acc=0.0060 | time=2799.8s
+Epoch  10/15 | train_loss=4.8522 | val_loss=4.8545 | val_acc=0.0320 | time=2801.4s
+Epoch  11/15 | train_loss=4.8519 | val_loss=4.8547 | val_acc=0.0180 | time=2802.6s
+Epoch  12/15 | train_loss=4.8515 | val_loss=4.8552 | val_acc=0.0440 | time=2802.1s
+Epoch  13/15 | train_loss=4.8512 | val_loss=4.8562 | val_acc=0.0420 | time=2802.0s
+Epoch  14/15 | train_loss=4.8508 | val_loss=4.8557 | val_acc=0.0580 | time=2802.1s
+Epoch  15/15 | train_loss=4.8504 | val_loss=4.8562 | val_acc=0.1180 | time=2801.8s
+Model saved to results/needle_softmax_seq16384_cardinal_h100/model.pt
+Metrics saved to results/needle_softmax_seq16384_cardinal_h100/metrics.csv

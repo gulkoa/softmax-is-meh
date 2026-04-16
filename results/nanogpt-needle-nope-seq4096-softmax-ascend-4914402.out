@@ -1,0 +1,36 @@
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,746,624
+Epoch   1/30 | train_loss=4.8639 | val_loss=4.8602 | val_acc=0.0000 | time=1154.9s
+Epoch   2/30 | train_loss=4.8586 | val_loss=4.8573 | val_acc=0.0120 | time=1154.7s
+Epoch   3/30 | train_loss=4.8571 | val_loss=4.8565 | val_acc=0.0050 | time=1155.1s
+Epoch   4/30 | train_loss=4.8564 | val_loss=4.8562 | val_acc=0.0130 | time=1155.4s
+Epoch   5/30 | train_loss=4.8561 | val_loss=4.8560 | val_acc=0.0090 | time=1155.5s
+Epoch   6/30 | train_loss=4.8560 | val_loss=4.8561 | val_acc=0.0120 | time=1155.1s
+Epoch   7/30 | train_loss=4.8560 | val_loss=4.8560 | val_acc=0.0060 | time=1155.0s
+Epoch   8/30 | train_loss=4.8558 | val_loss=4.8561 | val_acc=0.0200 | time=1155.6s
+Epoch   9/30 | train_loss=4.8554 | val_loss=4.8556 | val_acc=0.0830 | time=1155.8s
+Epoch  10/30 | train_loss=4.8550 | val_loss=4.8553 | val_acc=0.2370 | time=1155.8s
+Epoch  11/30 | train_loss=4.8548 | val_loss=4.8549 | val_acc=0.5060 | time=1155.7s
+Epoch  12/30 | train_loss=4.8547 | val_loss=4.8554 | val_acc=0.4000 | time=1156.4s
+Epoch  13/30 | train_loss=4.8544 | val_loss=4.8550 | val_acc=0.6300 | time=1156.6s
+Epoch  14/30 | train_loss=4.8543 | val_loss=4.8549 | val_acc=0.7740 | time=1156.3s
+Epoch  15/30 | train_loss=4.8543 | val_loss=4.8549 | val_acc=0.7870 | time=1156.8s
+Epoch  16/30 | train_loss=4.8543 | val_loss=4.8546 | val_acc=0.9500 | time=1155.9s
+Epoch  17/30 | train_loss=4.8543 | val_loss=4.8546 | val_acc=0.9390 | time=1155.3s
+Epoch  18/30 | train_loss=4.8542 | val_loss=4.8546 | val_acc=0.9490 | time=1155.9s
+Epoch  19/30 | train_loss=4.8542 | val_loss=4.8545 | val_acc=0.9110 | time=1155.8s
+Epoch  20/30 | train_loss=4.8542 | val_loss=4.8547 | val_acc=0.9200 | time=1155.7s
+Epoch  21/30 | train_loss=4.8542 | val_loss=4.8545 | val_acc=0.9540 | time=1155.9s
+Epoch  22/30 | train_loss=4.8542 | val_loss=4.8545 | val_acc=0.9500 | time=1156.1s
+Epoch  23/30 | train_loss=4.8542 | val_loss=4.8544 | val_acc=1.0000 | time=1155.6s
+Epoch  24/30 | train_loss=4.8542 | val_loss=4.8544 | val_acc=0.9740 | time=1155.8s
+Epoch  25/30 | train_loss=4.8542 | val_loss=4.8546 | val_acc=0.9870 | time=1155.5s
+Epoch  26/30 | train_loss=4.8542 | val_loss=4.8544 | val_acc=0.9980 | time=1155.6s
+Epoch  27/30 | train_loss=4.8542 | val_loss=4.8544 | val_acc=1.0000 | time=1155.7s
+Epoch  28/30 | train_loss=4.8541 | val_loss=4.8544 | val_acc=1.0000 | time=1155.9s
+Epoch  29/30 | train_loss=4.8542 | val_loss=4.8545 | val_acc=1.0000 | time=1155.8s
+Epoch  30/30 | train_loss=4.8542 | val_loss=4.8544 | val_acc=0.9940 | time=1156.0s
+Model saved to results/needle_softmax_q1.0_seq4096_nope_ascend/model.pt
+Metrics saved to results/needle_softmax_q1.0_seq4096_nope_ascend/metrics.csv

@@ -1,0 +1,37 @@
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1656 | val_loss=4.1598 | val_acc=0.9960 | time=27.1s
+Epoch   2/30 | train_loss=4.1551 | val_loss=4.1594 | val_acc=0.9960 | time=26.5s
+Epoch   3/30 | train_loss=4.1540 | val_loss=4.1583 | val_acc=0.9960 | time=26.5s
+Epoch   4/30 | train_loss=4.1537 | val_loss=4.1562 | val_acc=1.0000 | time=26.5s
+Epoch   5/30 | train_loss=4.1534 | val_loss=4.1563 | val_acc=1.0000 | time=26.5s
+Epoch   6/30 | train_loss=4.1531 | val_loss=4.1563 | val_acc=0.9990 | time=26.5s
+Epoch   7/30 | train_loss=4.1529 | val_loss=4.1578 | val_acc=0.9995 | time=26.5s
+Epoch   8/30 | train_loss=4.1529 | val_loss=4.1570 | val_acc=1.0000 | time=26.5s
+Epoch   9/30 | train_loss=4.1527 | val_loss=4.1567 | val_acc=0.9995 | time=26.5s
+Epoch  10/30 | train_loss=4.1527 | val_loss=4.1569 | val_acc=1.0000 | time=26.5s
+Epoch  11/30 | train_loss=4.1526 | val_loss=4.1585 | val_acc=1.0000 | time=26.5s
+Epoch  12/30 | train_loss=4.1526 | val_loss=4.1586 | val_acc=0.9995 | time=26.5s
+Epoch  13/30 | train_loss=4.1525 | val_loss=4.1588 | val_acc=0.9985 | time=26.5s
+Epoch  14/30 | train_loss=4.1526 | val_loss=4.1582 | val_acc=1.0000 | time=26.5s
+Epoch  15/30 | train_loss=4.1526 | val_loss=4.1569 | val_acc=1.0000 | time=26.5s
+Epoch  16/30 | train_loss=4.1524 | val_loss=4.1568 | val_acc=0.9980 | time=26.5s
+Epoch  17/30 | train_loss=4.1524 | val_loss=4.1580 | val_acc=0.9990 | time=26.5s
+Epoch  18/30 | train_loss=4.1525 | val_loss=4.1586 | val_acc=0.9990 | time=26.5s
+Epoch  19/30 | train_loss=4.1524 | val_loss=4.1573 | val_acc=1.0000 | time=26.5s
+Epoch  20/30 | train_loss=4.1524 | val_loss=4.1577 | val_acc=1.0000 | time=26.5s
+Epoch  21/30 | train_loss=4.1524 | val_loss=4.1580 | val_acc=1.0000 | time=26.5s
+Epoch  22/30 | train_loss=4.1524 | val_loss=4.1578 | val_acc=1.0000 | time=26.5s
+Epoch  23/30 | train_loss=4.1524 | val_loss=4.1598 | val_acc=0.9960 | time=26.5s
+Epoch  24/30 | train_loss=4.1523 | val_loss=4.1597 | val_acc=0.9995 | time=26.5s
+Epoch  25/30 | train_loss=4.1523 | val_loss=4.1580 | val_acc=1.0000 | time=26.5s
+Epoch  26/30 | train_loss=4.1523 | val_loss=4.1566 | val_acc=1.0000 | time=26.5s
+Epoch  27/30 | train_loss=4.1523 | val_loss=4.1567 | val_acc=1.0000 | time=26.5s
+Epoch  28/30 | train_loss=4.1522 | val_loss=4.1567 | val_acc=1.0000 | time=26.5s
+Epoch  29/30 | train_loss=4.1523 | val_loss=4.1591 | val_acc=1.0000 | time=26.5s
+Epoch  30/30 | train_loss=4.1522 | val_loss=4.1546 | val_acc=1.0000 | time=26.5s
+Model saved to results/max_1layer_stieltjes_q4.0_seq512_nope_ascend/model.pt
+Metrics saved to results/max_1layer_stieltjes_q4.0_seq512_nope_ascend/metrics.csv

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 256, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 236, in main
+    model.load_state_dict(state)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 2635, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for GPT:
+	Missing key(s) in state_dict: "transformer.h.1.ln_1.weight", "transformer.h.1.ln_1.bias", "transformer.h.1.attn.c_attn.weight", "transformer.h.1.attn.c_attn.bias", "transformer.h.1.attn.c_proj.weight", "transformer.h.1.attn.c_proj.bias", "transformer.h.1.ln_2.weight", "transformer.h.1.ln_2.bias", "transformer.h.1.mlp.fc1.weight", "transformer.h.1.mlp.fc1.bias", "transformer.h.1.mlp.fc2.weight", "transformer.h.1.mlp.fc2.bias", "transformer.h.2.ln_1.weight", "transformer.h.2.ln_1.bias", "transformer.h.2.attn.c_attn.weight", "transformer.h.2.attn.c_attn.bias", "transformer.h.2.attn.c_proj.weight", "transformer.h.2.attn.c_proj.bias", "transformer.h.2.ln_2.weight", "transformer.h.2.ln_2.bias", "transformer.h.2.mlp.fc1.weight", "transformer.h.2.mlp.fc1.bias", "transformer.h.2.mlp.fc2.weight", "transformer.h.2.mlp.fc2.bias", "transformer.h.3.ln_1.weight", "transformer.h.3.ln_1.bias", "transformer.h.3.attn.c_attn.weight", "transformer.h.3.attn.c_attn.bias", "transformer.h.3.attn.c_proj.weight", "transformer.h.3.attn.c_proj.bias", "transformer.h.3.ln_2.weight", "transformer.h.3.ln_2.bias", "transformer.h.3.mlp.fc1.weight", "transformer.h.3.mlp.fc1.bias", "transformer.h.3.mlp.fc2.weight", "transformer.h.3.mlp.fc2.bias", "transformer.h.4.ln_1.weight", "transformer.h.4.ln_1.bias", "transformer.h.4.attn.c_attn.weight", "transformer.h.4.attn.c_attn.bias", "transformer.h.4.attn.c_proj.weight", "transformer.h.4.attn.c_proj.bias", "transformer.h.4.ln_2.weight", "transformer.h.4.ln_2.bias", "transformer.h.4.mlp.fc1.weight", "transformer.h.4.mlp.fc1.bias", "transformer.h.4.mlp.fc2.weight", "transformer.h.4.mlp.fc2.bias", "transformer.h.5.ln_1.weight", "transformer.h.5.ln_1.bias", "transformer.h.5.attn.c_attn.weight", "transformer.h.5.attn.c_attn.bias", "transformer.h.5.attn.c_proj.weight", "transformer.h.5.attn.c_proj.bias", "transformer.h.5.ln_2.weight", "transformer.h.5.ln_2.bias", "transformer.h.5.mlp.fc1.weight", "transformer.h.5.mlp.fc1.bias", "transformer.h.5.mlp.fc2.weight", "transformer.h.5.mlp.fc2.bias". 

@@ -1,0 +1,37 @@
+=== max 1-layer stieltjes_q64.0 train-seq=4096 bs=4 NoPE h100 ===
+Wed Apr 15 07:46:10 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   36C    P0             68W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1646 | val_loss=4.1600 | val_acc=0.9985 | time=653.2s
+Epoch   2/30 | train_loss=4.1597 | val_loss=4.1600 | val_acc=0.9990 | time=652.8s
+Epoch   3/30 | train_loss=4.1593 | val_loss=4.1602 | val_acc=0.9990 | time=653.8s
+Epoch   4/30 | train_loss=4.1592 | val_loss=4.1609 | val_acc=0.9990 | time=654.3s
+Epoch   5/30 | train_loss=4.1592 | val_loss=4.1576 | val_acc=0.9990 | time=654.4s
+Epoch   6/30 | train_loss=4.1592 | val_loss=4.1587 | val_acc=0.9990 | time=654.5s
+Epoch   7/30 | train_loss=4.1591 | val_loss=4.1592 | val_acc=0.9990 | time=653.9s
+Epoch   8/30 | train_loss=4.1591 | val_loss=4.1573 | val_acc=0.9990 | time=653.1s
+Epoch   9/30 | train_loss=4.1590 | val_loss=4.1578 | val_acc=0.9985 | time=653.8s
+Epoch  10/30 | train_loss=4.1591 | val_loss=4.1597 | val_acc=0.9830 | time=653.1s
+Epoch  11/30 | train_loss=4.1590 | val_loss=4.1567 | val_acc=0.9990 | time=652.9s

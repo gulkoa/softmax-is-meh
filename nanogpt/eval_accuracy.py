@@ -119,9 +119,9 @@ def parse_args():
     p.add_argument("--batch-size", type=int, default=64)
     p.add_argument("--seed", type=int, default=42,
                    help="Val-set seed (use 43 if reproducing train-time eval: train.py uses seed+1).")
-    p.add_argument("--n-layer", type=int, default=6)
-    p.add_argument("--n-head", type=int, default=6)
-    p.add_argument("--n-embd", type=int, default=384)
+    p.add_argument("--n-layer", type=int, default=None)
+    p.add_argument("--n-head", type=int, default=None)
+    p.add_argument("--n-embd", type=int, default=None)
     p.add_argument("--dropout", type=float, default=0.0,
                    help="Eval dropout (default 0 for determinism; train used 0.1).")
     p.add_argument("--out", default=None,
@@ -159,7 +159,8 @@ def main():
     if cfg_path.is_file():
         try:
             saved = json.loads(cfg_path.read_text())
-            for key in ("seq_len", "max_arr_len", "max_val", "needle_margin"):
+            for key in ("seq_len", "max_arr_len", "max_val", "needle_margin",
+                        "n_layer", "n_head", "n_embd"):
                 if getattr(args, key, None) is None and key in saved:
                     setattr(args, key, saved[key])
             saved_train_seq_len = saved.get("seq_len")
@@ -176,6 +177,12 @@ def main():
         args.max_val = 64
     if getattr(args, "needle_margin", None) is None:
         args.needle_margin = "distinctive"
+    if args.n_layer is None:
+        args.n_layer = 6
+    if args.n_head is None:
+        args.n_head = 6
+    if args.n_embd is None:
+        args.n_embd = 384
 
     # Determine actual eval seq_len: --eval-seq-len overrides saved value.
     eval_seq_len = args.eval_seq_len if args.eval_seq_len is not None else args.seq_len

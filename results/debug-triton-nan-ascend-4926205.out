@@ -1,0 +1,191 @@
+### bf16 causal q=4 N=512 (matches real training) ###
+[ref] B=4 N=512 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+  step 0: loss=1.0000 |out|max=1.16 |grad|max=6.25e-05  OK
+  step 1: loss=1.0000 |out|max=1.09 |grad|max=5.6e-05  OK
+  step 2: loss=1.0000 |out|max=1.05 |grad|max=5.05e-05  OK
+  step 3: loss=1.0000 |out|max=1.02 |grad|max=4.72e-05  OK
+  step 4: loss=1.0000 |out|max=0.996 |grad|max=4.67e-05  OK
+  step 5: loss=0.9961 |out|max=0.988 |grad|max=4.58e-05  OK
+  step 6: loss=0.9961 |out|max=1.02 |grad|max=4.53e-05  OK
+  step 7: loss=0.9961 |out|max=1.06 |grad|max=4.48e-05  OK
+  step 8: loss=0.9961 |out|max=1.09 |grad|max=4.43e-05  OK
+  step 9: loss=0.9961 |out|max=1.13 |grad|max=4.43e-05  OK
+  step 10: loss=0.9961 |out|max=1.17 |grad|max=4.41e-05  OK
+  step 11: loss=0.9922 |out|max=1.2 |grad|max=4.39e-05  OK
+  step 12: loss=0.9922 |out|max=1.24 |grad|max=4.41e-05  OK
+  step 13: loss=0.9922 |out|max=1.28 |grad|max=4.43e-05  OK
+  step 14: loss=0.9922 |out|max=1.31 |grad|max=4.46e-05  OK
+  step 15: loss=0.9922 |out|max=1.34 |grad|max=4.46e-05  OK
+  step 16: loss=0.9883 |out|max=1.38 |grad|max=4.53e-05  OK
+  step 17: loss=0.9883 |out|max=1.41 |grad|max=4.48e-05  OK
+  step 18: loss=0.9883 |out|max=1.45 |grad|max=4.48e-05  OK
+  step 19: loss=0.9883 |out|max=1.48 |grad|max=4.51e-05  OK
+
+[triton] B=4 N=512 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+  step 0: loss=1.0000 |out|max=1.06 |grad|max=370  OK
+  step 1: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 2: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 3: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 4: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 5: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 6: loss=1.0000 |out|max=1.04 |grad|max=370  OK
+  step 7: loss=1.0000 |out|max=1.04 |grad|max=370  OK
+  step 8: loss=1.0000 |out|max=1.03 |grad|max=370  OK
+  step 9: loss=1.0000 |out|max=1.03 |grad|max=370  OK
+  step 10: loss=1.0000 |out|max=1.05 |grad|max=370  OK
+  step 11: loss=1.0000 |out|max=1.08 |grad|max=370  OK
+  step 12: loss=1.0000 |out|max=1.1 |grad|max=370  OK
+  step 13: loss=1.0000 |out|max=1.12 |grad|max=370  OK
+  step 14: loss=1.0000 |out|max=1.16 |grad|max=370  OK
+  step 15: loss=1.0000 |out|max=1.18 |grad|max=370  OK
+  step 16: loss=1.0000 |out|max=1.2 |grad|max=370  OK
+  step 17: loss=1.0000 |out|max=1.23 |grad|max=370  OK
+  step 18: loss=1.0000 |out|max=1.25 |grad|max=370  OK
+  step 19: loss=1.0000 |out|max=1.27 |grad|max=370  OK
+### bf16 causal q=8 N=512 ###
+[ref] B=4 N=512 D=384 H=6 q=8.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+  step 0: loss=1.0547 |out|max=5.19 |grad|max=0.0058  OK
+  step 1: loss=1.0469 |out|max=4.38 |grad|max=0.00406  OK
+  step 2: loss=1.0391 |out|max=4.06 |grad|max=0.00424  OK
+  step 3: loss=1.0312 |out|max=3.47 |grad|max=0.00371  OK
+  step 4: loss=1.0312 |out|max=3.22 |grad|max=0.0033  OK
+  step 5: loss=1.0234 |out|max=2.8 |grad|max=0.00314  OK
+  step 6: loss=1.0234 |out|max=2.72 |grad|max=0.00317  OK
+  step 7: loss=1.0156 |out|max=2.84 |grad|max=0.00237  OK
+  step 8: loss=1.0156 |out|max=2.73 |grad|max=0.00121  OK
+  step 9: loss=1.0078 |out|max=2.61 |grad|max=0.00195  OK
+  step 10: loss=1.0078 |out|max=2.58 |grad|max=0.0023  OK
+  step 11: loss=1.0078 |out|max=2.47 |grad|max=0.00126  OK
+  step 12: loss=1.0000 |out|max=2.36 |grad|max=0.000797  OK
+  step 13: loss=1.0000 |out|max=2.23 |grad|max=0.000664  OK
+  step 14: loss=0.9961 |out|max=2.11 |grad|max=0.00053  OK
+  step 15: loss=0.9961 |out|max=2.03 |grad|max=0.000751  OK
+  step 16: loss=0.9922 |out|max=1.98 |grad|max=0.000345  OK
+  step 17: loss=0.9883 |out|max=1.95 |grad|max=0.000355  OK
+  step 18: loss=0.9883 |out|max=2 |grad|max=0.000368  OK
+  step 19: loss=0.9844 |out|max=2.05 |grad|max=0.000736  OK
+
+[triton] B=4 N=512 D=384 H=6 q=8.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+    NaN in grad of qkv.weight
+  step 0: loss=1.0156 |out|max=4.09 |grad|max=0.000194  NaN
+### bf16 causal q=16 N=512 ###
+[ref] B=4 N=512 D=384 H=6 q=16.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+  step 0: loss=1656.0000 |out|max=884 |grad|max=508  OK
+  step 1: loss=1464.0000 |out|max=812 |grad|max=382  OK
+  step 2: loss=1336.0000 |out|max=736 |grad|max=144  OK
+  step 3: loss=1224.0000 |out|max=616 |grad|max=386  OK
+  step 4: loss=1152.0000 |out|max=580 |grad|max=165  OK
+  step 5: loss=1072.0000 |out|max=564 |grad|max=126  OK
+  step 6: loss=1000.0000 |out|max=536 |grad|max=270  OK
+  step 7: loss=940.0000 |out|max=544 |grad|max=248  OK
+  step 8: loss=880.0000 |out|max=510 |grad|max=71.5  OK
+  step 9: loss=828.0000 |out|max=474 |grad|max=110  OK
+  step 10: loss=776.0000 |out|max=440 |grad|max=37  OK
+  step 11: loss=728.0000 |out|max=406 |grad|max=130  OK
+  step 12: loss=684.0000 |out|max=374 |grad|max=41.2  OK
+  step 13: loss=648.0000 |out|max=350 |grad|max=99.5  OK
+  step 14: loss=612.0000 |out|max=332 |grad|max=60.5  OK
+  step 15: loss=576.0000 |out|max=318 |grad|max=63  OK
+  step 16: loss=544.0000 |out|max=306 |grad|max=88  OK
+  step 17: loss=516.0000 |out|max=292 |grad|max=27.1  OK
+  step 18: loss=490.0000 |out|max=294 |grad|max=5.28  OK
+  step 19: loss=466.0000 |out|max=282 |grad|max=17.5  OK
+
+[triton] B=4 N=512 D=384 H=6 q=16.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+    NaN in grad of qkv.weight
+  step 0: loss=404.0000 |out|max=728 |grad|max=3.78  NaN
+### bf16 causal q=64 N=512 ###
+[ref] B=4 N=512 D=384 H=6 q=64.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+  step 0: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 1: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 2: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 3: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 4: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 5: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 6: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 7: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 8: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 9: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 10: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 11: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 12: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 13: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 14: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 15: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 16: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 17: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 18: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+  step 19: loss=45635421608216258453881315393536.0000 |out|max=8.28e+16 |grad|max=3.93e+31  OK
+
+[triton] B=4 N=512 D=384 H=6 q=64.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=20 lr=0.0003
+    NaN in grad of qkv.weight
+    NaN in grad of o.weight
+  step 0: loss=inf |out|max=2.85e+30 |grad|max=0  NaN
+### bf16 causal q=4 N=2048 (matches seq=2048 sweep) ###
+[ref] B=4 N=2048 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=10 lr=0.0003
+  step 0: loss=1.0000 |out|max=1.16 |grad|max=1.68e-05  OK
+  step 1: loss=1.0000 |out|max=1.13 |grad|max=1.54e-05  OK
+  step 2: loss=1.0000 |out|max=1.11 |grad|max=1.41e-05  OK
+  step 3: loss=1.0000 |out|max=1.09 |grad|max=1.31e-05  OK
+  step 4: loss=1.0000 |out|max=1.06 |grad|max=1.3e-05  OK
+  step 5: loss=1.0000 |out|max=1.04 |grad|max=1.27e-05  OK
+  step 6: loss=1.0000 |out|max=1.02 |grad|max=1.25e-05  OK
+  step 7: loss=1.0000 |out|max=0.996 |grad|max=1.22e-05  OK
+  step 8: loss=1.0000 |out|max=0.973 |grad|max=1.19e-05  OK
+  step 9: loss=1.0000 |out|max=0.949 |grad|max=1.18e-05  OK
+
+[triton] B=4 N=2048 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.bfloat16 steps=10 lr=0.0003
+  step 0: loss=1.0000 |out|max=1.15 |grad|max=800  OK
+  step 1: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 2: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 3: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 4: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 5: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 6: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 7: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 8: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+  step 9: loss=1.0000 |out|max=1.06 |grad|max=800  OK
+### fp32 causal q=4 N=512 (control) ###
+[ref] B=4 N=512 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.float32 steps=20 lr=0.0003
+  step 0: loss=1.0021 |out|max=1.15 |grad|max=6.23e-05  OK
+  step 1: loss=1.0010 |out|max=1.09 |grad|max=5.53e-05  OK
+  step 2: loss=1.0000 |out|max=1.04 |grad|max=4.96e-05  OK
+  step 3: loss=0.9992 |out|max=1.01 |grad|max=4.68e-05  OK
+  step 4: loss=0.9983 |out|max=0.983 |grad|max=4.6e-05  OK
+  step 5: loss=0.9975 |out|max=1.01 |grad|max=4.52e-05  OK
+  step 6: loss=0.9967 |out|max=1.05 |grad|max=4.45e-05  OK
+  step 7: loss=0.9959 |out|max=1.09 |grad|max=4.4e-05  OK
+  step 8: loss=0.9951 |out|max=1.13 |grad|max=4.38e-05  OK
+  step 9: loss=0.9943 |out|max=1.17 |grad|max=4.39e-05  OK
+  step 10: loss=0.9936 |out|max=1.2 |grad|max=4.37e-05  OK
+  step 11: loss=0.9928 |out|max=1.24 |grad|max=4.37e-05  OK
+  step 12: loss=0.9920 |out|max=1.28 |grad|max=4.4e-05  OK
+  step 13: loss=0.9912 |out|max=1.32 |grad|max=4.38e-05  OK
+  step 14: loss=0.9904 |out|max=1.35 |grad|max=4.42e-05  OK
+  step 15: loss=0.9896 |out|max=1.39 |grad|max=4.45e-05  OK
+  step 16: loss=0.9888 |out|max=1.42 |grad|max=4.49e-05  OK
+  step 17: loss=0.9879 |out|max=1.46 |grad|max=4.53e-05  OK
+  step 18: loss=0.9871 |out|max=1.49 |grad|max=4.57e-05  OK
+  step 19: loss=0.9862 |out|max=1.52 |grad|max=4.62e-05  OK
+
+[triton] B=4 N=512 D=384 H=6 q=4.0 num_iter=3 causal=True dtype=torch.float32 steps=20 lr=0.0003
+  step 0: loss=1.0005 |out|max=1.06 |grad|max=185  OK
+  step 1: loss=1.0553 |out|max=2.46 |grad|max=382  OK
+  step 2: loss=81.0347 |out|max=69.9 |grad|max=5.59e+03  OK
+  step 3: loss=2772.8894 |out|max=828 |grad|max=3.81e+04  OK
+  step 4: loss=62062.4375 |out|max=4.61e+03 |grad|max=1.89e+05  OK
+  step 5: loss=972813.3750 |out|max=1.96e+04 |grad|max=8.29e+05  OK
+  step 6: loss=11404416.0000 |out|max=8.49e+04 |grad|max=2.87e+06  OK
+  step 7: loss=104767536.0000 |out|max=3.12e+05 |grad|max=1.24e+07  OK
+  step 8: loss=751203840.0000 |out|max=8.75e+05 |grad|max=8.83e+07  OK
+  step 9: loss=4470976000.0000 |out|max=2.03e+06 |grad|max=4.99e+08  OK
+  step 10: loss=23154270208.0000 |out|max=4.41e+06 |grad|max=2.4e+09  OK
+  step 11: loss=105586147328.0000 |out|max=8.97e+06 |grad|max=8.87e+09  OK
+  step 12: loss=433171562496.0000 |out|max=1.48e+07 |grad|max=2.82e+10  OK
+  step 13: loss=1628913532928.0000 |out|max=2.62e+07 |grad|max=9.48e+10  OK
+  step 14: loss=5639085490176.0000 |out|max=4.49e+07 |grad|max=2.77e+11  OK
+  step 15: loss=17824355450880.0000 |out|max=6.57e+07 |grad|max=7.76e+11  OK
+  step 16: loss=51890184257536.0000 |out|max=1.14e+08 |grad|max=1.96e+12  OK
+  step 17: loss=140694253469696.0000 |out|max=1.86e+08 |grad|max=4.82e+12  OK
+  step 18: loss=360001138851840.0000 |out|max=3.24e+08 |grad|max=1.01e+13  OK
+  step 19: loss=882873678692352.0000 |out|max=4.82e+08 |grad|max=2.09e+13  OK

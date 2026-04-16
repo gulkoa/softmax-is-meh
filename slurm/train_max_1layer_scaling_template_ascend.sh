@@ -17,7 +17,7 @@ cd "$REPO_DIR"
 ARR=$((SEQ - 8))
 if [ "$ATTN" = "stieltjes" ]; then
     TAG="stieltjes_q${Q}"
-    EXTRA_TRAIN="--attn stieltjes --q ${Q} --stieltjes-use-triton"
+    EXTRA_TRAIN="--attn stieltjes --q ${Q}"
     EXTRA_EVAL="--attn stieltjes --q ${Q}"
 else
     TAG="softmax"
