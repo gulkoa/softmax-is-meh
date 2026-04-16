@@ -46,29 +46,39 @@ def main() -> None:
                 label = f"B={B}\nN={N}"
                 shapes.append((label, a[key], h[key]))
 
-    labels = [s[0] for s in shapes]
-    a_speeds = [s[1] for s in shapes]
-    h_speeds = [s[2] for s in shapes]
+    # Re-organise as 1×4 grid: one subplot per N, bars for B=1 and B=4 per GPU.
+    Ns = [128, 512, 1024, 2048]
+    Bs = [1, 4]
+    width = 0.2
+    offsets = [-1.5 * width, -0.5 * width, 0.5 * width, 1.5 * width]
+    colors = ["tab:blue", "#6baed6", "tab:orange", "#fd8d3c"]
+    bar_labels = ["A100 B=1", "A100 B=4", "H100 B=1", "H100 B=4"]
 
-    xs = list(range(len(labels)))
-    width = 0.38
+    fig, axes = plt.subplots(1, 4, figsize=(10, 3.0), sharey=True)
+    fig.suptitle("Triton forward speedup vs PyTorch ref  (H=8, D=64, q=4, causal)",
+                 fontsize=9)
 
-    fig, ax = plt.subplots(figsize=(6.2, 3.4))
-    ax.bar([x - width / 2 for x in xs], a_speeds, width=width,
-           color="tab:blue", label="A100-40GB (geomean all: 3.37×)")
-    ax.bar([x + width / 2 for x in xs], h_speeds, width=width,
-           color="tab:orange", label="H100-80GB (geomean all: 3.78×)")
+    for col, N in enumerate(Ns):
+        ax = axes[col]
+        ax.set_title(f"N = {N}", fontsize=9)
+        for i, (gpu_speeds, B) in enumerate([(a, Bs[0]), (a, Bs[1]),
+                                              (h, Bs[0]), (h, Bs[1])]):
+            key = (B, 8, N, 64, 4.0, "True")
+            val = gpu_speeds.get(key, float("nan"))
+            ax.bar(offsets[i], val, width=width,
+                   color=colors[i], label=bar_labels[i] if col == 0 else None)
+        ax.axhline(1.0, linestyle="--", color="gray", alpha=0.5, linewidth=1)
+        ax.set_xticks([])
+        ax.grid(True, axis="y", alpha=0.3)
+        if col == 0:
+            ax.set_ylabel("speedup (Triton / ref)")
 
-    ax.axhline(1.0, linestyle="--", color="gray", alpha=0.5, linewidth=1)
-    ax.set_xticks(xs)
-    ax.set_xticklabels(labels, fontsize=8)
-    ax.set_ylabel("forward speedup (Triton / PyTorch-ref)")
-    ax.set_title("Triton speedup: H=8, D=64, q=4, causal")
-    ax.grid(True, axis="y", alpha=0.3)
-    ax.legend(fontsize=8, loc="upper left")
+    handles, lbls = axes[0].get_legend_handles_labels()
+    fig.legend(handles, lbls, loc="lower center", ncol=4, fontsize=8,
+               bbox_to_anchor=(0.5, -0.04))
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    fig.tight_layout()
+    fig.tight_layout(rect=[0, 0.08, 1, 1])
     fig.savefig(OUT, bbox_inches="tight")
     print(f"Wrote {OUT}")
 
