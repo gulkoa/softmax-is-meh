@@ -140,13 +140,17 @@ def _generate_needle(cfg: TaskConfig) -> List[int]:
     """
     arr_len = random.randint(cfg.max_arr_len // 2, cfg.max_arr_len)
     if cfg.needle_margin == "subtle":
-        # Generate background ∈ [0, 126]; pick a needle value in [1, 127] that
-        # is strictly greater than every other token. Equivalent to "find the
-        # max element in a long sequence where the max is only marginally
-        # larger than other values."
-        arr = [random.randint(0, 126) for _ in range(arr_len)]
+        # Sample a per-sample ceiling so the needle value spans a real range.
+        # The earlier implementation drew background uniformly from [0, 126]
+        # and set needle = max(background)+1; at the arr_len we use, max
+        # saturates near 126 with high probability, making needle near-constant
+        # and letting a "always output 127" baseline score near-perfectly. A
+        # per-sample cap decouples the needle value from the background cap
+        # while preserving the +1 margin property.
+        cap = random.randint(20, 126)
+        arr = [random.randint(0, cap - 1) for _ in range(arr_len)]
         needle_pos = random.randint(0, arr_len - 1)
-        needle_val = max(arr) + 1  # margin of exactly 1 over the runner-up
+        needle_val = cap  # strictly greater than every other token by >= 1
         arr[needle_pos] = needle_val
     else:
         # Default distinctive mode (current behaviour).
