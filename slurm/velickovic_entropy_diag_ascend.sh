@@ -26,17 +26,19 @@ run_analyze() {
     [ -f "$CKPT" ] || CKPT="$OUT_DIR/checkpoint.pt"
     [ -f "$CKPT" ] || { echo "SKIP $OUT_DIR"; return; }
 
-    for EVAL_SEQ in 128 512 2048 8192; do
+    for ES_N in "128 100" "512 50" "2048 16"; do
+        EVAL_SEQ=$(echo $ES_N | cut -d' ' -f1)
+        NSAMP=$(echo $ES_N | cut -d' ' -f2)
         ARR=$((EVAL_SEQ - 8))
         ANALYSIS_DIR="${OUT_DIR}/entropy_seq${EVAL_SEQ}"
         mkdir -p "$ANALYSIS_DIR"
-        echo "=== $(basename $OUT_DIR) eval_seq=${EVAL_SEQ} ==="
+        echo "=== $(basename $OUT_DIR) eval_seq=${EVAL_SEQ} samples=${NSAMP} ==="
         python nanogpt/analyze.py \
             --checkpoint "$CKPT" \
             --task needle --needle-margin subtle \
             --attn "$ATTN" --q "$Q" \
             --seq-len "$EVAL_SEQ" --max-arr-len "$ARR" \
-            --num-samples 100 \
+            --num-samples "$NSAMP" \
             --out "$ANALYSIS_DIR" || echo "FAILED $ANALYSIS_DIR"
     done
 }

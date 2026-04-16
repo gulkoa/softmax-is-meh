@@ -1,0 +1,13 @@
+=== subtle_needle_1layer_softmax_seq128_nope_ascend eval_seq=128 samples=100 ===
+Saved entropy    -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq128/entropy.csv
+Saved concentration -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq128/concentration.csv
+Saved sample_attn   -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq128/sample_attn.pt
+=== subtle_needle_1layer_softmax_seq128_nope_ascend eval_seq=512 samples=50 ===
+Saved entropy    -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq512/entropy.csv
+Saved concentration -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq512/concentration.csv
+Saved sample_attn   -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq512/sample_attn.pt
+=== subtle_needle_1layer_softmax_seq128_nope_ascend eval_seq=2048 samples=16 ===
+Saved entropy    -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq2048/entropy.csv
+Saved concentration -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq2048/concentration.csv
+Saved sample_attn   -> results/subtle_needle_1layer_softmax_seq128_nope_ascend/entropy_seq2048/sample_attn.pt
+=== subtle_needle_1layer_softmax_seq128_nope_ascend eval_seq=8192 samples=4 ===

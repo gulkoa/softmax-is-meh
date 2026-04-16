@@ -31,7 +31,7 @@ CONFIGS = [
     ("stieltjes", 32.0, "tab:purple", "--"),
 ]
 
-EVAL_SEQS = [128, 512, 2048, 8192]
+EVAL_SEQS = [128, 512, 2048]  # 8192 OOMs analyze.py (O(N²) storage)
 
 
 def model_dir(attn, q):

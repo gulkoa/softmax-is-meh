@@ -133,21 +133,21 @@ def main():
             continue
 
         ds = CLRSDataset(
-            task=TaskConfig(
-                name="needle",
+            cfg=TaskConfig(
+                task_name="needle",
                 seq_len=seq_len,
                 max_arr_len=arr_len,
                 max_val=args.max_val,
+                num_samples=args.num_samples,
                 needle_margin=args.needle_margin,
             ),
-            num_samples=args.num_samples,
             seed=43,
         )
-        # Build batch
+        # Build batch — __getitem__ returns (x, y)
         xs = []
         for i in range(args.num_samples):
-            sample = ds[i]
-            xs.append(sample["input_ids"])
+            x_i, _ = ds[i]
+            xs.append(x_i)
         x = torch.stack(xs, dim=0).to(device)
 
         print(f"Capturing attn for seq={seq_len} x.shape={tuple(x.shape)} ...")
