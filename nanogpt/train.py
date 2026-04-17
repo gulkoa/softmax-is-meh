@@ -282,6 +282,15 @@ def main():
             }, tmp_path)
             os.replace(tmp_path, ckpt_path)
 
+            # Also save a per-epoch model snapshot so long jobs can be
+            # scancel'd and evaluated from a prior epoch without losing
+            # earlier states. Model-only (no optimizer) to keep disk cost
+            # small.
+            per_epoch_path = os.path.join(args.out, f"model_ep{epoch:03d}.pt")
+            per_epoch_tmp = per_epoch_path + ".tmp"
+            torch.save(model.state_dict(), per_epoch_tmp)
+            os.replace(per_epoch_tmp, per_epoch_path)
+
     csv_file.close()
 
     # Save final model
