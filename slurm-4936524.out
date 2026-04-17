@@ -1,0 +1,53 @@
+=== MAX embd-scan: stieltjes_q8.0 n_embd=8 n_head=1 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 2,952
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.7176 | val_loss=4.3009 | val_acc=0.2853 | time=5.3s
+Epoch   2/30 | train_loss=4.2384 | val_loss=4.2066 | val_acc=0.2853 | time=4.4s
+Epoch   3/30 | train_loss=4.1977 | val_loss=4.1904 | val_acc=0.2853 | time=4.4s
+Epoch   4/30 | train_loss=4.1880 | val_loss=4.1863 | val_acc=0.2853 | time=4.4s
+Epoch   5/30 | train_loss=4.1792 | val_loss=4.1714 | val_acc=0.2888 | time=4.4s
+Epoch   6/30 | train_loss=4.1665 | val_loss=4.1637 | val_acc=0.2880 | time=4.4s
+Epoch   7/30 | train_loss=4.1597 | val_loss=4.1521 | val_acc=0.2890 | time=4.4s
+Epoch   8/30 | train_loss=4.1479 | val_loss=4.1424 | val_acc=0.2920 | time=4.4s
+Epoch   9/30 | train_loss=4.1421 | val_loss=4.1387 | val_acc=0.3013 | time=4.4s
+Epoch  10/30 | train_loss=4.1393 | val_loss=4.1355 | val_acc=0.3023 | time=4.4s
+Epoch  11/30 | train_loss=4.1374 | val_loss=4.1343 | val_acc=0.2993 | time=4.4s
+Epoch  12/30 | train_loss=4.1364 | val_loss=4.1337 | val_acc=0.3010 | time=4.4s
+Epoch  13/30 | train_loss=4.1356 | val_loss=4.1347 | val_acc=0.3033 | time=4.4s
+Epoch  14/30 | train_loss=4.1348 | val_loss=4.1332 | val_acc=0.3018 | time=4.4s
+Epoch  15/30 | train_loss=4.1343 | val_loss=4.1332 | val_acc=0.3010 | time=4.4s
+Epoch  16/30 | train_loss=4.1340 | val_loss=4.1328 | val_acc=0.3003 | time=4.4s
+Epoch  17/30 | train_loss=4.1335 | val_loss=4.1326 | val_acc=0.3013 | time=4.4s
+Epoch  18/30 | train_loss=4.1332 | val_loss=4.1325 | val_acc=0.3018 | time=4.4s
+Epoch  19/30 | train_loss=4.1329 | val_loss=4.1325 | val_acc=0.3008 | time=4.4s
+Epoch  20/30 | train_loss=4.1327 | val_loss=4.1321 | val_acc=0.3015 | time=4.4s
+Epoch  21/30 | train_loss=4.1323 | val_loss=4.1317 | val_acc=0.2998 | time=4.4s
+Epoch  22/30 | train_loss=4.1323 | val_loss=4.1317 | val_acc=0.2993 | time=4.4s
+Epoch  23/30 | train_loss=4.1319 | val_loss=4.1324 | val_acc=0.3010 | time=4.4s
+Epoch  24/30 | train_loss=4.1318 | val_loss=4.1331 | val_acc=0.3003 | time=4.4s
+Epoch  25/30 | train_loss=4.1316 | val_loss=4.1327 | val_acc=0.2995 | time=4.4s
+Epoch  26/30 | train_loss=4.1315 | val_loss=4.1335 | val_acc=0.2970 | time=4.4s
+Epoch  27/30 | train_loss=4.1314 | val_loss=4.1348 | val_acc=0.3010 | time=4.4s
+Epoch  28/30 | train_loss=4.1311 | val_loss=4.1342 | val_acc=0.2995 | time=4.4s
+Epoch  29/30 | train_loss=4.1311 | val_loss=4.1346 | val_acc=0.2970 | time=4.4s
+Epoch  30/30 | train_loss=4.1310 | val_loss=4.1332 | val_acc=0.3025 | time=4.4s
+Model saved to results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt
+Metrics saved to results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/metrics.csv
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq128_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq256_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq512_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq1024_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq2048_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq4096_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+Wrote results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/accuracy_eval_seq8192_arr120_first1.json
+{"checkpoint": "results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.561, "accuracy_all": 0.028336621665708647, "accuracy_input_echo": 0.01957703346213664, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+DONE results/max_1layer_stieltjes_q8.0_seq128_embd8_h1_initfix_ascend

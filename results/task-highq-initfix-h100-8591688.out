@@ -1,0 +1,61 @@
+=== sorting stieltjes q=8.0 seed=1 post-fix on H100 ===
+Fri Apr 17 11:32:58 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   34C    P0             68W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Fri Apr 17 11:32:58 AM EDT 2026
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/30 | train_loss=2.3410 | val_loss=2.1630 | val_acc=0.9268 | time=26.4s
+Epoch   2/30 | train_loss=2.1650 | val_loss=2.1475 | val_acc=0.9290 | time=26.1s
+Epoch   3/30 | train_loss=2.1464 | val_loss=2.1363 | val_acc=0.9305 | time=26.1s
+Epoch   4/30 | train_loss=2.1397 | val_loss=2.1217 | val_acc=0.9339 | time=26.1s
+Epoch   5/30 | train_loss=2.1335 | val_loss=2.1166 | val_acc=0.9368 | time=26.1s
+Epoch   6/30 | train_loss=2.1233 | val_loss=2.1103 | val_acc=0.9364 | time=26.1s
+Epoch   7/30 | train_loss=2.1187 | val_loss=2.1061 | val_acc=0.9387 | time=26.1s
+Epoch   8/30 | train_loss=2.1101 | val_loss=2.1007 | val_acc=0.9374 | time=26.1s
+Epoch   9/30 | train_loss=2.1069 | val_loss=2.1002 | val_acc=0.9398 | time=26.1s
+Epoch  10/30 | train_loss=2.1042 | val_loss=2.0870 | val_acc=0.9434 | time=26.1s
+Epoch  11/30 | train_loss=2.0988 | val_loss=2.0942 | val_acc=0.9398 | time=26.1s
+Epoch  12/30 | train_loss=2.0975 | val_loss=2.0861 | val_acc=0.9434 | time=26.1s
+Epoch  13/30 | train_loss=2.0918 | val_loss=2.0800 | val_acc=0.9465 | time=26.1s
+Epoch  14/30 | train_loss=2.0896 | val_loss=2.0875 | val_acc=0.9435 | time=26.1s
+Epoch  15/30 | train_loss=2.0895 | val_loss=2.0810 | val_acc=0.9444 | time=26.1s
+Epoch  16/30 | train_loss=2.0864 | val_loss=2.0782 | val_acc=0.9483 | time=26.1s
+Epoch  17/30 | train_loss=2.0794 | val_loss=2.0691 | val_acc=0.9502 | time=26.1s
+Epoch  18/30 | train_loss=2.0790 | val_loss=2.0789 | val_acc=0.9483 | time=26.1s
+Epoch  19/30 | train_loss=2.0778 | val_loss=2.0646 | val_acc=0.9544 | time=26.1s
+Epoch  20/30 | train_loss=2.0723 | val_loss=2.0712 | val_acc=0.9510 | time=26.1s
+Epoch  21/30 | train_loss=2.0732 | val_loss=2.0644 | val_acc=0.9544 | time=26.1s
+Epoch  22/30 | train_loss=2.0673 | val_loss=2.0599 | val_acc=0.9580 | time=26.1s
+Epoch  23/30 | train_loss=2.0641 | val_loss=2.0617 | val_acc=0.9578 | time=26.1s
+Epoch  24/30 | train_loss=2.0623 | val_loss=2.0557 | val_acc=0.9606 | time=26.1s
+Epoch  25/30 | train_loss=2.0617 | val_loss=2.0566 | val_acc=0.9608 | time=26.1s
+Epoch  26/30 | train_loss=2.0586 | val_loss=2.0495 | val_acc=0.9654 | time=26.1s
+Epoch  27/30 | train_loss=2.0574 | val_loss=2.0489 | val_acc=0.9663 | time=26.1s
+Epoch  28/30 | train_loss=2.0561 | val_loss=2.0501 | val_acc=0.9661 | time=26.1s
+Epoch  29/30 | train_loss=2.0564 | val_loss=2.0480 | val_acc=0.9664 | time=26.1s
+Epoch  30/30 | train_loss=2.0522 | val_loss=2.0465 | val_acc=0.9673 | time=26.1s
+Model saved to results/sorting_stieltjes_q8.0_seed1_initfix_h100/model.pt
+Metrics saved to results/sorting_stieltjes_q8.0_seed1_initfix_h100/metrics.csv
+{"checkpoint": "results/sorting_stieltjes_q8.0_seed1_initfix_h100/model.pt", "task": "sorting", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9649700598802395, "accuracy_all": 0.5346706586826347, "accuracy_input_echo": 0.10437125748502994, "output_token_count": 50100, "input_token_count": 50100, "all_token_count": 100200, "output_start_stats": {"n": 5000, "min": 4, "max": 16, "mean": 10.020000457763672}}
+Fri Apr 17 11:46:25 AM EDT 2026
+DONE sorting q=8.0 seed=1 on H100

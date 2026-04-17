@@ -1,0 +1,39 @@
+=== 6-job expansion: needle 6-layer stieltjes q=16.0 post-fix init ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/30 | train_loss=4.8877 | val_loss=4.8596 | val_acc=0.0088 | time=58.0s
+Epoch   2/30 | train_loss=4.8421 | val_loss=4.8192 | val_acc=0.0214 | time=56.4s
+Epoch   3/30 | train_loss=4.7968 | val_loss=4.7641 | val_acc=0.0542 | time=56.5s
+Epoch   4/30 | train_loss=4.7434 | val_loss=4.7129 | val_acc=0.0938 | time=56.6s
+Epoch   5/30 | train_loss=4.6584 | val_loss=4.5815 | val_acc=0.6354 | time=56.6s
+Epoch   6/30 | train_loss=4.5302 | val_loss=4.4705 | val_acc=0.9970 | time=56.6s
+Epoch   7/30 | train_loss=4.4716 | val_loss=4.4604 | val_acc=0.9976 | time=56.6s
+Epoch   8/30 | train_loss=4.4609 | val_loss=4.4541 | val_acc=0.9994 | time=56.6s
+Epoch   9/30 | train_loss=4.4587 | val_loss=4.4559 | val_acc=0.9950 | time=56.6s
+Epoch  10/30 | train_loss=4.4562 | val_loss=4.4539 | val_acc=0.9958 | time=56.6s
+Epoch  11/30 | train_loss=4.4583 | val_loss=4.4613 | val_acc=0.9974 | time=56.6s
+Epoch  12/30 | train_loss=4.4581 | val_loss=4.4556 | val_acc=0.9980 | time=56.6s
+Epoch  13/30 | train_loss=4.4588 | val_loss=4.4559 | val_acc=0.9986 | time=56.6s
+Epoch  14/30 | train_loss=4.4572 | val_loss=4.4562 | val_acc=0.9990 | time=56.6s
+Epoch  15/30 | train_loss=4.4595 | val_loss=4.4543 | val_acc=0.9990 | time=56.6s
+Epoch  16/30 | train_loss=4.4580 | val_loss=4.4557 | val_acc=0.9990 | time=56.6s
+Epoch  17/30 | train_loss=4.4604 | val_loss=4.4587 | val_acc=0.9984 | time=56.6s
+Epoch  18/30 | train_loss=4.4606 | val_loss=4.4634 | val_acc=0.9944 | time=56.6s
+Epoch  19/30 | train_loss=4.4602 | val_loss=4.4585 | val_acc=0.9982 | time=56.6s
+Epoch  20/30 | train_loss=4.4581 | val_loss=4.4583 | val_acc=0.9994 | time=56.7s
+Epoch  21/30 | train_loss=4.4601 | val_loss=4.4563 | val_acc=0.9992 | time=56.7s
+Epoch  22/30 | train_loss=4.4619 | val_loss=4.4593 | val_acc=0.9970 | time=56.7s
+Epoch  23/30 | train_loss=4.4629 | val_loss=4.4589 | val_acc=0.9982 | time=56.7s
+Epoch  24/30 | train_loss=4.4621 | val_loss=4.4569 | val_acc=0.9988 | time=56.7s
+Epoch  25/30 | train_loss=4.4608 | val_loss=4.4611 | val_acc=0.9934 | time=56.7s
+Epoch  26/30 | train_loss=4.4579 | val_loss=4.4574 | val_acc=1.0000 | time=56.7s
+Epoch  27/30 | train_loss=4.4585 | val_loss=4.4584 | val_acc=0.9984 | time=56.7s
+Epoch  28/30 | train_loss=4.4569 | val_loss=4.4558 | val_acc=0.9998 | time=56.7s
+Epoch  29/30 | train_loss=4.4586 | val_loss=4.4590 | val_acc=0.9994 | time=56.7s
+Epoch  30/30 | train_loss=4.4592 | val_loss=4.4605 | val_acc=0.9978 | time=56.7s
+Model saved to results/needle_stieltjes_q16.0_initfix_ascend/model.pt
+Metrics saved to results/needle_stieltjes_q16.0_initfix_ascend/metrics.csv
+{"checkpoint": "results/needle_stieltjes_q16.0_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9978, "accuracy_all": 0.15756661484229484, "accuracy_input_echo": 0.08750396077581175, "output_token_count": 5000, "input_token_count": 59963, "all_token_count": 64963, "output_start_stats": {"n": 5000, "min": 8, "max": 16, "mean": 11.992600440979004}}
+DONE needle q=16.0

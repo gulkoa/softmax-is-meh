@@ -1,0 +1,46 @@
+=== TOP2 needle: stieltjes_q8.0 seq=128 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 66,624
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.4741 | val_loss=4.3077 | val_acc=0.0187 | time=6.2s
+Epoch   2/30 | train_loss=4.2843 | val_loss=4.2628 | val_acc=0.0882 | time=4.7s
+Epoch   3/30 | train_loss=4.2577 | val_loss=4.2468 | val_acc=0.1535 | time=4.7s
+Epoch   4/30 | train_loss=4.2454 | val_loss=4.2382 | val_acc=0.1777 | time=4.7s
+Epoch   5/30 | train_loss=4.2366 | val_loss=4.2287 | val_acc=0.1925 | time=4.7s
+Epoch   6/30 | train_loss=4.2297 | val_loss=4.2222 | val_acc=0.2335 | time=4.7s
+Epoch   7/30 | train_loss=4.2241 | val_loss=4.2188 | val_acc=0.2537 | time=4.7s
+Epoch   8/30 | train_loss=4.2192 | val_loss=4.2134 | val_acc=0.2807 | time=4.7s
+Epoch   9/30 | train_loss=4.2156 | val_loss=4.2112 | val_acc=0.2990 | time=4.7s
+Epoch  10/30 | train_loss=4.2119 | val_loss=4.2072 | val_acc=0.3103 | time=4.7s
+Epoch  11/30 | train_loss=4.2091 | val_loss=4.2049 | val_acc=0.3187 | time=4.7s
+Epoch  12/30 | train_loss=4.2069 | val_loss=4.2025 | val_acc=0.3310 | time=4.7s
+Epoch  13/30 | train_loss=4.2044 | val_loss=4.2014 | val_acc=0.3300 | time=4.7s
+Epoch  14/30 | train_loss=4.2028 | val_loss=4.1992 | val_acc=0.3272 | time=4.7s
+Epoch  15/30 | train_loss=4.2009 | val_loss=4.1979 | val_acc=0.3520 | time=4.7s
+Epoch  16/30 | train_loss=4.1988 | val_loss=4.1958 | val_acc=0.3578 | time=4.7s
+Epoch  17/30 | train_loss=4.1972 | val_loss=4.1939 | val_acc=0.3725 | time=4.7s
+Epoch  18/30 | train_loss=4.1956 | val_loss=4.1919 | val_acc=0.3665 | time=4.7s
+Epoch  19/30 | train_loss=4.1946 | val_loss=4.1921 | val_acc=0.3735 | time=4.7s
+Epoch  20/30 | train_loss=4.1934 | val_loss=4.1892 | val_acc=0.3902 | time=4.7s
+Epoch  21/30 | train_loss=4.1922 | val_loss=4.1887 | val_acc=0.4017 | time=4.7s
+Epoch  22/30 | train_loss=4.1911 | val_loss=4.1880 | val_acc=0.4120 | time=4.7s
+Epoch  23/30 | train_loss=4.1902 | val_loss=4.1862 | val_acc=0.4263 | time=4.7s
+Epoch  24/30 | train_loss=4.1889 | val_loss=4.1855 | val_acc=0.4220 | time=4.7s
+Epoch  25/30 | train_loss=4.1884 | val_loss=4.1845 | val_acc=0.4333 | time=4.7s
+Epoch  26/30 | train_loss=4.1873 | val_loss=4.1837 | val_acc=0.4400 | time=4.7s
+Epoch  27/30 | train_loss=4.1866 | val_loss=4.1827 | val_acc=0.4520 | time=4.7s
+Epoch  28/30 | train_loss=4.1857 | val_loss=4.1813 | val_acc=0.4645 | time=4.7s
+Epoch  29/30 | train_loss=4.1849 | val_loss=4.1808 | val_acc=0.4815 | time=4.7s
+Epoch  30/30 | train_loss=4.1844 | val_loss=4.1799 | val_acc=0.4878 | time=4.7s
+Model saved to results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt
+Metrics saved to results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/metrics.csv
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.484, "accuracy_all": 0.030274837735188204, "accuracy_input_echo": 0.020120183968756644, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.484, "accuracy_all": 0.030274837735188204, "accuracy_input_echo": 0.020120183968756644, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.484, "accuracy_all": 0.030274837735188204, "accuracy_input_echo": 0.020120183968756644, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.484, "accuracy_all": 0.030274837735188204, "accuracy_input_echo": 0.020120183968756644, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.0075, "accuracy_all": 0.006764226218491074, "accuracy_input_echo": 0.006747759139688686, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.0195, "accuracy_all": 0.010168230027472828, "accuracy_input_echo": 0.009959379161397894, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+{"checkpoint": "results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend/model.pt", "task": "top2_needle", "attn": "stieltjes", "q": 8.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.365, "accuracy_all": 0.027735516565787027, "accuracy_input_echo": 0.020187325850743596, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+DONE results/top2_needle_1layer_stieltjes_q8.0_seq128_1head_ascend

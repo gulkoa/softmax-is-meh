@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/bfs_stieltjes_q8.0_seed1_initfix_h100/model.pt",
+  "task": "bfs",
+  "attn": "stieltjes",
+  "q": 8.0,
+  "seq_len": 128,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 0.98688,
+  "accuracy_all": 0.7973965066573562,
+  "accuracy_input_echo": 0.7388944462969138,
+  "output_token_count": 50000,
+  "input_token_count": 161946,
+  "all_token_count": 211946,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 11,
+    "max": 63,
+    "mean": 32.389198303222656
+  }
+}

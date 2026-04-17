@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/top3_needle_1layer_softmax_seq512_arr500_ascend/model.pt",
+  "task": "top3_needle",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 8192,
+  "val_samples": 1000,
+  "seed": 42,
+  "accuracy_fixed": 1.0,
+  "accuracy_all": 0.02332607376388097,
+  "accuracy_input_echo": 0.015567447907702167,
+  "output_token_count": 3000,
+  "input_token_count": 377647,
+  "all_token_count": 380647,
+  "output_start_stats": {
+    "n": 1000,
+    "min": 250,
+    "max": 500,
+    "mean": 377.6470031738281
+  }
+}

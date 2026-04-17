@@ -1,0 +1,46 @@
+=== SUBTLE cut-embd: softmax n_embd=32 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 21,024
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.6087 | val_loss=4.3722 | val_acc=0.0000 | time=4.7s
+Epoch   2/30 | train_loss=4.3448 | val_loss=4.2970 | val_acc=0.0640 | time=3.6s
+Epoch   3/30 | train_loss=4.3036 | val_loss=4.2744 | val_acc=0.1435 | time=3.6s
+Epoch   4/30 | train_loss=4.2884 | val_loss=4.2646 | val_acc=0.1665 | time=3.6s
+Epoch   5/30 | train_loss=4.2804 | val_loss=4.2576 | val_acc=0.2215 | time=3.6s
+Epoch   6/30 | train_loss=4.2742 | val_loss=4.2511 | val_acc=0.2295 | time=3.6s
+Epoch   7/30 | train_loss=4.2684 | val_loss=4.2461 | val_acc=0.2405 | time=3.6s
+Epoch   8/30 | train_loss=4.2639 | val_loss=4.2417 | val_acc=0.2585 | time=3.6s
+Epoch   9/30 | train_loss=4.2606 | val_loss=4.2391 | val_acc=0.2620 | time=3.6s
+Epoch  10/30 | train_loss=4.2574 | val_loss=4.2364 | val_acc=0.2905 | time=3.6s
+Epoch  11/30 | train_loss=4.2545 | val_loss=4.2338 | val_acc=0.3110 | time=3.6s
+Epoch  12/30 | train_loss=4.2527 | val_loss=4.2317 | val_acc=0.3220 | time=3.6s
+Epoch  13/30 | train_loss=4.2506 | val_loss=4.2300 | val_acc=0.2995 | time=3.6s
+Epoch  14/30 | train_loss=4.2489 | val_loss=4.2288 | val_acc=0.3315 | time=3.6s
+Epoch  15/30 | train_loss=4.2477 | val_loss=4.2271 | val_acc=0.2905 | time=3.6s
+Epoch  16/30 | train_loss=4.2463 | val_loss=4.2259 | val_acc=0.3380 | time=3.6s
+Epoch  17/30 | train_loss=4.2448 | val_loss=4.2251 | val_acc=0.3280 | time=3.6s
+Epoch  18/30 | train_loss=4.2438 | val_loss=4.2231 | val_acc=0.3345 | time=3.6s
+Epoch  19/30 | train_loss=4.2424 | val_loss=4.2220 | val_acc=0.3965 | time=3.6s
+Epoch  20/30 | train_loss=4.2415 | val_loss=4.2213 | val_acc=0.4055 | time=3.6s
+Epoch  21/30 | train_loss=4.2404 | val_loss=4.2208 | val_acc=0.3895 | time=3.6s
+Epoch  22/30 | train_loss=4.2394 | val_loss=4.2196 | val_acc=0.4180 | time=3.6s
+Epoch  23/30 | train_loss=4.2386 | val_loss=4.2191 | val_acc=0.4230 | time=3.6s
+Epoch  24/30 | train_loss=4.2384 | val_loss=4.2177 | val_acc=0.4700 | time=3.6s
+Epoch  25/30 | train_loss=4.2371 | val_loss=4.2169 | val_acc=0.4830 | time=3.6s
+Epoch  26/30 | train_loss=4.2368 | val_loss=4.2163 | val_acc=0.4685 | time=3.6s
+Epoch  27/30 | train_loss=4.2358 | val_loss=4.2161 | val_acc=0.4855 | time=3.6s
+Epoch  28/30 | train_loss=4.2352 | val_loss=4.2159 | val_acc=0.5040 | time=3.6s
+Epoch  29/30 | train_loss=4.2344 | val_loss=4.2153 | val_acc=0.4530 | time=3.6s
+Epoch  30/30 | train_loss=4.2340 | val_loss=4.2144 | val_acc=0.5110 | time=3.6s
+Model saved to results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt
+Metrics saved to results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/metrics.csv
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "softmax", "q": 1.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.517, "accuracy_all": 0.024260126756682283, "accuracy_input_echo": 0.018768459180830314, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+DONE results/subtle_needle_1layer_softmax_seq128_embd32_h4_initfix_ascend

@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_1layer_stieltjes_q32.0_seq128_embd128_h4_initfix_ascend/model.pt",
+  "task": "max",
+  "attn": "stieltjes",
+  "q": 32.0,
+  "seq_len": 1024,
+  "val_samples": 1000,
+  "seed": 42,
+  "accuracy_fixed": 0.898,
+  "accuracy_all": 0.03100871537541363,
+  "accuracy_input_echo": 0.017011656431881222,
+  "output_token_count": 1000,
+  "input_token_count": 62369,
+  "all_token_count": 64369,
+  "output_start_stats": {
+    "n": 1000,
+    "min": 4,
+    "max": 120,
+    "mean": 62.36899948120117
+  }
+}

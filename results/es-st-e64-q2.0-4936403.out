@@ -1,0 +1,46 @@
+=== MAX embd-scan: stieltjes_q2.0 n_embd=64 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 66,624
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.2682 | val_loss=4.1483 | val_acc=0.2980 | time=5.5s
+Epoch   2/30 | train_loss=4.1397 | val_loss=4.1294 | val_acc=0.3100 | time=4.6s
+Epoch   3/30 | train_loss=4.1236 | val_loss=4.1182 | val_acc=0.4387 | time=4.6s
+Epoch   4/30 | train_loss=4.1168 | val_loss=4.1138 | val_acc=0.4542 | time=4.6s
+Epoch   5/30 | train_loss=4.1133 | val_loss=4.1119 | val_acc=0.4590 | time=4.6s
+Epoch   6/30 | train_loss=4.1112 | val_loss=4.1097 | val_acc=0.4700 | time=4.6s
+Epoch   7/30 | train_loss=4.1095 | val_loss=4.1091 | val_acc=0.4798 | time=4.6s
+Epoch   8/30 | train_loss=4.1083 | val_loss=4.1079 | val_acc=0.4868 | time=4.6s
+Epoch   9/30 | train_loss=4.1073 | val_loss=4.1069 | val_acc=0.4913 | time=4.6s
+Epoch  10/30 | train_loss=4.1065 | val_loss=4.1061 | val_acc=0.4925 | time=4.6s
+Epoch  11/30 | train_loss=4.1058 | val_loss=4.1058 | val_acc=0.4920 | time=4.6s
+Epoch  12/30 | train_loss=4.1053 | val_loss=4.1051 | val_acc=0.4978 | time=4.6s
+Epoch  13/30 | train_loss=4.1048 | val_loss=4.1047 | val_acc=0.4985 | time=4.6s
+Epoch  14/30 | train_loss=4.1044 | val_loss=4.1049 | val_acc=0.5042 | time=4.6s
+Epoch  15/30 | train_loss=4.1039 | val_loss=4.1042 | val_acc=0.5058 | time=4.6s
+Epoch  16/30 | train_loss=4.1034 | val_loss=4.1041 | val_acc=0.5050 | time=4.6s
+Epoch  17/30 | train_loss=4.1032 | val_loss=4.1036 | val_acc=0.5105 | time=4.6s
+Epoch  18/30 | train_loss=4.1029 | val_loss=4.1033 | val_acc=0.5082 | time=4.6s
+Epoch  19/30 | train_loss=4.1026 | val_loss=4.1034 | val_acc=0.5158 | time=4.6s
+Epoch  20/30 | train_loss=4.1024 | val_loss=4.1033 | val_acc=0.5090 | time=4.6s
+Epoch  21/30 | train_loss=4.1023 | val_loss=4.1030 | val_acc=0.5120 | time=4.6s
+Epoch  22/30 | train_loss=4.1020 | val_loss=4.1028 | val_acc=0.5132 | time=4.6s
+Epoch  23/30 | train_loss=4.1018 | val_loss=4.1022 | val_acc=0.5138 | time=4.6s
+Epoch  24/30 | train_loss=4.1015 | val_loss=4.1033 | val_acc=0.5122 | time=4.6s
+Epoch  25/30 | train_loss=4.1016 | val_loss=4.1023 | val_acc=0.5150 | time=4.6s
+Epoch  26/30 | train_loss=4.1015 | val_loss=4.1025 | val_acc=0.5155 | time=4.6s
+Epoch  27/30 | train_loss=4.1012 | val_loss=4.1017 | val_acc=0.5165 | time=4.6s
+Epoch  28/30 | train_loss=4.1012 | val_loss=4.1023 | val_acc=0.5132 | time=4.6s
+Epoch  29/30 | train_loss=4.1010 | val_loss=4.1019 | val_acc=0.5158 | time=4.6s
+Epoch  30/30 | train_loss=4.1009 | val_loss=4.1027 | val_acc=0.5115 | time=4.6s
+Model saved to results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt
+Metrics saved to results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/metrics.csv
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 2.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.985, "accuracy_all": 0.03517221022541907, "accuracy_input_echo": 0.01988167198447947, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+DONE results/max_1layer_stieltjes_q2.0_seq128_embd64_h4_initfix_ascend

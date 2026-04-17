@@ -1,0 +1,61 @@
+=== needle stieltjes q=16.0 seed=1 post-fix on H100 ===
+Fri Apr 17 08:27:14 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:DC:00.0 Off |                    0 |
+| N/A   36C    P0             72W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Fri Apr 17 08:27:14 AM EDT 2026
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/30 | train_loss=4.8789 | val_loss=4.8390 | val_acc=0.0070 | time=26.2s
+Epoch   2/30 | train_loss=4.8410 | val_loss=4.8240 | val_acc=0.0236 | time=26.0s
+Epoch   3/30 | train_loss=4.7879 | val_loss=4.7509 | val_acc=0.0410 | time=26.0s
+Epoch   4/30 | train_loss=4.7532 | val_loss=4.7303 | val_acc=0.0724 | time=25.9s
+Epoch   5/30 | train_loss=4.7236 | val_loss=4.7033 | val_acc=0.0900 | time=25.9s
+Epoch   6/30 | train_loss=4.7108 | val_loss=4.6913 | val_acc=0.1182 | time=26.0s
+Epoch   7/30 | train_loss=4.7044 | val_loss=4.7002 | val_acc=0.1218 | time=25.9s
+Epoch   8/30 | train_loss=4.7079 | val_loss=4.6876 | val_acc=0.1546 | time=26.0s
+Epoch   9/30 | train_loss=4.7057 | val_loss=4.6750 | val_acc=0.2228 | time=25.9s
+Epoch  10/30 | train_loss=4.6853 | val_loss=4.7137 | val_acc=0.0790 | time=26.0s
+Epoch  11/30 | train_loss=4.6555 | val_loss=4.6188 | val_acc=0.3764 | time=26.0s
+Epoch  12/30 | train_loss=4.6336 | val_loss=4.6081 | val_acc=0.4002 | time=26.0s
+Epoch  13/30 | train_loss=4.6223 | val_loss=4.5988 | val_acc=0.4416 | time=25.9s
+Epoch  14/30 | train_loss=4.6229 | val_loss=4.6036 | val_acc=0.4492 | time=26.0s
+Epoch  15/30 | train_loss=4.6457 | val_loss=4.5926 | val_acc=0.5194 | time=25.9s
+Epoch  16/30 | train_loss=4.5876 | val_loss=4.5479 | val_acc=0.7058 | time=25.9s
+Epoch  17/30 | train_loss=4.5683 | val_loss=4.5264 | val_acc=0.8032 | time=25.9s
+Epoch  18/30 | train_loss=4.5414 | val_loss=4.4955 | val_acc=0.9530 | time=26.0s
+Epoch  19/30 | train_loss=4.5017 | val_loss=4.4794 | val_acc=0.9756 | time=26.0s
+Epoch  20/30 | train_loss=4.4913 | val_loss=4.4733 | val_acc=0.9898 | time=26.0s
+Epoch  21/30 | train_loss=4.4875 | val_loss=4.4871 | val_acc=0.9610 | time=25.9s
+Epoch  22/30 | train_loss=4.4805 | val_loss=4.4709 | val_acc=0.9708 | time=25.9s
+Epoch  23/30 | train_loss=4.4683 | val_loss=4.4569 | val_acc=0.9966 | time=25.9s
+Epoch  24/30 | train_loss=4.4716 | val_loss=4.4703 | val_acc=0.9742 | time=25.9s
+Epoch  25/30 | train_loss=4.4687 | val_loss=4.4558 | val_acc=0.9980 | time=26.0s
+Epoch  26/30 | train_loss=4.4613 | val_loss=4.4549 | val_acc=0.9916 | time=26.0s
+Epoch  27/30 | train_loss=4.4613 | val_loss=4.4621 | val_acc=0.9936 | time=25.9s
+Epoch  28/30 | train_loss=4.4653 | val_loss=4.4530 | val_acc=0.9986 | time=26.0s
+Epoch  29/30 | train_loss=4.4613 | val_loss=4.4530 | val_acc=0.9930 | time=26.0s
+Epoch  30/30 | train_loss=4.4611 | val_loss=4.4552 | val_acc=0.9964 | time=25.9s
+Model saved to results/needle_stieltjes_q16.0_seed1_initfix_h100/model.pt
+Metrics saved to results/needle_stieltjes_q16.0_seed1_initfix_h100/metrics.csv
+{"checkpoint": "results/needle_stieltjes_q16.0_seed1_initfix_h100/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9974, "accuracy_all": 0.15747425457568154, "accuracy_input_echo": 0.08743725297266648, "output_token_count": 5000, "input_token_count": 59963, "all_token_count": 64963, "output_start_stats": {"n": 5000, "min": 8, "max": 16, "mean": 11.992600440979004}}
+Fri Apr 17 08:40:34 AM EDT 2026
+DONE needle q=16.0 seed=1 on H100

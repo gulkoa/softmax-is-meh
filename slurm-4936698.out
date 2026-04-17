@@ -1,0 +1,53 @@
+=== TOP2 embd-scan: softmax n_embd=32 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 21,024
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.6011 | val_loss=4.3709 | val_acc=0.0000 | time=4.0s
+Epoch   2/30 | train_loss=4.3276 | val_loss=4.2903 | val_acc=0.0823 | time=3.6s
+Epoch   3/30 | train_loss=4.2797 | val_loss=4.2639 | val_acc=0.1242 | time=3.6s
+Epoch   4/30 | train_loss=4.2613 | val_loss=4.2519 | val_acc=0.1703 | time=3.6s
+Epoch   5/30 | train_loss=4.2509 | val_loss=4.2416 | val_acc=0.2072 | time=3.6s
+Epoch   6/30 | train_loss=4.2426 | val_loss=4.2355 | val_acc=0.2243 | time=3.6s
+Epoch   7/30 | train_loss=4.2358 | val_loss=4.2280 | val_acc=0.2390 | time=3.6s
+Epoch   8/30 | train_loss=4.2296 | val_loss=4.2229 | val_acc=0.2527 | time=3.6s
+Epoch   9/30 | train_loss=4.2243 | val_loss=4.2172 | val_acc=0.2923 | time=3.6s
+Epoch  10/30 | train_loss=4.2197 | val_loss=4.2142 | val_acc=0.2755 | time=3.6s
+Epoch  11/30 | train_loss=4.2167 | val_loss=4.2116 | val_acc=0.3257 | time=3.6s
+Epoch  12/30 | train_loss=4.2137 | val_loss=4.2081 | val_acc=0.3362 | time=3.6s
+Epoch  13/30 | train_loss=4.2113 | val_loss=4.2055 | val_acc=0.3480 | time=3.6s
+Epoch  14/30 | train_loss=4.2094 | val_loss=4.2046 | val_acc=0.3575 | time=3.6s
+Epoch  15/30 | train_loss=4.2073 | val_loss=4.2029 | val_acc=0.3630 | time=3.6s
+Epoch  16/30 | train_loss=4.2055 | val_loss=4.2022 | val_acc=0.3815 | time=3.6s
+Epoch  17/30 | train_loss=4.2043 | val_loss=4.2021 | val_acc=0.3675 | time=3.6s
+Epoch  18/30 | train_loss=4.2027 | val_loss=4.1990 | val_acc=0.3738 | time=3.6s
+Epoch  19/30 | train_loss=4.2015 | val_loss=4.1991 | val_acc=0.3827 | time=3.6s
+Epoch  20/30 | train_loss=4.2005 | val_loss=4.1968 | val_acc=0.4140 | time=3.6s
+Epoch  21/30 | train_loss=4.1996 | val_loss=4.1959 | val_acc=0.4315 | time=3.6s
+Epoch  22/30 | train_loss=4.1982 | val_loss=4.1941 | val_acc=0.4088 | time=3.6s
+Epoch  23/30 | train_loss=4.1972 | val_loss=4.1937 | val_acc=0.4148 | time=3.6s
+Epoch  24/30 | train_loss=4.1967 | val_loss=4.1922 | val_acc=0.4555 | time=3.6s
+Epoch  25/30 | train_loss=4.1954 | val_loss=4.1925 | val_acc=0.4485 | time=3.6s
+Epoch  26/30 | train_loss=4.1948 | val_loss=4.1918 | val_acc=0.4798 | time=3.6s
+Epoch  27/30 | train_loss=4.1941 | val_loss=4.1911 | val_acc=0.4580 | time=3.6s
+Epoch  28/30 | train_loss=4.1934 | val_loss=4.1900 | val_acc=0.4830 | time=3.6s
+Epoch  29/30 | train_loss=4.1927 | val_loss=4.1893 | val_acc=0.4830 | time=3.6s
+Epoch  30/30 | train_loss=4.1916 | val_loss=4.1886 | val_acc=0.4818 | time=3.6s
+Model saved to results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt
+Metrics saved to results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/metrics.csv
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq128_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq256_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq512_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq1024_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq2048_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq4096_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+Wrote results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/accuracy_eval_seq8192_arr120.json
+{"checkpoint": "results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend/model.pt", "task": "top2_needle", "attn": "softmax", "q": 1.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.477, "accuracy_all": 0.029760406291387105, "accuracy_input_echo": 0.019750903617828407, "output_token_count": 2000, "input_token_count": 89363, "all_token_count": 91363, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.36299896240234}}
+DONE results/top2_1layer_softmax_seq128_embd32_h4_initfix_ascend

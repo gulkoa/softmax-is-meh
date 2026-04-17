@@ -1,0 +1,73 @@
+=== FIXEDCAP retrain: subtle-needle 1-layer stieltjes_q32.0 seq=128 ===
+Thu Apr 16 10:09:27 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   21C    P0             36W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.4282 | val_loss=4.3001 | val_acc=0.1150 | time=5.0s
+Epoch   2/30 | train_loss=4.2882 | val_loss=4.2858 | val_acc=0.1565 | time=4.6s
+Epoch   3/30 | train_loss=4.2742 | val_loss=4.2886 | val_acc=0.2010 | time=4.6s
+Epoch   4/30 | train_loss=4.2709 | val_loss=4.2976 | val_acc=0.1495 | time=4.6s
+Epoch   5/30 | train_loss=4.2696 | val_loss=4.2913 | val_acc=0.1550 | time=4.6s
+Epoch   6/30 | train_loss=4.2675 | val_loss=4.3217 | val_acc=0.1535 | time=4.6s
+Epoch   7/30 | train_loss=4.2710 | val_loss=4.3100 | val_acc=0.1675 | time=4.6s
+Epoch   8/30 | train_loss=4.2731 | val_loss=4.3097 | val_acc=0.1445 | time=4.6s
+Epoch   9/30 | train_loss=4.2722 | val_loss=4.3143 | val_acc=0.1655 | time=4.6s
+Epoch  10/30 | train_loss=4.2731 | val_loss=4.3194 | val_acc=0.1195 | time=4.6s
+Epoch  11/30 | train_loss=4.2765 | val_loss=4.3449 | val_acc=0.1425 | time=4.6s
+Epoch  12/30 | train_loss=4.2776 | val_loss=4.3302 | val_acc=0.1635 | time=4.6s
+Epoch  13/30 | train_loss=4.2756 | val_loss=4.3150 | val_acc=0.1585 | time=4.6s
+Epoch  14/30 | train_loss=4.2795 | val_loss=4.3196 | val_acc=0.2120 | time=4.6s
+Epoch  15/30 | train_loss=4.2800 | val_loss=4.3451 | val_acc=0.1665 | time=4.6s
+Epoch  16/30 | train_loss=4.2794 | val_loss=4.3301 | val_acc=0.1665 | time=4.6s
+Epoch  17/30 | train_loss=4.2819 | val_loss=4.3476 | val_acc=0.2070 | time=4.6s
+Epoch  18/30 | train_loss=4.2950 | val_loss=4.3482 | val_acc=0.2620 | time=4.6s
+Epoch  19/30 | train_loss=4.2881 | val_loss=4.3587 | val_acc=0.2055 | time=4.6s
+Epoch  20/30 | train_loss=4.2882 | val_loss=4.3497 | val_acc=0.2215 | time=4.6s
+Epoch  21/30 | train_loss=4.2872 | val_loss=4.3493 | val_acc=0.2235 | time=4.6s
+Epoch  22/30 | train_loss=4.2872 | val_loss=4.3557 | val_acc=0.2105 | time=4.6s
+Epoch  23/30 | train_loss=4.2871 | val_loss=4.3478 | val_acc=0.1950 | time=4.6s
+Epoch  24/30 | train_loss=4.2991 | val_loss=4.3711 | val_acc=0.2365 | time=4.6s
+Epoch  25/30 | train_loss=4.3084 | val_loss=4.3647 | val_acc=0.1690 | time=4.6s
+Epoch  26/30 | train_loss=4.2981 | val_loss=4.3672 | val_acc=0.1275 | time=4.6s
+Epoch  27/30 | train_loss=4.3040 | val_loss=4.3690 | val_acc=0.0980 | time=4.6s
+Epoch  28/30 | train_loss=4.3157 | val_loss=4.3756 | val_acc=0.0645 | time=4.6s
+Epoch  29/30 | train_loss=4.3183 | val_loss=4.3918 | val_acc=0.0780 | time=4.6s
+Epoch  30/30 | train_loss=4.3126 | val_loss=4.3705 | val_acc=0.0875 | time=4.6s
+Model saved to results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt
+Metrics saved to results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/metrics.csv
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq128_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.091, "accuracy_all": 0.0193662165885919, "accuracy_input_echo": 0.018567846196712177, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq256_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.091, "accuracy_all": 0.0193662165885919, "accuracy_input_echo": 0.018567846196712177, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq512_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.091, "accuracy_all": 0.0193662165885919, "accuracy_input_echo": 0.018567846196712177, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq1024_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.091, "accuracy_all": 0.0193662165885919, "accuracy_input_echo": 0.018567846196712177, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq2048_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.008, "accuracy_all": 0.007451088454119592, "accuracy_input_echo": 0.007444970743939816, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq4096_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.006, "accuracy_all": 0.009887021217966382, "accuracy_input_echo": 0.009930342713847868, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+Wrote results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/accuracy_eval_seq8192_arr120.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.089, "accuracy_all": 0.019410305869385507, "accuracy_input_echo": 0.018634717191418224, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+DONE results/subtle_needle_1layer_stieltjes_q32.0_seq128_fixedcap_ascend

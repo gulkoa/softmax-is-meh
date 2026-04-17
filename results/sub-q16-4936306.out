@@ -1,0 +1,46 @@
+=== SUBTLE cut-embd: stieltjes_q16.0 n_embd=32 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 21,024
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.6062 | val_loss=4.3669 | val_acc=0.0000 | time=5.7s
+Epoch   2/30 | train_loss=4.3400 | val_loss=4.2965 | val_acc=0.0910 | time=4.6s
+Epoch   3/30 | train_loss=4.3016 | val_loss=4.2711 | val_acc=0.0905 | time=4.6s
+Epoch   4/30 | train_loss=4.2821 | val_loss=4.2548 | val_acc=0.1650 | time=4.6s
+Epoch   5/30 | train_loss=4.2709 | val_loss=4.2466 | val_acc=0.1710 | time=4.6s
+Epoch   6/30 | train_loss=4.2633 | val_loss=4.2418 | val_acc=0.1455 | time=4.6s
+Epoch   7/30 | train_loss=4.2580 | val_loss=4.2358 | val_acc=0.1655 | time=4.6s
+Epoch   8/30 | train_loss=4.2537 | val_loss=4.2305 | val_acc=0.2220 | time=4.6s
+Epoch   9/30 | train_loss=4.2502 | val_loss=4.2276 | val_acc=0.2130 | time=4.6s
+Epoch  10/30 | train_loss=4.2472 | val_loss=4.2252 | val_acc=0.2165 | time=4.6s
+Epoch  11/30 | train_loss=4.2449 | val_loss=4.2228 | val_acc=0.2895 | time=4.6s
+Epoch  12/30 | train_loss=4.2430 | val_loss=4.2217 | val_acc=0.2425 | time=4.6s
+Epoch  13/30 | train_loss=4.2413 | val_loss=4.2191 | val_acc=0.2795 | time=4.6s
+Epoch  14/30 | train_loss=4.2395 | val_loss=4.2182 | val_acc=0.2835 | time=4.6s
+Epoch  15/30 | train_loss=4.2386 | val_loss=4.2169 | val_acc=0.2880 | time=4.6s
+Epoch  16/30 | train_loss=4.2375 | val_loss=4.2161 | val_acc=0.2690 | time=4.6s
+Epoch  17/30 | train_loss=4.2360 | val_loss=4.2147 | val_acc=0.2865 | time=4.6s
+Epoch  18/30 | train_loss=4.2356 | val_loss=4.2139 | val_acc=0.3180 | time=4.6s
+Epoch  19/30 | train_loss=4.2344 | val_loss=4.2132 | val_acc=0.3470 | time=4.6s
+Epoch  20/30 | train_loss=4.2336 | val_loss=4.2128 | val_acc=0.3475 | time=4.6s
+Epoch  21/30 | train_loss=4.2327 | val_loss=4.2117 | val_acc=0.3725 | time=4.6s
+Epoch  22/30 | train_loss=4.2317 | val_loss=4.2113 | val_acc=0.3285 | time=4.6s
+Epoch  23/30 | train_loss=4.2312 | val_loss=4.2093 | val_acc=0.3590 | time=4.6s
+Epoch  24/30 | train_loss=4.2309 | val_loss=4.2093 | val_acc=0.4150 | time=4.6s
+Epoch  25/30 | train_loss=4.2301 | val_loss=4.2087 | val_acc=0.3725 | time=4.6s
+Epoch  26/30 | train_loss=4.2294 | val_loss=4.2079 | val_acc=0.3720 | time=4.6s
+Epoch  27/30 | train_loss=4.2288 | val_loss=4.2081 | val_acc=0.3945 | time=4.6s
+Epoch  28/30 | train_loss=4.2284 | val_loss=4.2078 | val_acc=0.4180 | time=4.6s
+Epoch  29/30 | train_loss=4.2277 | val_loss=4.2066 | val_acc=0.3685 | time=4.6s
+Epoch  30/30 | train_loss=4.2273 | val_loss=4.2058 | val_acc=0.4145 | time=4.6s
+Model saved to results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt
+Metrics saved to results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/metrics.csv
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 16.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.409, "accuracy_all": 0.026640947919537063, "accuracy_input_echo": 0.02237949289495681, "output_token_count": 1000, "input_token_count": 89725, "all_token_count": 90725, "output_start_stats": {"n": 1000, "min": 60, "max": 120, "mean": 89.7249984741211}}
+DONE results/subtle_needle_1layer_stieltjes_q16.0_seq128_embd32_h4_initfix_ascend

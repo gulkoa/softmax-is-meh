@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt",
+  "task": "max",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 4096,
+  "val_samples": 1000,
+  "seed": 42,
+  "accuracy_fixed": 0.989,
+  "accuracy_all": 0.03377402165638739,
+  "accuracy_input_echo": 0.01847071461783899,
+  "output_token_count": 1000,
+  "input_token_count": 62369,
+  "all_token_count": 64369,
+  "output_start_stats": {
+    "n": 1000,
+    "min": 4,
+    "max": 120,
+    "mean": 62.36899948120117
+  }
+}

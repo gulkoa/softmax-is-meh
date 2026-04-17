@@ -1,0 +1,46 @@
+=== MAX embd-scan: softmax n_embd=64 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 66,624
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.2744 | val_loss=4.1493 | val_acc=0.3020 | time=4.6s
+Epoch   2/30 | train_loss=4.1372 | val_loss=4.1274 | val_acc=0.4517 | time=3.5s
+Epoch   3/30 | train_loss=4.1228 | val_loss=4.1195 | val_acc=0.4690 | time=3.5s
+Epoch   4/30 | train_loss=4.1180 | val_loss=4.1156 | val_acc=0.4905 | time=3.5s
+Epoch   5/30 | train_loss=4.1153 | val_loss=4.1148 | val_acc=0.4853 | time=3.5s
+Epoch   6/30 | train_loss=4.1135 | val_loss=4.1128 | val_acc=0.4903 | time=3.5s
+Epoch   7/30 | train_loss=4.1121 | val_loss=4.1109 | val_acc=0.4898 | time=3.5s
+Epoch   8/30 | train_loss=4.1108 | val_loss=4.1117 | val_acc=0.4875 | time=3.5s
+Epoch   9/30 | train_loss=4.1100 | val_loss=4.1106 | val_acc=0.4900 | time=3.5s
+Epoch  10/30 | train_loss=4.1091 | val_loss=4.1096 | val_acc=0.4970 | time=3.5s
+Epoch  11/30 | train_loss=4.1084 | val_loss=4.1086 | val_acc=0.4978 | time=3.5s
+Epoch  12/30 | train_loss=4.1079 | val_loss=4.1082 | val_acc=0.4975 | time=3.5s
+Epoch  13/30 | train_loss=4.1075 | val_loss=4.1089 | val_acc=0.5012 | time=3.5s
+Epoch  14/30 | train_loss=4.1071 | val_loss=4.1082 | val_acc=0.5090 | time=3.5s
+Epoch  15/30 | train_loss=4.1066 | val_loss=4.1071 | val_acc=0.5048 | time=3.5s
+Epoch  16/30 | train_loss=4.1063 | val_loss=4.1067 | val_acc=0.5048 | time=3.5s
+Epoch  17/30 | train_loss=4.1060 | val_loss=4.1063 | val_acc=0.5058 | time=3.5s
+Epoch  18/30 | train_loss=4.1057 | val_loss=4.1066 | val_acc=0.5078 | time=3.5s
+Epoch  19/30 | train_loss=4.1054 | val_loss=4.1080 | val_acc=0.5110 | time=3.5s
+Epoch  20/30 | train_loss=4.1052 | val_loss=4.1074 | val_acc=0.5118 | time=3.5s
+Epoch  21/30 | train_loss=4.1052 | val_loss=4.1058 | val_acc=0.5082 | time=3.5s
+Epoch  22/30 | train_loss=4.1049 | val_loss=4.1055 | val_acc=0.5102 | time=3.5s
+Epoch  23/30 | train_loss=4.1047 | val_loss=4.1062 | val_acc=0.5122 | time=3.5s
+Epoch  24/30 | train_loss=4.1045 | val_loss=4.1062 | val_acc=0.5122 | time=3.5s
+Epoch  25/30 | train_loss=4.1045 | val_loss=4.1054 | val_acc=0.5148 | time=3.5s
+Epoch  26/30 | train_loss=4.1043 | val_loss=4.1064 | val_acc=0.5160 | time=3.5s
+Epoch  27/30 | train_loss=4.1040 | val_loss=4.1063 | val_acc=0.5182 | time=3.5s
+Epoch  28/30 | train_loss=4.1040 | val_loss=4.1053 | val_acc=0.5132 | time=3.5s
+Epoch  29/30 | train_loss=4.1039 | val_loss=4.1057 | val_acc=0.5168 | time=3.5s
+Epoch  30/30 | train_loss=4.1038 | val_loss=4.1064 | val_acc=0.5100 | time=3.5s
+Model saved to results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt
+Metrics saved to results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/metrics.csv
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.989, "accuracy_all": 0.03377402165638739, "accuracy_input_echo": 0.01847071461783899, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+DONE results/max_1layer_softmax_seq128_embd64_h4_initfix_ascend

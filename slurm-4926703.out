@@ -1,0 +1,67 @@
+=== max 1-layer stieltjes_q16.0 train-seq=16384 bs=1 NoPE ascend ===
+Wed Apr 15 12:18:02 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:25:00.0 Off |                    0 |
+| N/A   38C    P0             38W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA A100-PCIE-40GB          On  |   00000000:E2:00.0 Off |                    0 |
+| N/A   32C    P0             37W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/train.py", line 291, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/train.py", line 217, in main
+    logits, loss = model(x, targets=y)
+                   ~~~~~^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 221, in forward
+    x = block(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 157, in forward
+    x = x + self.attn(self.ln_1(x))   # pre-norm attention + residual
+            ~~~~~~~~~^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 104, in forward
+    y = _stieltjes_attention_ref(
+        q, k, v,
+    ...<3 lines>...
+        num_iter=self.stieltjes_num_iter,
+    )
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/../triton/stieltjes_flash_attn.py", line 80, in stieltjes_attention_ref
+    f_val = diff.pow(-sq).sum(dim=-1, keepdim=True) - 1.0
+            ~~~~~~~~^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 6.00 GiB. GPU 0 has a total capacity of 39.49 GiB of which 5.82 GiB is free. Including non-PyTorch memory, this process has 33.66 GiB memory in use. Of the allocated memory 30.64 GiB is allocated by PyTorch, and 2.52 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

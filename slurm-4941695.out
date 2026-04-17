@@ -1,0 +1,41 @@
+=== MAX n_embd=8 multiseed: softmax seed=1 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 2,952
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.7189 | val_loss=4.3029 | val_acc=0.2893 | time=4.0s
+Epoch   2/30 | train_loss=4.2385 | val_loss=4.2069 | val_acc=0.2893 | time=3.4s
+Epoch   3/30 | train_loss=4.1976 | val_loss=4.1875 | val_acc=0.2893 | time=3.4s
+Epoch   4/30 | train_loss=4.1879 | val_loss=4.1858 | val_acc=0.2893 | time=3.4s
+Epoch   5/30 | train_loss=4.1816 | val_loss=4.1715 | val_acc=0.2893 | time=3.4s
+Epoch   6/30 | train_loss=4.1633 | val_loss=4.1530 | val_acc=0.2993 | time=3.4s
+Epoch   7/30 | train_loss=4.1491 | val_loss=4.1436 | val_acc=0.2945 | time=3.4s
+Epoch   8/30 | train_loss=4.1434 | val_loss=4.1425 | val_acc=0.2975 | time=3.4s
+Epoch   9/30 | train_loss=4.1406 | val_loss=4.1410 | val_acc=0.2985 | time=3.4s
+Epoch  10/30 | train_loss=4.1390 | val_loss=4.1336 | val_acc=0.2958 | time=3.4s
+Epoch  11/30 | train_loss=4.1374 | val_loss=4.1331 | val_acc=0.3008 | time=3.4s
+Epoch  12/30 | train_loss=4.1350 | val_loss=4.1316 | val_acc=0.3945 | time=3.4s
+Epoch  13/30 | train_loss=4.1328 | val_loss=4.1289 | val_acc=0.3900 | time=3.4s
+Epoch  14/30 | train_loss=4.1312 | val_loss=4.1283 | val_acc=0.3940 | time=3.4s
+Epoch  15/30 | train_loss=4.1302 | val_loss=4.1273 | val_acc=0.3965 | time=3.4s
+Epoch  16/30 | train_loss=4.1295 | val_loss=4.1263 | val_acc=0.3957 | time=3.4s
+Epoch  17/30 | train_loss=4.1289 | val_loss=4.1249 | val_acc=0.3950 | time=3.4s
+Epoch  18/30 | train_loss=4.1282 | val_loss=4.1261 | val_acc=0.3970 | time=3.4s
+Epoch  19/30 | train_loss=4.1276 | val_loss=4.1243 | val_acc=0.3960 | time=3.4s
+Epoch  20/30 | train_loss=4.1270 | val_loss=4.1238 | val_acc=0.4407 | time=3.4s
+Epoch  21/30 | train_loss=4.1264 | val_loss=4.1249 | val_acc=0.4477 | time=3.4s
+Epoch  22/30 | train_loss=4.1259 | val_loss=4.1241 | val_acc=0.4420 | time=3.4s
+Epoch  23/30 | train_loss=4.1254 | val_loss=4.1226 | val_acc=0.4450 | time=3.4s
+Epoch  24/30 | train_loss=4.1250 | val_loss=4.1237 | val_acc=0.4450 | time=3.4s
+Epoch  25/30 | train_loss=4.1246 | val_loss=4.1222 | val_acc=0.4422 | time=3.4s
+Epoch  26/30 | train_loss=4.1244 | val_loss=4.1217 | val_acc=0.4363 | time=3.4s
+Epoch  27/30 | train_loss=4.1241 | val_loss=4.1217 | val_acc=0.4417 | time=3.4s
+Epoch  28/30 | train_loss=4.1241 | val_loss=4.1233 | val_acc=0.4422 | time=3.4s
+Epoch  29/30 | train_loss=4.1239 | val_loss=4.1230 | val_acc=0.4385 | time=3.4s
+Epoch  30/30 | train_loss=4.1236 | val_loss=4.1221 | val_acc=0.4430 | time=3.4s
+Model saved to results/max_1layer_softmax_seq128_embd8_h1_seed1_initfix_ascend/model.pt
+Metrics saved to results/max_1layer_softmax_seq128_embd8_h1_seed1_initfix_ascend/metrics.csv
+Wrote results/max_1layer_softmax_seq128_embd8_h1_seed1_initfix_ascend/accuracy_eval_seq128_arr120_first1.json
+{"checkpoint": "results/max_1layer_softmax_seq128_embd8_h1_seed1_initfix_ascend/model.pt", "task": "max", "attn": "softmax", "q": 1.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.85, "accuracy_all": 0.0276841336668272, "accuracy_input_echo": 0.01452644743382129, "output_token_count": 1000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+DONE results/max_1layer_softmax_seq128_embd8_h1_seed1_initfix_ascend

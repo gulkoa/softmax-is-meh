@@ -1,0 +1,34 @@
+=== needle softmax seq_len=16384 bf16 rescue cardinal h100 ===
+Fri Apr 17 08:10:56 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:DC:00.0 Off |                    0 |
+| N/A   35C    P0             91W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 17,038,080
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/15 | train_loss=4.8601 | val_loss=4.8567 | val_acc=0.0000 | time=4615.9s
+Epoch   2/15 | train_loss=4.8550 | val_loss=4.8567 | val_acc=0.0000 | time=4613.7s
+Epoch   3/15 | train_loss=4.8550 | val_loss=4.8596 | val_acc=0.0000 | time=4614.2s
+Epoch   4/15 | train_loss=4.8545 | val_loss=4.8511 | val_acc=0.0100 | time=4617.2s
+Epoch   5/15 | train_loss=4.8542 | val_loss=4.8543 | val_acc=0.0120 | time=4614.3s
+Epoch   6/15 | train_loss=4.8538 | val_loss=4.8562 | val_acc=0.0320 | time=4617.4s
+Epoch   7/15 | train_loss=4.8538 | val_loss=4.8561 | val_acc=0.0360 | time=4614.3s
+Epoch   8/15 | train_loss=4.8537 | val_loss=4.8495 | val_acc=0.0900 | time=4614.7s

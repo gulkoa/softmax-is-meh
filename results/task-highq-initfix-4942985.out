@@ -1,0 +1,39 @@
+=== 6-job expansion: max 6-layer stieltjes q=8.0 post-fix init ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/30 | train_loss=3.4780 | val_loss=3.3729 | val_acc=0.9619 | time=58.6s
+Epoch   2/30 | train_loss=3.3746 | val_loss=3.3632 | val_acc=0.9720 | time=57.3s
+Epoch   3/30 | train_loss=3.3597 | val_loss=3.3529 | val_acc=0.9811 | time=57.6s
+Epoch   4/30 | train_loss=3.3513 | val_loss=3.3500 | val_acc=0.9891 | time=57.7s
+Epoch   5/30 | train_loss=3.3486 | val_loss=3.3506 | val_acc=0.9877 | time=57.7s
+Epoch   6/30 | train_loss=3.3473 | val_loss=3.3449 | val_acc=0.9915 | time=57.7s
+Epoch   7/30 | train_loss=3.3459 | val_loss=3.3443 | val_acc=0.9921 | time=57.7s
+Epoch   8/30 | train_loss=3.3441 | val_loss=3.3442 | val_acc=0.9891 | time=57.7s
+Epoch   9/30 | train_loss=3.3439 | val_loss=3.3440 | val_acc=0.9915 | time=57.7s
+Epoch  10/30 | train_loss=3.3439 | val_loss=3.3434 | val_acc=0.9924 | time=57.6s
+Epoch  11/30 | train_loss=3.3428 | val_loss=3.3440 | val_acc=0.9905 | time=57.6s
+Epoch  12/30 | train_loss=3.3431 | val_loss=3.3434 | val_acc=0.9919 | time=57.8s
+Epoch  13/30 | train_loss=3.3411 | val_loss=3.3419 | val_acc=0.9947 | time=58.1s
+Epoch  14/30 | train_loss=3.3417 | val_loss=3.3433 | val_acc=0.9908 | time=57.8s
+Epoch  15/30 | train_loss=3.3410 | val_loss=3.3413 | val_acc=0.9942 | time=57.5s
+Epoch  16/30 | train_loss=3.3395 | val_loss=3.3407 | val_acc=0.9933 | time=57.5s
+Epoch  17/30 | train_loss=3.3397 | val_loss=3.3414 | val_acc=0.9930 | time=57.5s
+Epoch  18/30 | train_loss=3.3388 | val_loss=3.3422 | val_acc=0.9916 | time=57.6s
+Epoch  19/30 | train_loss=3.3384 | val_loss=3.3406 | val_acc=0.9932 | time=57.6s
+Epoch  20/30 | train_loss=3.3382 | val_loss=3.3400 | val_acc=0.9945 | time=57.5s
+Epoch  21/30 | train_loss=3.3388 | val_loss=3.3435 | val_acc=0.9901 | time=57.5s
+Epoch  22/30 | train_loss=3.3388 | val_loss=3.3415 | val_acc=0.9938 | time=57.5s
+Epoch  23/30 | train_loss=3.3370 | val_loss=3.3416 | val_acc=0.9928 | time=57.6s
+Epoch  24/30 | train_loss=3.3362 | val_loss=3.3414 | val_acc=0.9940 | time=57.6s
+Epoch  25/30 | train_loss=3.3367 | val_loss=3.3434 | val_acc=0.9917 | time=57.6s
+Epoch  26/30 | train_loss=3.3363 | val_loss=3.3428 | val_acc=0.9911 | time=57.6s
+Epoch  27/30 | train_loss=3.3366 | val_loss=3.3429 | val_acc=0.9930 | time=57.5s
+Epoch  28/30 | train_loss=3.3354 | val_loss=3.3446 | val_acc=0.9905 | time=57.5s
+Epoch  29/30 | train_loss=3.3361 | val_loss=3.3458 | val_acc=0.9927 | time=57.5s
+Epoch  30/30 | train_loss=3.3344 | val_loss=3.3424 | val_acc=0.9948 | time=57.5s
+Model saved to results/max_stieltjes_q8.0_initfix_ascend/model.pt
+Metrics saved to results/max_stieltjes_q8.0_initfix_ascend/metrics.csv
+{"checkpoint": "results/max_stieltjes_q8.0_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9948, "accuracy_all": 0.2525790349417637, "accuracy_input_echo": 0.1044311377245509, "output_token_count": 10000, "input_token_count": 50100, "all_token_count": 60100, "output_start_stats": {"n": 5000, "min": 4, "max": 16, "mean": 10.020000457763672}}
+DONE max q=8.0

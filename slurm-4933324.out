@@ -1,0 +1,106 @@
+=== subtle-needle 1-layer stieltjes_q24.0 train-seq=128 NoPE ===
+Thu Apr 16 00:06:57 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:25:00.0 Off |                    0 |
+| N/A   25C    P0             34W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.8446 | val_loss=4.8111 | val_acc=0.7990 | time=6.4s
+Epoch   2/30 | train_loss=4.8131 | val_loss=4.8079 | val_acc=0.7955 | time=4.8s
+Epoch   3/30 | train_loss=4.8078 | val_loss=4.8053 | val_acc=0.8040 | time=4.8s
+Epoch   4/30 | train_loss=4.8046 | val_loss=4.8041 | val_acc=0.8240 | time=4.8s
+Epoch   5/30 | train_loss=4.8021 | val_loss=4.8018 | val_acc=0.8930 | time=4.8s
+Epoch   6/30 | train_loss=4.7996 | val_loss=4.7994 | val_acc=0.9485 | time=4.8s
+Epoch   7/30 | train_loss=4.8004 | val_loss=4.8012 | val_acc=0.8970 | time=4.8s
+Epoch   8/30 | train_loss=4.8000 | val_loss=4.7996 | val_acc=0.9610 | time=4.8s
+Epoch   9/30 | train_loss=4.7990 | val_loss=4.8000 | val_acc=0.9405 | time=4.8s
+Epoch  10/30 | train_loss=4.7986 | val_loss=4.7997 | val_acc=0.9480 | time=4.8s
+Epoch  11/30 | train_loss=4.7983 | val_loss=4.7987 | val_acc=0.9455 | time=4.8s
+Epoch  12/30 | train_loss=4.7985 | val_loss=4.7997 | val_acc=0.9395 | time=4.8s
+Epoch  13/30 | train_loss=4.7985 | val_loss=4.7986 | val_acc=0.9380 | time=4.8s
+Epoch  14/30 | train_loss=4.7979 | val_loss=4.7987 | val_acc=0.9460 | time=4.8s
+Epoch  15/30 | train_loss=4.7980 | val_loss=4.7988 | val_acc=0.9490 | time=4.8s
+Epoch  16/30 | train_loss=4.7982 | val_loss=4.8005 | val_acc=0.9435 | time=4.8s
+Epoch  17/30 | train_loss=4.7988 | val_loss=4.8006 | val_acc=0.9545 | time=4.8s
+Epoch  18/30 | train_loss=4.7990 | val_loss=4.8013 | val_acc=0.9490 | time=4.8s
+Epoch  19/30 | train_loss=4.7990 | val_loss=4.8017 | val_acc=0.9275 | time=4.8s
+Epoch  20/30 | train_loss=4.7996 | val_loss=4.8013 | val_acc=0.9450 | time=4.8s
+Epoch  21/30 | train_loss=4.7993 | val_loss=4.8010 | val_acc=0.9455 | time=4.8s
+Epoch  22/30 | train_loss=4.7992 | val_loss=4.8007 | val_acc=0.9485 | time=4.8s
+Epoch  23/30 | train_loss=4.7992 | val_loss=4.8011 | val_acc=0.9425 | time=4.8s
+Epoch  24/30 | train_loss=4.7999 | val_loss=4.8019 | val_acc=0.9305 | time=4.8s
+Epoch  25/30 | train_loss=4.8007 | val_loss=4.8022 | val_acc=0.9405 | time=4.8s
+Epoch  26/30 | train_loss=4.8004 | val_loss=4.8019 | val_acc=0.9435 | time=4.8s
+Epoch  27/30 | train_loss=4.7995 | val_loss=4.8005 | val_acc=0.9580 | time=4.8s
+Epoch  28/30 | train_loss=4.7985 | val_loss=4.8004 | val_acc=0.9590 | time=4.8s
+Epoch  29/30 | train_loss=4.7988 | val_loss=4.8008 | val_acc=0.9615 | time=4.8s
+Epoch  30/30 | train_loss=4.7990 | val_loss=4.8017 | val_acc=0.9620 | time=4.8s
+Model saved to results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/model.pt
+Metrics saved to results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/metrics.csv
+=== eval at seq=128 (128/128x extrap) ===
+Wrote results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/accuracy_eval_seq128_scaledarr.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 24.0, "seq_len": 128, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.962, "accuracy_all": 0.02664667204983274, "accuracy_input_echo": 0.01625668568000933, "output_token_count": 2000, "input_token_count": 180049, "all_token_count": 182049, "output_start_stats": {"n": 2000, "min": 60, "max": 120, "mean": 90.02449798583984}}
+=== eval at seq=512 (512/128x extrap) ===
+Wrote results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/accuracy_eval_seq512_scaledarr.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 24.0, "seq_len": 512, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.8785, "accuracy_all": 0.006496809426485375, "accuracy_input_echo": 0.0041985411848425545, "output_token_count": 2000, "input_token_count": 758835, "all_token_count": 760835, "output_start_stats": {"n": 2000, "min": 252, "max": 504, "mean": 379.4175109863281}}
+=== eval at seq=2048 (2048/128x extrap) ===
+Wrote results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/accuracy_eval_seq2048_scaledarr.json
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q24.0_seq128_nope_ascend/model.pt", "task": "needle", "attn": "stieltjes", "q": 24.0, "seq_len": 2048, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.0155, "accuracy_all": 0.001046051458402522, "accuracy_input_echo": 0.0010365866635235106, "output_token_count": 2000, "input_token_count": 3054255, "all_token_count": 3056255, "output_start_stats": {"n": 2000, "min": 1021, "max": 2039, "mean": 1527.12744140625}}
+=== eval at seq=8192 (8192/128x extrap) ===
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 263, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 245, in main
+    metrics = compute_all_metrics(model, val_loader, device)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/eval_accuracy.py", line 54, in compute_all_metrics
+    logits = model(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 221, in forward
+    x = block(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 157, in forward
+    x = x + self.attn(self.ln_1(x))   # pre-norm attention + residual
+            ~~~~~~~~~^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/model.py", line 104, in forward
+    y = _stieltjes_attention_ref(
+        q, k, v,
+    ...<3 lines>...
+        num_iter=self.stieltjes_num_iter,
+    )
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/nanogpt/../triton/stieltjes_flash_attn.py", line 58, in stieltjes_attention_ref
+    scores = torch.matmul(q, k.transpose(-2, -1)) * sm_scale
+             ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 95.98 GiB. GPU 0 has a total capacity of 39.49 GiB of which 33.70 GiB is free. Including non-PyTorch memory, this process has 5.78 GiB memory in use. Of the allocated memory 5.28 GiB is allocated by PyTorch, and 12.58 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

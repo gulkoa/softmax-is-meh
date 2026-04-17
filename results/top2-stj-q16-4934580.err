@@ -1,0 +1,11 @@
+usage: train.py [-h] --task {sorting,binary_search,bfs,max,needle}
+                --attn {softmax,stieltjes} [--q Q] --out OUT [--epochs EPOCHS]
+                [--batch-size BATCH_SIZE] [--lr LR] [--seq-len SEQ_LEN]
+                [--max-arr-len MAX_ARR_LEN] [--max-val MAX_VAL]
+                [--train-samples TRAIN_SAMPLES] [--val-samples VAL_SAMPLES]
+                [--seed SEED] [--resume] [--pos-enc {learned,none}]
+                [--needle-margin {distinctive,subtle}]
+                [--stieltjes-num-iter STIELTJES_NUM_ITER]
+                [--dtype {fp32,bf16}] [--n-layer N_LAYER] [--n-head N_HEAD]
+                [--n-embd N_EMBD] [--stieltjes-use-triton]
+train.py: error: argument --task: invalid choice: 'top2_needle' (choose from sorting, binary_search, bfs, max, needle)

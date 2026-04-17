@@ -1,0 +1,42 @@
+=== max softmax seq_len=8192 cardinal h100 ===
+Fri Apr 17 08:16:31 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   34C    P0             68W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 13,892,352
+Epoch   1/15 | train_loss=4.1696 | val_loss=4.1606 | val_acc=1.0000 | time=729.9s
+Epoch   2/15 | train_loss=4.1614 | val_loss=4.1607 | val_acc=1.0000 | time=728.6s
+Epoch   3/15 | train_loss=4.1605 | val_loss=4.1602 | val_acc=1.0000 | time=728.3s
+Epoch   4/15 | train_loss=4.1598 | val_loss=4.1596 | val_acc=1.0000 | time=728.2s
+Epoch   5/15 | train_loss=4.1593 | val_loss=4.1598 | val_acc=1.0000 | time=728.2s
+Epoch   6/15 | train_loss=4.1588 | val_loss=4.1599 | val_acc=1.0000 | time=728.2s
+Epoch   7/15 | train_loss=4.1582 | val_loss=4.1604 | val_acc=1.0000 | time=728.2s
+Epoch   8/15 | train_loss=4.1577 | val_loss=4.1613 | val_acc=1.0000 | time=728.2s
+Epoch   9/15 | train_loss=4.1570 | val_loss=4.1633 | val_acc=1.0000 | time=728.3s
+Epoch  10/15 | train_loss=4.1562 | val_loss=4.1629 | val_acc=1.0000 | time=728.2s
+Epoch  11/15 | train_loss=4.1553 | val_loss=4.1634 | val_acc=1.0000 | time=728.3s
+Epoch  12/15 | train_loss=4.1542 | val_loss=4.1654 | val_acc=1.0000 | time=728.2s
+Epoch  13/15 | train_loss=4.1530 | val_loss=4.1647 | val_acc=1.0000 | time=728.2s
+Epoch  14/15 | train_loss=4.1519 | val_loss=4.1683 | val_acc=1.0000 | time=728.3s
+Epoch  15/15 | train_loss=4.1505 | val_loss=4.1672 | val_acc=1.0000 | time=728.3s
+Model saved to results/max_softmax_seq8192_cardinal_h100/model.pt
+Metrics saved to results/max_softmax_seq8192_cardinal_h100/metrics.csv

@@ -1,0 +1,59 @@
+=== subtle-needle 1-layer stieltjes_q32.0 seq=2048 NoPE h100 ===
+Thu Apr 16 06:50:22 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100                    On  |   00000000:5D:00.0 Off |                    0 |
+| N/A   35C    P0             70W /  700W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.2478 | val_loss=4.2287 | val_acc=0.0515 | time=169.7s
+Epoch   2/30 | train_loss=4.2187 | val_loss=4.2253 | val_acc=0.0545 | time=169.4s
+Epoch   3/30 | train_loss=4.2168 | val_loss=4.2247 | val_acc=0.0360 | time=169.4s
+Epoch   4/30 | train_loss=4.2151 | val_loss=4.2228 | val_acc=0.0710 | time=169.5s
+Epoch   5/30 | train_loss=4.2154 | val_loss=4.2269 | val_acc=0.0850 | time=169.4s
+Epoch   6/30 | train_loss=4.2146 | val_loss=4.2250 | val_acc=0.0755 | time=169.5s
+Epoch   7/30 | train_loss=4.2136 | val_loss=4.2232 | val_acc=0.0700 | time=169.4s
+Epoch   8/30 | train_loss=4.2134 | val_loss=4.2223 | val_acc=0.0640 | time=169.4s
+Epoch   9/30 | train_loss=4.2150 | val_loss=4.2224 | val_acc=0.0865 | time=169.4s
+Epoch  10/30 | train_loss=4.2136 | val_loss=4.2199 | val_acc=0.0660 | time=169.4s
+Epoch  11/30 | train_loss=4.2124 | val_loss=4.2223 | val_acc=0.0840 | time=169.5s
+Epoch  12/30 | train_loss=4.2114 | val_loss=4.2208 | val_acc=0.1130 | time=169.4s
+Epoch  13/30 | train_loss=4.2122 | val_loss=4.2234 | val_acc=0.1200 | time=169.4s
+Epoch  14/30 | train_loss=4.2123 | val_loss=4.2221 | val_acc=0.1000 | time=169.5s
+Epoch  15/30 | train_loss=4.2120 | val_loss=4.2205 | val_acc=0.1035 | time=169.5s
+Epoch  16/30 | train_loss=4.2103 | val_loss=4.2191 | val_acc=0.1170 | time=169.5s
+Epoch  17/30 | train_loss=4.2106 | val_loss=4.2187 | val_acc=0.1115 | time=169.4s
+Epoch  18/30 | train_loss=4.2104 | val_loss=4.2193 | val_acc=0.0890 | time=169.4s
+Epoch  19/30 | train_loss=4.2106 | val_loss=4.2195 | val_acc=0.0795 | time=169.4s
+Epoch  20/30 | train_loss=4.2123 | val_loss=4.2279 | val_acc=0.0995 | time=169.5s
+Epoch  21/30 | train_loss=4.2117 | val_loss=4.2203 | val_acc=0.0815 | time=169.4s
+Epoch  22/30 | train_loss=4.2104 | val_loss=4.2187 | val_acc=0.0880 | time=169.4s
+Epoch  23/30 | train_loss=4.2097 | val_loss=4.2197 | val_acc=0.0775 | time=169.5s
+Epoch  24/30 | train_loss=4.2107 | val_loss=4.2203 | val_acc=0.0935 | time=169.4s
+Epoch  25/30 | train_loss=4.2103 | val_loss=4.2205 | val_acc=0.0945 | time=169.4s
+Epoch  26/30 | train_loss=4.2105 | val_loss=4.2196 | val_acc=0.1060 | time=169.4s
+Epoch  27/30 | train_loss=4.2096 | val_loss=4.2176 | val_acc=0.0860 | time=169.4s
+Epoch  28/30 | train_loss=4.2089 | val_loss=4.2192 | val_acc=0.1040 | time=169.4s
+Epoch  29/30 | train_loss=4.2086 | val_loss=4.2191 | val_acc=0.0915 | time=169.4s
+Epoch  30/30 | train_loss=4.2086 | val_loss=4.2191 | val_acc=0.1040 | time=169.4s
+Model saved to results/subtle_needle_1layer_stieltjes_q32.0_seq2048_nope_h100/model.pt
+Metrics saved to results/subtle_needle_1layer_stieltjes_q32.0_seq2048_nope_h100/metrics.csv
+{"checkpoint": "results/subtle_needle_1layer_stieltjes_q32.0_seq2048_nope_h100/model.pt", "task": "needle", "attn": "stieltjes", "q": 32.0, "seq_len": 2048, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.104, "accuracy_all": 0.017389439890967015, "accuracy_input_echo": 0.017333299627354477, "output_token_count": 2000, "input_token_count": 3085506, "all_token_count": 3087506, "output_start_stats": {"n": 2000, "min": 1020, "max": 2040, "mean": 1542.7530517578125}}

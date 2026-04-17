@@ -1,0 +1,10 @@
+  seq=32768 accuracy_fixed=1.0000 (n=200)
+  seq=65536 accuracy_fixed=1.0000 (n=200)
+  seq=131072 accuracy_fixed=1.0000 (n=200)
+  seq=32768 accuracy_fixed=0.9900 (n=200)
+  seq=65536 accuracy_fixed=0.9900 (n=200)
+  seq=131072 accuracy_fixed=0.9900 (n=200)
+  seq=32768 accuracy_fixed=0.8350 (n=200)
+  seq=65536 accuracy_fixed=0.8350 (n=200)
+  seq=131072 accuracy_fixed=0.8350 (n=200)
+DONE

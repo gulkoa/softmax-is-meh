@@ -1,0 +1,44 @@
+=== subtle-needle 1-layer stieltjes_q32.0 seq=4096 NoPE ascend ===
+Wed Apr 15 22:11:19 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:25:00.0 Off |                    0 |
+| N/A   27C    P0             36W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA A100-PCIE-40GB          On  |   00000000:E2:00.0 Off |                    0 |
+| N/A   24C    P0             33W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.8505 | val_loss=4.8461 | val_acc=1.0000 | time=1032.6s
+Epoch   2/30 | train_loss=4.8482 | val_loss=4.8506 | val_acc=1.0000 | time=1030.9s
+Epoch   3/30 | train_loss=4.8499 | val_loss=4.8482 | val_acc=1.0000 | time=1030.5s
+Epoch   4/30 | train_loss=4.8528 | val_loss=4.8525 | val_acc=1.0000 | time=1030.2s
+Epoch   5/30 | train_loss=4.8563 | val_loss=4.8617 | val_acc=1.0000 | time=1030.3s
+Epoch   6/30 | train_loss=4.8628 | val_loss=4.8760 | val_acc=1.0000 | time=1031.2s
+Epoch   7/30 | train_loss=4.8639 | val_loss=4.8774 | val_acc=1.0000 | time=1030.4s
+Epoch   8/30 | train_loss=4.8758 | val_loss=4.8452 | val_acc=1.0000 | time=1030.1s
+Epoch   9/30 | train_loss=4.8885 | val_loss=4.8871 | val_acc=1.0000 | time=1030.1s
+Epoch  10/30 | train_loss=4.8912 | val_loss=4.9352 | val_acc=1.0000 | time=1030.3s
+Epoch  11/30 | train_loss=4.9187 | val_loss=4.8455 | val_acc=1.0000 | time=1030.2s
+Epoch  12/30 | train_loss=4.9496 | val_loss=4.8449 | val_acc=1.0000 | time=1030.4s
+Epoch  13/30 | train_loss=4.9560 | val_loss=4.8455 | val_acc=1.0000 | time=1030.3s
+[2026-04-16T02:11:34.735] error: *** JOB 4932973 ON a0335 CANCELLED AT 2026-04-16T02:11:34 DUE TO TIME LIMIT ***

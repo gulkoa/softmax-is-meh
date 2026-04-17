@@ -1,0 +1,33 @@
+=== max 1-layer stieltjes_q32.0 train-seq=4096 bs=4 NoPE ascend ===
+Wed Apr 15 02:45:08 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   29C    P0             35W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 1,874,304
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.1644 | val_loss=4.1592 | val_acc=0.9990 | time=1032.1s
+Epoch   2/30 | train_loss=4.1595 | val_loss=4.1589 | val_acc=0.9990 | time=1030.9s
+Epoch   3/30 | train_loss=4.1593 | val_loss=4.1587 | val_acc=0.9990 | time=1030.4s
+Epoch   4/30 | train_loss=4.1592 | val_loss=4.1586 | val_acc=0.9990 | time=1030.4s
+Epoch   5/30 | train_loss=4.1592 | val_loss=4.1598 | val_acc=0.9990 | time=1030.4s
+Epoch   6/30 | train_loss=4.1592 | val_loss=4.1595 | val_acc=0.9990 | time=1030.4s
+[2026-04-15T04:45:26.019] error: *** JOB 4925271 ON a0346 CANCELLED AT 2026-04-15T04:45:26 DUE TO TIME LIMIT ***

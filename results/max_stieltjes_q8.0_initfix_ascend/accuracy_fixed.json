@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_stieltjes_q8.0_initfix_ascend/model.pt",
+  "task": "max",
+  "attn": "stieltjes",
+  "q": 8.0,
+  "seq_len": 128,
+  "val_samples": 5000,
+  "seed": 42,
+  "accuracy_fixed": 0.9948,
+  "accuracy_all": 0.2525790349417637,
+  "accuracy_input_echo": 0.1044311377245509,
+  "output_token_count": 10000,
+  "input_token_count": 50100,
+  "all_token_count": 60100,
+  "output_start_stats": {
+    "n": 5000,
+    "min": 4,
+    "max": 16,
+    "mean": 10.020000457763672
+  }
+}

@@ -1,0 +1,46 @@
+=== MAX retrieval cut-embd: stieltjes_q4.0 n_embd=32 n_head=4 ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 21,024
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/30 | train_loss=4.3716 | val_loss=4.1807 | val_acc=0.2853 | time=6.4s
+Epoch   2/30 | train_loss=4.1610 | val_loss=4.1444 | val_acc=0.2863 | time=4.7s
+Epoch   3/30 | train_loss=4.1393 | val_loss=4.1342 | val_acc=0.2880 | time=4.6s
+Epoch   4/30 | train_loss=4.1300 | val_loss=4.1260 | val_acc=0.3538 | time=4.6s
+Epoch   5/30 | train_loss=4.1235 | val_loss=4.1202 | val_acc=0.4015 | time=4.6s
+Epoch   6/30 | train_loss=4.1196 | val_loss=4.1169 | val_acc=0.4293 | time=4.6s
+Epoch   7/30 | train_loss=4.1169 | val_loss=4.1149 | val_acc=0.4490 | time=4.6s
+Epoch   8/30 | train_loss=4.1149 | val_loss=4.1133 | val_acc=0.4507 | time=4.7s
+Epoch   9/30 | train_loss=4.1136 | val_loss=4.1123 | val_acc=0.4517 | time=4.6s
+Epoch  10/30 | train_loss=4.1123 | val_loss=4.1111 | val_acc=0.4560 | time=4.6s
+Epoch  11/30 | train_loss=4.1114 | val_loss=4.1103 | val_acc=0.4682 | time=4.7s
+Epoch  12/30 | train_loss=4.1106 | val_loss=4.1095 | val_acc=0.4685 | time=4.6s
+Epoch  13/30 | train_loss=4.1099 | val_loss=4.1091 | val_acc=0.4675 | time=4.6s
+Epoch  14/30 | train_loss=4.1093 | val_loss=4.1092 | val_acc=0.4698 | time=4.6s
+Epoch  15/30 | train_loss=4.1085 | val_loss=4.1089 | val_acc=0.4700 | time=4.6s
+Epoch  16/30 | train_loss=4.1079 | val_loss=4.1073 | val_acc=0.4790 | time=4.6s
+Epoch  17/30 | train_loss=4.1075 | val_loss=4.1072 | val_acc=0.4773 | time=4.6s
+Epoch  18/30 | train_loss=4.1071 | val_loss=4.1067 | val_acc=0.4805 | time=4.6s
+Epoch  19/30 | train_loss=4.1067 | val_loss=4.1064 | val_acc=0.4820 | time=4.6s
+Epoch  20/30 | train_loss=4.1064 | val_loss=4.1063 | val_acc=0.4808 | time=4.6s
+Epoch  21/30 | train_loss=4.1060 | val_loss=4.1067 | val_acc=0.4858 | time=4.6s
+Epoch  22/30 | train_loss=4.1057 | val_loss=4.1059 | val_acc=0.4923 | time=4.6s
+Epoch  23/30 | train_loss=4.1055 | val_loss=4.1055 | val_acc=0.4880 | time=4.6s
+Epoch  24/30 | train_loss=4.1053 | val_loss=4.1054 | val_acc=0.4895 | time=4.6s
+Epoch  25/30 | train_loss=4.1051 | val_loss=4.1050 | val_acc=0.4948 | time=4.6s
+Epoch  26/30 | train_loss=4.1049 | val_loss=4.1049 | val_acc=0.4943 | time=4.6s
+Epoch  27/30 | train_loss=4.1048 | val_loss=4.1049 | val_acc=0.4955 | time=4.6s
+Epoch  28/30 | train_loss=4.1045 | val_loss=4.1047 | val_acc=0.4945 | time=4.6s
+Epoch  29/30 | train_loss=4.1044 | val_loss=4.1047 | val_acc=0.4983 | time=4.6s
+Epoch  30/30 | train_loss=4.1042 | val_loss=4.1044 | val_acc=0.4998 | time=4.6s
+Model saved to results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt
+Metrics saved to results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/metrics.csv
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 128, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 256, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 512, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 1024, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 2048, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 4096, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+{"checkpoint": "results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend/model.pt", "task": "max", "attn": "stieltjes", "q": 4.0, "seq_len": 8192, "val_samples": 1000, "seed": 42, "accuracy_fixed": 0.4985, "accuracy_all": 0.034240084512731285, "accuracy_input_echo": 0.019352562971989288, "output_token_count": 2000, "input_token_count": 62369, "all_token_count": 64369, "output_start_stats": {"n": 1000, "min": 4, "max": 120, "mean": 62.36899948120117}}
+DONE results/max_1layer_stieltjes_q4.0_seq128_embd32_h4_initfix_ascend
