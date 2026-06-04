@@ -655,10 +655,15 @@ class StieltjesAttention(torch.autograd.Function):
         # well-conditioned starting point regardless of N or causal vs not.
         lambda_init = torch.full((N,), 1.1, device=q.device, dtype=torch.float32)
 
-        # Select block sizes based on head dimension
+        # Select block sizes based on head dim AND element size. fp32 tiles are
+        # 2x the bytes of fp16/bf16; at D>=128 the default 64x64 tiles overflow
+        # H100 shared memory in the backward (triple-buffered k/v: ~256KB > 228KB),
+        # so shrink to 32x32 for fp32. fp16/bf16 behavior is unchanged.
         if D <= 64:
             BLOCK_M, BLOCK_N = 128, 64
-        else:
+        elif q.element_size() >= 4:   # fp32 at D in {128, 256}
+            BLOCK_M, BLOCK_N = 32, 32
+        else:                          # fp16 / bf16 at D in {128, 256}
             BLOCK_M, BLOCK_N = 64, 64
 
         grid = (triton.cdiv(N, BLOCK_M), B * H)
@@ -715,9 +720,13 @@ class StieltjesAttention(torch.autograd.Function):
 
         B, H, N, D = q.shape
         BH = B * H
+        # Must match the forward's precision-aware block selection (fp32 at
+        # D>=128 uses 32x32 to fit H100 shared memory in the backward).
         if D <= 64:
             BLOCK_M, BLOCK_N = 128, 64
-        else:
+        elif q.element_size() >= 4:   # fp32 at D in {128, 256}
+            BLOCK_M, BLOCK_N = 32, 32
+        else:                          # fp16 / bf16 at D in {128, 256}
             BLOCK_M, BLOCK_N = 64, 64
 
         do = do.contiguous()
