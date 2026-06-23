@@ -1,0 +1,19 @@
+Structural analysis of normalized vs unnormalized Stieltjes gradients
+==========================================================================
+ q=  2 T=  16: |Σg_unnorm|=1.306e-16  |Σg_norm|=5.673e-17  decomp_resid=1.8e-15  |B - dO·O|=1.6e-15  |coupling|/|g_unnorm| = 0.772 (min 0.041, max 7.213)
+ q=  2 T= 256: |Σg_unnorm|=5.804e-18  |Σg_norm|=2.094e-18  decomp_resid=4.5e-17  |B - dO·O|=5.6e-16  |coupling|/|g_unnorm| = 0.498 (min 0.024, max 0.980)
+ q=  4 T=  16: |Σg_unnorm|=9.666e-16  |Σg_norm|=1.797e-16  decomp_resid=4.9e-15  |B - dO·O|=3.6e-15  |coupling|/|g_unnorm| = 1.394 (min 0.015, max 8.350)
+ q=  4 T= 256: |Σg_unnorm|=5.435e-16  |Σg_norm|=4.159e-16  decomp_resid=5.8e-15  |B - dO·O|=4.9e-15  |coupling|/|g_unnorm| = 1.008 (min 0.001, max 5.448)
+
+Reading (C1 revised after measurement):
+  C1  BOTH row-sums are ~0: max-centering makes both mappings shift-invariant
+      in s, so Σ_k g_k = 0 either way. The real difference is WHERE the
+      counterweight sits — unnormalized: entirely on the argmax key;
+      normalized: spread over all keys ∝ r_k (simplex-tangent gradient,
+      Σ_j dp_j/ds_k = 0 per output row).
+  C2  decomp_resid ≈ 0 confirms g_norm = g_unnorm/S − (q/S)·B·(r − 1_argmax·R).
+  C3  B = dO·O exactly: the coupling strength is the alignment of the upstream
+      gradient with the current attention output.
+  C4  |coupling|/|g_unnorm| ≈ 0.5–1.4: the two trainings see substantially
+      different gradient DIRECTIONS — a first-order difference, which is why
+      a ~1e-4 forward difference can still produce a multi-pp OOD gap.

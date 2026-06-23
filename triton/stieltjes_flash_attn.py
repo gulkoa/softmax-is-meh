@@ -100,6 +100,7 @@ def _stieltjes_attn_fwd(
     Lambda,  # (B*H, N) — stores λ per query row for backward
     D_sum,   # (B*H, N) — stores Σ(λ-s)^{-q-1} per query row for backward
     Argmax,  # (B*H, N) int32 — stores argmax column index per row (for BS-style backward)
+    Wsum,    # (B*H, N) fp32 — stores S = Σ(λ-s)^{-q} per query row (normalized mode)
     LambdaInit,  # (N,) fp32 — per-row initial λ. For causal: (i+1)^{1/q};
                  # for non-causal: N^{1/q} broadcast. Matches ref init so NR
                  # converges in the same iteration count regardless of causal.
@@ -116,6 +117,8 @@ def _stieltjes_attn_fwd(
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
     CAUSAL: tl.constexpr,
+    NORMALIZE: tl.constexpr,  # if True: O = (Σ w v) / Σ w  (matches the
+                              # normalized `stieltjes` PyTorch reference)
 ):
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
@@ -149,7 +152,7 @@ def _stieltjes_attn_fwd(
         k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
 
         # QK^T: [BLOCK_M, BLOCK_N]
-        qk = tl.dot(q_block, tl.trans(k_block)) * sm_scale
+        qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
 
         # Mask PADDED key columns (offs_n >= N_CTX, present when N_CTX is not a
         # multiple of BLOCK_N). Their k=0 gives qk=0, which is NOT a valid score;
@@ -192,7 +195,7 @@ def _stieltjes_attn_fwd(
             k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
             k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
 
-            qk = tl.dot(q_block, tl.trans(k_block)) * sm_scale
+            qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
 
             # Mask padded key columns (see PASS 1). Keeps spurious mass out of the
             # Newton normalization sum. No-op when N_CTX is a multiple of BLOCK_N.
@@ -228,6 +231,7 @@ def _stieltjes_attn_fwd(
     # ===== PASS 3: Compute attention output P @ V =====
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
     d_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # Σ(λ-s)^{-q-1} for backward
+    w_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # S = Σ(λ-s)^{-q}
 
     for start_n in tl.range(0, N_CTX, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
@@ -236,7 +240,7 @@ def _stieltjes_attn_fwd(
         k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
         v_block = tl.load(v_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
 
-        qk = tl.dot(q_block, tl.trans(k_block)) * sm_scale
+        qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
 
         # Mask padded key columns (see PASS 1). Keeps spurious mass out of d_sum
         # and the P@V accumulation. No-op when N_CTX is a multiple of BLOCK_N.
@@ -258,21 +262,28 @@ def _stieltjes_attn_fwd(
             d_tile = tl.exp(log_diff * (-sq - 1.0))
 
         d_sum += tl.sum(d_tile, axis=1)
+        w_sum += tl.sum(weights, axis=1)
 
         # Accumulate P @ V
-        acc += tl.dot(weights.to(v_block.dtype), v_block)
+        acc += tl.dot(weights.to(v_block.dtype), v_block, input_precision="ieee")
+
+    if NORMALIZE:
+        # O = (Σ w v) / S — matches `stieltjes`'s probs/probs.sum() exactly.
+        acc = acc / tl.maximum(w_sum, EPS)[:, None]
 
     # Store output
     o_ptrs = O + o_offset + offs_m[:, None] * stride_om + offs_d[None, :] * stride_ok
     tl.store(o_ptrs, acc.to(q_block.dtype), mask=offs_m[:, None] < N_CTX)
 
-    # Store λ, D, and argmax for backward
+    # Store λ, D, argmax, and S for backward
     lambda_ptrs = Lambda + off_hz * N_CTX + offs_m
     d_ptrs = D_sum + off_hz * N_CTX + offs_m
     argmax_ptrs = Argmax + off_hz * N_CTX + offs_m
+    wsum_ptrs = Wsum + off_hz * N_CTX + offs_m
     tl.store(lambda_ptrs, lambd + row_max, mask=offs_m < N_CTX)  # store absolute λ
     tl.store(d_ptrs, d_sum, mask=offs_m < N_CTX)
     tl.store(argmax_ptrs, row_argmax, mask=offs_m < N_CTX)
+    tl.store(wsum_ptrs, w_sum, mask=offs_m < N_CTX)
 
 
 # ---------------------------------------------------------------------------
@@ -306,7 +317,7 @@ def _stieltjes_score_helpers(
       r       = (λ - s)^{-q-1}    — derivative weights
       qk      = Q @ K^T * scale   — raw scores (for debugging / optional use)
     """
-    qk = tl.dot(q_block, tl.trans(k_block)) * sm_scale
+    qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
 
     if CAUSAL:
         causal_mask = offs_m[:, None] >= offs_n[None, :]
@@ -399,7 +410,7 @@ def _stieltjes_bwd_delta(
         )
 
         # dP tile = dO @ V^T : [BLOCK_M, BLOCK_N]
-        dP_tile = tl.dot(do_block, tl.trans(v_block))
+        dP_tile = tl.dot(do_block, tl.trans(v_block), input_precision="ieee")
 
         # Accumulate dP * r
         acc += tl.sum(dP_tile * r, axis=1)
@@ -415,6 +426,7 @@ def _stieltjes_bwd_delta(
 def _stieltjes_bwd_dkdv(
     Q, K, V, DO,
     Lambda, Delta, D_sum, Argmax,
+    NormCoef, NormB, NormKappa,   # (B*H, N) fp32 — only read when NORMALIZE
     DK, DV,
     stride_qz, stride_qh, stride_qm, stride_qk,
     stride_kz, stride_kh, stride_kn, stride_kk,
@@ -430,13 +442,18 @@ def _stieltjes_bwd_dkdv(
     BLOCK_N: tl.constexpr,
     CAUSAL: tl.constexpr,
     BLOCK_LAMBDA_GRAD: tl.constexpr,
+    NORMALIZE: tl.constexpr,
 ):
     """Compute dK and dV by iterating over Q blocks for a fixed K/V block.
 
-    When BLOCK_LAMBDA_GRAD is True, uses BS-style gradient:
+    NORMALIZE=True (normalized Stieltjes p = w/S; matches `stieltjes` autograd):
+      dS_ij = coef_i * r_ij * (dP_ij - B_i) - kappa_i * [j == argmax_i]
+      with per-row coef = q/S, B = dO·O, kappa = (q/S)(A - R*B); A = Σ dP·r,
+      R = Σ r. dV uses p = w/S instead of w.
+    BLOCK_LAMBDA_GRAD=True (unnormalized, BS-style):
       dS_ij = sq * r_ij * dP_ij - kappa_i * [j == argmax_i]
       where kappa_i = sq * D_i * delta_i = sq * Σ_l (dP_il * r_il).
-    When False, uses the IFT gradient:
+    Default (IFT gradient):
       dS_ij = sq * r_ij * (dP_ij - delta_i).
     """
     start_n = tl.program_id(0)
@@ -487,9 +504,19 @@ def _stieltjes_bwd_dkdv(
         )
 
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
-        dP_tile = tl.dot(do_block, tl.trans(v_block))
+        dP_tile = tl.dot(do_block, tl.trans(v_block), input_precision="ieee")
 
-        if BLOCK_LAMBDA_GRAD:
+        if NORMALIZE:
+            # Normalized: dS = coef * r * (dP - B) - kappa * [j == argmax_i]
+            coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+            b_row = tl.load(NormB + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+            kappa_row = tl.load(NormKappa + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+            argmax_row = tl.load(Argmax + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0)
+            argmax_col_mask = (offs_n[None, :] == argmax_row[:, None])
+            dS_f32 = coef_row[:, None] * r * (dP_tile - b_row[:, None])
+            dS_f32 = tl.where(argmax_col_mask, dS_f32 - kappa_row[:, None], dS_f32)
+            dS = dS_f32.to(q_block.dtype)
+        elif BLOCK_LAMBDA_GRAD:
             # BS-style: dS = sq * r * dP - kappa * [j == argmax_i]
             # where kappa = sq * D * delta (= sq * Σ_l dP_il * r_il)
             d_row = tl.load(D_sum + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
@@ -509,10 +536,14 @@ def _stieltjes_bwd_dkdv(
             dS = tl.where(causal_mask, dS, 0.0)
 
         # dK += dS^T @ Q * sm_scale
-        dk += tl.dot(tl.trans(dS), q_block) * sm_scale
+        dk += tl.dot(tl.trans(dS), q_block, input_precision="ieee") * sm_scale
 
-        # dV += P^T @ dO
-        dv += tl.dot(tl.trans(weights.to(do_block.dtype)), do_block)
+        # dV += P^T @ dO  (normalized mode: P = w/S, scale rows by 1/S = coef/sq)
+        if NORMALIZE:
+            w_eff = weights * (coef_row * (1.0 / sq))[:, None]
+            dv += tl.dot(tl.trans(w_eff.to(do_block.dtype)), do_block, input_precision="ieee")
+        else:
+            dv += tl.dot(tl.trans(weights.to(do_block.dtype)), do_block, input_precision="ieee")
 
     # Store dK, dV
     dk_off = off_z * stride_dkz + off_h * stride_dkh
@@ -527,6 +558,7 @@ def _stieltjes_bwd_dkdv(
 def _stieltjes_bwd_dq(
     Q, K, V, DO,
     Lambda, Delta, D_sum, Argmax,
+    NormCoef, NormB, NormKappa,   # (B*H, N) fp32 — only read when NORMALIZE
     DQ,
     stride_qz, stride_qh, stride_qm, stride_qk,
     stride_kz, stride_kh, stride_kn, stride_kk,
@@ -541,10 +573,12 @@ def _stieltjes_bwd_dq(
     BLOCK_N: tl.constexpr,
     CAUSAL: tl.constexpr,
     BLOCK_LAMBDA_GRAD: tl.constexpr,
+    NORMALIZE: tl.constexpr,
 ):
     """Compute dQ by iterating over K/V blocks for a fixed Q block.
 
-    BLOCK_LAMBDA_GRAD: when True, uses BS-style backward (see _stieltjes_bwd_dkdv).
+    NORMALIZE / BLOCK_LAMBDA_GRAD select the gradient form
+    (see _stieltjes_bwd_dkdv).
     """
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
@@ -569,7 +603,12 @@ def _stieltjes_bwd_dq(
 
     lam_row = tl.load(Lambda + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
     delta_row = tl.load(Delta + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
-    if BLOCK_LAMBDA_GRAD:
+    if NORMALIZE:
+        coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+        b_row = tl.load(NormB + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+        kappa_row = tl.load(NormKappa + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+        argmax_row = tl.load(Argmax + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0)
+    elif BLOCK_LAMBDA_GRAD:
         d_row = tl.load(D_sum + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
         argmax_row = tl.load(Argmax + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0)
         kappa_row = sq * d_row * delta_row
@@ -596,9 +635,14 @@ def _stieltjes_bwd_dq(
         )
 
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
-        dP_tile = tl.dot(do_block, tl.trans(v_block))
+        dP_tile = tl.dot(do_block, tl.trans(v_block), input_precision="ieee")
 
-        if BLOCK_LAMBDA_GRAD:
+        if NORMALIZE:
+            argmax_col_mask = (offs_n[None, :] == argmax_row[:, None])
+            dS_f32 = coef_row[:, None] * r * (dP_tile - b_row[:, None])
+            dS_f32 = tl.where(argmax_col_mask, dS_f32 - kappa_row[:, None], dS_f32)
+            dS = dS_f32.to(q_block.dtype)
+        elif BLOCK_LAMBDA_GRAD:
             argmax_col_mask = (offs_n[None, :] == argmax_row[:, None])
             dS_f32 = sq * r * dP_tile
             dS_f32 = tl.where(argmax_col_mask, dS_f32 - kappa_row[:, None], dS_f32)
@@ -612,7 +656,7 @@ def _stieltjes_bwd_dq(
             dS = tl.where(causal_mask, dS, 0.0)
 
         # dQ += dS @ K * sm_scale
-        dq += tl.dot(dS, k_block) * sm_scale
+        dq += tl.dot(dS, k_block, input_precision="ieee") * sm_scale
 
     # Store dQ
     dq_off = off_z * stride_dqz + off_h * stride_dqh
@@ -627,17 +671,18 @@ def _stieltjes_bwd_dq(
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=3,
-                block_lambda_grad=False):
+                block_lambda_grad=False, normalize=False):
         """
-        block_lambda_grad: if True, backward uses BS-style gradient
-          (matches PyTorch bisection's autograd: treats λ as constant,
-           includes argmax-column correction term -κ_i at j=argmax_i).
-          If False (default), uses the IFT-correct gradient
-          (matches autograd through a differentiable NR iteration).
-
-        Empirically (2026-05-26 max-retrieval experiment), block_lambda_grad=True
-        gives 2-4pp better OOD accuracy at q∈{4,16}; see
-        thesis/findings/2026-05-12-bs-vs-nr-stieltjes-equivalence.md
+        normalize: if True, output is O = (Σ w v) / Σ w and the backward is the
+          normalized-Stieltjes gradient — matches the normalized `stieltjes`
+          PyTorch reference (probs / probs.sum()) in both value and autograd.
+          Empirically the normalized mapping is 5-10pp better OOD on
+          max-retrieval; see thesis/findings/2026-06-09-why-normalization-
+          helps-ood.md. Takes precedence over block_lambda_grad.
+        block_lambda_grad: if True (and normalize=False), backward uses the
+          BS-style gradient (matches the UNNORMALIZED bisection `stieltjes_old`
+          autograd: λ constant + argmax correction).
+          If False (default), uses the IFT-correct gradient.
         """
         B, H, N, D = q.shape
         assert k.shape == v.shape == (B, H, N, D)
@@ -647,6 +692,7 @@ class StieltjesAttention(torch.autograd.Function):
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         d_sum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
         argmax = torch.empty((B * H, N), device=q.device, dtype=torch.int32)
+        wsum = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
 
         # 2026-04-16: switched to constant init=1.1 to match the fixed
         # `_stieltjes_attention_ref`. Ablation showed per-row init `(i+1)^{1/q}`
@@ -670,7 +716,7 @@ class StieltjesAttention(torch.autograd.Function):
 
         _stieltjes_attn_fwd[grid](
             q, k, v, o,
-            lam, d_sum, argmax,
+            lam, d_sum, argmax, wsum,
             lambda_init,
             q.stride(0), q.stride(1), q.stride(2), q.stride(3),
             k.stride(0), k.stride(1), k.stride(2), k.stride(3),
@@ -685,14 +731,16 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_M=BLOCK_M,
             BLOCK_N=BLOCK_N,
             CAUSAL=causal,
+            NORMALIZE=normalize,
         )
 
-        ctx.save_for_backward(q, k, v, lam, d_sum, argmax)
+        ctx.save_for_backward(q, k, v, o, lam, d_sum, argmax, wsum)
         ctx.sm_scale = sm_scale
         ctx.causal = causal
         ctx.stieltjes_q = stieltjes_q
         ctx.num_iter = num_iter
         ctx.block_lambda_grad = block_lambda_grad
+        ctx.normalize = normalize
         return o
 
     @staticmethod
@@ -705,18 +753,23 @@ class StieltjesAttention(torch.autograd.Function):
           δ_i   = (Σ_k dP_ik · r_ik) / D_i
           κ_i   = q · D_i · δ_i  = q · Σ_k dP_ik · r_ik
 
-        If block_lambda_grad=False (default, IFT-correct):
-          dS_ij = q · r_ij · (dP_ij − δ_i)
-        If block_lambda_grad=True (matches PyTorch BS autograd):
+        If normalize=True (matches normalized `stieltjes` autograd):
+          dS_ij = (q/S_i) · r_ij · (dP_ij − B_i) − κ'_i · [j == argmax_i]
+          with S_i = Σ_k w_ik, B_i = dO_i · O_i, A_i = δ_i · D_i,
+          κ'_i = (q/S_i)(A_i − D_i · B_i); and dV uses p = w/S.
+        Elif block_lambda_grad=True (matches unnormalized PyTorch BS autograd):
           dS_ij = q · r_ij · dP_ij − κ_i · [j == argmax_i]
+        Else (default, IFT-correct):
+          dS_ij = q · r_ij · (dP_ij − δ_i)
 
         All kernels recompute scores on-the-fly to avoid O(N²) storage.
         """
-        q, k, v, lam, d_sum, argmax = ctx.saved_tensors
+        q, k, v, o, lam, d_sum, argmax, wsum = ctx.saved_tensors
         sq = ctx.stieltjes_q
         sm_scale = ctx.sm_scale
         causal = ctx.causal
         block_lambda_grad = ctx.block_lambda_grad
+        normalize = ctx.normalize
 
         B, H, N, D = q.shape
         BH = B * H
@@ -755,6 +808,19 @@ class StieltjesAttention(torch.autograd.Function):
             **common_args,
         )
 
+        # --- Per-row buffers for the normalized backward ---
+        # coef = q/S;  B = dO·O (exact, since O = Σ p v);  A = δ·D (Σ dP·r);
+        # κ' = (q/S)(A − D·B).  All (BH, N) fp32 contiguous.
+        if normalize:
+            S = wsum.clamp(min=1e-9)
+            norm_coef = (sq / S).contiguous()
+            norm_b = (do.float() * o.float()).sum(-1).view(BH, N).contiguous()
+            A = delta * d_sum
+            norm_kappa = (norm_coef * (A - d_sum * norm_b)).contiguous()
+        else:
+            # never read (NORMALIZE constexpr-eliminated); pass a valid pointer
+            norm_coef = norm_b = norm_kappa = delta
+
         # --- Kernel 2: Compute dK, dV ---
         dk = torch.empty_like(k)
         dv = torch.empty_like(v)
@@ -763,12 +829,14 @@ class StieltjesAttention(torch.autograd.Function):
         _stieltjes_bwd_dkdv[grid_n](
             q, k, v, do,
             lam, delta, d_sum, argmax,
+            norm_coef, norm_b, norm_kappa,
             dk, dv,
             *q_strides, *k_strides, *v_strides, *do_strides,
             dk.stride(0), dk.stride(1), dk.stride(2), dk.stride(3),
             dv.stride(0), dv.stride(1), dv.stride(2), dv.stride(3),
             **common_args,
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
+            NORMALIZE=normalize,
         )
 
         # --- Kernel 3: Compute dQ ---
@@ -777,18 +845,20 @@ class StieltjesAttention(torch.autograd.Function):
         _stieltjes_bwd_dq[grid_m](
             q, k, v, do,
             lam, delta, d_sum, argmax,
+            norm_coef, norm_b, norm_kappa,
             dq,
             *q_strides, *k_strides, *v_strides, *do_strides,
             dq.stride(0), dq.stride(1), dq.stride(2), dq.stride(3),
             **common_args,
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
+            NORMALIZE=normalize,
         )
 
-        return dq, dk, dv, None, None, None, None, None
+        return dq, dk, dv, None, None, None, None, None, None
 
 
 def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
-                        num_iter=3, block_lambda_grad=False):
+                        num_iter=3, block_lambda_grad=False, normalize=False):
     """
     Stieltjes flash attention.
 
@@ -798,16 +868,19 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
         sm_scale: attention scale factor (default: 1/sqrt(D))
         stieltjes_q: order of the Stieltjes transform (default 1.0)
         num_iter: Newton-Raphson iterations (default 3)
-        block_lambda_grad: if True, use BS-style backward (matches PyTorch
-            bisection autograd: treats λ as constant, adds argmax-column
-            correction). Empirically 2-4pp better OOD accuracy on
-            max-retrieval at q∈{4,16}. Default False preserves the
-            previous IFT-correct behavior.
+        block_lambda_grad: if True, use BS-style backward (matches the
+            UNNORMALIZED PyTorch bisection `stieltjes_old` autograd: λ treated
+            as constant, argmax-column correction).
+        normalize: if True, both forward AND backward match the NORMALIZED
+            `stieltjes` reference (probs / probs.sum()) — empirically 5-10pp
+            better OOD on max-retrieval. Takes precedence over
+            block_lambda_grad. Default False preserves previous behavior.
     """
     if sm_scale is None:
         sm_scale = 1.0 / (q.shape[-1] ** 0.5)
     return StieltjesAttention.apply(
         q, k, v, causal, sm_scale, stieltjes_q, num_iter, block_lambda_grad,
+        normalize,
     )
 
 
