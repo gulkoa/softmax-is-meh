@@ -1,0 +1,20 @@
+GPU: NVIDIA H100  q=2.0  steps=3000
+
+STAGE 1+2 — flash (full kernel) vs references:
+  vs stieltjes_old(unnorm) : forward max|Δ|=1.966e-05  worst_rel_grad=1.802e-03
+  vs stieltjes(norm)       : forward max|Δ|=1.952e-05  worst_rel_grad=1.057e+01
+
+STAGE 3 — training (3000 steps)
+  REF-stieltjes_old     : L16=99.9  L32=99.6  L64=97.6  L128=92.2  L256=73.8
+  REF-stieltjes         : L16=99.9  L32=99.6  L64=98.7  L128=95.4  L256=83.4
+  FLASH-full(fwd+bwd)   : L16=99.9  L32=99.6  L64=97.8  L128=92.3  L256=74.5
+
+       L |  stj_old |      stj |    FLASH |   F-old
+      16 |   99.85% |   99.85% |   99.85% |  +0.00
+      32 |   99.61% |   99.61% |   99.61% |  +0.00
+      64 |   97.56% |   98.73% |   97.75% |  +0.20
+     128 |   92.19% |   95.41% |   92.29% |  +0.10
+     256 |   73.83% |   83.40% |   74.51% |  +0.68
+
+Saved softmax-is-meh/results/flashfull_archnew_q2.0_11233044.json
+DONE q=2.0

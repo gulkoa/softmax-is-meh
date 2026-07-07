@@ -1,0 +1,37 @@
+GPU: NVIDIA H100  q=4.0  steps=3000
+
+STAGE 1 — forward logits max|ref - flash| = 1.958e-05
+STAGE 2 — parameter-gradient max|ref - flash|:
+    psi_x.fc1.weight: abs=1.924e-08 rel=5.785e-05
+    psi_x.fc1.bias: abs=3.816e-08 rel=6.132e-05
+    psi_x.fc2.weight: abs=2.223e-08 rel=4.361e-05
+    psi_x.fc2.bias: abs=8.720e-08 rel=4.713e-05
+    psi_q.fc1.weight: abs=3.914e-11 rel=5.940e-05
+    psi_q.fc1.bias: abs=5.790e-11 rel=4.340e-05
+    psi_q.fc2.weight: abs=1.367e-10 rel=4.762e-05
+    psi_q.fc2.bias: abs=1.066e-10 rel=4.344e-05
+    q_proj.weight : abs=1.079e-10 rel=5.030e-05
+    q_proj.bias   : abs=1.949e-10 rel=5.010e-05
+    k_proj.weight : abs=9.561e-11 rel=5.249e-05
+    k_proj.bias   : abs=1.194e-12 rel=6.251e-01
+    v_proj.weight : abs=3.260e-08 rel=5.330e-05
+    v_proj.bias   : abs=1.609e-07 rel=5.284e-05
+    phi.fc1.weight: abs=5.210e-07 rel=6.605e-04
+    phi.fc1.bias  : abs=2.549e-07 rel=5.338e-05
+    phi.fc2.weight: abs=1.421e-06 rel=4.211e-04
+    phi.fc2.bias  : abs=1.490e-06 rel=3.560e-05
+  >>> worst rel grad err = 6.251e-01
+
+STAGE 3 — training (3000 steps)
+  REF-stieltjes: L16=99.9  L32=99.6  L64=99.0  L128=96.6  L256=89.5
+  FLASH-fwd+torch-bwd: L16=99.9  L32=99.6  L64=99.0  L128=96.6  L256=90.3
+
+       L |      REF |    FLASH |       Δ
+      16 |   99.90% |   99.90% |  +0.00
+      32 |   99.61% |   99.61% |  +0.00
+      64 |   99.02% |   99.02% |  +0.00
+     128 |   96.58% |   96.58% |  +0.00
+     256 |   89.45% |   90.33% |  +0.88
+
+Saved softmax-is-meh/results/flashfwd_archnew_q4.0_11225272.json
+DONE q=4.0
