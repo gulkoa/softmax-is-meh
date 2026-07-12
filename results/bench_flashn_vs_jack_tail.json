@@ -1,0 +1,47 @@
+{
+  "gpu": "NVIDIA H100",
+  "config": {
+    "B": 1,
+    "H": 8,
+    "D": 64,
+    "q": 4.0
+  },
+  "rows": [
+    {
+      "provider": "flashn-fp16",
+      "N": 32768,
+      "input_mem_mb": 100.663296,
+      "fwd_ms": 549.873779296875,
+      "fwd_peak_alloc_mb": 138.543104,
+      "fwd_peak_reserved_mb": 140.509184,
+      "graph_held_mb": -62.91456,
+      "fwdbwd_ms": 642.165771484375,
+      "fwdbwd_peak_alloc_mb": 376.438784,
+      "fwdbwd_peak_reserved_mb": 415.236096
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 65536,
+      "input_mem_mb": 201.326592,
+      "fwd_ms": 2789.4396484375,
+      "fwd_peak_alloc_mb": 277.086208,
+      "fwd_peak_reserved_mb": 291.504128,
+      "graph_held_mb": -125.82912,
+      "fwdbwd_ms": 3164.775,
+      "fwdbwd_peak_alloc_mb": 752.877568,
+      "fwdbwd_peak_reserved_mb": 807.40352
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 131072,
+      "input_mem_mb": 402.653184,
+      "fwd_ms": 13075.43515625,
+      "fwd_peak_alloc_mb": 554.172416,
+      "fwd_peak_reserved_mb": 559.939584,
+      "graph_held_mb": -251.65824,
+      "fwdbwd_ms": 14532.734375,
+      "fwdbwd_peak_alloc_mb": 1505.755136,
+      "fwdbwd_peak_reserved_mb": 1612.709888
+    }
+  ]
+}

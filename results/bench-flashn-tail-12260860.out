@@ -1,0 +1,30 @@
+GPU: NVIDIA H100
+B=1 H=8 D=64 q=4.0 non-causal; jack=bisection-16 fp32, flashn=NR-20 normalize=True
+
+provider,N,input_mem_mb,fwd_ms,fwd_peak_alloc_mb,fwd_peak_reserved_mb,graph_held_mb,fwdbwd_ms,fwdbwd_peak_alloc_mb,fwdbwd_peak_reserved_mb
+flashn-fp16,32768,100.66,549.87,138.54,140.51,-62.91,642.17,376.44,415.24
+flashn-fp16,65536,201.33,2789.44,277.09,291.50,-125.83,3164.78,752.88,807.40
+flashn-fp16,131072,402.65,13075.44,554.17,559.94,-251.66,14532.73,1505.76,1612.71
+
+Saved /users/PAS2402/alexg/softmax/softmax-is-meh/results/bench_flashn_vs_jack_tail.json
+
+===== fwd+bwd latency ms (speedup = jack / flashn) =====
+      N |       jack |   flashn32 |   flashn16 |   sp32 |   sp16
+  32768 |          ? |          ? |     642.17 |      - |      -
+  65536 |          ? |          ? |    3164.78 |      - |      -
+ 131072 |          ? |          ? |   14532.73 |      - |      -
+
+===== fwd+bwd peak allocated MB =====
+      N |       jack |   flashn32 |   flashn16
+  32768 |          ? |          ? |     376.44
+  65536 |          ? |          ? |     752.88
+ 131072 |          ? |          ? |    1505.76
+
+===== graph-held (autograd saved-tensor) MB =====
+      N |       jack |   flashn32 |   flashn16
+  32768 |          ? |          ? |     -62.91
+  65536 |          ? |          ? |    -125.83
+ 131072 |          ? |          ? |    -251.66
+
+wandb offline run saved; sync from login node with: wandb sync <run dir printed above>
+DONE
