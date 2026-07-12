@@ -37,7 +37,9 @@ from mappings.stieltjes import StieltjesTransform as JackNorm  # noqa: E402
 from stieltjes_flash_attn import stieltjes_attention  # noqa: E402
 
 B, H, D, SQ = 1, 8, 64, 4.0
-NUM_ITER_TRITON = 20   # NR iters (validated config)
+# NR iters: 8 is fully converged for q<=16 (job 12312766 sensitivity study);
+# 20 was the original conservative config. Env-overridable for A/B runs.
+NUM_ITER_TRITON = int(os.environ.get("BENCH_NUM_ITER", "8"))
 # Env-overridable sweep (comma-separated) so tail runs can skip slow cells
 # (fp32-IEEE at N>=16k takes ~25s/iter and blows the walltime).
 NS = [int(x) for x in os.environ.get(

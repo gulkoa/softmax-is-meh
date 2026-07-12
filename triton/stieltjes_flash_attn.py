@@ -670,7 +670,7 @@ def _stieltjes_bwd_dq(
 
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
-    def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=3,
+    def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
                 block_lambda_grad=False, normalize=False):
         """
         normalize: if True, output is O = (Σ w v) / Σ w and the backward is the
@@ -858,7 +858,7 @@ class StieltjesAttention(torch.autograd.Function):
 
 
 def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
-                        num_iter=3, block_lambda_grad=False, normalize=False):
+                        num_iter=8, block_lambda_grad=False, normalize=False):
     """
     Stieltjes flash attention.
 
@@ -867,7 +867,12 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
         causal: whether to apply causal masking
         sm_scale: attention scale factor (default: 1/sqrt(D))
         stieltjes_q: order of the Stieltjes transform (default 1.0)
-        num_iter: Newton-Raphson iterations (default 3)
+        num_iter: Newton-Raphson iterations (default 8). Per the num_iter
+            sensitivity study (job 12312766 / wandb co3r7x5x), 8 iterations
+            converge the solver to <=1e-6 weight error vs bisection-80 ground
+            truth for q <= 16 at N up to 16k. q >= 32 needs 30+ (or a better
+            init) — pass explicitly for high q. Latency is linear in num_iter
+            (each iter is one O(N) sweep over K).
         block_lambda_grad: if True, use BS-style backward (matches the
             UNNORMALIZED PyTorch bisection `stieltjes_old` autograd: λ treated
             as constant, argmax-column correction).

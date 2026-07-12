@@ -1,0 +1,191 @@
+{
+  "gpu": "NVIDIA H100",
+  "config": {
+    "B": 1,
+    "H": 8,
+    "D": 64,
+    "q": 4.0
+  },
+  "rows": [
+    {
+      "provider": "jack-stj",
+      "N": 1024,
+      "input_mem_mb": 6.291456,
+      "fwd_ms": 2.204524803161621,
+      "fwd_peak_alloc_mb": 174.292992,
+      "fwd_peak_reserved_mb": 190.840832,
+      "graph_held_mb": 130.154496,
+      "fwdbwd_ms": 2.9949600219726564,
+      "fwdbwd_peak_alloc_mb": 348.258304,
+      "fwdbwd_peak_reserved_mb": 358.612992
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 1024,
+      "input_mem_mb": 70.254592,
+      "fwd_ms": 0.8202783584594726,
+      "fwd_peak_alloc_mb": 71.438336,
+      "fwd_peak_reserved_mb": 73.40032,
+      "graph_held_mb": -1.96608,
+      "fwdbwd_ms": 1.0411487579345704,
+      "fwdbwd_peak_alloc_mb": 78.872576,
+      "fwdbwd_peak_reserved_mb": 98.566144
+    },
+    {
+      "provider": "jack-stj",
+      "N": 2048,
+      "input_mem_mb": 79.691776,
+      "fwd_ms": 9.040720367431641,
+      "fwd_peak_alloc_mb": 617.02144,
+      "fwd_peak_reserved_mb": 627.048448,
+      "graph_held_mb": 528.744448,
+      "fwdbwd_ms": 11.927094268798829,
+      "fwdbwd_peak_alloc_mb": 1166.278656,
+      "fwdbwd_peak_reserved_mb": 1184.89088
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 2048,
+      "input_mem_mb": 73.40032,
+      "fwd_ms": 1.626780891418457,
+      "fwd_peak_alloc_mb": 75.767808,
+      "fwd_peak_reserved_mb": 90.177536,
+      "graph_held_mb": -3.93216,
+      "fwdbwd_ms": 2.1368991851806642,
+      "fwdbwd_peak_alloc_mb": 90.636288,
+      "fwdbwd_peak_reserved_mb": 111.149056
+    },
+    {
+      "provider": "jack-stj",
+      "N": 4096,
+      "input_mem_mb": 92.274688,
+      "fwd_ms": 33.647308349609375,
+      "fwd_peak_alloc_mb": 2240.67584,
+      "fwd_peak_reserved_mb": 2258.632704,
+      "graph_held_mb": 2131.23072,
+      "fwdbwd_ms": 44.43790283203125,
+      "fwdbwd_peak_alloc_mb": 4412.932096,
+      "fwdbwd_peak_reserved_mb": 4427.087872
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 4096,
+      "input_mem_mb": 79.691776,
+      "fwd_ms": 3.753811264038086,
+      "fwd_peak_alloc_mb": 84.426752,
+      "fwd_peak_reserved_mb": 90.177536,
+      "graph_held_mb": -7.86432,
+      "fwdbwd_ms": 5.238608169555664,
+      "fwdbwd_peak_alloc_mb": 114.163712,
+      "fwdbwd_peak_reserved_mb": 132.120576
+    },
+    {
+      "provider": "jack-stj",
+      "N": 8192,
+      "input_mem_mb": 117.440512,
+      "fwd_ms": 131.951953125,
+      "fwd_peak_alloc_mb": 8709.210112,
+      "fwd_peak_reserved_mb": 8711.569408,
+      "graph_held_mb": 8557.428736,
+      "fwdbwd_ms": 174.72567138671874,
+      "fwdbwd_peak_alloc_mb": 17348.68992,
+      "fwdbwd_peak_reserved_mb": 17351.835648
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 8192,
+      "input_mem_mb": 92.274688,
+      "fwd_ms": 14.441290283203125,
+      "fwd_peak_alloc_mb": 101.74464,
+      "fwd_peak_reserved_mb": 111.149056,
+      "graph_held_mb": -15.72864,
+      "fwdbwd_ms": 19.973219299316405,
+      "fwdbwd_peak_alloc_mb": 161.21856,
+      "fwdbwd_peak_reserved_mb": 184.549376
+    },
+    {
+      "provider": "jack-stj",
+      "N": 16384,
+      "input_mem_mb": 167.77216,
+      "fwd_ms": 526.865625,
+      "fwd_peak_alloc_mb": 34531.180544,
+      "fwd_peak_reserved_mb": 34533.801984,
+      "graph_held_mb": 34294.726656,
+      "fwdbwd_ms": 697.986669921875,
+      "fwdbwd_peak_alloc_mb": 68990.009344,
+      "fwdbwd_peak_reserved_mb": 68994.203648
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 16384,
+      "input_mem_mb": 117.440512,
+      "fwd_ms": 55.975152587890626,
+      "fwd_peak_alloc_mb": 136.380416,
+      "fwd_peak_reserved_mb": 138.412032,
+      "graph_held_mb": -31.45728,
+      "fwdbwd_ms": 79.40400390625,
+      "fwdbwd_peak_alloc_mb": 255.328256,
+      "fwdbwd_peak_reserved_mb": 274.726912
+    },
+    {
+      "provider": "jack-stj",
+      "N": 32768,
+      "input_mem_mb": 268.435456,
+      "fwd_ms": "OOM",
+      "fwd_peak_alloc_mb": "OOM",
+      "fwd_peak_reserved_mb": "OOM"
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 32768,
+      "input_mem_mb": 167.77216,
+      "fwd_ms": 221.6388916015625,
+      "fwd_peak_alloc_mb": 205.651968,
+      "fwd_peak_reserved_mb": 207.618048,
+      "graph_held_mb": -62.91456,
+      "fwdbwd_ms": 314.1684326171875,
+      "fwdbwd_peak_alloc_mb": 443.547648,
+      "fwdbwd_peak_reserved_mb": 482.34496
+    },
+    {
+      "provider": "jack-stj",
+      "N": 65536,
+      "input_mem_mb": 469.762048,
+      "fwd_ms": "OOM",
+      "fwd_peak_alloc_mb": "OOM",
+      "fwd_peak_reserved_mb": "OOM"
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 65536,
+      "input_mem_mb": 268.435456,
+      "fwd_ms": 882.75927734375,
+      "fwd_peak_alloc_mb": 344.195072,
+      "fwd_peak_reserved_mb": 358.612992,
+      "graph_held_mb": -125.82912,
+      "fwdbwd_ms": 1251.381640625,
+      "fwdbwd_peak_alloc_mb": 819.986432,
+      "fwdbwd_peak_reserved_mb": 874.512384
+    },
+    {
+      "provider": "jack-stj",
+      "N": 131072,
+      "input_mem_mb": 872.415232,
+      "fwd_ms": "OOM",
+      "fwd_peak_alloc_mb": "OOM",
+      "fwd_peak_reserved_mb": "OOM"
+    },
+    {
+      "provider": "flashn-fp16",
+      "N": 131072,
+      "input_mem_mb": 469.762048,
+      "fwd_ms": 4488.92734375,
+      "fwd_peak_alloc_mb": 621.28128,
+      "fwd_peak_reserved_mb": 627.048448,
+      "graph_held_mb": -251.65824,
+      "fwdbwd_ms": 5957.839453125,
+      "fwdbwd_peak_alloc_mb": 1572.864,
+      "fwdbwd_peak_reserved_mb": 1679.818752
+    }
+  ]
+}

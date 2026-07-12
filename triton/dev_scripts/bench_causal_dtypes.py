@@ -26,9 +26,12 @@ os.environ.setdefault("WANDB_MODE", "offline")
 import wandb  # noqa: E402
 
 B, H, D, SQ = 1, 8, 64, 4.0
-NS = [1024, 4096, 16384, 65536]
-PROVIDERS = ["flashn-fp16", "flashn-bf16", "flash-ift-fp16", "ref-stj-fp32",
-             "sdpa-fp16"]
+NUM_ITER = int(os.environ.get("BENCH_NUM_ITER", "8"))
+NS = [int(x) for x in os.environ.get(
+    "BENCH_NS", "1024,4096,16384,65536").split(",")]
+PROVIDERS = os.environ.get(
+    "BENCH_PROVIDERS",
+    "flashn-fp16,flashn-bf16,flash-ift-fp16,ref-stj-fp32,sdpa-fp16").split(",")
 DTYPES = {"flashn-fp16": torch.float16, "flashn-bf16": torch.bfloat16,
           "flash-ift-fp16": torch.float16, "ref-stj-fp32": torch.float32,
           "sdpa-fp16": torch.float16}
@@ -52,14 +55,14 @@ def make_fwd(provider, q, k, v, causal):
     sm = 1.0 / D ** 0.5
     if provider.startswith("flashn"):
         return lambda: stieltjes_attention(q, k, v, causal=causal, sm_scale=sm,
-                                           stieltjes_q=SQ, num_iter=20,
+                                           stieltjes_q=SQ, num_iter=NUM_ITER,
                                            normalize=True)
     if provider == "flash-ift-fp16":
         return lambda: stieltjes_attention(q, k, v, causal=causal, sm_scale=sm,
-                                           stieltjes_q=SQ, num_iter=20)
+                                           stieltjes_q=SQ, num_iter=NUM_ITER)
     if provider == "ref-stj-fp32":
         return lambda: stieltjes_attention_ref(q, k, v, sm, causal=causal,
-                                               stieltjes_q=SQ, num_iter=20)
+                                               stieltjes_q=SQ, num_iter=NUM_ITER)
     if provider == "sdpa-fp16":
         return lambda: F.scaled_dot_product_attention(q, k, v, is_causal=causal)
     raise ValueError(provider)
@@ -106,7 +109,7 @@ def fmt(x):
 def main():
     gpu = torch.cuda.get_device_name(0)
     print(f"GPU: {gpu}")
-    print(f"B={B} H={H} D={D} q={SQ}; flash num_iter=20; ref num_iter=20 fp32\n")
+    print(f"B={B} H={H} D={D} q={SQ}; flash num_iter={NUM_ITER}; ref num_iter={NUM_ITER} fp32\n")
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"bench-causal-dtypes-{os.environ.get('SLURM_JOB_ID', 'local')}",
