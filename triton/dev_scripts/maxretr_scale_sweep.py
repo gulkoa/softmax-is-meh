@@ -29,10 +29,16 @@ os.environ.setdefault("WANDB_MODE", "offline")
 import wandb  # noqa: E402
 
 SEEDS = [0, 1, 2]
-DEMBS = [int(x) for x in os.environ.get("SWEEP_DEMBS", "256,512").split(",")]
+DEMBS = [int(x) for x in os.environ.get("SWEEP_DEMBS", "128,256,512").split(",")]
+# Bigger q per 2026-07-12 directive: sharper peaks may close the OOD gap
+# (April: q4/q8 held at 128x where q2 collapsed). PyTorch bisection handles
+# any q; the kernel arm is restricted to q<=16 (NR-8 validated range).
+QS = [float(x) for x in os.environ.get("SWEEP_QS", "4,8,16,32").split(",")]
+FLASHN_Q = float(os.environ.get("FLASHN_Q", "16"))
 STEPS = 3000
 ID_LEN = 16
-LENGTHS = [16, 128, 256, 512, 1024, 2048, 4096, 8192]
+# Stronger context stretch: to 16384 = 1024x the training length.
+LENGTHS = [16, 128, 512, 1024, 2048, 4096, 8192, 16384]
 N_CLASSES = 10
 ITEM_DIM = 1 + N_CLASSES
 NUM_ITER = 8
@@ -78,7 +84,7 @@ def main():
             del model
             torch.cuda.empty_cache()
 
-            for sq in [2.0, 4.0]:
+            for sq in QS:
                 model = build_ref(SimplexMappingEnum.stieltjes, device,
                                   d_emb=demb, n_classes=N_CLASSES,
                                   item_dim=ITEM_DIM, sq=sq, seed=seed)
@@ -86,11 +92,12 @@ def main():
                 del model
                 torch.cuda.empty_cache()
 
-            if demb <= 256:
+            if demb <= 256 and FLASHN_Q in QS:
                 model = build_flash(device, d_emb=demb, n_classes=N_CLASSES,
-                                    item_dim=ITEM_DIM, sq=4.0,
+                                    item_dim=ITEM_DIM, sq=FLASHN_Q,
                                     num_iter=NUM_ITER, seed=seed)
-                record(demb, "flashn-q4", run_one(model, seed, device), seed)
+                record(demb, f"flashn-q{FLASHN_Q:g}",
+                       run_one(model, seed, device), seed)
                 del model
                 torch.cuda.empty_cache()
 
