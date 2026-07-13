@@ -125,3 +125,59 @@ class SdpaMHA(nn.Module):
 
     def state_size(self, batch_size: int = 1, sequence_length: int = 2048):
         return 2 * self.d_model * sequence_length
+
+
+class ASStieltjesMHA(StieltjesMHA):
+    """AS-Stieltjes (ASEntmax-recipe scaling composed with Stieltjes) as a
+    causal flash mixer.
+
+    Per-query length-adaptive scale s_i = delta + softplus(w_beta . q_i) *
+    (log(i+1))^gamma (i = causal context size at position i), folded into Q
+    BEFORE the kernel call — scaling q_i scales row i of QK^T, so the fused
+    normalize=True Stieltjes kernel needs no changes.
+
+    Mirrors Jack's AdaptiveScalableStieltjes (architecture_new) / ASEntmax
+    (arXiv:2506.16640): beta learnable per head via query projection, gamma
+    learnable, delta fixed.
+    """
+
+    def __init__(self, *args, delta: float = 1.0, gamma: float = 1.0, **kw):
+        super().__init__(*args, **kw)
+        self.delta = float(delta)
+        self.w_beta = nn.Parameter(torch.zeros(self.num_heads, self.head_dim))
+        self._log_gamma = nn.Parameter(
+            torch.tensor(math.log(max(gamma, 1e-6))))
+
+    def forward(self, x: torch.Tensor):
+        qkv = self.Wqkv(x)
+        qkv = rearrange(qkv, "b s (three h d) -> b s three h d",
+                        three=3, d=self.head_dim)
+        q, k, v = qkv.unbind(dim=2)                      # (B, S, H, D)
+        q = rearrange(q, "b s h d -> b h s d")
+        k = rearrange(k, "b s h d -> b h s d").contiguous()
+        v = rearrange(v, "b s h d -> b h s d").contiguous()
+
+        B, H, S, D = q.shape
+        # beta_i = softplus(w_beta . q_i): (B, H, S)
+        beta = F.softplus(torch.einsum("bhsd,hd->bhs", q, self.w_beta))
+        # causal context size at position i is (i+1)
+        logn = torch.log(torch.arange(1, S + 1, device=q.device,
+                                      dtype=torch.float32).clamp(min=2.0))
+        scale = self.delta + beta * logn.pow(self._log_gamma.exp())  # (B,H,S)
+        q = (q * scale.unsqueeze(-1).to(q.dtype)).contiguous()
+
+        in_dtype = q.dtype
+        cd = self.compute_dtype
+        o = stieltjes_attention(
+            q.to(cd), k.to(cd), v.to(cd),
+            causal=True,
+            sm_scale=1.0 / math.sqrt(self.head_dim),
+            stieltjes_q=self.stieltjes_q,
+            num_iter=self.num_iter,
+            block_lambda_grad=self.block_lambda_grad,
+            normalize=self.normalize,
+        ).to(in_dtype)
+
+        o = rearrange(o, "b h s d -> b s (h d)")
+        o = F.dropout(o, self.dropout_p if self.training else 0.0)
+        return self.out_proj(o)
