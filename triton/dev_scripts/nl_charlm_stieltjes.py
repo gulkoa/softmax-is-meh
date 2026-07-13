@@ -50,6 +50,11 @@ class Attn(nn.Module):
         self.head_dim = cfg.n_embd // cfg.n_head
         self.qkv = nn.Linear(cfg.n_embd, 3 * cfg.n_embd, bias=False)
         self.proj = nn.Linear(cfg.n_embd, cfg.n_embd, bias=False)
+        if cfg.attn == "asflashn":
+            # AS-Stieltjes: learnable per-position log-length scaling
+            # s_i = 1 + softplus(w_beta . q_i) * (log(i+1))^gamma, folded into Q.
+            self.w_beta = nn.Parameter(torch.zeros(self.n_head, self.head_dim))
+            self._log_gamma = nn.Parameter(torch.zeros(()))
 
     def forward(self, x):
         B, S, E = x.shape
@@ -59,7 +64,13 @@ class Attn(nn.Module):
         v = v.view(B, S, self.n_head, self.head_dim).transpose(1, 2).contiguous()
         if self.cfg.attn == "sdpa":
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
-        else:  # flashn
+        else:  # flashn / asflashn
+            if self.cfg.attn == "asflashn":
+                beta = F.softplus(torch.einsum("bhsd,hd->bhs", q, self.w_beta))
+                logn = torch.log(torch.arange(1, S + 1, device=q.device,
+                                              dtype=torch.float32).clamp(min=2.0))
+                scale = 1.0 + beta * logn.pow(self._log_gamma.exp())
+                q = (q * scale.unsqueeze(-1).to(q.dtype)).contiguous()
             o = stieltjes_attention(
                 q, k, v, causal=True,
                 sm_scale=1.0 / math.sqrt(self.head_dim),
@@ -153,7 +164,8 @@ def eval_loss(model, data, block, device, iters=40, bs=8, seed=999):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--attn", choices=["sdpa", "flashn"], required=True)
+    ap.add_argument("--attn", choices=["sdpa", "flashn", "asflashn"],
+                    required=True)
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")

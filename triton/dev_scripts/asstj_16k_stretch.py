@@ -28,6 +28,7 @@ import wandb  # noqa: E402
 SEEDS = [0, 1, 2]
 DEMBS = [int(x) for x in os.environ.get("SWEEP_DEMBS", "128,256").split(",")]
 QORDERS = [float(x) for x in os.environ.get("SWEEP_QORDERS", "4,16").split(",")]
+LRS = [float(x) for x in os.environ.get("SWEEP_LRS", "1e-3").split(",")]
 STEPS = 3000
 ID_LEN = 16
 LENGTHS = [16, 128, 512, 1024, 2048, 4096, 8192, 16384]
@@ -59,32 +60,36 @@ def main():
     acc = {}
     for demb in DEMBS:
         for qo in QORDERS:
-            for seed in SEEDS:
-                model = build_asstj(device, d_emb=demb, q_order=qo, seed=seed)
-                train(model, seq_len=ID_LEN, n_classes=N_CLASSES, device=device,
-                      steps=STEPS, bs=256, lr=1e-3, wd=1e-4,
-                      warmup=max(1, STEPS // 10), seed=seed)
-                accs = {L: evaluate(model, seq_len=L, n_classes=N_CLASSES,
-                                    device=device,
-                                    samples=2048 if L == ID_LEN else 1024,
-                                    bs=256)
-                        for L in LENGTHS}
-                # log learned scaling params
-                m = model._translate_logits
-                gamma = float(m._log_gamma.exp().item())
-                key = (demb, f"asstj-q{qo:g}")
-                acc.setdefault(key, {L: [] for L in LENGTHS})
-                for L in LENGTHS:
-                    acc[key][L].append(accs[L])
-                print(f"d={demb} q_order={qo:g} seed={seed} gamma={gamma:.3f}: "
-                      + " ".join(f"L{L}={accs[L]:.1f}" for L in LENGTHS),
-                      flush=True)
-                run.log({"d_emb": demb, "q_order": qo, "seed": seed,
-                         "gamma_learned": gamma,
-                         **{f"acc/d{demb}/asstj-q{qo:g}/L{L}": accs[L]
-                            for L in LENGTHS}})
-                del model
-                torch.cuda.empty_cache()
+            for lr in LRS:
+                for seed in SEEDS:
+                    model = build_asstj(device, d_emb=demb, q_order=qo, seed=seed)
+                    train(model, seq_len=ID_LEN, n_classes=N_CLASSES, device=device,
+                          steps=STEPS, bs=256, lr=lr, wd=1e-4,
+                          warmup=max(1, STEPS // 10), seed=seed)
+                    accs = {L: evaluate(model, seq_len=L, n_classes=N_CLASSES,
+                                        device=device,
+                                        samples=2048 if L == ID_LEN else 1024,
+                                        bs=256)
+                            for L in LENGTHS}
+                    # log learned scaling params
+                    m = model._translate_logits
+                    gamma = float(m._log_gamma.exp().item())
+                    label = (f"asstj-q{qo:g}" if len(LRS) == 1
+                             else f"asstj-q{qo:g}-lr{lr:.0e}")
+                    key = (demb, label)
+                    acc.setdefault(key, {L: [] for L in LENGTHS})
+                    for L in LENGTHS:
+                        acc[key][L].append(accs[L])
+                    print(f"d={demb} q_order={qo:g} lr={lr:.0e} seed={seed} "
+                          f"gamma={gamma:.3f}: "
+                          + " ".join(f"L{L}={accs[L]:.1f}" for L in LENGTHS),
+                          flush=True)
+                    run.log({"d_emb": demb, "q_order": qo, "seed": seed,
+                             "lr": lr, "gamma_learned": gamma,
+                             **{f"acc/d{demb}/{label}/L{L}": accs[L]
+                                for L in LENGTHS}})
+                    del model
+                    torch.cuda.empty_cache()
 
     print("\n===== AS-Stieltjes mean±std (compare vs scale-sweep softmax/stj-q32) =====")
     for (demb, label), d in sorted(acc.items()):

@@ -7,6 +7,7 @@ eval to 16k = 64x, early stopping off) so results merge with the sdpa /
 flashn-q{4,16} baselines of that sweep. Arms: as-flashn q_order {2, 4} x lr
 {1e-3, 3.2e-3}.
 """
+import os
 import uuid
 
 from zoology.config import (DataConfig, LoggerConfig, ModelConfig,
@@ -14,6 +15,11 @@ from zoology.config import (DataConfig, LoggerConfig, ModelConfig,
 from zoology.data.multiquery_ar import MQARConfig
 
 sweep_name = "mqar-hardstretch-as-" + uuid.uuid4().hex[:6]
+
+# Env-configurable for robustness sweeps (defaults = original run)
+AS_SEEDS = [int(x) for x in os.environ.get("AS_SEEDS", "123").split(",")]
+AS_QORDERS = [float(x) for x in os.environ.get("AS_QORDERS", "2,4").split(",")]
+AS_LRS = [float(x) for x in os.environ.get("AS_LRS", "1e-3,3.2e-3").split(",")]
 
 VOCAB_SIZE = 32_768
 CACHE_DIR = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache"
@@ -52,7 +58,7 @@ conv_mixer = dict(
 
 models = []
 D_MODEL = 64
-for sq in [2.0, 4.0]:
+for sq in AS_QORDERS:
     models.append(ModelConfig(
         block_type="TransformerBlock", d_model=D_MODEL, n_layers=2,
         sequence_mixer=ModuleConfig(
@@ -69,18 +75,20 @@ for sq in [2.0, 4.0]:
 
 configs = []
 for model in models:
-    for lr in [1e-3, 3.2e-3]:
-        run_id = f"hs-{model.name}-lr{lr:.1e}"
-        configs.append(TrainConfig(
-            model=model,
-            data=data,
-            learning_rate=lr,
-            max_epochs=24,
-            early_stopping_metric="valid/accuracy",
-            early_stopping_threshold=1.01,
-            logger=LoggerConfig(project_name="stieltjes-flash-attn",
-                                entity="gulkoa"),
-            slice_keys=["num_kv_pairs", "input_seq_len"],
-            sweep_id=sweep_name,
-            run_id=run_id,
-        ))
+    for lr in AS_LRS:
+        for seed in AS_SEEDS:
+            run_id = f"hs-{model.name}-lr{lr:.1e}-s{seed}"
+            configs.append(TrainConfig(
+                model=model,
+                data=data,
+                learning_rate=lr,
+                max_epochs=24,
+                seed=seed,
+                early_stopping_metric="valid/accuracy",
+                early_stopping_threshold=1.01,
+                logger=LoggerConfig(project_name="stieltjes-flash-attn",
+                                    entity="gulkoa"),
+                slice_keys=["num_kv_pairs", "input_seq_len"],
+                sweep_id=sweep_name,
+                run_id=run_id,
+            ))
