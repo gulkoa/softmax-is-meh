@@ -1,0 +1,180 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193151-xjsh525y
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:      final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx2048 ▁
+wandb:      final/bpc_ctx4096 ▁
+wandb:       final/bpc_ctx512 ▁
+wandb: final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx2048 ▁
+wandb: final/val_loss_ctx4096 ▁
+wandb:  final/val_loss_ctx512 ▁
+wandb:                   iter ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇███
+wandb:             train_loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:      final/bpc_ctx1024 3.27718
+wandb:      final/bpc_ctx2048 3.29309
+wandb:      final/bpc_ctx4096 3.68827
+wandb:       final/bpc_ctx512 3.19502
+wandb: final/val_loss_ctx1024 2.27157
+wandb: final/val_loss_ctx2048 2.28259
+wandb: final/val_loss_ctx4096 2.55651
+wandb:  final/val_loss_ctx512 2.21462
+wandb:                   iter 2900
+wandb:             train_loss 2.21469
+wandb:                     +5 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193151-xjsh525y
+wandb: Find logs at: ./wandb/offline-run-20260712_193151-xjsh525y/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193244-06pgjvwy
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:      final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx2048 ▁
+wandb:      final/bpc_ctx4096 ▁
+wandb:       final/bpc_ctx512 ▁
+wandb: final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx2048 ▁
+wandb: final/val_loss_ctx4096 ▁
+wandb:  final/val_loss_ctx512 ▁
+wandb:                   iter ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇███
+wandb:             train_loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:      final/bpc_ctx1024 3.26307
+wandb:      final/bpc_ctx2048 3.32361
+wandb:      final/bpc_ctx4096 3.71136
+wandb:       final/bpc_ctx512 3.14828
+wandb: final/val_loss_ctx1024 2.26178
+wandb: final/val_loss_ctx2048 2.30375
+wandb: final/val_loss_ctx4096 2.57252
+wandb:  final/val_loss_ctx512 2.18222
+wandb:                   iter 2900
+wandb:             train_loss 2.1789
+wandb:                     +5 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193244-06pgjvwy
+wandb: Find logs at: ./wandb/offline-run-20260712_193244-06pgjvwy/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193427-wkd8weq5
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:      final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx2048 ▁
+wandb:      final/bpc_ctx4096 ▁
+wandb:       final/bpc_ctx512 ▁
+wandb: final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx2048 ▁
+wandb: final/val_loss_ctx4096 ▁
+wandb:  final/val_loss_ctx512 ▁
+wandb:                   iter ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇███
+wandb:             train_loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:      final/bpc_ctx1024 3.34527
+wandb:      final/bpc_ctx2048 3.46089
+wandb:      final/bpc_ctx4096 3.90114
+wandb:       final/bpc_ctx512 3.14183
+wandb: final/val_loss_ctx1024 2.31876
+wandb: final/val_loss_ctx2048 2.39891
+wandb: final/val_loss_ctx4096 2.70406
+wandb:  final/val_loss_ctx512 2.17775
+wandb:                   iter 2900
+wandb:             train_loss 2.16953
+wandb:                     +5 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193427-wkd8weq5
+wandb: Find logs at: ./wandb/offline-run-20260712_193427-wkd8weq5/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193607-ky2xlh3i
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:      final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx2048 ▁
+wandb:      final/bpc_ctx4096 ▁
+wandb:       final/bpc_ctx512 ▁
+wandb: final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx2048 ▁
+wandb: final/val_loss_ctx4096 ▁
+wandb:  final/val_loss_ctx512 ▁
+wandb:                   iter ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇███
+wandb:             train_loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:      final/bpc_ctx1024 3.53127
+wandb:      final/bpc_ctx2048 3.55817
+wandb:      final/bpc_ctx4096 3.52386
+wandb:       final/bpc_ctx512 3.52457
+wandb: final/val_loss_ctx1024 2.44769
+wandb: final/val_loss_ctx2048 2.46633
+wandb: final/val_loss_ctx4096 2.44255
+wandb:  final/val_loss_ctx512 2.44305
+wandb:                   iter 2900
+wandb:             train_loss 2.31996
+wandb:                     +5 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193607-ky2xlh3i
+wandb: Find logs at: ./wandb/offline-run-20260712_193607-ky2xlh3i/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193652-2e1jkptr
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:      final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx2048 ▁
+wandb:      final/bpc_ctx4096 ▁
+wandb:       final/bpc_ctx512 ▁
+wandb: final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx2048 ▁
+wandb: final/val_loss_ctx4096 ▁
+wandb:  final/val_loss_ctx512 ▁
+wandb:                   iter ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▇▇▇▇███
+wandb:             train_loss █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:      final/bpc_ctx1024 3.49541
+wandb:      final/bpc_ctx2048 3.56487
+wandb:      final/bpc_ctx4096 3.61744
+wandb:       final/bpc_ctx512 3.47175
+wandb: final/val_loss_ctx1024 2.42283
+wandb: final/val_loss_ctx2048 2.47098
+wandb: final/val_loss_ctx4096 2.50742
+wandb:  final/val_loss_ctx512 2.40644
+wandb:                   iter 2900
+wandb:             train_loss 2.27152
+wandb:                     +5 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_193652-2e1jkptr
+wandb: Find logs at: ./wandb/offline-run-20260712_193652-2e1jkptr/logs
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/launch.py", line 8, in <module>
+    from zoology.train import train
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/train.py", line 17, in <module>
+    from zoology.model import LanguageModel, ContinuousInputModel
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/model.py", line 6, in <module>
+    from torchvision.ops import StochasticDepth
+ModuleNotFoundError: No module named 'torchvision'

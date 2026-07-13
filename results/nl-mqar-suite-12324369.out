@@ -1,0 +1,200 @@
+########## PART 1: code-LM on The Stack slice (byte-level, NoPE, 3 arms) ##########
+data=stack arm=sdpa vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 343.9960 val 353.1219
+it   100 train 8.3754 val 7.1320
+it   200 train 3.3717 val 3.1266
+it   300 train 4.0156 val 4.1261
+it   400 train 3.1432 val 3.2010
+it   500 train 3.3603 val 3.1788
+it   600 train 2.8576 val 2.7903
+it   700 train 2.7212 val 2.5875
+it   800 train 2.7945 val 2.7434
+it   900 train 2.5212 val 2.5245
+it  1000 train 2.5775 val 2.5280
+it  1100 train 2.4591 val 2.5984
+it  1200 train 2.5284 val 2.4316
+it  1300 train 2.3123 val 2.4226
+it  1400 train 2.2613 val 2.3913
+it  1500 train 2.1532 val 2.3641
+it  1600 train 2.4361 val 2.3203
+it  1700 train 2.3368 val 2.3008
+it  1800 train 2.2704 val 2.2861
+it  1900 train 2.1830 val 2.2724
+it  2000 train 2.1799 val 2.2657
+it  2100 train 2.2011 val 2.2460
+it  2200 train 2.1120 val 2.2387
+it  2300 train 2.2699 val 2.2260
+it  2400 train 2.1996 val 2.2219
+it  2500 train 2.2028 val 2.2153
+it  2600 train 2.2053 val 2.2121
+it  2700 train 2.1408 val 2.2065
+it  2800 train 2.1330 val 2.2028
+it  2900 train 2.2147 val 2.2021
+
+final val loss by context length:
+  ctx   512: val_loss 2.2146  (3.195 bits/char)
+  ctx  1024: val_loss 2.2716  (3.277 bits/char)
+  ctx  2048: val_loss 2.2826  (3.293 bits/char)
+  ctx  4096: val_loss 2.5565  (3.688 bits/char)
+DONE
+data=stack arm=flashn-q4 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 343.9186 val 352.9915
+it   100 train 8.4424 val 7.2107
+it   200 train 3.5776 val 3.2098
+it   300 train 3.9222 val 4.0802
+it   400 train 3.0992 val 3.4228
+it   500 train 2.9365 val 2.8791
+it   600 train 3.1195 val 2.9711
+it   700 train 2.6042 val 2.6928
+it   800 train 2.7915 val 2.7102
+it   900 train 2.6201 val 2.6057
+it  1000 train 2.5372 val 2.4948
+it  1100 train 2.4379 val 2.5190
+it  1200 train 2.5102 val 2.4217
+it  1300 train 2.3438 val 2.4879
+it  1400 train 2.2992 val 2.3835
+it  1500 train 2.1464 val 2.3416
+it  1600 train 2.4108 val 2.3205
+it  1700 train 2.3489 val 2.3009
+it  1800 train 2.2648 val 2.2810
+it  1900 train 2.1598 val 2.2706
+it  2000 train 2.1601 val 2.2514
+it  2100 train 2.1794 val 2.2381
+it  2200 train 2.0947 val 2.2181
+it  2300 train 2.2541 val 2.2089
+it  2400 train 2.1697 val 2.1999
+it  2500 train 2.1733 val 2.1903
+it  2600 train 2.1619 val 2.1819
+it  2700 train 2.1094 val 2.1776
+it  2800 train 2.0917 val 2.1711
+it  2900 train 2.1789 val 2.1699
+
+final val loss by context length:
+  ctx   512: val_loss 2.1822  (3.148 bits/char)
+  ctx  1024: val_loss 2.2618  (3.263 bits/char)
+  ctx  2048: val_loss 2.3038  (3.324 bits/char)
+  ctx  4096: val_loss 2.5725  (3.711 bits/char)
+DONE
+data=stack arm=flashn-q2 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 344.2285 val 353.5348
+it   100 train 8.2653 val 6.9840
+it   200 train 3.4177 val 3.6276
+it   300 train 3.2496 val 4.1737
+it   400 train 2.9265 val 3.2353
+it   500 train 2.9359 val 3.0422
+it   600 train 3.0819 val 2.9749
+it   700 train 2.5994 val 2.6235
+it   800 train 2.5754 val 2.6370
+it   900 train 2.4772 val 2.5204
+it  1000 train 2.6397 val 2.6104
+it  1100 train 2.3667 val 2.4669
+it  1200 train 2.4969 val 2.4564
+it  1300 train 2.2882 val 2.3740
+it  1400 train 2.2708 val 2.3415
+it  1500 train 2.1249 val 2.3737
+it  1600 train 2.3853 val 2.3116
+it  1700 train 2.3273 val 2.2936
+it  1800 train 2.2482 val 2.2664
+it  1900 train 2.1569 val 2.2509
+it  2000 train 2.1427 val 2.2315
+it  2100 train 2.1828 val 2.2225
+it  2200 train 2.0792 val 2.2054
+it  2300 train 2.2461 val 2.1979
+it  2400 train 2.1553 val 2.1841
+it  2500 train 2.1624 val 2.1764
+it  2600 train 2.1619 val 2.1701
+it  2700 train 2.1054 val 2.1677
+it  2800 train 2.0980 val 2.1631
+it  2900 train 2.1695 val 2.1623
+
+final val loss by context length:
+  ctx   512: val_loss 2.1777  (3.142 bits/char)
+  ctx  1024: val_loss 2.3188  (3.345 bits/char)
+  ctx  2048: val_loss 2.3989  (3.461 bits/char)
+  ctx  4096: val_loss 2.7041  (3.901 bits/char)
+DONE
+
+########## PART 1b: sanity arms on tinyshakespeare ##########
+data=shakespeare arm=sdpa vocab=65 train=1003854 val=111540
+params: 18.92M
+it     0 train 439.6285 val 433.1663
+it   100 train 7.8502 val 7.8323
+it   200 train 3.0098 val 3.2170
+it   300 train 4.3046 val 4.9571
+it   400 train 3.2325 val 2.8194
+it   500 train 3.3796 val 2.9847
+it   600 train 2.7382 val 3.0502
+it   700 train 2.7263 val 2.6655
+it   800 train 2.5597 val 2.8844
+it   900 train 2.5021 val 2.6746
+it  1000 train 2.4365 val 2.9510
+it  1100 train 2.5058 val 2.5849
+it  1200 train 2.5507 val 2.6109
+it  1300 train 2.4775 val 2.5534
+it  1400 train 2.4886 val 2.5302
+it  1500 train 2.4985 val 2.5147
+it  1600 train 2.4638 val 2.5449
+it  1700 train 2.4506 val 2.5268
+it  1800 train 2.4230 val 2.5115
+it  1900 train 2.3957 val 2.4844
+it  2000 train 2.3819 val 2.4792
+it  2100 train 2.3859 val 2.4815
+it  2200 train 2.3525 val 2.4626
+it  2300 train 2.3345 val 2.4621
+it  2400 train 2.3249 val 2.4521
+it  2500 train 2.3361 val 2.4511
+it  2600 train 2.3316 val 2.4416
+it  2700 train 2.3344 val 2.4411
+it  2800 train 2.3510 val 2.4401
+it  2900 train 2.3200 val 2.4380
+
+final val loss by context length:
+  ctx   512: val_loss 2.4430  (3.525 bits/char)
+  ctx  1024: val_loss 2.4477  (3.531 bits/char)
+  ctx  2048: val_loss 2.4663  (3.558 bits/char)
+  ctx  4096: val_loss 2.4426  (3.524 bits/char)
+DONE
+data=shakespeare arm=flashn-q4 vocab=65 train=1003854 val=111540
+params: 18.92M
+it     0 train 439.3604 val 432.9028
+it   100 train 8.0019 val 8.0129
+it   200 train 3.7913 val 3.5654
+it   300 train 3.5028 val 3.6997
+it   400 train 3.2431 val 3.1273
+it   500 train 3.0541 val 2.9735
+it   600 train 3.0499 val 3.0395
+it   700 train 2.7384 val 2.6937
+it   800 train 2.7358 val 2.8728
+it   900 train 2.5392 val 2.7037
+it  1000 train 2.5432 val 2.5899
+it  1100 train 2.4982 val 2.5273
+it  1200 train 2.4425 val 2.4955
+it  1300 train 2.4550 val 2.5022
+it  1400 train 2.3694 val 2.5567
+it  1500 train 2.3804 val 2.4602
+it  1600 train 2.3526 val 2.4615
+it  1700 train 2.7172 val 2.6805
+it  1800 train 2.3988 val 2.5024
+it  1900 train 2.3520 val 2.4504
+it  2000 train 2.3442 val 2.4613
+it  2100 train 2.3334 val 2.4463
+it  2200 train 2.3222 val 2.4348
+it  2300 train 2.2895 val 2.4268
+it  2400 train 2.2841 val 2.4218
+it  2500 train 2.2941 val 2.4192
+it  2600 train 2.2877 val 2.4113
+it  2700 train 2.2882 val 2.4072
+it  2800 train 2.3009 val 2.4058
+it  2900 train 2.2715 val 2.4038
+
+final val loss by context length:
+  ctx   512: val_loss 2.4064  (3.472 bits/char)
+  ctx  1024: val_loss 2.4228  (3.495 bits/char)
+  ctx  2048: val_loss 2.4710  (3.565 bits/char)
+  ctx  4096: val_loss 2.5074  (3.617 bits/char)
+DONE
+
+########## PART 2: zoology MQAR (softmax vs flashn, trimmed sweep) ##########
