@@ -1,0 +1,1090 @@
+Running sweep default2026-07-13-08-42-07 with 6 configs
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.SdpaMHA',
+                        'kwargs': {'dropout': 0.0, 'num_heads': 2}
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='sdpa-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-sdpa-d64-lr1.0e-03'
+)
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.SdpaMHA',
+                        'kwargs': {'dropout': 0.0, 'num_heads': 2}
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='sdpa-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.0032,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-sdpa-d64-lr3.2e-03'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.StieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 4.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='flashn-q4-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-flashn-q4-d64-lr1.0e-03'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.StieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 4.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='flashn-q4-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.0032,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-flashn-q4-d64-lr3.2e-03'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.StieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 16.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='flashn-q16-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-flashn-q16-d64-lr1.0e-03'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.StieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 16.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='flashn-q16-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.0032,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-08-42-07',
+    sweep_id='mqar-hardstretch-74ed75',
+    run_id='hs-flashn-q16-d64-lr3.2e-03'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+ALL DONE
