@@ -25,7 +25,9 @@ from zoology.data.multiquery_ar import MQARConfig
 
 sweep_name = "mqar-hardstretch-" + uuid.uuid4().hex[:6]
 
-VOCAB_SIZE = 8_192
+# zoology's multiquery_ar asserts vocab_size > input_seq_len; the 65k eval
+# slice therefore needs a 131k vocab (shared across train/test).
+VOCAB_SIZE = 131_072
 CACHE_DIR = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache"
 
 train_configs = [
