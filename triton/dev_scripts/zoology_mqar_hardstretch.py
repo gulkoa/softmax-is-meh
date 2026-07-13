@@ -25,9 +25,12 @@ from zoology.data.multiquery_ar import MQARConfig
 
 sweep_name = "mqar-hardstretch-" + uuid.uuid4().hex[:6]
 
-# zoology's multiquery_ar asserts vocab_size > input_seq_len; the 65k eval
-# slice therefore needs a 131k vocab (shared across train/test).
-VOCAB_SIZE = 131_072
+# zoology's multiquery_ar asserts vocab_size > input_seq_len AND its
+# no-replacement sampler materializes a (num_examples x vocab) matrix —
+# 131k vocab OOM-killed the host (job 12331838). Cap the stretch at 16k eval
+# (64x train) with a 32k vocab: generation peaks ~13GB, still deep in the
+# regime where ASEntmax reports softmax collapsing.
+VOCAB_SIZE = 32_768
 CACHE_DIR = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache"
 
 train_configs = [
@@ -41,8 +44,8 @@ test_configs = [
     MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=256, num_examples=1_000, num_kv_pairs=64),
     MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=1024, num_examples=1_000, num_kv_pairs=256),
     MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=4096, num_examples=500, num_kv_pairs=256),
+    MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=8192, num_examples=500, num_kv_pairs=512),
     MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=16384, num_examples=250, num_kv_pairs=1024),
-    MQARConfig(vocab_size=VOCAB_SIZE, input_seq_len=65536, num_examples=100, num_kv_pairs=4096),
 ]
 
 input_seq_len = max(c.input_seq_len for c in train_configs + test_configs)
