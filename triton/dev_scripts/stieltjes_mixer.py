@@ -91,3 +91,37 @@ class StieltjesMHA(nn.Module):
 
     def state_size(self, batch_size: int = 1, sequence_length: int = 2048):
         return 2 * self.d_model * sequence_length
+
+
+class SdpaMHA(nn.Module):
+    """Softmax MHA via F.scaled_dot_product_attention (flash) — memory-linear
+    baseline for hard-stretch evals where zoology's dense MHA would OOM."""
+
+    def __init__(self, d_model: int, num_heads: int = 1, bias: bool = True,
+                 dropout: float = 0.0, layer_idx: int = None) -> None:
+        super().__init__()
+        self.d_model = d_model
+        self.layer_idx = layer_idx
+        self.num_heads = num_heads
+        assert d_model % num_heads == 0
+        self.head_dim = d_model // num_heads
+        self.Wqkv = nn.Linear(d_model, 3 * d_model, bias=bias)
+        self.out_proj = nn.Linear(d_model, d_model)
+        self.dropout_p = dropout
+
+    def forward(self, x: torch.Tensor):
+        qkv = self.Wqkv(x)
+        qkv = rearrange(qkv, "b s (three h d) -> b s three h d",
+                        three=3, d=self.head_dim)
+        q, k, v = qkv.unbind(dim=2)
+        q = rearrange(q, "b s h d -> b h s d")
+        k = rearrange(k, "b s h d -> b h s d")
+        v = rearrange(v, "b s h d -> b h s d")
+        o = F.scaled_dot_product_attention(
+            q, k, v, is_causal=True,
+            dropout_p=self.dropout_p if self.training else 0.0)
+        o = rearrange(o, "b h s d -> b s (h d)")
+        return self.out_proj(o)
+
+    def state_size(self, batch_size: int = 1, sequence_length: int = 2048):
+        return 2 * self.d_model * sequence_length
