@@ -54,7 +54,13 @@ class Attn(nn.Module):
             # AS-Stieltjes: learnable per-position log-length scaling
             # s_i = 1 + softplus(w_beta . q_i) * (log(i+1))^gamma, folded into Q.
             self.w_beta = nn.Parameter(torch.zeros(self.n_head, self.head_dim))
-            self._log_gamma = nn.Parameter(torch.zeros(()))
+            self.per_pos_gamma = getattr(cfg, "as_v2", False)
+            if self.per_pos_gamma:
+                # paper-exact: gamma = 2*tanh(q_i . w_gamma) per position
+                self.w_gamma = nn.Parameter(
+                    torch.zeros(self.n_head, self.head_dim))
+            else:
+                self._log_gamma = nn.Parameter(torch.zeros(()))
 
     def forward(self, x):
         B, S, E = x.shape
@@ -69,7 +75,12 @@ class Attn(nn.Module):
                 beta = F.softplus(torch.einsum("bhsd,hd->bhs", q, self.w_beta))
                 logn = torch.log(torch.arange(1, S + 1, device=q.device,
                                               dtype=torch.float32).clamp(min=2.0))
-                scale = 1.0 + beta * logn.pow(self._log_gamma.exp())
+                if self.per_pos_gamma:
+                    gamma = 2.0 * torch.tanh(
+                        torch.einsum("bhsd,hd->bhs", q.float(), self.w_gamma))
+                    scale = 1.0 + beta * logn.unsqueeze(0).unsqueeze(0).pow(gamma)
+                else:
+                    scale = 1.0 + beta * logn.pow(self._log_gamma.exp())
                 q = (q * scale.unsqueeze(-1).to(q.dtype)).contiguous()
             o = stieltjes_attention(
                 q, k, v, causal=True,
@@ -166,6 +177,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--attn", choices=["sdpa", "flashn", "asflashn"],
                     required=True)
+    ap.add_argument("--as-v2", action="store_true", dest="as_v2",
+                    help="per-position tanh-bounded gamma (paper-exact)")
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")
@@ -187,7 +200,8 @@ def main():
     torch.manual_seed(args.seed)
 
     label = (f"{args.attn}" if args.attn == "sdpa"
-             else f"{args.attn}-q{args.stieltjes_q:g}")
+             else f"{args.attn}-q{args.stieltjes_q:g}"
+                  + ("-v2" if getattr(args, "as_v2", False) else ""))
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"nl-{args.data}-{label}-{os.environ.get('SLURM_JOB_ID', 'local')}",

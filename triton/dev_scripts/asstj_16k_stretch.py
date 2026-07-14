@@ -46,6 +46,78 @@ def build_asstj(device, *, d_emb, q_order, seed):
     ).to(device)
 
 
+# --- V2: paper-exact ASEntmax parameterization (per-position tanh-bounded
+# gamma; arXiv:2506.16640 verified 2026-07-13). Jack's class uses a GLOBAL
+# scalar gamma, which destabilizes at d_emb=512 (job 12333392). ---
+import math as _math  # noqa: E402
+
+import torch.nn as _nn  # noqa: E402
+import torch.nn.functional as _F  # noqa: E402
+
+import sys as _sys  # noqa: E402
+_sys.path.insert(0, "/users/PAS2402/alexg/softmax/psm-architecture-new")
+from mappings.as_stieltjes import (  # noqa: E402
+    _bisect_lambda, _stieltjes_from_lambda)
+from mappings.base_cls import ProbabilitySimplexMapping  # noqa: E402
+
+
+class ASStieltjesV2(ProbabilitySimplexMapping):
+    """AS-Stieltjes with the paper-exact scale:
+    beta = softplus(X w_beta), gamma = s*tanh(X w_gamma) — BOTH per-query
+    learnable projections; scale = delta + beta*(log K)^gamma."""
+
+    def __init__(self, d_model: int = 64, n_heads: int = 1,
+                 gamma_bound: float = 2.0, delta: float = 1.0,
+                 q_order: float = 4.0, num_iter: int = 15, eps: float = 1e-9):
+        super().__init__()
+        self.delta = delta
+        self.q_order = q_order
+        self.num_iter = num_iter
+        self.eps = eps
+        self.gamma_bound = gamma_bound
+        self.w_beta = _nn.Parameter(torch.zeros(n_heads, d_model))
+        self.w_gamma = _nn.Parameter(torch.zeros(n_heads, d_model))
+
+    def translate_logits(self, logits, dim=-1, queries=None, **kwargs):
+        if queries is None:
+            raise ValueError("ASStieltjesV2 requires queries.")
+        if queries.dim() == 3:
+            queries = queries.unsqueeze(1)
+        if logits.dim() == 3:
+            logits = logits.unsqueeze(1)
+            squeeze_out = True
+        else:
+            squeeze_out = False
+
+        K = logits.size(dim if dim >= 0 else logits.dim() + dim)
+        beta = _F.softplus(torch.einsum("bhqd,hd->bhq", queries, self.w_beta))
+        gamma = self.gamma_bound * torch.tanh(
+            torch.einsum("bhqd,hd->bhq", queries, self.w_gamma))
+        logK = _math.log(max(float(K), 2.0))
+        scale = self.delta + beta * (logK ** gamma)
+        scaled = scale.unsqueeze(-1) * logits
+
+        x_max = scaled.max(dim=dim, keepdim=True).values
+        shifted = scaled - x_max
+        lam = _bisect_lambda(shifted, dim, self.q_order, self.num_iter, self.eps)
+        probs = _stieltjes_from_lambda(shifted, lam, dim, self.q_order, self.eps)
+        return probs.squeeze(1) if squeeze_out else probs
+
+
+class _V2Enum:
+    value = ASStieltjesV2
+
+
+def build_asstj_v2(device, *, d_emb, q_order, seed):
+    _set_seeds(seed)
+    return MaxRetrievalModel(
+        simplex_mapping=_V2Enum(), d_emb=d_emb,
+        n_classes=N_CLASSES, item_input_dim=ITEM_DIM, query_input_dim=1,
+        attn_score_scale="inv_sqrt_d", q_order=q_order,
+        d_model=d_emb, n_heads=1,
+    ).to(device)
+
+
 def main():
     device = torch.device("cuda")
     print(f"GPU: {torch.cuda.get_device_name(0)}  dembs={DEMBS} qorders={QORDERS}")
@@ -62,7 +134,12 @@ def main():
         for qo in QORDERS:
             for lr in LRS:
                 for seed in SEEDS:
-                    model = build_asstj(device, d_emb=demb, q_order=qo, seed=seed)
+                    if os.environ.get("AS_V2", "0") == "1":
+                        model = build_asstj_v2(device, d_emb=demb, q_order=qo,
+                                               seed=seed)
+                    else:
+                        model = build_asstj(device, d_emb=demb, q_order=qo,
+                                            seed=seed)
                     train(model, seq_len=ID_LEN, n_classes=N_CLASSES, device=device,
                           steps=STEPS, bs=256, lr=lr, wd=1e-4,
                           warmup=max(1, STEPS // 10), seed=seed)
@@ -71,11 +148,17 @@ def main():
                                         samples=2048 if L == ID_LEN else 1024,
                                         bs=256)
                             for L in LENGTHS}
-                    # log learned scaling params
+                    # log learned scaling params (V2 has per-query gamma —
+                    # log the mean of its bounded range instead)
                     m = model._translate_logits
-                    gamma = float(m._log_gamma.exp().item())
-                    label = (f"asstj-q{qo:g}" if len(LRS) == 1
-                             else f"asstj-q{qo:g}-lr{lr:.0e}")
+                    if hasattr(m, "_log_gamma"):
+                        gamma = float(m._log_gamma.exp().item())
+                        tag = "asstj"
+                    else:
+                        gamma = float(m.w_gamma.abs().mean().item())
+                        tag = "asstjV2"
+                    label = (f"{tag}-q{qo:g}" if len(LRS) == 1
+                             else f"{tag}-q{qo:g}-lr{lr:.0e}")
                     key = (demb, label)
                     acc.setdefault(key, {L: [] for L in LENGTHS})
                     for L in LENGTHS:

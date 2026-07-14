@@ -141,12 +141,21 @@ class ASStieltjesMHA(StieltjesMHA):
     learnable, delta fixed.
     """
 
-    def __init__(self, *args, delta: float = 1.0, gamma: float = 1.0, **kw):
+    def __init__(self, *args, delta: float = 1.0, gamma: float = 1.0,
+                 per_pos_gamma: bool = False, gamma_bound: float = 2.0, **kw):
         super().__init__(*args, **kw)
         self.delta = float(delta)
+        self.per_pos_gamma = bool(per_pos_gamma)
+        self.gamma_bound = float(gamma_bound)
         self.w_beta = nn.Parameter(torch.zeros(self.num_heads, self.head_dim))
-        self._log_gamma = nn.Parameter(
-            torch.tensor(math.log(max(gamma, 1e-6))))
+        if self.per_pos_gamma:
+            # paper-exact (ASEntmax, arXiv:2506.16640): gamma = s*tanh(X w_g),
+            # per position/head, bounded — stabilizes the scale at width.
+            self.w_gamma = nn.Parameter(
+                torch.zeros(self.num_heads, self.head_dim))
+        else:
+            self._log_gamma = nn.Parameter(
+                torch.tensor(math.log(max(gamma, 1e-6))))
 
     def forward(self, x: torch.Tensor):
         qkv = self.Wqkv(x)
@@ -163,7 +172,12 @@ class ASStieltjesMHA(StieltjesMHA):
         # causal context size at position i is (i+1)
         logn = torch.log(torch.arange(1, S + 1, device=q.device,
                                       dtype=torch.float32).clamp(min=2.0))
-        scale = self.delta + beta * logn.pow(self._log_gamma.exp())  # (B,H,S)
+        if self.per_pos_gamma:
+            gamma = self.gamma_bound * torch.tanh(
+                torch.einsum("bhsd,hd->bhs", q.float(), self.w_gamma))
+            scale = self.delta + beta * logn.unsqueeze(0).unsqueeze(0).pow(gamma)
+        else:
+            scale = self.delta + beta * logn.pow(self._log_gamma.exp())
         q = (q * scale.unsqueeze(-1).to(q.dtype)).contiguous()
 
         in_dtype = q.dtype
