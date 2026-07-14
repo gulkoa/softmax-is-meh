@@ -1,0 +1,523 @@
+########## PART 1: AS d-scale/lr robustness (max-retrieval, 16k stretch) ##########
+GPU: NVIDIA H100  dembs=[256, 512] qorders=[4.0]
+d=256 q_order=4 lr=3e-04 seed=0 gamma=1.001: L16=99.8 L128=97.7 L512=89.0 L1024=77.4 L2048=59.9 L4096=43.5 L8192=34.4 L16384=23.1
+d=256 q_order=4 lr=3e-04 seed=1 gamma=1.003: L16=99.7 L128=97.6 L512=90.1 L1024=77.2 L2048=62.0 L4096=43.5 L8192=33.6 L16384=25.3
+d=256 q_order=4 lr=3e-04 seed=2 gamma=1.002: L16=99.8 L128=98.8 L512=91.8 L1024=82.0 L2048=66.7 L4096=47.1 L8192=33.6 L16384=25.7
+d=256 q_order=4 lr=1e-03 seed=0 gamma=1.012: L16=99.9 L128=97.9 L512=87.1 L1024=69.7 L2048=46.2 L4096=28.6 L8192=19.2 L16384=12.0
+d=256 q_order=4 lr=1e-03 seed=1 gamma=1.021: L16=99.8 L128=98.4 L512=87.4 L1024=71.5 L2048=47.3 L4096=31.0 L8192=21.7 L16384=14.6
+d=256 q_order=4 lr=1e-03 seed=2 gamma=1.012: L16=100.0 L128=98.3 L512=84.9 L1024=62.0 L2048=39.1 L4096=24.5 L8192=17.5 L16384=13.0
+d=256 q_order=4 lr=3e-03 seed=0 gamma=1.261: L16=100.0 L128=98.8 L512=94.0 L1024=88.1 L2048=73.3 L4096=50.9 L8192=32.0 L16384=18.9
+d=256 q_order=4 lr=3e-03 seed=1 gamma=0.990: L16=10.4 L128=8.7 L512=11.7 L1024=9.5 L2048=9.4 L4096=9.3 L8192=10.9 L16384=9.8
+d=256 q_order=4 lr=3e-03 seed=2 gamma=1.294: L16=99.9 L128=99.1 L512=95.0 L1024=88.3 L2048=74.3 L4096=51.1 L8192=32.3 L16384=19.6
+d=512 q_order=4 lr=3e-04 seed=0 gamma=0.999: L16=99.9 L128=97.1 L512=75.4 L1024=49.5 L2048=31.1 L4096=19.4 L8192=18.4 L16384=13.8
+d=512 q_order=4 lr=3e-04 seed=1 gamma=0.999: L16=99.7 L128=97.0 L512=73.9 L1024=47.8 L2048=30.4 L4096=20.0 L8192=16.7 L16384=13.0
+d=512 q_order=4 lr=3e-04 seed=2 gamma=0.999: L16=100.0 L128=96.9 L512=74.3 L1024=48.3 L2048=30.6 L4096=21.6 L8192=18.9 L16384=13.2
+d=512 q_order=4 lr=1e-03 seed=0 gamma=1.074: L16=100.0 L128=98.8 L512=88.9 L1024=71.4 L2048=46.8 L4096=23.3 L8192=15.9 L16384=13.0
+d=512 q_order=4 lr=1e-03 seed=1 gamma=1.075: L16=99.7 L128=98.3 L512=90.3 L1024=76.1 L2048=53.4 L4096=35.1 L8192=25.5 L16384=17.9
+d=512 q_order=4 lr=1e-03 seed=2 gamma=1.083: L16=100.0 L128=98.9 L512=87.8 L1024=68.7 L2048=43.5 L4096=26.3 L8192=20.0 L16384=17.1
+d=512 q_order=4 lr=3e-03 seed=0 gamma=1.005: L16=57.3 L128=29.0 L512=21.2 L1024=13.8 L2048=11.7 L4096=9.8 L8192=11.0 L16384=9.8
+d=512 q_order=4 lr=3e-03 seed=1 gamma=1.010: L16=12.3 L128=8.4 L512=9.9 L1024=10.2 L2048=10.3 L4096=9.7 L8192=9.5 L16384=9.4
+d=512 q_order=4 lr=3e-03 seed=2 gamma=1.009: L16=41.7 L128=14.2 L512=11.7 L1024=9.5 L2048=9.4 L4096=9.3 L8192=10.9 L16384=9.8
+
+===== AS-Stieltjes mean±std (compare vs scale-sweep softmax/stj-q32) =====
+d=256 asstj-q4-lr1e-03 |   99.90±0.08   98.21±0.26   86.46±1.13   67.74±4.11   44.17±3.64   28.03±2.66   19.47±1.72   13.18±1.05
+d=256 asstj-q4-lr3e-03 |  70.07±42.23  68.88±42.56  66.93±39.04  61.95±37.10  52.34±30.39  37.08±19.66  25.10±10.01   16.11±4.50
+d=256 asstj-q4-lr3e-04 |   99.74±0.06   98.01±0.58   90.30±1.16   78.91±2.21   62.86±2.85   44.66±1.70   33.85±0.37   24.71±1.12
+d=512 asstj-q4-lr1e-03 |   99.89±0.13   98.70±0.26   89.00±1.04   72.04±3.06   47.88±4.14   28.22±4.98   20.48±3.92   15.98±2.14
+d=512 asstj-q4-lr3e-03 |  37.09±18.67   17.19±8.68   14.26±4.96   11.13±1.89   10.45±0.97    9.57±0.21   10.48±0.71    9.64±0.18
+d=512 asstj-q4-lr3e-04 |   99.84±0.10   96.97±0.08   74.54±0.62   48.54±0.73   30.66±0.29   20.35±0.91   18.00±0.95   13.31±0.33
+
+DONE
+
+########## PART 2: code-LM AS arms (The Stack, 19M x2 seeds + 85M) ##########
+data=stack arm=asflashn-q4 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 331.7161 val 339.4025
+it   100 train 7.2870 val 6.2990
+it   200 train 4.0210 val 3.8250
+it   300 train 3.8052 val 3.5779
+it   400 train 3.1816 val 3.2529
+it   500 train 3.1111 val 2.8296
+it   600 train 3.1074 val 3.3428
+it   700 train 2.7063 val 2.8598
+it   800 train 2.7085 val 2.8489
+it   900 train 2.6340 val 2.6436
+it  1000 train 2.6884 val 2.6611
+it  1100 train 2.4292 val 2.5173
+it  1200 train 2.5625 val 2.4919
+it  1300 train 2.3729 val 2.5088
+it  1400 train 2.4039 val 2.4582
+it  1500 train 2.2447 val 2.4495
+it  1600 train 2.5146 val 2.4259
+it  1700 train 2.4364 val 2.3920
+it  1800 train 2.3445 val 2.3740
+it  1900 train 2.2374 val 2.3352
+it  2000 train 2.2193 val 2.3099
+it  2100 train 2.2341 val 2.2643
+it  2200 train 2.1213 val 2.2332
+it  2300 train 2.2832 val 2.2087
+it  2400 train 2.1591 val 2.1849
+it  2500 train 2.1494 val 2.1641
+it  2600 train 2.1310 val 2.1551
+it  2700 train 2.0899 val 2.1407
+it  2800 train 2.0584 val 2.1341
+it  2900 train 2.1435 val 2.1314
+
+final val loss by context length:
+  ctx   512: val_loss 2.1445  (3.094 bits/char)
+  ctx  1024: val_loss 2.2337  (3.223 bits/char)
+  ctx  2048: val_loss 2.2727  (3.279 bits/char)
+  ctx  4096: val_loss 2.5626  (3.697 bits/char)
+  ctx  8192: val_loss 2.6324  (3.798 bits/char)
+  ctx 16384: val_loss 2.6198  (3.780 bits/char)
+DONE
+data=stack arm=asflashn-q4 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 353.4573 val 337.9530
+it   100 train 6.9423 val 6.2682
+it   200 train 3.8964 val 3.7677
+it   300 train 3.1614 val 3.9303
+it   400 train 3.8189 val 3.4357
+it   500 train 3.0041 val 2.7981
+it   600 train 2.9160 val 2.8296
+it   700 train 2.9503 val 2.9044
+it   800 train 2.7148 val 2.7941
+it   900 train 2.6863 val 2.6166
+it  1000 train 2.6973 val 2.5370
+it  1100 train 2.4612 val 2.5785
+it  1200 train 2.5437 val 2.6185
+it  1300 train 2.6969 val 2.5533
+it  1400 train 2.7241 val 2.7106
+it  1500 train 2.7270 val 2.6031
+it  1600 train 2.6139 val 2.5843
+it  1700 train 2.4926 val 2.5228
+it  1800 train 2.5801 val 2.5124
+it  1900 train 2.4550 val 2.4978
+it  2000 train 2.4987 val 2.5019
+it  2100 train 2.3962 val 2.4627
+it  2200 train 2.4773 val 2.4424
+it  2300 train 2.5276 val 2.4243
+it  2400 train 2.4615 val 2.4114
+it  2500 train 2.4316 val 2.3992
+it  2600 train 2.2435 val 2.3926
+it  2700 train 2.3747 val 2.3872
+it  2800 train 2.2532 val 2.3844
+it  2900 train 2.2758 val 2.3828
+
+final val loss by context length:
+  ctx   512: val_loss 2.4020  (3.465 bits/char)
+  ctx  1024: val_loss 2.4371  (3.516 bits/char)
+  ctx  2048: val_loss 2.3690  (3.418 bits/char)
+  ctx  4096: val_loss 2.5624  (3.697 bits/char)
+  ctx  8192: val_loss 2.5681  (3.705 bits/char)
+  ctx 16384: val_loss 2.5457  (3.673 bits/char)
+DONE
+data=stack arm=asflashn-q4 vocab=256 train=90168618 val=10018736
+params: 85.18M
+it     0 train 427.1539 val 415.7577
+it   100 train 5.5733 val 4.8964
+it   200 train 8.0387 val 8.9174
+it   300 train 8.3124 val 6.9122
+it   400 train 5.7438 val 5.8519
+it   500 train 4.4796 val 3.9331
+it   600 train 3.5505 val 3.9106
+it   700 train 3.2689 val 3.0455
+it   800 train 3.1162 val 3.0023
+it   900 train 2.7333 val 2.7934
+it  1000 train 2.8498 val 2.9123
+it  1100 train 2.5791 val 2.6226
+it  1200 train 2.7424 val 2.5849
+it  1300 train 2.4122 val 2.5449
+it  1400 train 2.4284 val 2.4866
+it  1500 train 2.2208 val 2.4856
+it  1600 train 2.4517 val 2.3886
+it  1700 train 2.3693 val 2.3281
+it  1800 train 2.2654 val 2.2816
+it  1900 train 2.0911 val 2.1999
+it  2000 train 2.0548 val 2.1504
+it  2100 train 2.0549 val 2.0947
+it  2200 train 1.9191 val 2.0420
+it  2300 train 2.0710 val 1.9809
+it  2400 train 1.9414 val 1.9449
+it  2500 train 1.8839 val 1.9100
+it  2600 train 1.8413 val 1.8818
+it  2700 train 1.8383 val 1.8654
+it  2800 train 1.7745 val 1.8512
+it  2900 train 1.8741 val 1.8458
+
+final val loss by context length:
+  ctx   512: val_loss 1.8637  (2.689 bits/char)
+  ctx  1024: val_loss 2.0596  (2.971 bits/char)
+  ctx  2048: val_loss 2.3299  (3.361 bits/char)
+  ctx  4096: val_loss 2.7525  (3.971 bits/char)
+  ctx  8192: val_loss 2.8974  (4.180 bits/char)
+  ctx 16384: val_loss 2.9656  (4.278 bits/char)
+DONE
+
+########## PART 3: MQAR AS multi-seed (q4, lr 1e-3, seeds 124/125) ##########
+Running sweep default2026-07-13-20-39-31 with 2 configs
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.ASStieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 4.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='as-flashn-q4-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=124,
+    launch_id='default-2026-07-13-20-39-31',
+    sweep_id='mqar-hardstretch-as-d8aa46',
+    run_id='hs-as-flashn-q4-d64-lr1.0e-03-s124'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=500,
+                input_seq_len=8192,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=512,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=32768,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 16384,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.ASStieltjesMHA',
+                        'kwargs': {
+                            'dropout': 0.0,
+                            'num_heads': 2,
+                            'stieltjes_q': 4.0,
+                            'num_iter': 8,
+                            'normalize': True,
+                            'compute_dtype': 'bf16'
+                        }
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=32768,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='as-flashn-q4-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=125,
+    launch_id='default-2026-07-13-20-39-31',
+    sweep_id='mqar-hardstretch-as-d8aa46',
+    run_id='hs-as-flashn-q4-d64-lr1.0e-03-s125'
+)
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f39b47efacb01c7d47b5a55b13ff67f0.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_605be2ccc92df6a69a4913bc9bd8eeec.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_69e5b46692f70013e7ec070846a09676.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_1db08eac435eae2a585e5b287e55d067.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_c3a04e24204263e62936990a583941fb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_adbe18386dca5eb8a739d1053205d51d.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_9bad055378aebbe6ae29d71637ecd71f.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_f6e0b6102f520a1480a88da8ed6d7b19.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_e0cd7dee31b0808d2628bdc8cc3ea0db.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_ffc9a2c20c2d393f51a337f5b87d00de.pt...
+Need to install causal_conv1d: pip install causal_conv1d
+Need to install causal_conv1d: pip install causal_conv1d
+ALL DONE
