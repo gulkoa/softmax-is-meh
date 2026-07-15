@@ -24,6 +24,11 @@ import sys
 import torch
 import torch.nn.functional as F
 
+# cuDNN SDPA builds no execution plan on this torch/H100 combo (also hit
+# by MQMTAR job 12345902) — use flash/efficient backends
+if torch.cuda.is_available():
+    torch.backends.cuda.enable_cudnn_sdp(False)
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from stieltjes_flash_attn import stieltjes_attention  # noqa: E402
 
