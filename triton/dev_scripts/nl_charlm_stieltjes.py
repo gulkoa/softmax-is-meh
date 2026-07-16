@@ -85,7 +85,8 @@ class Attn(nn.Module):
             o = stieltjes_attention(
                 q, k, v, causal=True,
                 sm_scale=1.0 / math.sqrt(self.head_dim),
-                stieltjes_q=self.cfg.stieltjes_q, num_iter=8, normalize=True)
+                stieltjes_q=self.cfg.stieltjes_q, num_iter=8, normalize=True,
+                ift_grad=getattr(self.cfg, "ift_grad", False))
         o = o.transpose(1, 2).reshape(B, S, E)
         return self.proj(o)
 
@@ -179,6 +180,9 @@ def main():
                     required=True)
     ap.add_argument("--as-v2", action="store_true", dest="as_v2",
                     help="per-position tanh-bounded gamma (paper-exact)")
+    ap.add_argument("--ift-grad", action="store_true", dest="ift_grad",
+                    help="smooth implicit-function backward for the kernel "
+                         "(normalize=True mode; finding 2026-07-16)")
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")
@@ -201,7 +205,8 @@ def main():
 
     label = (f"{args.attn}" if args.attn == "sdpa"
              else f"{args.attn}-q{args.stieltjes_q:g}"
-                  + ("-v2" if getattr(args, "as_v2", False) else ""))
+                  + ("-v2" if getattr(args, "as_v2", False) else "")
+                  + ("-ift" if getattr(args, "ift_grad", False) else ""))
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"nl-{args.data}-{label}-{os.environ.get('SLURM_JOB_ID', 'local')}",
