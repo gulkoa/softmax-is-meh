@@ -37,7 +37,12 @@ _flex = torch.compile(flex_attention, dynamic=False)
 
 
 class FlexNapeAttn(nn.Module):
-    """softmaxd --nape forward via flex_attention (same parameters)."""
+    """softmaxd --nape forward via flex_attention (same parameters).
+
+    block_mask is set externally per split (set_block_mask) so S stays
+    CONSTANT across the 13 generation steps — otherwise torch.compile
+    recompiles/bails to the eager math path, which materializes dense
+    scores (111 GiB OOM at 16k, job 12380048)."""
 
     def __init__(self, cfg):
         super().__init__()
@@ -48,6 +53,7 @@ class FlexNapeAttn(nn.Module):
         slopes = torch.cat([1.0 / torch.arange(1, self.h // 2 + 1),
                             torch.zeros(self.h - self.h // 2)])
         self.register_buffer("slopes", slopes, persistent=False)
+        self.block_mask = None
 
     def forward(self, x):
         B, S, _ = x.shape
@@ -60,11 +66,44 @@ class FlexNapeAttn(nn.Module):
         def score_mod(score, b, h, qi, ki):
             return score + slopes[h] * (ki - qi).to(score.dtype)
 
-        mask = create_block_mask(
-            lambda b, h, qi, ki: qi >= ki, None, None, S, S, device=x.device)
-        o = _flex(q, k, v, score_mod=score_mod, block_mask=mask,
+        o = _flex(q, k, v, score_mod=score_mod, block_mask=self.block_mask,
                   scale=1.0 / (self.hd ** 0.5))
         return self.proj(o.transpose(1, 2).reshape(B, S, self.h * self.hd))
+
+
+def set_block_masks(model, S, device):
+    mask = create_block_mask(lambda b, h, qi, ki: qi >= ki,
+                             None, None, S, S, device=device)
+    for blk in model.blocks:
+        blk.attn.block_mask = mask
+
+
+@torch.no_grad()
+def eval_split_fixed_len(model, src_list, trg_list, device, n, bs):
+    """Greedy exact-match eval with CONSTANT sequence length: x is
+    pre-allocated at prompt_len + TRG_LEN and filled in place, so flex
+    compiles once per split (trailing PADs are causally inert)."""
+    correct = 0
+    n = min(n, len(src_list))
+    for lo in range(0, n, bs):
+        idxs = range(lo, min(lo + bs, n))
+        prompts = [np.concatenate(([M.BOS], src_list[i], [M.SEP]))
+                   for i in idxs]
+        Lp = max(len(p) for p in prompts)
+        x = np.full((len(prompts), Lp + M.TRG_LEN), M.PAD, dtype=np.int64)
+        for j, p in enumerate(prompts):
+            x[j, Lp - len(p):Lp] = p           # LEFT-pad
+        x = torch.from_numpy(x).to(device)
+        set_block_masks(model, x.shape[1], device)
+        for t in range(M.TRG_LEN):
+            with torch.autocast("cuda", dtype=torch.bfloat16):
+                logits = model(x)
+            x[:, Lp + t] = logits[:, Lp + t - 1].argmax(-1)
+        gen = x[:, Lp:Lp + M.TRG_LEN].cpu().numpy()
+        for j, i in enumerate(idxs):
+            if np.array_equal(gen[j], trg_list[i][:M.TRG_LEN]):
+                correct += 1
+    return correct / n
 
 
 def build_flex_model(cfg, state_dict, device):
@@ -100,10 +139,11 @@ def main():
     flexm = build_flex_model(cfg, blob["state_dict"], device)
     flexm.eval()
 
-    # equivalence gate: greedy generations must match on short prompts
+    # equivalence gate: dense/old loop vs flex/fixed-len loop must agree
     s64 = M.read_split(os.path.join(args.data, "test_0_64"))
     acc_d = M.eval_split(dense, s64[0][:50], s64[1][:50], device, 50, 25)
-    acc_f = M.eval_split(flexm, s64[0][:50], s64[1][:50], device, 50, 25)
+    acc_f = eval_split_fixed_len(flexm, s64[0][:50], s64[1][:50], device,
+                                 50, 25)
     print(f"equivalence gate @64 (n=50): dense {acc_d:.3f} flex {acc_f:.3f}",
           flush=True)
     assert abs(acc_d - acc_f) <= 0.04, "dense/flex disagree — abort"
@@ -121,7 +161,7 @@ def main():
             os.path.join(args.data, f"test_{SPLIT_INDEX[L]}_{L}"))
         bs = max(1, min(16, 2 ** 21 // L))
         t0 = time.time()
-        acc = M.eval_split(flexm, s, t, device, args.n, bs)
+        acc = eval_split_fixed_len(flexm, s, t, device, args.n, bs)
         print(f"  len {L:6d}: acc {acc:.4f}  (n={args.n}, "
               f"{time.time()-t0:.0f}s)", flush=True)
         run.log({f"final/acc_{L}": acc})
