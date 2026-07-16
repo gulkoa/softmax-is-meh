@@ -95,6 +95,54 @@ def stieltjes_attention_ref(
 # ---------------------------------------------------------------------------
 
 @triton.jit
+def _inv_pow_pair(diff, sq: tl.constexpr):
+    """Return ((λ-s)^{-q}, (λ-s)^{-q-1}) for a positive diff tile.
+
+    sq is constexpr, so the branch resolves at COMPILE time. Integer q uses
+    reciprocal + multiply chains (exp-by-squaring) instead of log/exp:
+    transcendental throughput is the dominant per-sweep cost (~5-6x an SDPA
+    pass — thesis/findings/2026-07-15-flashn-throughput-characterization.md).
+    At any λ with Σ(λ-s)^{-q} ≤ 1 every diff ≥ 1, so the chains cannot
+    overflow anywhere the log/exp path did not; masked entries (diff ~ 1e30)
+    underflow to 0 identically.
+    """
+    if sq == 1.0:
+        inv_q = 1.0 / diff
+        inv_q1 = inv_q * inv_q
+    elif sq == 2.0:
+        r = 1.0 / diff
+        inv_q = r * r
+        inv_q1 = inv_q * r
+    elif sq == 3.0:
+        r = 1.0 / diff
+        inv_q = r * r * r
+        inv_q1 = inv_q * r
+    elif sq == 4.0:
+        r = 1.0 / diff
+        r2 = r * r
+        inv_q = r2 * r2
+        inv_q1 = inv_q * r
+    elif sq == 8.0:
+        r = 1.0 / diff
+        r2 = r * r
+        r4 = r2 * r2
+        inv_q = r4 * r4
+        inv_q1 = inv_q * r
+    elif sq == 16.0:
+        r = 1.0 / diff
+        r2 = r * r
+        r4 = r2 * r2
+        r8 = r4 * r4
+        inv_q = r8 * r8
+        inv_q1 = inv_q * r
+    else:
+        log_diff = tl.log(diff)
+        inv_q = tl.exp(log_diff * (-sq))
+        inv_q1 = tl.exp(log_diff * (-sq - 1.0))
+    return inv_q, inv_q1
+
+
+@triton.jit
 def _stieltjes_attn_fwd(
     Q, K, V, O,
     Lambda,  # (B*H, N) — stores λ per query row for backward
@@ -208,13 +256,7 @@ def _stieltjes_attn_fwd(
             centered = qk - row_max[:, None]
             diff = tl.maximum(lambd[:, None] - centered, EPS)
 
-            if sq == 1.0:
-                inv_q = 1.0 / diff
-                inv_q1 = inv_q * inv_q
-            else:
-                log_diff = tl.log(diff)
-                inv_q = tl.exp(log_diff * (-sq))
-                inv_q1 = tl.exp(log_diff * (-sq - 1.0))
+            inv_q, inv_q1 = _inv_pow_pair(diff, sq)
 
             # Masked positions have centered ≈ -1e30, diff ≈ lambd+1e30 → inv ≈ 0
             f_val += tl.sum(inv_q, axis=1)
@@ -253,13 +295,7 @@ def _stieltjes_attn_fwd(
         centered = qk - row_max[:, None]
         diff = tl.maximum(lambd[:, None] - centered, EPS)
 
-        if sq == 1.0:
-            weights = 1.0 / diff
-            d_tile = weights * weights  # (λ-s)^{-2} = (λ-s)^{-q-1} for q=1
-        else:
-            log_diff = tl.log(diff)
-            weights = tl.exp(log_diff * (-sq))
-            d_tile = tl.exp(log_diff * (-sq - 1.0))
+        weights, d_tile = _inv_pow_pair(diff, sq)
 
         d_sum += tl.sum(d_tile, axis=1)
         w_sum += tl.sum(weights, axis=1)
@@ -325,13 +361,7 @@ def _stieltjes_score_helpers(
 
     diff = tl.maximum(lam_row[:, None] - qk, EPS)
 
-    if sq == 1.0:
-        weights = 1.0 / diff
-        r = weights * weights
-    else:
-        log_diff = tl.log(diff)
-        weights = tl.exp(log_diff * (-sq))
-        r = tl.exp(log_diff * (-sq - 1.0))
+    weights, r = _inv_pow_pair(diff, sq)
 
     # Zero out PADDED query rows (offs_m >= N_CTX). These rows exist only because
     # BLOCK_M > N_CTX (when N_CTX is not a multiple of BLOCK_M). In the backward
