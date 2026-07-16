@@ -473,6 +473,7 @@ def _stieltjes_bwd_dkdv(
     CAUSAL: tl.constexpr,
     BLOCK_LAMBDA_GRAD: tl.constexpr,
     NORMALIZE: tl.constexpr,
+    IFT_NORM: tl.constexpr,
 ):
     """Compute dK and dV by iterating over Q blocks for a fixed K/V block.
 
@@ -480,6 +481,10 @@ def _stieltjes_bwd_dkdv(
       dS_ij = coef_i * r_ij * (dP_ij - B_i) - kappa_i * [j == argmax_i]
       with per-row coef = q/S, B = dO·O, kappa = (q/S)(A - R*B); A = Σ dP·r,
       R = Σ r. dV uses p = w/S instead of w.
+    IFT_NORM=True (normalized forward + smooth implicit-function gradient):
+      dS_ij = coef_i * r_ij * (dP_ij - delta_i)   (all B terms cancel; no
+      argmax correction — the discontinuous kappa term is what destabilizes
+      training at sharp attention, finding 2026-07-16). dV uses p = w/S.
     BLOCK_LAMBDA_GRAD=True (unnormalized, BS-style):
       dS_ij = sq * r_ij * dP_ij - kappa_i * [j == argmax_i]
       where kappa_i = sq * D_i * delta_i = sq * Σ_l (dP_il * r_il).
@@ -536,7 +541,11 @@ def _stieltjes_bwd_dkdv(
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
         dP_tile = tl.dot(do_block, tl.trans(v_block), input_precision="ieee")
 
-        if NORMALIZE:
+        if IFT_NORM:
+            # Normalized-IFT: dS = (q/S) * r * (dP - delta); smooth, no argmax term
+            coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+            dS = (coef_row[:, None] * r * (dP_tile - delta_row[:, None])).to(q_block.dtype)
+        elif NORMALIZE:
             # Normalized: dS = coef * r * (dP - B) - kappa * [j == argmax_i]
             coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
             b_row = tl.load(NormB + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
@@ -568,8 +577,8 @@ def _stieltjes_bwd_dkdv(
         # dK += dS^T @ Q * sm_scale
         dk += tl.dot(tl.trans(dS), q_block, input_precision="ieee") * sm_scale
 
-        # dV += P^T @ dO  (normalized mode: P = w/S, scale rows by 1/S = coef/sq)
-        if NORMALIZE:
+        # dV += P^T @ dO  (normalized modes: P = w/S, scale rows by 1/S = coef/sq)
+        if NORMALIZE or IFT_NORM:
             w_eff = weights * (coef_row * (1.0 / sq))[:, None]
             dv += tl.dot(tl.trans(w_eff.to(do_block.dtype)), do_block, input_precision="ieee")
         else:
@@ -604,10 +613,11 @@ def _stieltjes_bwd_dq(
     CAUSAL: tl.constexpr,
     BLOCK_LAMBDA_GRAD: tl.constexpr,
     NORMALIZE: tl.constexpr,
+    IFT_NORM: tl.constexpr,
 ):
     """Compute dQ by iterating over K/V blocks for a fixed Q block.
 
-    NORMALIZE / BLOCK_LAMBDA_GRAD select the gradient form
+    IFT_NORM / NORMALIZE / BLOCK_LAMBDA_GRAD select the gradient form
     (see _stieltjes_bwd_dkdv).
     """
     start_m = tl.program_id(0)
@@ -633,7 +643,9 @@ def _stieltjes_bwd_dq(
 
     lam_row = tl.load(Lambda + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
     delta_row = tl.load(Delta + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
-    if NORMALIZE:
+    if IFT_NORM:
+        coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
+    elif NORMALIZE:
         coef_row = tl.load(NormCoef + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
         b_row = tl.load(NormB + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
         kappa_row = tl.load(NormKappa + off_hz * N_CTX + offs_m, mask=offs_m < N_CTX, other=0.0)
@@ -667,7 +679,10 @@ def _stieltjes_bwd_dq(
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
         dP_tile = tl.dot(do_block, tl.trans(v_block), input_precision="ieee")
 
-        if NORMALIZE:
+        if IFT_NORM:
+            # Normalized-IFT: dS = (q/S) * r * (dP - delta); smooth
+            dS = (coef_row[:, None] * r * (dP_tile - delta_row[:, None])).to(q_block.dtype)
+        elif NORMALIZE:
             argmax_col_mask = (offs_n[None, :] == argmax_row[:, None])
             dS_f32 = coef_row[:, None] * r * (dP_tile - b_row[:, None])
             dS_f32 = tl.where(argmax_col_mask, dS_f32 - kappa_row[:, None], dS_f32)
@@ -701,7 +716,7 @@ def _stieltjes_bwd_dq(
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
-                block_lambda_grad=False, normalize=False):
+                block_lambda_grad=False, normalize=False, ift_grad=False):
         """
         normalize: if True, output is O = (Σ w v) / Σ w and the backward is the
           normalized-Stieltjes gradient — matches the normalized `stieltjes`
@@ -771,6 +786,7 @@ class StieltjesAttention(torch.autograd.Function):
         ctx.num_iter = num_iter
         ctx.block_lambda_grad = block_lambda_grad
         ctx.normalize = normalize
+        ctx.ift_grad = ift_grad
         return o
 
     @staticmethod
@@ -799,7 +815,15 @@ class StieltjesAttention(torch.autograd.Function):
         sm_scale = ctx.sm_scale
         causal = ctx.causal
         block_lambda_grad = ctx.block_lambda_grad
-        normalize = ctx.normalize
+        # ift_grad splits the normalized backward: NORMALIZE keeps the
+        # detached-lambda reference semantics; IFT_NORM uses the smooth
+        # implicit-function gradient dS = (q r / S)(dP - delta) (all B terms
+        # cancel via sum(r)/R = 1; dS/ds = 0 at the root so the forward is
+        # identical) — see thesis/findings/2026-07-16-scale-gradient-
+        # explosion-at-transition.md for the derivation and the training-
+        # stability evidence.
+        ift_norm = ctx.normalize and ctx.ift_grad
+        normalize = ctx.normalize and not ctx.ift_grad
 
         B, H, N, D = q.shape
         BH = B * H
@@ -841,12 +865,16 @@ class StieltjesAttention(torch.autograd.Function):
         # --- Per-row buffers for the normalized backward ---
         # coef = q/S;  B = dO·O (exact, since O = Σ p v);  A = δ·D (Σ dP·r);
         # κ' = (q/S)(A − D·B).  All (BH, N) fp32 contiguous.
-        if normalize:
+        if normalize or ift_norm:
             S = wsum.clamp(min=1e-9)
             norm_coef = (sq / S).contiguous()
+        if normalize:
             norm_b = (do.float() * o.float()).sum(-1).view(BH, N).contiguous()
             A = delta * d_sum
             norm_kappa = (norm_coef * (A - d_sum * norm_b)).contiguous()
+        elif ift_norm:
+            # IFT_NORM reads only NormCoef; b/kappa constexpr-eliminated
+            norm_b = norm_kappa = delta
         else:
             # never read (NORMALIZE constexpr-eliminated); pass a valid pointer
             norm_coef = norm_b = norm_kappa = delta
@@ -867,6 +895,7 @@ class StieltjesAttention(torch.autograd.Function):
             **common_args,
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
+            IFT_NORM=ift_norm,
         )
 
         # --- Kernel 3: Compute dQ ---
@@ -882,13 +911,15 @@ class StieltjesAttention(torch.autograd.Function):
             **common_args,
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
+            IFT_NORM=ift_norm,
         )
 
-        return dq, dk, dv, None, None, None, None, None, None
+        return dq, dk, dv, None, None, None, None, None, None, None
 
 
 def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
-                        num_iter=8, block_lambda_grad=False, normalize=False):
+                        num_iter=8, block_lambda_grad=False, normalize=False,
+                        ift_grad=False):
     """
     Stieltjes flash attention.
 
@@ -910,12 +941,19 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
             `stieltjes` reference (probs / probs.sum()) — empirically 5-10pp
             better OOD on max-retrieval. Takes precedence over
             block_lambda_grad. Default False preserves previous behavior.
+        ift_grad: with normalize=True, replace the reference's detached-λ
+            backward with the smooth implicit-function gradient
+            dS = (q·r/S)(dP − δ) (identical forward; the argmax-discontinuous
+            κ term is what destabilizes training at sharp attention — see
+            thesis/findings/2026-07-16-scale-gradient-explosion-at-
+            transition.md). No effect when normalize=False (the default
+            backward is already IFT).
     """
     if sm_scale is None:
         sm_scale = 1.0 / (q.shape[-1] ** 0.5)
     return StieltjesAttention.apply(
         q, k, v, causal, sm_scale, stieltjes_q, num_iter, block_lambda_grad,
-        normalize,
+        normalize, ift_grad,
     )
 
 
