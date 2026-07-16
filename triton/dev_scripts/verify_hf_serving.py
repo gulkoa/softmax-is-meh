@@ -27,7 +27,12 @@ for i, (src, trg) in enumerate(zip(srcs, trgs)):
         out = model.generate(**ids, max_new_tokens=13, do_sample=False)
     gen = tok.decode(out[0, ids.input_ids.shape[1]:],
                      skip_special_tokens=False).strip()
-    want = trg.strip() + " <eos>"
+    # registered specials always decode as their strings — normalize to
+    # numeric so data tokens 256-259 compare correctly
+    for s, i in [("<pad>", 256), ("<bos>", 257), ("<sep>", 258),
+                 ("<eos>", 259)]:
+        gen = gen.replace(s, str(i))
+    want = trg.strip() + " 259"
     ok = gen == want
     correct += ok
     if i < 3 or not ok:
