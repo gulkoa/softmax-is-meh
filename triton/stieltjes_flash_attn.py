@@ -143,6 +143,18 @@ def _inv_pow_pair(diff, sq: tl.constexpr):
 
 
 @triton.jit
+def _inv_pow_triple(diff, sq: tl.constexpr):
+    """(inv_q, inv_q1, inv_q2) = (λ-s)^{-q}, ^{-q-1}, ^{-q-2} — the extra
+    power (one multiply on the integer-q path) feeds f'' for Halley."""
+    inv_q, inv_q1 = _inv_pow_pair(diff, sq)
+    if sq == 1.0 or sq == 2.0 or sq == 3.0 or sq == 4.0 or sq == 8.0 or sq == 16.0:
+        inv_q2 = inv_q1 * (1.0 / diff)
+    else:
+        inv_q2 = tl.exp(tl.log(diff) * (-sq - 2.0))
+    return inv_q, inv_q1, inv_q2
+
+
+@triton.jit
 def _stieltjes_attn_fwd(
     Q, K, V, O,
     Lambda,  # (B*H, N) — stores λ per query row for backward
@@ -159,7 +171,8 @@ def _stieltjes_attn_fwd(
     sm_scale,
     N_CTX,
     sq: tl.constexpr,        # Stieltjes q parameter
-    NUM_ITER: tl.constexpr,  # Newton-Raphson iterations
+    NUM_ITER: tl.constexpr,  # solver iterations (NR or Halley)
+    HALLEY: tl.constexpr,    # cubic-convergence solver (fewer sweeps)
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
     BLOCK_M: tl.constexpr,
@@ -237,6 +250,7 @@ def _stieltjes_attn_fwd(
     for _nr in tl.static_range(NUM_ITER):
         f_val = tl.zeros([BLOCK_M], dtype=tl.float32)
         f_deriv = tl.zeros([BLOCK_M], dtype=tl.float32)
+        f_dd = tl.zeros([BLOCK_M], dtype=tl.float32)   # only used if HALLEY
 
         for start_n in tl.range(0, N_CTX, BLOCK_N):
             offs_n = start_n + tl.arange(0, BLOCK_N)
@@ -256,7 +270,11 @@ def _stieltjes_attn_fwd(
             centered = qk - row_max[:, None]
             diff = tl.maximum(lambd[:, None] - centered, EPS)
 
-            inv_q, inv_q1 = _inv_pow_pair(diff, sq)
+            if HALLEY:
+                inv_q, inv_q1, inv_q2 = _inv_pow_triple(diff, sq)
+                f_dd += tl.sum(inv_q2, axis=1)
+            else:
+                inv_q, inv_q1 = _inv_pow_pair(diff, sq)
 
             # Masked positions have centered ≈ -1e30, diff ≈ lambd+1e30 → inv ≈ 0
             f_val += tl.sum(inv_q, axis=1)
@@ -265,10 +283,21 @@ def _stieltjes_attn_fwd(
         # f(λ) = Σ(λ-x)^{-q} - 1,  f'(λ) = -q Σ(λ-x)^{-q-1}
         f_val = f_val - 1.0
         f_deriv = f_deriv * (-sq)
-        # 2026-04-16: removed half-step safeguard — pure NR. Ablation showed
-        # safeguard was masking the per-row-init bug; with constant init it's
-        # no longer needed and forces suboptimal convergence.
-        lambd = lambd - f_val / f_deriv
+        if HALLEY:
+            # f''(λ) = q(q+1) Σ(λ-x)^{-q-2}; Halley:
+            # λ ← λ − 2 f f' / (2 f'^2 − f f'') — cubic convergence, so
+            # NUM_ITER can drop ~8→3 for the same tolerance (one extra
+            # multiply chain per element; the sweep count dominates cost).
+            f_dd = f_dd * (sq * (sq + 1.0))
+            denom = 2.0 * f_deriv * f_deriv - f_val * f_dd
+            denom = tl.where(tl.abs(denom) < 1e-30, 1e-30, denom)
+            lambd = lambd - 2.0 * f_val * f_deriv / denom
+        else:
+            # 2026-04-16: removed half-step safeguard — pure NR. Ablation
+            # showed the safeguard was masking the per-row-init bug; with
+            # constant init it's no longer needed and forces suboptimal
+            # convergence.
+            lambd = lambd - f_val / f_deriv
 
     # ===== PASS 3: Compute attention output P @ V =====
     acc = tl.zeros([BLOCK_M, HEAD_DIM], dtype=tl.float32)
@@ -716,7 +745,8 @@ def _stieltjes_bwd_dq(
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
-                block_lambda_grad=False, normalize=False, ift_grad=False):
+                block_lambda_grad=False, normalize=False, ift_grad=False,
+                solver="nr"):
         """
         normalize: if True, output is O = (Σ w v) / Σ w and the backward is the
           normalized-Stieltjes gradient — matches the normalized `stieltjes`
@@ -744,7 +774,34 @@ class StieltjesAttention(torch.autograd.Function):
         # was the bug — at q=16 it caused val_acc to plateau at 0.377 vs 0.873
         # with const init. Constant init makes NR converge faster from a
         # well-conditioned starting point regardless of N or causal vs not.
-        lambda_init = torch.full((N,), 1.1, device=q.device, dtype=torch.float32)
+        #
+        # 2026-07-16/17 (Halley): init is regime-dependent and the regime
+        # variable is the ROOT'S LOCATION λ* ≈ K^{1/q}, not q alone. When
+        # λ* is far from 1 (low q / big N: N=1024,q=4 → 5.6) the const 1.1
+        # init can't be closed in 3 cubic steps (1e-4 err) but the per-row
+        # upper bound K_row^{1/q} starts adjacent (f ≤ 0, monotone) →
+        # 1e-7. When λ* ≈ 1 (high q: N=1024,q=16 → 1.54) the function is
+        # razor-flat away from the root and the bound init is STUCK
+        # (1e-1 err) while const 1.1 is adjacent (2e-6). Rule: bound init
+        # iff q < 6 — validated perfect there (1e-7, beats NR-8 at
+        # N=1024/q=2); q ≥ 6 keeps const (q=8 mid-regime converges to
+        # ≤4e-5 at 3 iters under const and WORSE under bound; q=16 const
+        # 2e-6). Halley is the FAST mode: ≤1e-4 λ error at 3 iters across
+        # all validated (N, q) — far below the bf16 IO noise floor
+        # (~1e-3). For fp32 pipelines needing 1e-6, use solver="nr"
+        # (num_iter=8) or halley with num_iter=4+. NR always keeps the
+        # validated const init.
+        if solver == "halley" and stieltjes_q < 6.0:
+            if causal:
+                k_row = torch.arange(1, N + 1, device=q.device,
+                                     dtype=torch.float32)
+            else:
+                k_row = torch.full((N,), float(N), device=q.device,
+                                   dtype=torch.float32)
+            lambda_init = k_row.pow(1.0 / stieltjes_q)
+        else:
+            lambda_init = torch.full((N,), 1.1, device=q.device,
+                                     dtype=torch.float32)
 
         # Select block sizes based on head dim AND element size. fp32 tiles are
         # 2x the bytes of fp16/bf16; at D>=128 the default 64x64 tiles overflow
@@ -771,6 +828,7 @@ class StieltjesAttention(torch.autograd.Function):
             N,
             sq=stieltjes_q,
             NUM_ITER=num_iter,
+            HALLEY=(solver == "halley"),
             EPS=1e-6,
             HEAD_DIM=D,
             BLOCK_M=BLOCK_M,
@@ -914,12 +972,12 @@ class StieltjesAttention(torch.autograd.Function):
             IFT_NORM=ift_norm,
         )
 
-        return dq, dk, dv, None, None, None, None, None, None, None
+        return dq, dk, dv, None, None, None, None, None, None, None, None
 
 
 def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
                         num_iter=8, block_lambda_grad=False, normalize=False,
-                        ift_grad=False):
+                        ift_grad=False, solver="nr"):
     """
     Stieltjes flash attention.
 
@@ -948,12 +1006,16 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
             thesis/findings/2026-07-16-scale-gradient-explosion-at-
             transition.md). No effect when normalize=False (the default
             backward is already IFT).
+        solver: "nr" (default, Newton-Raphson) or "halley" (cubic
+            convergence: one extra multiply chain per element buys ~8→3
+            iterations at equal tolerance — sweeps dominate the forward
+            cost, so this is ~1.8× when paired with num_iter=3).
     """
     if sm_scale is None:
         sm_scale = 1.0 / (q.shape[-1] ** 0.5)
     return StieltjesAttention.apply(
         q, k, v, causal, sm_scale, stieltjes_q, num_iter, block_lambda_grad,
-        normalize, ift_grad,
+        normalize, ift_grad, solver,
     )
 
 
