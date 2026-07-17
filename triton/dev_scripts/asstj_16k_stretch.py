@@ -100,6 +100,16 @@ class ASStieltjesV2(ProbabilitySimplexMapping):
         x_max = scaled.max(dim=dim, keepdim=True).values
         shifted = scaled - x_max
         lam = _bisect_lambda(shifted, dim, self.q_order, self.num_iter, self.eps)
+        if os.environ.get("AS_IFT", "0") == "1":
+            # smooth implicit-function gradient: one differentiable Newton
+            # step on the detached root (finding 2026-07-16 — the detached
+            # form's argmax discontinuity destabilizes at sharp attention)
+            lam_d = lam.detach()
+            diff = (lam_d - shifted).clamp_min(self.eps)
+            f_val = diff.pow(-self.q_order).sum(dim, keepdim=True) - 1.0
+            f_der = (-self.q_order) * diff.pow(-self.q_order - 1.0).sum(
+                dim, keepdim=True)
+            lam = lam_d - f_val / f_der
         probs = _stieltjes_from_lambda(shifted, lam, dim, self.q_order, self.eps)
         return probs.squeeze(1) if squeeze_out else probs
 
