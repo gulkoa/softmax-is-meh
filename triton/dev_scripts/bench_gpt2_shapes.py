@@ -7,6 +7,9 @@ import time
 import torch
 import torch.nn.functional as F
 
+if torch.cuda.is_available():
+    torch.backends.cuda.enable_cudnn_sdp(False)   # broken on this torch/H100
+
 sys.path.insert(0, "/users/PAS2402/alexg/softmax/softmax-is-meh/triton")
 from stieltjes_flash_attn import stieltjes_attention  # noqa: E402
 
