@@ -41,23 +41,34 @@ EOT = 50256
 # ---------------------------------------------------------------------------
 
 class Shards:
-    """FW_DIRS (colon-separated) mixes corpora; the last shard of EACH
-    dir is held out for validation so val covers every domain."""
+    """One or more shard dirs with mix weights: 'dir' or
+    'name=dir:weight,name2=dir2:weight2'. Last shard of each source is
+    held out for validation; batches sample sources by weight."""
 
-    def __init__(self, split):
-        dirs = os.environ.get("FW_DIRS", FW_DIR).split(":")
-        self.paths = []
-        for d in dirs:
-            ps = sorted(glob.glob(os.path.join(d, "shard_*.bin")))
-            assert len(ps) >= 2, f"need >=2 shards in {d}"
-            self.paths += ps[:-1] if split == "train" else ps[-1:]
-        self.maps = [np.memmap(p, dtype=np.uint16, mode="r")
-                     for p in self.paths]
+    def __init__(self, split, spec=None):
+        spec = spec or FW_DIR
+        self.sources, self.weights = [], []
+        for part in spec.split(","):
+            if "=" in part:
+                _, rest = part.split("=", 1)
+                d, w = rest.rsplit(":", 1)
+                weight = float(w)
+            else:
+                d, weight = part, 1.0
+            paths = sorted(glob.glob(os.path.join(d, "shard_*.bin")))
+            assert len(paths) >= 2, f"need >=2 shards in {d}"
+            use = paths[:-1] if split == "train" else paths[-1:]
+            self.sources.append([np.memmap(p, dtype=np.uint16, mode="r")
+                                 for p in use])
+            self.weights.append(weight)
+        self.weights = np.asarray(self.weights) / sum(self.weights)
 
     def batch(self, bs, ctx, rng, device):
         xs = np.empty((bs, ctx + 1), dtype=np.int64)
         for i in range(bs):
-            m = self.maps[rng.integers(len(self.maps))]
+            maps = self.sources[rng.choice(len(self.sources),
+                                           p=self.weights)]
+            m = maps[rng.integers(len(maps))]
             off = rng.integers(0, len(m) - ctx - 1)
             xs[i] = m[off:off + ctx + 1]
         t = torch.from_numpy(xs).to(device, non_blocking=True)
@@ -162,6 +173,9 @@ def main():
     ap.add_argument("--ckpt-every", type=int, default=500)
     ap.add_argument("--val-every", type=int, default=250)
     ap.add_argument("--tag", default="")
+    ap.add_argument("--data-mix", default=None, dest="data_mix",
+                    help="'name=dir:weight,...' shard-source mix "
+                         "(default: pure FW_DIR web)")
     args = ap.parse_args()
 
     device = torch.device("cuda")
@@ -173,7 +187,8 @@ def main():
              + (f"-{args.tag}" if args.tag else ""))
     ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
 
-    train_d, val_d = Shards("train"), Shards("val")
+    train_d = Shards("train", args.data_mix)
+    val_d = Shards("val", args.data_mix)
     model = GPT(args).to(device)
     nparam = sum(p.numel() for p in model.parameters())
     print(f"{label}: {nparam/1e6:.1f}M params, {total_steps} steps x "
