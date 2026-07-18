@@ -72,7 +72,13 @@ class Attn(nn.Module):
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         else:  # flashn / asflashn
             if self.cfg.attn == "asflashn":
-                beta = F.softplus(torch.einsum("bhsd,hd->bhs", q, self.w_beta))
+                braw = torch.einsum("bhsd,hd->bhs", q, self.w_beta)
+                bcap = getattr(self.cfg, "beta_cap", 0.0)
+                # scale-diag probe (2026-07-18): far-OOD-fragile seeds place
+                # EXTREME sharpness early (seed 0: L1 scale p99~60); bounded
+                # beta caps the training-selectable sharpness ceiling
+                beta = (bcap * torch.sigmoid(braw) if bcap > 0
+                        else F.softplus(braw))
                 logn = torch.log(torch.arange(1, S + 1, device=q.device,
                                               dtype=torch.float32).clamp(min=2.0))
                 if getattr(self.cfg, "clamp_logn", False):
@@ -207,6 +213,9 @@ def main():
     ap.add_argument("--scale-diag", action="store_true", dest="scale_diag",
                     help="print realized per-layer scale stats at each "
                          "eval context (content-runaway probe)")
+    ap.add_argument("--beta-cap", type=float, default=0.0, dest="beta_cap",
+                    help="beta = cap*sigmoid(.) instead of softplus "
+                         "(bounds the sharpness ceiling; 0 = off)")
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")
@@ -231,7 +240,8 @@ def main():
              else f"{args.attn}-q{args.stieltjes_q:g}"
                   + ("-v2" if getattr(args, "as_v2", False) else "")
                   + ("-ift" if getattr(args, "ift_grad", False) else "")
-                  + ("-clamp" if getattr(args, "clamp_logn", False) else ""))
+                  + ("-clamp" if getattr(args, "clamp_logn", False) else "")
+                  + (f"-bc{args.beta_cap:g}" if args.beta_cap > 0 else ""))
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"nl-{args.data}-{label}-{os.environ.get('SLURM_JOB_ID', 'local')}",
