@@ -89,6 +89,16 @@ class Attn(nn.Module):
                     scale = 1.0 + beta * logn.unsqueeze(0).unsqueeze(0).pow(gamma)
                 else:
                     scale = 1.0 + beta * logn.pow(self._log_gamma.exp())
+                if getattr(self.cfg, "scale_diag", False):
+                    # realized-scale statistics: the content-driven-runaway
+                    # probe (beta/gamma respond to activations, which drift
+                    # OOD at long context)
+                    self.last_scale_stats = {
+                        "scale_mean": scale.mean().item(),
+                        "scale_p99": scale.float().quantile(0.99).item(),
+                        "scale_max": scale.max().item(),
+                        "beta_max": beta.max().item(),
+                    }
                 q = (q * scale.unsqueeze(-1).to(q.dtype)).contiguous()
             o = stieltjes_attention(
                 q, k, v, causal=True,
@@ -194,6 +204,9 @@ def main():
     ap.add_argument("--clamp-logn", action="store_true", dest="clamp_logn",
                     help="cap the AS scale's log-length input at the "
                          "training block (eval-time extrapolation test)")
+    ap.add_argument("--scale-diag", action="store_true", dest="scale_diag",
+                    help="print realized per-layer scale stats at each "
+                         "eval context (content-runaway probe)")
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")
@@ -263,6 +276,17 @@ def main():
         print(f"  ctx {blk:5d}: val_loss {vl:.4f}  ({bpc:.3f} bits/char)")
         run.log({f"final/val_loss_ctx{blk}": vl, f"final/bpc_ctx{blk}": bpc})
         run.summary[f"val_loss_ctx{blk}"] = vl
+        if getattr(args, "scale_diag", False):
+            # stats from the LAST eval forward at this context
+            for li, b in enumerate(model.blocks):
+                st = getattr(b.attn, "last_scale_stats", None)
+                if st:
+                    print(f"    L{li}: scale mean {st['scale_mean']:8.2f} "
+                          f"p99 {st['scale_p99']:9.2f} "
+                          f"max {st['scale_max']:10.2f} "
+                          f"beta_max {st['beta_max']:9.2f}", flush=True)
+                    run.log({f"diag/ctx{blk}_L{li}_{k}": v
+                             for k, v in st.items()})
 
     run.finish()
     print("DONE")
