@@ -75,6 +75,14 @@ class Attn(nn.Module):
                 beta = F.softplus(torch.einsum("bhsd,hd->bhs", q, self.w_beta))
                 logn = torch.log(torch.arange(1, S + 1, device=q.device,
                                               dtype=torch.float32).clamp(min=2.0))
+                if getattr(self.cfg, "clamp_logn", False):
+                    # hypothesis test (2026-07-18): the V2 far-OOD explosion
+                    # is INFERENCE-time scale extrapolation — (log n)^gamma
+                    # growing past the training horizon — not a training
+                    # pathology. Clamp the log-length input at the training
+                    # block; training positions never exceed it, so the
+                    # trained model is bit-identical and only eval changes.
+                    logn = logn.clamp(max=math.log(self.cfg.block + 1))
                 if self.per_pos_gamma:
                     gamma = 2.0 * torch.tanh(
                         torch.einsum("bhsd,hd->bhs", q.float(), self.w_gamma))
@@ -183,6 +191,9 @@ def main():
     ap.add_argument("--ift-grad", action="store_true", dest="ift_grad",
                     help="smooth implicit-function backward for the kernel "
                          "(normalize=True mode; finding 2026-07-16)")
+    ap.add_argument("--clamp-logn", action="store_true", dest="clamp_logn",
+                    help="cap the AS scale's log-length input at the "
+                         "training block (eval-time extrapolation test)")
     ap.add_argument("--data", choices=["shakespeare", "stack"],
                     default="shakespeare")
     ap.add_argument("--q", type=float, default=4.0, dest="stieltjes_q")
@@ -206,7 +217,8 @@ def main():
     label = (f"{args.attn}" if args.attn == "sdpa"
              else f"{args.attn}-q{args.stieltjes_q:g}"
                   + ("-v2" if getattr(args, "as_v2", False) else "")
-                  + ("-ift" if getattr(args, "ift_grad", False) else ""))
+                  + ("-ift" if getattr(args, "ift_grad", False) else "")
+                  + ("-clamp" if getattr(args, "clamp_logn", False) else ""))
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"nl-{args.data}-{label}-{os.environ.get('SLURM_JOB_ID', 'local')}",
