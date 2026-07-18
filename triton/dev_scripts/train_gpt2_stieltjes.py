@@ -41,10 +41,16 @@ EOT = 50256
 # ---------------------------------------------------------------------------
 
 class Shards:
+    """FW_DIRS (colon-separated) mixes corpora; the last shard of EACH
+    dir is held out for validation so val covers every domain."""
+
     def __init__(self, split):
-        paths = sorted(glob.glob(os.path.join(FW_DIR, "shard_*.bin")))
-        assert len(paths) >= 2, f"need >=2 shards in {FW_DIR}"
-        self.paths = paths[:-1] if split == "train" else paths[-1:]
+        dirs = os.environ.get("FW_DIRS", FW_DIR).split(":")
+        self.paths = []
+        for d in dirs:
+            ps = sorted(glob.glob(os.path.join(d, "shard_*.bin")))
+            assert len(ps) >= 2, f"need >=2 shards in {d}"
+            self.paths += ps[:-1] if split == "train" else ps[-1:]
         self.maps = [np.memmap(p, dtype=np.uint16, mode="r")
                      for p in self.paths]
 
