@@ -92,9 +92,18 @@ class Attn(nn.Module):
                 if self.per_pos_gamma:
                     gamma = 2.0 * torch.tanh(
                         torch.einsum("bhsd,hd->bhs", q.float(), self.w_gamma))
-                    scale = 1.0 + beta * logn.unsqueeze(0).unsqueeze(0).pow(gamma)
+                    mult = beta * logn.unsqueeze(0).unsqueeze(0).pow(gamma)
                 else:
-                    scale = 1.0 + beta * logn.pow(self._log_gamma.exp())
+                    mult = beta * logn.pow(self._log_gamma.exp())
+                cap = getattr(self.cfg, "scale_cap", 0.0)
+                if cap and cap > 0:
+                    # equilibrium-selection fix (2026-07-18): the far-OOD
+                    # seed lottery is WHICH sharpness level training
+                    # converges to (bad seed: scale p99 ~58 at ALL ctx via
+                    # gamma->+2; healthy seed ~6). Capping the multiplier
+                    # during training removes the extreme equilibria.
+                    mult = cap * torch.tanh(mult / cap)
+                scale = 1.0 + mult
                 if getattr(self.cfg, "scale_diag", False):
                     # realized-scale statistics: the content-driven-runaway
                     # probe (beta/gamma respond to activations, which drift
@@ -213,6 +222,9 @@ def main():
     ap.add_argument("--scale-diag", action="store_true", dest="scale_diag",
                     help="print realized per-layer scale stats at each "
                          "eval context (content-runaway probe)")
+    ap.add_argument("--scale-cap", type=float, default=0.0, dest="scale_cap",
+                    help="soft-cap the AS scale multiplier at this value "
+                         "(tanh; 0 = off) — equilibrium-selection fix")
     ap.add_argument("--beta-cap", type=float, default=0.0, dest="beta_cap",
                     help="beta = cap*sigmoid(.) instead of softplus "
                          "(bounds the sharpness ceiling; 0 = off)")
@@ -241,7 +253,9 @@ def main():
                   + ("-v2" if getattr(args, "as_v2", False) else "")
                   + ("-ift" if getattr(args, "ift_grad", False) else "")
                   + ("-clamp" if getattr(args, "clamp_logn", False) else "")
-                  + (f"-bc{args.beta_cap:g}" if args.beta_cap > 0 else ""))
+                  + (f"-bc{args.beta_cap:g}" if args.beta_cap > 0 else "")
+                  + (f"-cap{args.scale_cap:g}"
+                     if getattr(args, "scale_cap", 0) else ""))
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"nl-{args.data}-{label}-{os.environ.get('SLURM_JOB_ID', 'local')}",
