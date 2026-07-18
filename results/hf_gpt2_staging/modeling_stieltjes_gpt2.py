@@ -118,7 +118,10 @@ class StieltjesGPT2ForCausalLM(PreTrainedModel, GenerationMixin):
                 use_cache=None, attention_mask=None, **kwargs):
         B, S = input_ids.shape
         if use_cache and past_key_values is None:
-            past_key_values = DynamicCache(config=self.config)
+            try:
+                past_key_values = DynamicCache(config=self.config)
+            except TypeError:      # transformers < 5: no config kwarg
+                past_key_values = DynamicCache()
         past_len = (past_key_values.get_seq_length()
                     if isinstance(past_key_values, Cache) else 0)
         pos = torch.arange(past_len, past_len + S, device=input_ids.device)
