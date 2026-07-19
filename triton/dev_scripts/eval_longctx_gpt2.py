@@ -95,6 +95,19 @@ def main():
         model = GPT(cfg).to(DEVICE)
         model.load_state_dict(blob["model"])
         model.eval()
+
+        # beyond-ctx eval feeds positions past the wpe table; clamp them
+        # (the trainer's GPT indexes wpe directly -> device assert at
+        # S > ctx). Saturated positions are the intended semantics here.
+        class _ClampedWPE(torch.nn.Module):
+            def __init__(self, wpe, maxpos):
+                super().__init__()
+                self.wpe, self.maxpos = wpe, maxpos
+
+            def forward(self, pos):
+                return self.wpe(pos.clamp(max=self.maxpos))
+
+        model.wpe = _ClampedWPE(model.wpe, cfg.ctx - 1)
         name = os.path.basename(path)
         print(f"\n===== {name} =====", flush=True)
         for src_name, ids in [("pg19", pg), ("fineweb-val", fw_ids)]:
