@@ -13,9 +13,10 @@ import torch
 if torch.cuda.is_available():
     torch.backends.cuda.enable_cudnn_sdp(False)
 
-STAGING = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_gpt2_staging"
-CKPT = ("/fs/scratch/PAS2836/alexg/fineweb_edu_10bt/"
-        "ckpt_gpt2-stj-q4_s0.pt")
+STAGING = (sys.argv[2] if len(sys.argv) > 2 else
+           "/users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_gpt2_staging")
+CKPT = (sys.argv[1] if len(sys.argv) > 1 else
+        "/fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4_s0.pt")
 sys.path.insert(0, STAGING)
 sys.path.insert(0, "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts")
 
