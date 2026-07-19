@@ -34,7 +34,8 @@ BUCKETS = [(0, 64), (64, 128), (128, 256), (256, 512), (512, 1023)]
 
 def long_token_stream(tok, n_tokens=1_500_000):
     """~1.5M tokens of genuinely long documents (PG-19 test books)."""
-    ds = load_dataset("deepmind/pg19", split="test", streaming=True)
+    # parquet mirror (deepmind/pg19 canonical repo is a legacy script)
+    ds = load_dataset("emozilla/pg19", split="test", streaming=True)
     ids = []
     for ex in ds:
         ids.extend(tok(ex["text"], add_special_tokens=False).input_ids)
