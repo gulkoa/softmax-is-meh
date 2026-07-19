@@ -17,6 +17,6 @@ set -euo pipefail
 cd /users/PAS2402/alexg/softmax
 
 uv run --project softmax-is-meh/triton --no-sync python \
-  softmax-is-meh/triton/dev_scripts/convert_verify_gpt2_hf.py
+  softmax-is-meh/triton/dev_scripts/convert_verify_gpt2_hf.py "$@"
 
 echo "ALL DONE"
