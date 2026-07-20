@@ -36,11 +36,13 @@ DEVICE = torch.device("cuda")
 
 blob = torch.load(CKPT, map_location="cpu", weights_only=False)
 targs = SimpleNamespace(**blob["args"])
-assert targs.attn == "stj"
+assert targs.attn in ("stj", "sdpa")
 
 cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           n_embd=targs.n_embd, ctx=targs.ctx,
-                          stj_q=targs.stj_q)
+                          stj_q=targs.stj_q,
+                          attn=("sdpa" if targs.attn == "sdpa"
+                                else "stieltjes"))
 hf = StieltjesGPT2ForCausalLM(cfg)
 res = hf.load_state_dict(blob["model"], strict=False)
 print("missing:", res.missing_keys, "| unexpected:", res.unexpected_keys)
