@@ -25,37 +25,45 @@ TEMPLATES = [
          text="Write a function reverse_string(s) that returns the "
               "string s reversed.",
          sol=lambda: (lambda s: s[::-1]),
+         ref="def reverse_string(s):\n    return s[::-1]",
          args=lambda rng: [(rng.choice(WORDS),) for _ in range(3)]),
     dict(name="count_char",
          text="Write a function count_char(s, c) that returns how many "
               "times character c appears in string s.",
          sol=lambda: (lambda s, c: s.count(c)),
+         ref="def count_char(s, c):\n    return s.count(c)",
          args=lambda rng: [(w := rng.choice(WORDS), rng.choice(w))
                            for _ in range(3)]),
     dict(name="sum_list",
          text="Write a function sum_list(xs) that returns the sum of a "
               "list of integers xs.",
          sol=lambda: (lambda xs: sum(xs)),
+         ref="def sum_list(xs):\n    return sum(xs)",
          args=lambda rng: [(sample_list(rng),) for _ in range(3)]),
     dict(name="max_of_list",
          text="Write a function max_of_list(xs) that returns the "
               "largest element of a non-empty list xs.",
          sol=lambda: (lambda xs: max(xs)),
+         ref="def max_of_list(xs):\n    return max(xs)",
          args=lambda rng: [(sample_list(rng),) for _ in range(3)]),
     dict(name="filter_even",
          text="Write a function filter_even(xs) that returns a list of "
               "only the even numbers in xs, in order.",
          sol=lambda: (lambda xs: [x for x in xs if x % 2 == 0]),
+         ref="def filter_even(xs):\n"
+             "    return [x for x in xs if x % 2 == 0]",
          args=lambda rng: [(sample_list(rng),) for _ in range(3)]),
     dict(name="square_all",
          text="Write a function square_all(xs) that returns a list with "
               "every element of xs squared.",
          sol=lambda: (lambda xs: [x * x for x in xs]),
+         ref="def square_all(xs):\n    return [x * x for x in xs]",
          args=lambda rng: [(sample_list(rng, -9, 9),) for _ in range(3)]),
     dict(name="is_palindrome",
          text="Write a function is_palindrome(s) that returns True if "
               "the string s reads the same forwards and backwards.",
          sol=lambda: (lambda s: s == s[::-1]),
+         ref="def is_palindrome(s):\n    return s == s[::-1]",
          args=lambda rng: [(rng.choice([w, w + w[::-1]]),)
                            for w in [rng.choice(WORDS) for _ in range(3)]]),
     dict(name="factorial",
@@ -63,6 +71,8 @@ TEMPLATES = [
               "non-negative integer n.",
          sol=lambda: (lambda n: 1 if n < 2 else
                       __import__("math").factorial(n)),
+         ref="def factorial(n):\n    r = 1\n"
+             "    for i in range(2, n + 1):\n        r *= i\n    return r",
          args=lambda rng: [(rng.randint(0, 8),) for _ in range(3)]),
     dict(name="fizzbuzz_value",
          text="Write a function fizzbuzz_value(n) that returns 'Fizz' "
@@ -71,11 +81,18 @@ TEMPLATES = [
          sol=lambda: (lambda n: "FizzBuzz" if n % 15 == 0 else
                       "Fizz" if n % 3 == 0 else
                       "Buzz" if n % 5 == 0 else n),
+         ref="def fizzbuzz_value(n):\n"
+             "    if n % 15 == 0:\n        return 'FizzBuzz'\n"
+             "    if n % 3 == 0:\n        return 'Fizz'\n"
+             "    if n % 5 == 0:\n        return 'Buzz'\n"
+             "    return n",
          args=lambda rng: [(rng.randint(1, 60),) for _ in range(3)]),
     dict(name="vowel_count",
          text="Write a function vowel_count(s) that returns the number "
               "of vowels (aeiou) in the lowercase string s.",
          sol=lambda: (lambda s: sum(ch in "aeiou" for ch in s)),
+         ref="def vowel_count(s):\n"
+             "    return sum(ch in 'aeiou' for ch in s)",
          args=lambda rng: [(rng.choice(WORDS) + rng.choice(WORDS),)
                            for _ in range(3)]),
 ]
@@ -89,7 +106,8 @@ def make_task(rng, idx):
              f"{fn(*c)!r}" for c in cases]
     return {"task_id": f"synth-{idx:05d}", "source": "synthetic",
             "template": t["name"], "text": t["text"],
-            "test_list": tests, "test_setup_code": ""}
+            "test_list": tests, "test_setup_code": "",
+            "code": t["ref"]}
 
 
 def main():
