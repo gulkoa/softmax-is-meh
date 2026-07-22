@@ -41,6 +41,7 @@ turns separated by the GPT-2 end-of-text token.
 | [stilt.1-124m](https://huggingface.co/GulkoA/stilt.1-124m) | 124M | base |
 | stilt.1-124m-it | 124M | this repo |
 | stilt.1-355m | 355M | [GulkoA/stilt.1-355m](https://huggingface.co/GulkoA/stilt.1-355m) |
+| stilt.1-355m-it | 355M | [GulkoA/stilt.1-355m-it](https://huggingface.co/GulkoA/stilt.1-355m-it) |
 
 ## Endpoint (OpenAI-compatible bodies)
 

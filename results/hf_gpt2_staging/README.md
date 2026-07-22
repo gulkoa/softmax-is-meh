@@ -42,6 +42,7 @@ the included `handler.py`.
 | stilt.1-124m | 124M | FineWeb-Edu 10B | this repo |
 | stilt.1-124m-it | 124M | + chat SFT | [GulkoA/stilt.1-124m-it](https://huggingface.co/GulkoA/stilt.1-124m-it) |
 | stilt.1-355m | 355M | web+math+code 15B | [GulkoA/stilt.1-355m](https://huggingface.co/GulkoA/stilt.1-355m) |
+| stilt.1-355m-it | 355M | + chat SFT | [GulkoA/stilt.1-355m-it](https://huggingface.co/GulkoA/stilt.1-355m-it) |
 
 Research artifacts — no safety tuning. `-it` suffixes mark
 instruction-tuned variants.
