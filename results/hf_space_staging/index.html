@@ -110,7 +110,7 @@
     <details class="sys">
       <summary>System prompt (optional)</summary>
       <textarea id="sys" rows="2" aria-label="System prompt"
-        placeholder="e.g. You are a helpful assistant. Answer briefly."></textarea>
+        placeholder="e.g. You are a helpful assistant. Answer briefly.">You are stilt, a helpful AI assistant</textarea>
       <div class="hint">The model has no trained system channel — this is
         folded into the first user turn by the endpoint.</div>
     </details>
@@ -499,7 +499,7 @@ function restore() {
     for (const k of ["maxtok", "temp", "topp"]) {
       if (s[k] != null) { $(k).value = s[k]; $(k + "v").textContent = $(k).value; }
     }
-    if (typeof s.sys === "string") $("sys").value = s.sys;
+    if (typeof s.sys === "string" && s.sys.trim()) $("sys").value = s.sys;
     const m = MODELS.find(x => x.id === s.model);
     if (m) model = m;
     if (Array.isArray(s.history)) {
