@@ -94,7 +94,12 @@ cfg.auto_map = {
 hf.save_pretrained(STAGING, safe_serialization=True)
 tok.save_pretrained(STAGING)
 tc = json.load(open(f"{STAGING}/tokenizer_config.json"))
-tc["model_max_length"] = 1024
+tc["model_max_length"] = 1000000000000  # policy: no hard token bounds
 json.dump(tc, open(f"{STAGING}/tokenizer_config.json", "w"), indent=2)
+gcp = f"{STAGING}/generation_config.json"
+if os.path.exists(gcp):
+    gc = json.load(open(gcp))
+    gc["max_length"] = None
+    json.dump(gc, open(gcp, "w"), indent=2)
 print("SAVED to", STAGING)
 print("VERIFIED")
