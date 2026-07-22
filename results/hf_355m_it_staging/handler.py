@@ -1,11 +1,24 @@
 """Custom handler for Hugging Face Inference Endpoints.
 
-input  {"inputs": "Once upon a time", "parameters": {"max_new_tokens": 60,
-        "do_sample": true, "top_k": 40, "temperature": 1.0}}
-output [{"generated_text": "..."}]
+Accepts BOTH formats:
+
+1. OpenAI chat format (POST the same body you'd send to
+   /v1/chat/completions):
+     {"messages": [{"role": "user", "content": "Hi"}],
+      "max_tokens": 60, "temperature": 0.7}
+   -> OpenAI-shaped chat.completion response.
+
+2. Classic HF format:
+     {"inputs": "raw prompt", "parameters": {"max_new_tokens": 60, ...}}
+   -> [{"generated_text": "..."}]
 """
+import time
+import uuid
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+U, A = "<|user|>\n", "<|assistant|>\n"
 
 
 class EndpointHandler:
@@ -15,17 +28,67 @@ class EndpointHandler:
             path, trust_remote_code=True)
         self.model.eval()
 
-    def __call__(self, data):
-        prompt = data.get("inputs", "")
-        p = data.get("parameters", {}) or {}
+    def _generate(self, prompt, max_new, temperature, top_p, do_sample):
         ids = self.tokenizer(prompt, return_tensors="pt")
+        n_prompt = ids.input_ids.shape[1]
         with torch.no_grad():
             out = self.model.generate(
-                **ids,
-                max_new_tokens=int(p.get("max_new_tokens", 60)),
-                do_sample=bool(p.get("do_sample", True)),
-                top_k=int(p.get("top_k", 40)),
-                temperature=float(p.get("temperature", 1.0)),
+                **ids, max_new_tokens=max_new,
+                do_sample=do_sample and temperature > 0,
+                temperature=max(temperature, 1e-5),
+                top_p=top_p,
+                eos_token_id=self.tokenizer.eos_token_id,
             )
-        return [{"generated_text": self.tokenizer.decode(
-            out[0], skip_special_tokens=True)}]
+        gen_ids = out[0, n_prompt:]
+        text = self.tokenizer.decode(gen_ids, skip_special_tokens=True)
+        return text, n_prompt, int(gen_ids.shape[0])
+
+    def _chat(self, data):
+        prompt = ""
+        for m in data.get("messages", []):
+            role, content = m.get("role"), m.get("content", "")
+            if role == "user":
+                prompt += U + content + "\n"
+            elif role == "assistant":
+                prompt += A + content + self.tokenizer.eos_token
+            elif role == "system":
+                # no trained system channel; fold into the first user turn
+                prompt += U + "(instructions) " + content + "\n"
+        prompt += A
+        text, n_in, n_out = self._generate(
+            prompt,
+            max_new=int(data.get("max_tokens") or 256),
+            temperature=float(data.get("temperature", 0.7)),
+            top_p=float(data.get("top_p", 0.95)),
+            do_sample=True,
+        )
+        # trim at a spurious next-turn marker if the model emits one
+        text = text.split("<|user|>")[0].strip()
+        return {
+            "id": "chatcmpl-" + uuid.uuid4().hex[:24],
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": data.get("model", "stilt.1-355m-it"),
+            "choices": [{
+                "index": 0,
+                "message": {"role": "assistant", "content": text},
+                "finish_reason": "stop" if n_out < int(
+                    data.get("max_tokens") or 256) else "length",
+            }],
+            "usage": {"prompt_tokens": n_in,
+                      "completion_tokens": n_out,
+                      "total_tokens": n_in + n_out},
+        }
+
+    def __call__(self, data):
+        if "messages" in data:
+            return self._chat(data)
+        p = data.get("parameters", {}) or {}
+        text, _, _ = self._generate(
+            data.get("inputs", ""),
+            max_new=int(p.get("max_new_tokens", 60)),
+            temperature=float(p.get("temperature", 1.0)),
+            top_p=float(p.get("top_p", 1.0)),
+            do_sample=bool(p.get("do_sample", True)),
+        )
+        return [{"generated_text": text}]
