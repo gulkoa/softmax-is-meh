@@ -37,17 +37,24 @@ import wandb  # noqa: E402
 DEVICE = torch.device("cuda")
 
 
-def build_code_tensors(tok, ctx, synthetic_path=None):
-    ds = load_dataset("google-research-datasets/mbpp", "full")
-    problems = list(ds["train"])
-    if synthetic_path:
-        problems += json.load(open(synthetic_path))
+def build_code_tensors(tok, ctx, synthetic_path=None, data_path=None,
+                       reasoning=False):
+    if data_path:
+        problems = json.load(open(data_path))
+    else:
+        ds = load_dataset("google-research-datasets/mbpp", "full")
+        problems = list(ds["train"])
+        if synthetic_path:
+            problems += json.load(open(synthetic_path))
     xs, masks = [], []
     eot = tok.eos_token_id
     skipped = 0
     for p in problems:
         prompt = build_prompt(p)
         target = "```python\n" + p["code"].strip() + "\n```"
+        if reasoning:
+            target = ("<think>\n" + p["think"].strip() + "\n</think>\n"
+                      + target)
         pids = tok(prompt, add_special_tokens=False).input_ids
         tids = tok(target, add_special_tokens=False).input_ids + [eot]
         ids = pids + tids
@@ -79,6 +86,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("it_ckpt")
     ap.add_argument("--synthetic", default=None)
+    ap.add_argument("--data", default=None,
+                    help="json rows with text/test_list/code[/think] — "
+                         "replaces MBPP+synthetic loading")
+    ap.add_argument("--reasoning", action="store_true",
+                    help="<think> trace before the code block (rows "
+                         "must carry `think`)")
     ap.add_argument("--tokens", type=float, default=4e5)
     ap.add_argument("--bs", type=int, default=16)
     ap.add_argument("--lr", type=float, default=2e-5)
@@ -92,7 +105,8 @@ def main():
     tok = AutoTokenizer.from_pretrained("gpt2")
     torch.manual_seed(args.seed)
 
-    xs, masks = build_code_tensors(tok, cfg.ctx, args.synthetic)
+    xs, masks = build_code_tensors(tok, cfg.ctx, args.synthetic,
+                                   args.data, args.reasoning)
     avg_len = float(np.mean([len(x) for x in xs]))
     total_steps = max(1, int(args.tokens // (args.bs * avg_len)))
     print(f"code-SFT: {total_steps} steps (avg len {avg_len:.0f})",
@@ -127,7 +141,8 @@ def main():
                   flush=True)
             run.log({"step": step, "codesft_loss": loss.item()})
 
-    out = args.it_ckpt.replace(".pt", "-code.pt")
+    out = args.it_ckpt.replace(
+        ".pt", "-code-r.pt" if args.reasoning else "-code.pt")
     torch.save({"model": model.state_dict(), "args": vars(cfg),
                 "codesft_args": vars(args)}, out)
     print(f"saved {out}", flush=True)
