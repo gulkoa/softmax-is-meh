@@ -256,6 +256,7 @@ def main():
     diag_ids = tok(build_prompt(train[0]),
                    return_tensors="pt").input_ids.to(DEVICE)
     low_ent_logs = 0
+    solved_ever = set()
 
     for step in range(args.steps):
         model.eval()
@@ -277,6 +278,7 @@ def main():
         adv = adv.view(-1)
 
         model.train()
+        t0 = __import__("time").time()
         tok_lp, m, ent = seq_logprobs(model, x, plen, tok, cfg.ctx)
         with torch.no_grad():
             ref_lp, _, _ = seq_logprobs(ref, x, plen, tok, cfg.ctx)
@@ -285,30 +287,52 @@ def main():
         loss = pg + args.kl_beta * kl
         opt.zero_grad(set_to_none=True)
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
 
+        # detailed per-step curves (user directive 2026-07-23)
+        solved = float(np.mean([f == 1.0 for f in fracs]))
+        any_pass = float(np.mean([f > 0 for f in fracs]))
+        gen_ent = (ent * m).sum().item() / m.sum().item()
+        gen_lens = m.sum(1).float()
+        for i, prob in enumerate(probs_batch):
+            key = str(prob["task_id"])
+            if any(fracs[i * args.k + j] == 1.0 for j in range(args.k)):
+                solved_ever.add(key)
+        log = {"step": step, "reward_mean": R.mean().item(),
+               "reward_std": R.std().item(),
+               "reward_max": R.max().item(), "batch_pass": solved,
+               "batch_any_pass": any_pass,
+               "adv_abs_mean": adv.abs().mean().item(),
+               "pg_loss": pg.item(), "kl": kl.item(),
+               "loss": loss.item(), "grad_norm": float(gnorm),
+               "entropy": gen_ent,
+               "gen_len_mean": gen_lens.mean().item(),
+               "gen_len_max": gen_lens.max().item(),
+               "unique_solved_cum": len(solved_ever),
+               "step_seconds": __import__("time").time() - t0}
+        if step % args.diag_every == 0:
+            model.eval()
+            log.update(attn_diag(model, cfg, diag_ids))
+            model.train()
+        if step % 50 == 0:
+            tbl = wandb.Table(columns=["step", "reward", "completion"])
+            for i in np.argsort(rewards)[-2:]:
+                tbl.add_data(step, rewards[i], outs[i][:1500])
+            log["samples"] = tbl
+        run.log(log)
         if step % 5 == 0:
-            solved = float(np.mean([f == 1.0 for f in fracs]))
-            gen_ent = (ent * m).sum().item() / m.sum().item()
             print(f"step {step:4d} R {R.mean():.3f} best {R.max():.2f} "
                   f"pass@1(batch) {solved:.3f} KL {kl.item():.4f} "
-                  f"ent {gen_ent:.3f}", flush=True)
-            log = {"step": step, "reward_mean": R.mean().item(),
-                   "reward_max": R.max().item(), "batch_pass": solved,
-                   "kl": kl.item(), "entropy": gen_ent}
-            if step % args.diag_every == 0:
-                model.eval()
-                log.update(attn_diag(model, cfg, diag_ids))
-                model.train()
-            run.log(log)
-            low_ent_logs = low_ent_logs + 1 \
-                if gen_ent < args.entropy_floor else 0
-            if low_ent_logs >= 3:
-                print(f"ENTROPY FLOOR hit ({gen_ent:.3f} < "
-                      f"{args.entropy_floor}) 3 logs running — stopping",
-                      flush=True)
-                break
+                  f"ent {gen_ent:.3f} gnorm {float(gnorm):.2f}",
+                  flush=True)
+        low_ent_logs = low_ent_logs + 1 \
+            if gen_ent < args.entropy_floor else 0
+        if low_ent_logs >= 15:
+            print(f"ENTROPY FLOOR hit ({gen_ent:.3f} < "
+                  f"{args.entropy_floor}) 15 steps running — stopping",
+                  flush=True)
+            break
         if step % 50 == 0 and step > 0:
             out = args.ckpt.replace(".pt", f"_grpo{step}.pt")
             torch.save({"model": model.state_dict(), "args": vars(cfg),
