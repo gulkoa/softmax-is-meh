@@ -258,7 +258,26 @@ def main():
     low_ent_logs = 0
     solved_ever = set()
 
-    for step in range(args.steps):
+    # auto-resume: pick up the highest-step _grpoN ckpt if one exists
+    # (16h runs don't backfill on a congested cluster; 4h chained
+    # chunks do — optimizer state restarts each chunk, acceptable at
+    # this lr with grad clipping)
+    import glob
+    start_step = 0
+    cands = []
+    for p in glob.glob(args.ckpt.replace(".pt", "_grpo*.pt")):
+        m_ = re.search(r"_grpo(\d+)\.pt$", p)
+        if m_:
+            cands.append((int(m_.group(1)), p))
+    if cands:
+        start_step, p = max(cands)
+        blob_r = torch.load(p, map_location="cpu", weights_only=False)
+        model.load_state_dict(blob_r["model"])
+        print(f"RESUMED from {p} (step {start_step})", flush=True)
+        run.config.update({"resumed_from_step": start_step},
+                          allow_val_change=True)
+
+    for step in range(start_step, args.steps):
         model.eval()
         probs_batch = [train[i] for i in
                        rng.integers(0, len(train), args.prompts_per_step)]
