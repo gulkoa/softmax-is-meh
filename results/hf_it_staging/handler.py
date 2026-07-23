@@ -71,7 +71,7 @@ class EndpointHandler:
             "id": "chatcmpl-" + uuid.uuid4().hex[:24],
             "object": "chat.completion",
             "created": int(time.time()),
-            "model": data.get("model", "stilt.1-355m-it"),
+            "model": data.get("model", "stilt.1-124m-it"),
             "choices": [{
                 "index": 0,
                 "message": {"role": "assistant", "content": text},
