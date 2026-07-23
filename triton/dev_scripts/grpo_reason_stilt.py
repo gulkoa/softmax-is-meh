@@ -197,7 +197,23 @@ def main():
                    return_tensors="pt").input_ids.to(DEVICE)
     low_ent, solved_ever = 0, set()
 
-    for step in range(args.steps):
+    # auto-resume from the highest-step _reasonN ckpt (4h chain chunks)
+    import glob
+    start_step = 0
+    cands = []
+    for p in glob.glob(args.ckpt.replace(".pt", "_reason*.pt")):
+        m_ = re.search(r"_reason(\d+)\.pt$", p)
+        if m_:
+            cands.append((int(m_.group(1)), p))
+    if cands:
+        start_step, p = max(cands)
+        blob_r = torch.load(p, map_location="cpu", weights_only=False)
+        model.load_state_dict(blob_r["model"])
+        print(f"RESUMED from {p} (step {start_step})", flush=True)
+        run.config.update({"resumed_from_step": start_step},
+                          allow_val_change=True)
+
+    for step in range(start_step, args.steps):
         t0 = time.time()
         model.eval()
         batch = [tasks[i] for i in
