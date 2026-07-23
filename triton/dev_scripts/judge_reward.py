@@ -43,8 +43,9 @@ Reply with ONLY this JSON, nothing else:
 class LocalJudge:
     def __init__(self, model_name=JUDGE_MODEL, device="cuda"):
         self.tok = AutoTokenizer.from_pretrained(model_name)
+        # plain .to(device) — device_map needs accelerate, not in venv
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, torch_dtype=torch.bfloat16, device_map=device)
+            model_name, torch_dtype=torch.bfloat16).to(device)
         self.model.eval()
 
     @torch.no_grad()
