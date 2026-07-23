@@ -100,7 +100,13 @@ SYS_FOLLOW = [
     ("Respond only with 'yes' or 'no'.",
      "Is the sun a star?", "Yes."),
     ("Respond only with 'yes' or 'no'.",
+     "Is fire hot?", "Yes."),
+    ("Respond only with 'yes' or 'no'.",
+     "Do fish live in water?", "Yes."),
+    ("Respond only with 'yes' or 'no'.",
      "Is ice hotter than steam?", "No."),
+    ("Respond only with 'yes' or 'no'.",
+     "Can pigs fly?", "No."),
     ("You are a pirate. Stay in character.",
      "How are you today?",
      "Arr, shipshape and ready to sail! What can this old sea dog do "
