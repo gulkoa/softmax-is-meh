@@ -198,6 +198,9 @@ def main():
                    return_tensors="pt").input_ids.to(DEVICE)
     low_ent, solved_ever = 0, set()
 
+    if os.path.exists(args.ckpt.replace(".pt", "_reason_final.pt")):
+        print("FINAL already exists — nothing to do")
+        return
     # auto-resume from the highest-step _reasonN ckpt (4h chain chunks)
     import glob
     start_step = 0

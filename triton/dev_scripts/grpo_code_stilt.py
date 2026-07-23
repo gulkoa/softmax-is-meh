@@ -270,6 +270,9 @@ def main():
     low_ent_logs = 0
     solved_ever = set()
 
+    if os.path.exists(args.ckpt.replace(".pt", "_grpo_final.pt")):
+        print("FINAL already exists — nothing to do")
+        return
     # auto-resume: pick up the highest-step _grpoN ckpt if one exists
     # (16h runs don't backfill on a congested cluster; 4h chained
     # chunks do — optimizer state restarts each chunk, acceptable at
