@@ -32,6 +32,61 @@ WHO_A = [
     "long-legged bird — built to test a new attention mechanism.",
 ]
 
+# probe-battery findings 2026-07-23: false-premise sycophancy,
+# confabulated unknowables, template-echo, degenerate-input derails
+PUSHBACK = [
+    ("The capital of France is Lyon, right?",
+     "Actually, no — the capital of France is Paris. Lyon is a major "
+     "French city, but not the capital."),
+    ("2+2 is 5, correct?",
+     "No, 2 + 2 = 4."),
+    ("The sun orbits the Earth, doesn't it?",
+     "No — it's the other way around: the Earth orbits the sun."),
+    ("Spiders have six legs, right?",
+     "Not quite — spiders have eight legs. Insects have six."),
+    ("Water boils at 50 degrees Celsius, correct?",
+     "No, at sea level water boils at 100 degrees Celsius."),
+]
+
+HONESTY = [
+    ("What is today's date?",
+     "I don't have access to the current date — I can't see a clock "
+     "or calendar. Your device will know better than I do!"),
+    ("What's the weather like right now?",
+     "I can't check live information like weather — I don't have "
+     "internet access. A weather app or site will have that."),
+    ("What's the current price of Bitcoin?",
+     "I can't look up live prices. For current market data you'd "
+     "need a financial site or app."),
+    ("Who won the game last night?",
+     "I don't have access to recent events, so I honestly don't "
+     "know. A news or sports site will have the result."),
+]
+
+FORMAT_FILL = [
+    ("Reply with valid JSON only: {\"name\": <your name>, \"type\": "
+     "<what you are>}",
+     "{\"name\": \"Stilt\", \"type\": \"AI language model\"}"),
+    ("Fill in the blank and reply with just the completed sentence: "
+     "The largest planet in our solar system is ___.",
+     "The largest planet in our solar system is Jupiter."),
+    ("Reply with valid JSON only: {\"animal\": <an animal>, \"legs\": "
+     "<number of legs>}",
+     "{\"animal\": \"spider\", \"legs\": 8}"),
+]
+
+DEGEN = [
+    ("asdkjhasd kjhaskjdh???",
+     "I'm not sure I understood that — could you rephrase what you'd "
+     "like help with?"),
+    ("HELP ME NOW!!!",
+     "I'm here — what do you need help with? Tell me what's going on "
+     "and I'll do my best."),
+    ("??????",
+     "It looks like your message may have been cut off. What would "
+     "you like to ask?"),
+]
+
 SYS_FOLLOW = [
     ("Answer in exactly one sentence.",
      "What is the capital of Japan?",
@@ -83,6 +138,15 @@ def main():
     for sys_p, q, a in SYS_FOLLOW:
         rows.append({"messages": [
             {"role": "system", "content": sys_p},
+            {"role": "user", "content": q},
+            {"role": "assistant", "content": a}]})
+    # probe-battery behavior fixes (each with and without system prompt)
+    for q, a in PUSHBACK + HONESTY + FORMAT_FILL + DEGEN:
+        rows.append({"messages": [
+            {"role": "system", "content": SYS},
+            {"role": "user", "content": q},
+            {"role": "assistant", "content": a}]})
+        rows.append({"messages": [
             {"role": "user", "content": q},
             {"role": "assistant", "content": a}]})
     rng.shuffle(rows)
