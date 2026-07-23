@@ -41,13 +41,33 @@ from datasets import load_dataset  # noqa: E402
 from transformers import AutoTokenizer  # noqa: E402
 import wandb  # noqa: E402
 
-STAGING = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                       "..", "..", "results", "hf_gpt2_staging")
-sys.path.insert(0, STAGING)
-from modeling_stieltjes_gpt2 import stieltjes_probs  # noqa: E402
-
 DEVICE = torch.device("cuda")
 U, A = "<|user|>\n", "<|assistant|>\n"
+
+
+def stieltjes_probs(scores, q_order, iters=50, eps=1e-20):
+    """Row-normalized Stieltjes attention over fp32 scores (last dim).
+    Inlined from the verified HF modeling file (that file uses relative
+    imports and cannot be imported as a top-level module)."""
+    K = scores.shape[-1]
+    with torch.no_grad():
+        smax = scores.amax(dim=-1, keepdim=True)
+        lo = smax + 1e-6
+        hi = smax + float(K) ** (1.0 / q_order)
+        for _ in range(iters):
+            mid = 0.5 * (lo + hi)
+            f = (mid - scores).clamp_min(eps).pow(-q_order).sum(
+                -1, keepdim=True)
+            gt = f > 1.0
+            lo = torch.where(gt, mid, lo)
+            hi = torch.where(gt, hi, mid)
+        lam = 0.5 * (lo + hi)
+    diff = (lam - scores).clamp_min(eps)
+    f_val = diff.pow(-q_order).sum(-1, keepdim=True) - 1.0
+    f_der = (-q_order) * diff.pow(-q_order - 1.0).sum(-1, keepdim=True)
+    lam = lam - f_val / f_der
+    w = (lam - scores).clamp_min(eps).pow(-q_order)
+    return w / w.sum(-1, keepdim=True).clamp_min(eps)
 
 
 @torch.no_grad()
