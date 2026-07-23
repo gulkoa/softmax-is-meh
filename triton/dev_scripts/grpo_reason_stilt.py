@@ -29,7 +29,7 @@ if torch.cuda.is_available():
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from train_gpt2_stieltjes import GPT, FW_DIR  # noqa: E402
 from grpo_code_stilt import (  # noqa: E402
-    U, A, attn_diag, sample_batch, seq_logprobs)
+    U, A, attn_diag, batch_mask, sample_batch, seq_logprobs)
 from judge_reward import LocalJudge, gold_match  # noqa: E402
 
 os.environ.setdefault("HF_HOME", os.path.join(FW_DIR, "hf_cache"))
@@ -135,6 +135,7 @@ def main():
     ap.add_argument("--judge-weight", type=float, default=0.3)
     ap.add_argument("--entropy-floor", type=float, default=0.35)
     ap.add_argument("--diag-every", type=int, default=25)
+    ap.add_argument("--micro-bs", type=int, default=16)
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
@@ -242,18 +243,31 @@ def main():
         adv = adv.view(-1)
 
         model.train()
-        tok_lp, m, ent = seq_logprobs(model, x, plen, tok, cfg.ctx)
-        with torch.no_grad():
-            ref_lp, _, _ = seq_logprobs(ref, x, plen, tok, cfg.ctx)
-        pg = -(adv[:, None] * tok_lp * m).sum() / m.sum()
-        kl = ((tok_lp - ref_lp) * m).sum() / m.sum()
-        loss = pg + args.kl_beta * kl
+        # microbatched logprob/backward (full-batch OOMs; see code-GRPO
+        # validation run 12554946)
         opt.zero_grad(set_to_none=True)
-        loss.backward()
+        B = x.shape[0]
+        mbs = args.micro_bs
+        full_mask = batch_mask(x, plen, tok)
+        M_total = full_mask.sum().clamp_min(1).float()
+        pg_val = kl_val = ent_num = 0.0
+        for i in range(0, B, mbs):
+            x_ = x[i:i + mbs]
+            m_ = full_mask[i:i + mbs]
+            tok_lp, _, ent_ = seq_logprobs(model, x_, plen, tok, cfg.ctx)
+            with torch.no_grad():
+                ref_lp, _, _ = seq_logprobs(ref, x_, plen, tok, cfg.ctx)
+            adv_ = adv[i:i + mbs]
+            pg_mb = -(adv_[:, None] * tok_lp * m_).sum() / M_total
+            kl_mb = ((tok_lp - ref_lp) * m_).sum() / M_total
+            (pg_mb + args.kl_beta * kl_mb).backward()
+            pg_val += pg_mb.item()
+            kl_val += kl_mb.item()
+            ent_num += (ent_ * m_).sum().item()
         gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
 
-        gen_ent = (ent * m).sum().item() / m.sum().item()
+        gen_ent = ent_num / M_total.item()
         ch_acc = {}
         for i, o in enumerate(outs):
             ch = batch[i // args.k]["channel"]
@@ -268,8 +282,8 @@ def main():
                "fmt_rate": float(np.mean(
                    [extract_answer(o) is not None for o in outs])),
                "think_rate": float(np.mean([bool(t) for t in thinks])),
-               "kl": kl.item(), "pg_loss": pg.item(),
-               "loss": loss.item(), "grad_norm": float(gnorm),
+               "kl": kl_val, "pg_loss": pg_val,
+               "loss": pg_val + args.kl_beta * kl_val, "grad_norm": float(gnorm),
                "entropy": gen_ent,
                "gen_len_mean": float(np.mean(lens)),
                "unique_solved_cum": len(solved_ever),
@@ -289,7 +303,7 @@ def main():
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} acc "
                   f"{np.mean(correct):.3f} judge {np.mean(jnorm):.2f} "
-                  f"KL {kl.item():.4f} ent {gen_ent:.3f}", flush=True)
+                  f"KL {kl_val:.4f} ent {gen_ent:.3f}", flush=True)
         low_ent = low_ent + 1 if gen_ent < args.entropy_floor else 0
         if low_ent >= 15:
             print("ENTROPY FLOOR hit — stopping", flush=True)

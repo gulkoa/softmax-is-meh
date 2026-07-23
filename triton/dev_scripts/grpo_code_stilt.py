@@ -158,6 +158,17 @@ def sample_batch(model, tok, prompts, k, max_new, ctx, temperature=0.8,
     return outs, x, prompt_len
 
 
+def batch_mask(x, prompt_len, tok):
+    """Generated-token mask (same logic as seq_logprobs, model-free) —
+    lets microbatched backward know the global token count upfront."""
+    tgt = x[:, 1:]
+    gen_mask = torch.zeros_like(tgt, dtype=torch.bool)
+    gen_mask[:, prompt_len - 1:] = True
+    pad_mask = tgt != tok.eos_token_id
+    first_eos = (~pad_mask & gen_mask).float().cumsum(1) <= 1
+    return gen_mask & (pad_mask | ((tgt == tok.eos_token_id) & first_eos))
+
+
 def seq_logprobs(model, x, prompt_len, tok, ctx):
     """Per-sequence sum logprob + per-token logprobs on the generated part."""
     with torch.autocast("cuda", dtype=torch.bfloat16):
@@ -190,6 +201,7 @@ def main():
     ap.add_argument("--prompts-per-step", type=int, default=16)
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--max-new", type=int, default=200)
+    ap.add_argument("--micro-bs", type=int, default=16)
     ap.add_argument("--lr", type=float, default=2e-6)
     ap.add_argument("--kl-beta", type=float, default=0.03)
     ap.add_argument("--seed", type=int, default=0)
@@ -298,22 +310,35 @@ def main():
 
         model.train()
         t0 = __import__("time").time()
-        tok_lp, m, ent = seq_logprobs(model, x, plen, tok, cfg.ctx)
-        with torch.no_grad():
-            ref_lp, _, _ = seq_logprobs(ref, x, plen, tok, cfg.ctx)
-        pg = -(adv[:, None] * tok_lp * m).sum() / m.sum()
-        kl = ((tok_lp - ref_lp) * m).sum() / m.sum()
-        loss = pg + args.kl_beta * kl
+        # microbatched logprob/backward — full-batch fp32 logits OOM
+        # at max-new 380 (caught by debug validation run 12554946)
         opt.zero_grad(set_to_none=True)
-        loss.backward()
+        B = x.shape[0]
+        mbs = args.micro_bs
+        full_mask = batch_mask(x, plen, tok)
+        M_total = full_mask.sum().clamp_min(1).float()
+        pg_val = kl_val = ent_num = 0.0
+        for i in range(0, B, mbs):
+            x_ = x[i:i + mbs]
+            m_ = full_mask[i:i + mbs]
+            tok_lp, _, ent_ = seq_logprobs(model, x_, plen, tok, cfg.ctx)
+            with torch.no_grad():
+                ref_lp, _, _ = seq_logprobs(ref, x_, plen, tok, cfg.ctx)
+            adv_ = adv[i:i + mbs]
+            pg_mb = -(adv_[:, None] * tok_lp * m_).sum() / M_total
+            kl_mb = ((tok_lp - ref_lp) * m_).sum() / M_total
+            (pg_mb + args.kl_beta * kl_mb).backward()
+            pg_val += pg_mb.item()
+            kl_val += kl_mb.item()
+            ent_num += (ent_ * m_).sum().item()
         gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
 
         # detailed per-step curves (user directive 2026-07-23)
         solved = float(np.mean([f == 1.0 for f in fracs]))
         any_pass = float(np.mean([f > 0 for f in fracs]))
-        gen_ent = (ent * m).sum().item() / m.sum().item()
-        gen_lens = m.sum(1).float()
+        gen_ent = ent_num / M_total.item()
+        gen_lens = full_mask.sum(1).float()
         for i, prob in enumerate(probs_batch):
             key = str(prob["task_id"])
             if any(fracs[i * args.k + j] == 1.0 for j in range(args.k)):
@@ -323,8 +348,8 @@ def main():
                "reward_max": R.max().item(), "batch_pass": solved,
                "batch_any_pass": any_pass,
                "adv_abs_mean": adv.abs().mean().item(),
-               "pg_loss": pg.item(), "kl": kl.item(),
-               "loss": loss.item(), "grad_norm": float(gnorm),
+               "pg_loss": pg_val, "kl": kl_val,
+               "loss": pg_val + args.kl_beta * kl_val, "grad_norm": float(gnorm),
                "entropy": gen_ent,
                "gen_len_mean": gen_lens.mean().item(),
                "gen_len_max": gen_lens.max().item(),
@@ -342,7 +367,7 @@ def main():
         run.log(log)
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} best {R.max():.2f} "
-                  f"pass@1(batch) {solved:.3f} KL {kl.item():.4f} "
+                  f"pass@1(batch) {solved:.3f} KL {kl_val:.4f} "
                   f"ent {gen_ent:.3f} gnorm {float(gnorm):.2f}",
                   flush=True)
         low_ent_logs = low_ent_logs + 1 \
