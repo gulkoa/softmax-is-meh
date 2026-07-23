@@ -9,7 +9,12 @@ Modes:
 
 Usage:
   python grpo_code_stilt.py <ckpt.pt> --probe
-  python grpo_code_stilt.py <ckpt.pt> [--solvable set.json] [...]
+  python grpo_code_stilt.py <ckpt.pt> [--solvable set.json]
+      [--synthetic tasks.json] [--entropy-floor 0.35] [--diag-every 25]
+
+2026-07-22 upgrades: synthetic-curriculum mixing, entropy-floor early
+stop, attention-entropy instrumentation (dense recompute on a fixed
+diagnostic prompt at 3 layers — the RL-dynamics mechanism readout).
 """
 import argparse
 import json
@@ -36,8 +41,54 @@ from datasets import load_dataset  # noqa: E402
 from transformers import AutoTokenizer  # noqa: E402
 import wandb  # noqa: E402
 
+STAGING = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "..", "..", "results", "hf_gpt2_staging")
+sys.path.insert(0, STAGING)
+from modeling_stieltjes_gpt2 import stieltjes_probs  # noqa: E402
+
 DEVICE = torch.device("cuda")
 U, A = "<|user|>\n", "<|assistant|>\n"
+
+
+@torch.no_grad()
+def attn_diag(model, cfg, diag_ids, layers=None):
+    """Attention-entropy stats via dense recompute at a few layers on a
+    fixed prompt: per-row entropy of the attention distribution (last 64
+    rows). Sharpening policies -> falling attention entropy; this is the
+    mechanism readout for the stj-vs-softmax RL comparison."""
+    L = len(model.blocks)
+    layers = layers or sorted({0, L // 2, L - 1})
+    caps = {}
+    hooks = []
+    for li in layers:
+        def keep(mod, inp, out, li=li):
+            caps[li] = out.float()
+        hooks.append(model.blocks[li].attn.qkv.register_forward_hook(keep))
+    with torch.autocast("cuda", dtype=torch.bfloat16):
+        model(diag_ids)
+    for h in hooks:
+        h.remove()
+    stats = {}
+    hd = cfg.n_embd // cfg.n_head
+    for li, qkv in caps.items():
+        B, S, _ = qkv.shape
+        q, k, _ = qkv.split(cfg.n_embd, dim=2)
+        q = q.view(B, S, cfg.n_head, hd).transpose(1, 2)
+        k = k.view(B, S, cfg.n_head, hd).transpose(1, 2)
+        scores = (q @ k.transpose(-2, -1)) / math.sqrt(hd)
+        mask = torch.full((S, S), float("-inf"), device=scores.device
+                          ).triu(1)
+        scores = scores + mask
+        rows = scores[:, :, -64:, :]                 # last 64 query rows
+        if cfg.attn == "sdpa":
+            p = torch.softmax(rows, dim=-1)
+        else:
+            p = stieltjes_probs(rows, cfg.stj_q)
+        ent = -(p.clamp_min(1e-12).log() * p).sum(-1)   # (B,H,64)
+        stats[f"attn_H_l{li}_mean"] = ent.mean().item()
+        stats[f"attn_H_l{li}_p10"] = ent.quantile(0.10).item()
+        stats[f"attn_maxp_l{li}"] = p.amax(-1).mean().item()
+    return stats
 
 
 def build_prompt(problem):
@@ -110,6 +161,11 @@ def main():
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--probe-k", type=int, default=32)
     ap.add_argument("--solvable", default=None)
+    ap.add_argument("--synthetic", default=None,
+                    help="json of synthetic tasks to mix into curriculum")
+    ap.add_argument("--entropy-floor", type=float, default=0.35,
+                    help="stop if gen entropy stays below this 3 logs")
+    ap.add_argument("--diag-every", type=int, default=25)
     ap.add_argument("--steps", type=int, default=500)
     ap.add_argument("--prompts-per-step", type=int, default=16)
     ap.add_argument("--k", type=int, default=8)
@@ -158,6 +214,11 @@ def main():
                 if v["solved"] > 0}
         train = [p for p in train if p["task_id"] in keep]
         print(f"curriculum: {len(train)} solvable problems", flush=True)
+    if args.synthetic:
+        synth = json.load(open(args.synthetic))
+        train = train + synth
+        print(f"curriculum: +{len(synth)} synthetic -> {len(train)} total",
+              flush=True)
 
     ref = GPT(cfg).to(DEVICE)
     ref.load_state_dict(blob["model"])
@@ -172,6 +233,9 @@ def main():
                      name=f"grpo-code-{os.path.basename(args.ckpt)}"
                           f"-{os.environ.get('SLURM_JOB_ID', 'local')}",
                      config={**vars(args), "base": blob["args"]})
+    diag_ids = tok(build_prompt(train[0]),
+                   return_tensors="pt").input_ids.to(DEVICE)
+    low_ent_logs = 0
 
     for step in range(args.steps):
         model.eval()
@@ -206,14 +270,25 @@ def main():
 
         if step % 5 == 0:
             solved = float(np.mean([f == 1.0 for f in fracs]))
+            gen_ent = (ent * m).sum().item() / m.sum().item()
             print(f"step {step:4d} R {R.mean():.3f} best {R.max():.2f} "
                   f"pass@1(batch) {solved:.3f} KL {kl.item():.4f} "
-                  f"ent {(ent * m).sum().item() / m.sum().item():.3f}",
-                  flush=True)
-            run.log({"step": step, "reward_mean": R.mean().item(),
-                     "reward_max": R.max().item(), "batch_pass": solved,
-                     "kl": kl.item(),
-                     "entropy": (ent * m).sum().item() / m.sum().item()})
+                  f"ent {gen_ent:.3f}", flush=True)
+            log = {"step": step, "reward_mean": R.mean().item(),
+                   "reward_max": R.max().item(), "batch_pass": solved,
+                   "kl": kl.item(), "entropy": gen_ent}
+            if step % args.diag_every == 0:
+                model.eval()
+                log.update(attn_diag(model, cfg, diag_ids))
+                model.train()
+            run.log(log)
+            low_ent_logs = low_ent_logs + 1 \
+                if gen_ent < args.entropy_floor else 0
+            if low_ent_logs >= 3:
+                print(f"ENTROPY FLOOR hit ({gen_ent:.3f} < "
+                      f"{args.entropy_floor}) 3 logs running — stopping",
+                      flush=True)
+                break
         if step % 50 == 0 and step > 0:
             out = args.ckpt.replace(".pt", f"_grpo{step}.pt")
             torch.save({"model": model.state_dict(), "args": vars(cfg),
