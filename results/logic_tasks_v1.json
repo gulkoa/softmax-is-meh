@@ -1,0 +1,6500 @@
+[
+ {
+  "task_id": "logic-00000",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 4, 8, 16, 32, ...?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00001",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Hugo is taller than Gia. Dan is taller than Hugo. Gia is taller than Cleo. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00002",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 49, 7, 40, 17, 35, 46, 39, 10, 20, 7, 47, 5, 44, 22, 31, 36",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00003",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Cleo is taller than Gia. Gia is taller than Eve. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00004",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'e' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00005",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00006",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Gia has 2 stamps and Finn has 17 stamps. Gia gives 2 stamps to Finn. How many stamps does Finn have now?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00007",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 47, 21, 46, 5, 13, 37, 15, 16, 10, 35",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00008",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 7. Subtract 6. Subtract 2. Subtract 2. Multiply by 2. Multiply by 3. What is the result?",
+  "answer": "-18",
+  "aliases": [
+   "-18",
+   "-18"
+  ]
+ },
+ {
+  "task_id": "logic-00009",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'p' appear in the word 'mississippi'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00010",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 7, 14, 21, 28, ...?",
+  "answer": "35",
+  "aliases": [
+   "35",
+   "35"
+  ]
+ },
+ {
+  "task_id": "logic-00011",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'mississippi'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00012",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 13, 12, 3, 40, 43, 17",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00013",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 4. Multiply by 2. Add 3. Add 30. What is the result?",
+  "answer": "41",
+  "aliases": [
+   "41",
+   "41"
+  ]
+ },
+ {
+  "task_id": "logic-00014",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 136 stamps and Hugo has 72 stamps. Gia gives 134 stamps to Hugo. How many stamps does Hugo have now?",
+  "answer": "206",
+  "aliases": [
+   "206",
+   "206"
+  ]
+ },
+ {
+  "task_id": "logic-00015",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 14, 44, 38, 27, 38, 18",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00016",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00017",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Eve. Ben is taller than Dan. Eve is taller than Ben. Cleo is taller than Hugo. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00018",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 22, 28, 4, 7, 10, 45",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00019",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 28. Multiply by 4. Multiply by 4. Subtract 4. What is the result?",
+  "answer": "444",
+  "aliases": [
+   "444",
+   "444"
+  ]
+ },
+ {
+  "task_id": "logic-00020",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 9. Multiply by 2. Multiply by 4. Add 27. Add 25. Add 4. What is the result?",
+  "answer": "128",
+  "aliases": [
+   "128",
+   "128"
+  ]
+ },
+ {
+  "task_id": "logic-00021",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00022",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 46, 8, 31, 14, 47, 4, 44, 2, 35, 28",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00023",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 55. Subtract 6. Add 6. Multiply by 3. Subtract 29. Add 5. What is the result?",
+  "answer": "141",
+  "aliases": [
+   "141",
+   "141"
+  ]
+ },
+ {
+  "task_id": "logic-00024",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'c' appear in the word 'success'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00025",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 't' appear in the word 'committee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00026",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 6, 31, 56, 81, ...?",
+  "answer": "106",
+  "aliases": [
+   "106",
+   "106"
+  ]
+ },
+ {
+  "task_id": "logic-00027",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00028",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 52 apples and Gia has 45 apples. Dan gives 11 apples to Gia. How many apples does Gia have now?",
+  "answer": "56",
+  "aliases": [
+   "56",
+   "56"
+  ]
+ },
+ {
+  "task_id": "logic-00029",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 22, 34, 17, 8, 39, 29, 43, 12, 1, 31, 44, 27, 37, 33, 20, 42",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00030",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00031",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'b' appear in the word 'banana'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00032",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Ben has 13 stamps and Cleo has 141 stamps. Ben gives 5 stamps to Cleo. How many stamps does Cleo have now?",
+  "answer": "146",
+  "aliases": [
+   "146",
+   "146"
+  ]
+ },
+ {
+  "task_id": "logic-00033",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 16, 49, 31, 23, 40, 19",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00034",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Cleo is taller than Hugo. Hugo is taller than Dan. Finn is taller than Cleo. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00035",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 16, 15, 41, 29, 25, 46, 44, 37, 27, 3, 26, 45, 37, 27, 50, 43",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00036",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 4. Subtract 2. Subtract 2. What is the result?",
+  "answer": "0",
+  "aliases": [
+   "0",
+   "0"
+  ]
+ },
+ {
+  "task_id": "logic-00037",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 8, 16, 32, ...?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00038",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 33. Subtract 11. Subtract 3. Subtract 8. Multiply by 4. Add 55. What is the result?",
+  "answer": "99",
+  "aliases": [
+   "99",
+   "99"
+  ]
+ },
+ {
+  "task_id": "logic-00039",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 15 pens and Ava has 12 pens. Cleo gives 1 pens to Ava. How many pens does Ava have now?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00040",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 1, 46, 49, 1, 44, 34, 40, 7, 13, 8",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00041",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 73 coins and Gia has 48 coins. Dan gives 13 coins to Gia. How many coins does Gia have now?",
+  "answer": "61",
+  "aliases": [
+   "61",
+   "61"
+  ]
+ },
+ {
+  "task_id": "logic-00042",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 4, 8, 16, 32, ...?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00043",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 10. Subtract 3. Subtract 3. Multiply by 4. What is the result?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00044",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 73 books and Ava has 6 books. Finn gives 6 books to Ava. How many books does Ava have now?",
+  "answer": "12",
+  "aliases": [
+   "12",
+   "12"
+  ]
+ },
+ {
+  "task_id": "logic-00045",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 5. Multiply by 3. Multiply by 3. What is the result?",
+  "answer": "45",
+  "aliases": [
+   "45",
+   "45"
+  ]
+ },
+ {
+  "task_id": "logic-00046",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ava is taller than Gia. Gia is taller than Finn. Finn is taller than Eve. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00047",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'e' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00048",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 1, 2, 4, 8, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00049",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 18, 22, 22, 24, 46, 6, 22, 50, 40, 3",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00050",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Cleo is taller than Finn. Eve is taller than Cleo. Finn is taller than Ben. Ben is taller than Hugo. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00051",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Gia is taller than Cleo. Cleo is taller than Eve. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00052",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Dan is taller than Finn. Eve is taller than Ava. Ava is taller than Dan. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00053",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 46. Subtract 29. Add 21. Subtract 11. Add 42. Multiply by 3. What is the result?",
+  "answer": "207",
+  "aliases": [
+   "207",
+   "207"
+  ]
+ },
+ {
+  "task_id": "logic-00054",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Ben has 8 apples and Ava has 9 apples. Ben gives 1 apples to Ava. How many apples does Ava have now?",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00055",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 7, 17, 27, 37, ...?",
+  "answer": "47",
+  "aliases": [
+   "47",
+   "47"
+  ]
+ },
+ {
+  "task_id": "logic-00056",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 't' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00057",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 2, 6, 18, 54, ...?",
+  "answer": "162",
+  "aliases": [
+   "162",
+   "162"
+  ]
+ },
+ {
+  "task_id": "logic-00058",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 13. Add 10. Multiply by 2. Subtract 8. What is the result?",
+  "answer": "38",
+  "aliases": [
+   "38",
+   "38"
+  ]
+ },
+ {
+  "task_id": "logic-00059",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Dan. Ben is taller than Ava. Gia is taller than Finn. Dan is taller than Ben. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00060",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'a' appear in the word 'parallel'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00061",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 30, 25, 24, 35, 10, 7, 39, 32, 10, 37",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00062",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 84 pens and Eve has 129 pens. Gia gives 64 pens to Eve. How many pens does Eve have now?",
+  "answer": "193",
+  "aliases": [
+   "193",
+   "193"
+  ]
+ },
+ {
+  "task_id": "logic-00063",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Dan has 9 shells and Eve has 2 shells. Dan gives 6 shells to Eve. How many shells does Eve have now?",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00064",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Finn has 4 coins and Gia has 35 coins. Finn gives 2 coins to Gia. How many coins does Gia have now?",
+  "answer": "37",
+  "aliases": [
+   "37",
+   "37"
+  ]
+ },
+ {
+  "task_id": "logic-00065",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Dan is taller than Hugo. Hugo is taller than Cleo. Cleo is taller than Eve. Gia is taller than Dan. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00066",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ava is taller than Gia. Dan is taller than Ava. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00067",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Eve is taller than Ava. Ava is taller than Hugo. Hugo is taller than Gia. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00068",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Finn. Finn is taller than Dan. Ben is taller than Gia. Dan is taller than Ben. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00069",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 9. Subtract 8. Subtract 2. What is the result?",
+  "answer": "-1",
+  "aliases": [
+   "-1",
+   "-1"
+  ]
+ },
+ {
+  "task_id": "logic-00070",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 1, 2, 4, 8, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00071",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 87 coins and Ben has 16 coins. Cleo gives 5 coins to Ben. How many coins does Ben have now?",
+  "answer": "21",
+  "aliases": [
+   "21",
+   "21"
+  ]
+ },
+ {
+  "task_id": "logic-00072",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 8, 14, 20, 26, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00073",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ben has 11 stamps and Finn has 53 stamps. Ben gives 6 stamps to Finn. How many stamps does Finn have now?",
+  "answer": "59",
+  "aliases": [
+   "59",
+   "59"
+  ]
+ },
+ {
+  "task_id": "logic-00074",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 8, 22, 36, 50, ...?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00075",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 8, 11, 14, 17, ...?",
+  "answer": "20",
+  "aliases": [
+   "20",
+   "20"
+  ]
+ },
+ {
+  "task_id": "logic-00076",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 3. Multiply by 4. Add 22. Subtract 5. What is the result?",
+  "answer": "29",
+  "aliases": [
+   "29",
+   "29"
+  ]
+ },
+ {
+  "task_id": "logic-00077",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 127 pens and Ben has 30 pens. Finn gives 113 pens to Ben. How many pens does Ben have now?",
+  "answer": "143",
+  "aliases": [
+   "143",
+   "143"
+  ]
+ },
+ {
+  "task_id": "logic-00078",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 11. Multiply by 3. Multiply by 4. What is the result?",
+  "answer": "132",
+  "aliases": [
+   "132",
+   "132"
+  ]
+ },
+ {
+  "task_id": "logic-00079",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ben is taller than Gia. Eve is taller than Finn. Finn is taller than Ben. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00080",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 52. Subtract 30. Subtract 8. Subtract 7. Multiply by 2. Add 59. What is the result?",
+  "answer": "73",
+  "aliases": [
+   "73",
+   "73"
+  ]
+ },
+ {
+  "task_id": "logic-00081",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 9. Subtract 2. Multiply by 4. What is the result?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00082",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'e' appear in the word 'pepper'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00083",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 6, 50, 41, 50, 33, 45, 34, 27, 33, 20, 8, 10, 28, 37, 28, 6",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00084",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 7, 10, 13, 16, ...?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00085",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ava has 29 pens and Gia has 45 pens. Ava gives 14 pens to Gia. How many pens does Gia have now?",
+  "answer": "59",
+  "aliases": [
+   "59",
+   "59"
+  ]
+ },
+ {
+  "task_id": "logic-00086",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 33. Subtract 25. Subtract 2. Subtract 2. Add 24. Multiply by 2. What is the result?",
+  "answer": "56",
+  "aliases": [
+   "56",
+   "56"
+  ]
+ },
+ {
+  "task_id": "logic-00087",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ben is taller than Finn. Ava is taller than Ben. Who is the tallest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00088",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 1, 14, 43, 44, 47, 8, 48, 1, 19, 24",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00089",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 40. Add 56. Add 13. Subtract 9. Subtract 24. Multiply by 3. What is the result?",
+  "answer": "228",
+  "aliases": [
+   "228",
+   "228"
+  ]
+ },
+ {
+  "task_id": "logic-00090",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 2, 14, 24, 22, 31, 19",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00091",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'b' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00092",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'c' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00093",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'p' appear in the word 'pepper'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00094",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 25, 10, 9, 15, 21, 33, 16, 16, 49, 12",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00095",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Hugo. Ava is taller than Gia. Gia is taller than Ben. Hugo is taller than Ava. Who is the shortest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00096",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 11 pens and Eve has 13 pens. Cleo gives 2 pens to Eve. How many pens does Eve have now?",
+  "answer": "15",
+  "aliases": [
+   "15",
+   "15"
+  ]
+ },
+ {
+  "task_id": "logic-00097",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 29, 41, 24, 41, 34, 4, 25, 27, 1, 27",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00098",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Dan. Ben is taller than Hugo. Dan is taller than Ben. Cleo is taller than Finn. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00099",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 7, 12, 17, 22, ...?",
+  "answer": "27",
+  "aliases": [
+   "27",
+   "27"
+  ]
+ },
+ {
+  "task_id": "logic-00100",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 16, 30, 22, 34, 10, 23, 30, 41, 41, 6",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00101",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 19, 1, 45, 29, 40, 30, 1, 14, 20, 8, 50, 41, 20, 35, 39, 10",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00102",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 17 stamps and Ava has 9 stamps. Hugo gives 13 stamps to Ava. How many stamps does Ava have now?",
+  "answer": "22",
+  "aliases": [
+   "22",
+   "22"
+  ]
+ },
+ {
+  "task_id": "logic-00103",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Gia is taller than Cleo. Cleo is taller than Hugo. Hugo is taller than Ava. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00104",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 49. Subtract 24. Subtract 23. Add 40. Add 4. Add 52. What is the result?",
+  "answer": "98",
+  "aliases": [
+   "98",
+   "98"
+  ]
+ },
+ {
+  "task_id": "logic-00105",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Cleo is taller than Eve. Hugo is taller than Cleo. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00106",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00107",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'e' appear in the word 'bubble'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00108",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'm' appear in the word 'committee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00109",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Gia has 20 coins and Finn has 30 coins. Gia gives 12 coins to Finn. How many coins does Finn have now?",
+  "answer": "42",
+  "aliases": [
+   "42",
+   "42"
+  ]
+ },
+ {
+  "task_id": "logic-00110",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'e' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00111",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 3. Subtract 2. Multiply by 3. What is the result?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00112",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 36, 43, 20, 23, 41, 31, 48, 27, 14, 31",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00113",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 17 stamps and Dan has 115 stamps. Finn gives 10 stamps to Dan. How many stamps does Dan have now?",
+  "answer": "125",
+  "aliases": [
+   "125",
+   "125"
+  ]
+ },
+ {
+  "task_id": "logic-00114",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 48, 32, 4, 40, 14, 2",
+  "answer": "0",
+  "aliases": [
+   "0",
+   "0"
+  ]
+ },
+ {
+  "task_id": "logic-00115",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 1, 11, 21, 31, ...?",
+  "answer": "41",
+  "aliases": [
+   "41",
+   "41"
+  ]
+ },
+ {
+  "task_id": "logic-00116",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 45. Add 45. Multiply by 4. Subtract 2. Subtract 4. Add 41. What is the result?",
+  "answer": "395",
+  "aliases": [
+   "395",
+   "395"
+  ]
+ },
+ {
+  "task_id": "logic-00117",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 6. Multiply by 4. Subtract 5. What is the result?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00118",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 49, 37, 19, 13, 7, 28, 30, 46, 22, 25",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00119",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Dan. Hugo is taller than Finn. Gia is taller than Ben. Ben is taller than Hugo. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00120",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Gia is taller than Dan. Hugo is taller than Gia. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00121",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 38, 46, 4, 25, 3, 15, 41, 6, 12, 24",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00122",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 78 shells and Ben has 24 shells. Cleo gives 66 shells to Ben. How many shells does Ben have now?",
+  "answer": "90",
+  "aliases": [
+   "90",
+   "90"
+  ]
+ },
+ {
+  "task_id": "logic-00123",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Gia is taller than Dan. Dan is taller than Finn. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00124",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Hugo. Cleo is taller than Finn. Ben is taller than Cleo. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00125",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Dan. Ava is taller than Hugo. Ben is taller than Ava. Dan is taller than Gia. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00126",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'i' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00127",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Cleo is taller than Ava. Ava is taller than Hugo. Gia is taller than Cleo. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00128",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 13, 17, 44, 47, 48, 20, 20, 34, 25, 17, 31, 23, 46, 16, 3, 20",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00129",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 2. Subtract 2. Multiply by 3. What is the result?",
+  "answer": "0",
+  "aliases": [
+   "0",
+   "0"
+  ]
+ },
+ {
+  "task_id": "logic-00130",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 27. Subtract 17. Subtract 9. Add 4. What is the result?",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00131",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 17. Add 54. Add 28. Add 30. Multiply by 2. Subtract 37. What is the result?",
+  "answer": "221",
+  "aliases": [
+   "221",
+   "221"
+  ]
+ },
+ {
+  "task_id": "logic-00132",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 3, 6, 9, 12, ...?",
+  "answer": "15",
+  "aliases": [
+   "15",
+   "15"
+  ]
+ },
+ {
+  "task_id": "logic-00133",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 5, 12, 19, 26, ...?",
+  "answer": "33",
+  "aliases": [
+   "33",
+   "33"
+  ]
+ },
+ {
+  "task_id": "logic-00134",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Cleo is taller than Eve. Gia is taller than Ava. Ava is taller than Ben. Ben is taller than Cleo. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00135",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 11. Multiply by 2. Add 8. What is the result?",
+  "answer": "30",
+  "aliases": [
+   "30",
+   "30"
+  ]
+ },
+ {
+  "task_id": "logic-00136",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 14, 19, 48, 43, 1, 48, 35, 33, 28, 4",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00137",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 1, 4, 16, 64, ...?",
+  "answer": "256",
+  "aliases": [
+   "256",
+   "256"
+  ]
+ },
+ {
+  "task_id": "logic-00138",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'b' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00139",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Eve has 55 stamps and Ben has 59 stamps. Eve gives 16 stamps to Ben. How many stamps does Ben have now?",
+  "answer": "75",
+  "aliases": [
+   "75",
+   "75"
+  ]
+ },
+ {
+  "task_id": "logic-00140",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 35. Subtract 22. Add 25. Multiply by 3. Subtract 39. Add 10. What is the result?",
+  "answer": "85",
+  "aliases": [
+   "85",
+   "85"
+  ]
+ },
+ {
+  "task_id": "logic-00141",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 10. Multiply by 3. Subtract 11. What is the result?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00142",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ava has 58 books and Gia has 27 books. Ava gives 10 books to Gia. How many books does Gia have now?",
+  "answer": "37",
+  "aliases": [
+   "37",
+   "37"
+  ]
+ },
+ {
+  "task_id": "logic-00143",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 33, 5, 9, 49, 14, 50, 32, 37, 50, 45, 14, 16, 47, 9, 15, 49",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00144",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Finn is taller than Dan. Dan is taller than Cleo. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00145",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 14, 24, 34, ...?",
+  "answer": "44",
+  "aliases": [
+   "44",
+   "44"
+  ]
+ },
+ {
+  "task_id": "logic-00146",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 125 pens and Finn has 141 pens. Cleo gives 41 pens to Finn. How many pens does Finn have now?",
+  "answer": "182",
+  "aliases": [
+   "182",
+   "182"
+  ]
+ },
+ {
+  "task_id": "logic-00147",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Ben has 14 books and Cleo has 8 books. Ben gives 14 books to Cleo. How many books does Cleo have now?",
+  "answer": "22",
+  "aliases": [
+   "22",
+   "22"
+  ]
+ },
+ {
+  "task_id": "logic-00148",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ava is taller than Ben. Dan is taller than Eve. Ben is taller than Dan. Who is the tallest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00149",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Ben. Cleo is taller than Ava. Hugo is taller than Cleo. Ava is taller than Finn. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00150",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 5. Add 2. Add 12. What is the result?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00151",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Gia is taller than Ava. Ben is taller than Cleo. Ava is taller than Ben. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00152",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Ben. Ben is taller than Eve. Dan is taller than Finn. Eve is taller than Cleo. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00153",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 9, 12, 15, 18, ...?",
+  "answer": "21",
+  "aliases": [
+   "21",
+   "21"
+  ]
+ },
+ {
+  "task_id": "logic-00154",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'e' appear in the word 'bubble'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00155",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 23. Add 55. Add 17. Add 53. Add 49. Multiply by 4. What is the result?",
+  "answer": "788",
+  "aliases": [
+   "788",
+   "788"
+  ]
+ },
+ {
+  "task_id": "logic-00156",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 46, 6, 28, 39, 7, 40",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00157",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00158",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Gia is taller than Ava. Hugo is taller than Gia. Dan is taller than Finn. Ava is taller than Dan. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00159",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 33, 23, 11, 48, 49, 26",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00160",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Cleo is taller than Ava. Dan is taller than Cleo. Hugo is taller than Dan. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00161",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 2, 16, 30, 44, ...?",
+  "answer": "58",
+  "aliases": [
+   "58",
+   "58"
+  ]
+ },
+ {
+  "task_id": "logic-00162",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Gia is taller than Hugo. Hugo is taller than Ava. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00163",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 35 shells and Gia has 23 shells. Dan gives 25 shells to Gia. How many shells does Gia have now?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00164",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Cleo is taller than Dan. Ava is taller than Cleo. Eve is taller than Ben. Dan is taller than Eve. Who is the tallest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00165",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'l' appear in the word 'parallel'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00166",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Cleo is taller than Finn. Finn is taller than Gia. Eve is taller than Cleo. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00167",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'b' appear in the word 'banana'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00168",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 22, 1, 47, 31, 43, 43",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00169",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 29 shells and Ava has 19 shells. Dan gives 27 shells to Ava. How many shells does Ava have now?",
+  "answer": "46",
+  "aliases": [
+   "46",
+   "46"
+  ]
+ },
+ {
+  "task_id": "logic-00170",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 34, 11, 5, 43, 41, 11, 38, 8, 33, 41, 35, 39, 25, 49, 28, 18",
+  "answer": "11",
+  "aliases": [
+   "11",
+   "11"
+  ]
+ },
+ {
+  "task_id": "logic-00171",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ava is taller than Finn. Finn is taller than Dan. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00172",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 46, 28, 10, 1, 49, 33, 10, 43, 45, 37",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00173",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ava is taller than Ben. Eve is taller than Hugo. Dan is taller than Eve. Ben is taller than Dan. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00174",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 5. Multiply by 2. Subtract 4. What is the result?",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00175",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 8, 13, 18, 23, ...?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00176",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Hugo has 27 shells and Gia has 50 shells. Hugo gives 6 shells to Gia. How many shells does Gia have now?",
+  "answer": "56",
+  "aliases": [
+   "56",
+   "56"
+  ]
+ },
+ {
+  "task_id": "logic-00177",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 4, 12, 36, 108, ...?",
+  "answer": "324",
+  "aliases": [
+   "324",
+   "324"
+  ]
+ },
+ {
+  "task_id": "logic-00178",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Eve is taller than Cleo. Dan is taller than Eve. Hugo is taller than Dan. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00179",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Gia is taller than Hugo. Eve is taller than Gia. Dan is taller than Finn. Hugo is taller than Dan. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00180",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ava is taller than Gia. Dan is taller than Ava. Who is the tallest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00181",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'l' appear in the word 'balloon'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00182",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 6. Add 47. Add 44. Multiply by 3. Add 22. Add 22. What is the result?",
+  "answer": "335",
+  "aliases": [
+   "335",
+   "335"
+  ]
+ },
+ {
+  "task_id": "logic-00183",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00184",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Cleo has 27 books and Eve has 57 books. Cleo gives 10 books to Eve. How many books does Eve have now?",
+  "answer": "67",
+  "aliases": [
+   "67",
+   "67"
+  ]
+ },
+ {
+  "task_id": "logic-00185",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00186",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 9, 31, 46, 42, 46, 49",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00187",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 25. Multiply by 2. Multiply by 4. Subtract 24. What is the result?",
+  "answer": "176",
+  "aliases": [
+   "176",
+   "176"
+  ]
+ },
+ {
+  "task_id": "logic-00188",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 23 coins and Ben has 22 coins. Gia gives 18 coins to Ben. How many coins does Ben have now?",
+  "answer": "40",
+  "aliases": [
+   "40",
+   "40"
+  ]
+ },
+ {
+  "task_id": "logic-00189",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 17, 13, 17, 21, 45, 46",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00190",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Dan is taller than Hugo. Eve is taller than Dan. Hugo is taller than Ben. Who is the shortest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00191",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 14. Multiply by 3. Multiply by 2. Subtract 35. Add 47. Subtract 60. What is the result?",
+  "answer": "36",
+  "aliases": [
+   "36",
+   "36"
+  ]
+ },
+ {
+  "task_id": "logic-00192",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 3 shells and Dan has 19 shells. Cleo gives 1 shells to Dan. How many shells does Dan have now?",
+  "answer": "20",
+  "aliases": [
+   "20",
+   "20"
+  ]
+ },
+ {
+  "task_id": "logic-00193",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00194",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 8. Subtract 6. Subtract 2. Subtract 2. Multiply by 3. Multiply by 2. What is the result?",
+  "answer": "-12",
+  "aliases": [
+   "-12",
+   "-12"
+  ]
+ },
+ {
+  "task_id": "logic-00195",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 21, 2, 12, 47, 9, 2",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00196",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'i' appear in the word 'mississippi'?",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00197",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00198",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 11. Multiply by 2. Subtract 3. What is the result?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00199",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 6, 17, 28, 39, ...?",
+  "answer": "50",
+  "aliases": [
+   "50",
+   "50"
+  ]
+ },
+ {
+  "task_id": "logic-00200",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'r' appear in the word 'letter'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00201",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'u' appear in the word 'success'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00202",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 2, 30, 17, 13, 25, 5, 23, 7, 8, 2",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00203",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 13. Subtract 11. Multiply by 4. Add 22. Subtract 27. Multiply by 4. What is the result?",
+  "answer": "12",
+  "aliases": [
+   "12",
+   "12"
+  ]
+ },
+ {
+  "task_id": "logic-00204",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 3 apples and Dan has 19 apples. Hugo gives 2 apples to Dan. How many apples does Dan have now?",
+  "answer": "21",
+  "aliases": [
+   "21",
+   "21"
+  ]
+ },
+ {
+  "task_id": "logic-00205",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Ava. Eve is taller than Finn. Hugo is taller than Eve. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00206",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 34, 41, 19, 3, 1, 25, 22, 11, 36, 45, 10, 11, 12, 50, 11, 41",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00207",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 40, 22, 2, 31, 41, 44",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00208",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 9. Add 22. Subtract 12. Add 9. What is the result?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00209",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ben is taller than Cleo. Hugo is taller than Dan. Finn is taller than Ben. Dan is taller than Finn. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00210",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 2 apples and Ben has 12 apples. Cleo gives 1 apples to Ben. How many apples does Ben have now?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00211",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 3. Add 20. Multiply by 2. Add 23. What is the result?",
+  "answer": "69",
+  "aliases": [
+   "69",
+   "69"
+  ]
+ },
+ {
+  "task_id": "logic-00212",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 4, 12, 36, 108, ...?",
+  "answer": "324",
+  "aliases": [
+   "324",
+   "324"
+  ]
+ },
+ {
+  "task_id": "logic-00213",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'b' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00214",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 24, 33, 14, 35, 26, 5, 9, 27, 37, 43",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00215",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 29. Subtract 9. Subtract 14. Add 60. Subtract 17. Multiply by 3. What is the result?",
+  "answer": "147",
+  "aliases": [
+   "147",
+   "147"
+  ]
+ },
+ {
+  "task_id": "logic-00216",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 1, 3, 9, 27, ...?",
+  "answer": "81",
+  "aliases": [
+   "81",
+   "81"
+  ]
+ },
+ {
+  "task_id": "logic-00217",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Gia. Eve is taller than Finn. Ava is taller than Eve. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00218",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Ben has 38 apples and Eve has 102 apples. Ben gives 2 apples to Eve. How many apples does Eve have now?",
+  "answer": "104",
+  "aliases": [
+   "104",
+   "104"
+  ]
+ },
+ {
+  "task_id": "logic-00219",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 4, 12, 36, 108, ...?",
+  "answer": "324",
+  "aliases": [
+   "324",
+   "324"
+  ]
+ },
+ {
+  "task_id": "logic-00220",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 24. Subtract 21. Subtract 2. Add 12. What is the result?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00221",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 10, 21, 32, 43, ...?",
+  "answer": "54",
+  "aliases": [
+   "54",
+   "54"
+  ]
+ },
+ {
+  "task_id": "logic-00222",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'i' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00223",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Dan is taller than Cleo. Finn is taller than Dan. Hugo is taller than Finn. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00224",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 3, 12, 48, 192, ...?",
+  "answer": "768",
+  "aliases": [
+   "768",
+   "768"
+  ]
+ },
+ {
+  "task_id": "logic-00225",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 7, 11, 15, 19, ...?",
+  "answer": "23",
+  "aliases": [
+   "23",
+   "23"
+  ]
+ },
+ {
+  "task_id": "logic-00226",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00227",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 8, 40, 23, 11, 2, 28, 37, 26, 30, 5, 42, 46, 46, 44, 5, 50",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00228",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'e' appear in the word 'bubble'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00229",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 10, 14, 11, 15, 2, 34, 9, 32, 23, 40",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00230",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Cleo. Dan is taller than Ava. Ava is taller than Hugo. Cleo is taller than Dan. Who is the tallest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00231",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 8, 14, 20, 26, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00232",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ava is taller than Gia. Ben is taller than Ava. Gia is taller than Dan. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00233",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ava is taller than Cleo. Dan is taller than Finn. Eve is taller than Dan. Finn is taller than Ava. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00234",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 't' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00235",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 11, 36, 36, 5, 50, 33, 11, 2, 42, 11",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00236",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 2, 6, 18, 54, ...?",
+  "answer": "162",
+  "aliases": [
+   "162",
+   "162"
+  ]
+ },
+ {
+  "task_id": "logic-00237",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Gia has 20 apples and Cleo has 6 apples. Gia gives 13 apples to Cleo. How many apples does Cleo have now?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00238",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 29, 37, 4, 25, 6, 42, 38, 26, 22, 15",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00239",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 10, 15, 20, 25, ...?",
+  "answer": "30",
+  "aliases": [
+   "30",
+   "30"
+  ]
+ },
+ {
+  "task_id": "logic-00240",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Hugo is taller than Finn. Finn is taller than Eve. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00241",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 35, 24, 11, 20, 39, 10, 30, 5, 5, 31",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00242",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'c' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00243",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ava is taller than Hugo. Hugo is taller than Ben. Who is the tallest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00244",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 43, 4, 43, 9, 38, 36, 13, 1, 3, 26",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00245",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Hugo has 29 stamps and Finn has 123 stamps. Hugo gives 18 stamps to Finn. How many stamps does Finn have now?",
+  "answer": "141",
+  "aliases": [
+   "141",
+   "141"
+  ]
+ },
+ {
+  "task_id": "logic-00246",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Finn is taller than Ava. Gia is taller than Finn. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00247",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00248",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 1, 32, 23, 33, 22, 6, 5, 20, 37, 28, 15, 48, 24, 25, 49, 10",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00249",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Dan is taller than Finn. Finn is taller than Hugo. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00250",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'parallel'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00251",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 8, 17, 26, 35, ...?",
+  "answer": "44",
+  "aliases": [
+   "44",
+   "44"
+  ]
+ },
+ {
+  "task_id": "logic-00252",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Finn has 15 coins and Hugo has 10 coins. Finn gives 6 coins to Hugo. How many coins does Hugo have now?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00253",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00254",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 1, 3, 9, 27, ...?",
+  "answer": "81",
+  "aliases": [
+   "81",
+   "81"
+  ]
+ },
+ {
+  "task_id": "logic-00255",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 23, 16, 48, 12, 22, 32",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00256",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 23. Subtract 14. Subtract 6. Subtract 2. What is the result?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00257",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 126 coins and Eve has 61 coins. Gia gives 41 coins to Eve. How many coins does Eve have now?",
+  "answer": "102",
+  "aliases": [
+   "102",
+   "102"
+  ]
+ },
+ {
+  "task_id": "logic-00258",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00259",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 12, 20, 28, ...?",
+  "answer": "36",
+  "aliases": [
+   "36",
+   "36"
+  ]
+ },
+ {
+  "task_id": "logic-00260",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 38. Add 28. Add 18. Add 48. Subtract 13. Add 13. What is the result?",
+  "answer": "132",
+  "aliases": [
+   "132",
+   "132"
+  ]
+ },
+ {
+  "task_id": "logic-00261",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Finn has 3 books and Ava has 2 books. Finn gives 2 books to Ava. How many books does Ava have now?",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00262",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00263",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 54. Multiply by 4. Add 7. Subtract 31. Add 56. Add 35. What is the result?",
+  "answer": "283",
+  "aliases": [
+   "283",
+   "283"
+  ]
+ },
+ {
+  "task_id": "logic-00264",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'c' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00265",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'e' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00266",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 27, 25, 31, 1, 28, 14, 25, 49, 3, 40, 18, 2, 38, 23, 46, 24",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00267",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 18 books and Finn has 4 books. Hugo gives 9 books to Finn. How many books does Finn have now?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00268",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 24. Add 10. Add 24. Add 21. What is the result?",
+  "answer": "79",
+  "aliases": [
+   "79",
+   "79"
+  ]
+ },
+ {
+  "task_id": "logic-00269",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 148 books and Dan has 83 books. Cleo gives 52 books to Dan. How many books does Dan have now?",
+  "answer": "135",
+  "aliases": [
+   "135",
+   "135"
+  ]
+ },
+ {
+  "task_id": "logic-00270",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 1, 2, 4, 8, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00271",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Hugo has 59 shells and Ava has 30 shells. Hugo gives 31 shells to Ava. How many shells does Ava have now?",
+  "answer": "61",
+  "aliases": [
+   "61",
+   "61"
+  ]
+ },
+ {
+  "task_id": "logic-00272",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 30, 36, 22, 9, 27, 17, 25, 6, 37, 33, 22, 15, 30, 16, 23, 31",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00273",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 9. Multiply by 2. Multiply by 3. What is the result?",
+  "answer": "54",
+  "aliases": [
+   "54",
+   "54"
+  ]
+ },
+ {
+  "task_id": "logic-00274",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 10, 16, 22, ...?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00275",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 4, 20, 36, 52, ...?",
+  "answer": "68",
+  "aliases": [
+   "68",
+   "68"
+  ]
+ },
+ {
+  "task_id": "logic-00276",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Finn is taller than Dan. Hugo is taller than Finn. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00277",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Hugo is taller than Cleo. Ava is taller than Ben. Cleo is taller than Ava. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00278",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 3, 17, 31, 45, ...?",
+  "answer": "59",
+  "aliases": [
+   "59",
+   "59"
+  ]
+ },
+ {
+  "task_id": "logic-00279",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 7. Multiply by 4. Add 7. What is the result?",
+  "answer": "35",
+  "aliases": [
+   "35",
+   "35"
+  ]
+ },
+ {
+  "task_id": "logic-00280",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 34, 35, 46, 39, 38, 28, 10, 41, 45, 40",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00281",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 10 pens and Eve has 64 pens. Dan gives 8 pens to Eve. How many pens does Eve have now?",
+  "answer": "72",
+  "aliases": [
+   "72",
+   "72"
+  ]
+ },
+ {
+  "task_id": "logic-00282",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'o' appear in the word 'balloon'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00283",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 5 apples and Ava has 10 apples. Dan gives 2 apples to Ava. How many apples does Ava have now?",
+  "answer": "12",
+  "aliases": [
+   "12",
+   "12"
+  ]
+ },
+ {
+  "task_id": "logic-00284",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00285",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Ben has 15 shells and Gia has 11 shells. Ben gives 15 shells to Gia. How many shells does Gia have now?",
+  "answer": "26",
+  "aliases": [
+   "26",
+   "26"
+  ]
+ },
+ {
+  "task_id": "logic-00286",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Finn has 14 stamps and Dan has 12 stamps. Finn gives 6 stamps to Dan. How many stamps does Dan have now?",
+  "answer": "18",
+  "aliases": [
+   "18",
+   "18"
+  ]
+ },
+ {
+  "task_id": "logic-00287",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'n' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00288",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 11, 15, 19, 23, ...?",
+  "answer": "27",
+  "aliases": [
+   "27",
+   "27"
+  ]
+ },
+ {
+  "task_id": "logic-00289",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 7, 10, 13, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00290",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 26, 30, 46, 35, 14, 24, 46, 3, 2, 26, 14, 6, 27, 38, 37, 27",
+  "answer": "11",
+  "aliases": [
+   "11",
+   "11"
+  ]
+ },
+ {
+  "task_id": "logic-00291",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 41, 1, 43, 9, 34, 42",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00292",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Eve is taller than Hugo. Hugo is taller than Gia. Ava is taller than Eve. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00293",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'l' appear in the word 'balloon'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00294",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 2. Add 11. Add 11. What is the result?",
+  "answer": "24",
+  "aliases": [
+   "24",
+   "24"
+  ]
+ },
+ {
+  "task_id": "logic-00295",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'b' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00296",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 10, 26, 42, 58, ...?",
+  "answer": "74",
+  "aliases": [
+   "74",
+   "74"
+  ]
+ },
+ {
+  "task_id": "logic-00297",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Hugo is taller than Gia. Dan is taller than Hugo. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00298",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 3. Add 12. Multiply by 4. Multiply by 3. What is the result?",
+  "answer": "180",
+  "aliases": [
+   "180",
+   "180"
+  ]
+ },
+ {
+  "task_id": "logic-00299",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 35. Subtract 29. Subtract 5. Multiply by 2. Add 29. Multiply by 4. What is the result?",
+  "answer": "124",
+  "aliases": [
+   "124",
+   "124"
+  ]
+ },
+ {
+  "task_id": "logic-00300",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 49, 10, 2, 8, 46, 28",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00301",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 22. Subtract 10. Subtract 3. Subtract 4. What is the result?",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00302",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Dan is taller than Eve. Finn is taller than Gia. Gia is taller than Dan. Ava is taller than Finn. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00303",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 23, 7, 40, 36, 27, 49",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00304",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ben is taller than Gia. Ava is taller than Ben. Gia is taller than Eve. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00305",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 37. Multiply by 2. Add 46. Multiply by 2. Subtract 14. Subtract 46. What is the result?",
+  "answer": "180",
+  "aliases": [
+   "180",
+   "180"
+  ]
+ },
+ {
+  "task_id": "logic-00306",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 10 books and Cleo has 13 books. Hugo gives 9 books to Cleo. How many books does Cleo have now?",
+  "answer": "22",
+  "aliases": [
+   "22",
+   "22"
+  ]
+ },
+ {
+  "task_id": "logic-00307",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 14, 30, 21, 9, 18, 36, 43, 50, 50, 1",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00308",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 84 stamps and Cleo has 10 stamps. Finn gives 11 stamps to Cleo. How many stamps does Cleo have now?",
+  "answer": "21",
+  "aliases": [
+   "21",
+   "21"
+  ]
+ },
+ {
+  "task_id": "logic-00309",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'b' appear in the word 'banana'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00310",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 7. Multiply by 3. Add 18. Multiply by 3. What is the result?",
+  "answer": "117",
+  "aliases": [
+   "117",
+   "117"
+  ]
+ },
+ {
+  "task_id": "logic-00311",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 9, 28, 47, 66, ...?",
+  "answer": "85",
+  "aliases": [
+   "85",
+   "85"
+  ]
+ },
+ {
+  "task_id": "logic-00312",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 10, 15, 20, 25, ...?",
+  "answer": "30",
+  "aliases": [
+   "30",
+   "30"
+  ]
+ },
+ {
+  "task_id": "logic-00313",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Cleo is taller than Ben. Dan is taller than Cleo. Hugo is taller than Dan. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00314",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 75 shells and Cleo has 14 shells. Finn gives 32 shells to Cleo. How many shells does Cleo have now?",
+  "answer": "46",
+  "aliases": [
+   "46",
+   "46"
+  ]
+ },
+ {
+  "task_id": "logic-00315",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 3 shells and Hugo has 14 shells. Cleo gives 2 shells to Hugo. How many shells does Hugo have now?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00316",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Gia is taller than Dan. Cleo is taller than Eve. Dan is taller than Cleo. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00317",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00318",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 9 apples and Dan has 4 apples. Hugo gives 5 apples to Dan. How many apples does Dan have now?",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00319",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 28. Add 30. Add 16. Add 30. What is the result?",
+  "answer": "104",
+  "aliases": [
+   "104",
+   "104"
+  ]
+ },
+ {
+  "task_id": "logic-00320",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ben is taller than Ava. Gia is taller than Ben. Ava is taller than Dan. Dan is taller than Eve. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00321",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Finn has 6 books and Ben has 9 books. Finn gives 3 books to Ben. How many books does Ben have now?",
+  "answer": "12",
+  "aliases": [
+   "12",
+   "12"
+  ]
+ },
+ {
+  "task_id": "logic-00322",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 12, 36, 17, 35, 2, 12, 15, 47, 27, 46",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00323",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 49, 36, 9, 38, 44, 11, 48, 16, 34, 50, 20, 46, 48, 2, 47, 30",
+  "answer": "12",
+  "aliases": [
+   "12",
+   "12"
+  ]
+ },
+ {
+  "task_id": "logic-00324",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 8. Add 8. Multiply by 3. What is the result?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00325",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 25, 35, 34, 32, 7, 9, 6, 35, 1, 6",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00326",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 117 pens and Finn has 72 pens. Dan gives 53 pens to Finn. How many pens does Finn have now?",
+  "answer": "125",
+  "aliases": [
+   "125",
+   "125"
+  ]
+ },
+ {
+  "task_id": "logic-00327",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Finn is taller than Gia. Cleo is taller than Finn. Who is the tallest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00328",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 26. Add 18. Add 24. Subtract 9. What is the result?",
+  "answer": "59",
+  "aliases": [
+   "59",
+   "59"
+  ]
+ },
+ {
+  "task_id": "logic-00329",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 2, 8, 32, 128, ...?",
+  "answer": "512",
+  "aliases": [
+   "512",
+   "512"
+  ]
+ },
+ {
+  "task_id": "logic-00330",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Eve has 6 shells and Ava has 13 shells. Eve gives 6 shells to Ava. How many shells does Ava have now?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00331",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Cleo. Gia is taller than Eve. Eve is taller than Finn. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00332",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Ben. Ben is taller than Cleo. Cleo is taller than Finn. Finn is taller than Dan. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00333",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Dan has 8 pens and Ben has 10 pens. Dan gives 3 pens to Ben. How many pens does Ben have now?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00334",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'r' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00335",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'u' appear in the word 'bubble'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00336",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Dan. Cleo is taller than Eve. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00337",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 1, 2, 4, 8, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00338",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'i' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00339",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 5. Add 11. Add 12. What is the result?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00340",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Eve. Ava is taller than Gia. Gia is taller than Finn. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00341",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00342",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'c' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00343",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ava has 2 books and Gia has 40 books. Ava gives 2 books to Gia. How many books does Gia have now?",
+  "answer": "42",
+  "aliases": [
+   "42",
+   "42"
+  ]
+ },
+ {
+  "task_id": "logic-00344",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Dan is taller than Ben. Hugo is taller than Dan. Ben is taller than Cleo. Cleo is taller than Gia. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00345",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 8. Multiply by 2. Multiply by 4. What is the result?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00346",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Cleo has 28 apples and Eve has 21 apples. Cleo gives 11 apples to Eve. How many apples does Eve have now?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00347",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 88 apples and Finn has 37 apples. Dan gives 41 apples to Finn. How many apples does Finn have now?",
+  "answer": "78",
+  "aliases": [
+   "78",
+   "78"
+  ]
+ },
+ {
+  "task_id": "logic-00348",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Eve has 12 pens and Dan has 10 pens. Eve gives 11 pens to Dan. How many pens does Dan have now?",
+  "answer": "21",
+  "aliases": [
+   "21",
+   "21"
+  ]
+ },
+ {
+  "task_id": "logic-00349",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 16. Add 30. Add 18. Subtract 19. What is the result?",
+  "answer": "45",
+  "aliases": [
+   "45",
+   "45"
+  ]
+ },
+ {
+  "task_id": "logic-00350",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 109 pens and Eve has 42 pens. Gia gives 78 pens to Eve. How many pens does Eve have now?",
+  "answer": "120",
+  "aliases": [
+   "120",
+   "120"
+  ]
+ },
+ {
+  "task_id": "logic-00351",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 1, 2, 4, 8, ...?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00352",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 48, 31, 19, 44, 47, 7, 44, 49, 28, 17",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00353",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 42. Subtract 34. Multiply by 2. Add 4. Multiply by 2. Add 58. What is the result?",
+  "answer": "98",
+  "aliases": [
+   "98",
+   "98"
+  ]
+ },
+ {
+  "task_id": "logic-00354",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 8. Subtract 5. Add 7. What is the result?",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00355",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Cleo has 27 stamps and Ava has 43 stamps. Cleo gives 19 stamps to Ava. How many stamps does Ava have now?",
+  "answer": "62",
+  "aliases": [
+   "62",
+   "62"
+  ]
+ },
+ {
+  "task_id": "logic-00356",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 107 books and Ava has 9 books. Dan gives 7 books to Ava. How many books does Ava have now?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00357",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'e' appear in the word 'coffee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00358",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 't' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00359",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00360",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 19 books and Eve has 6 books. Hugo gives 7 books to Eve. How many books does Eve have now?",
+  "answer": "13",
+  "aliases": [
+   "13",
+   "13"
+  ]
+ },
+ {
+  "task_id": "logic-00361",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'parallel'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00362",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 's' appear in the word 'success'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00363",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Dan. Ben is taller than Eve. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00364",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 22. Subtract 6. Add 28. Multiply by 2. What is the result?",
+  "answer": "88",
+  "aliases": [
+   "88",
+   "88"
+  ]
+ },
+ {
+  "task_id": "logic-00365",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 23. Add 49. Subtract 55. Add 23. Multiply by 2. Add 25. What is the result?",
+  "answer": "105",
+  "aliases": [
+   "105",
+   "105"
+  ]
+ },
+ {
+  "task_id": "logic-00366",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 17, 29, 22, 44, 32, 31",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00367",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'c' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00368",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Gia is taller than Eve. Eve is taller than Finn. Dan is taller than Hugo. Hugo is taller than Gia. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00369",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 5, 10, 10, 3, 25, 42",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00370",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 23. Add 18. Subtract 20. Subtract 13. What is the result?",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00371",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Hugo has 83 shells and Dan has 121 shells. Hugo gives 66 shells to Dan. How many shells does Dan have now?",
+  "answer": "187",
+  "aliases": [
+   "187",
+   "187"
+  ]
+ },
+ {
+  "task_id": "logic-00372",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Gia. Gia is taller than Dan. Who is the shortest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00373",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00374",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'm' appear in the word 'committee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00375",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 7. Subtract 6. Add 10. What is the result?",
+  "answer": "11",
+  "aliases": [
+   "11",
+   "11"
+  ]
+ },
+ {
+  "task_id": "logic-00376",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 18. Multiply by 2. Add 20. Subtract 3. What is the result?",
+  "answer": "53",
+  "aliases": [
+   "53",
+   "53"
+  ]
+ },
+ {
+  "task_id": "logic-00377",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Eve. Eve is taller than Gia. Gia is taller than Cleo. Cleo is taller than Dan. Who is the tallest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00378",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 9. Multiply by 4. Add 8. What is the result?",
+  "answer": "44",
+  "aliases": [
+   "44",
+   "44"
+  ]
+ },
+ {
+  "task_id": "logic-00379",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Eve has 32 shells and Finn has 15 shells. Eve gives 2 shells to Finn. How many shells does Finn have now?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00380",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Hugo has 46 shells and Eve has 115 shells. Hugo gives 21 shells to Eve. How many shells does Eve have now?",
+  "answer": "136",
+  "aliases": [
+   "136",
+   "136"
+  ]
+ },
+ {
+  "task_id": "logic-00381",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'n' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00382",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'r' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00383",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 6, 20, 34, 48, ...?",
+  "answer": "62",
+  "aliases": [
+   "62",
+   "62"
+  ]
+ },
+ {
+  "task_id": "logic-00384",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Cleo is taller than Ben. Ben is taller than Dan. Who is the tallest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00385",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'o' appear in the word 'balloon'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00386",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 38 books and Hugo has 67 books. Cleo gives 36 books to Hugo. How many books does Hugo have now?",
+  "answer": "103",
+  "aliases": [
+   "103",
+   "103"
+  ]
+ },
+ {
+  "task_id": "logic-00387",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 35, 46, 46, 39, 8, 29",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00388",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 45, 12, 39, 23, 39, 16, 46, 6, 35, 32",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00389",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Gia is taller than Hugo. Hugo is taller than Eve. Eve is taller than Ben. Cleo is taller than Gia. Who is the tallest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00390",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'c' appear in the word 'success'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00391",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Gia. Gia is taller than Dan. Eve is taller than Finn. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00392",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Eve is taller than Hugo. Cleo is taller than Dan. Gia is taller than Eve. Dan is taller than Gia. Who is the tallest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00393",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Ben has 20 apples and Eve has 18 apples. Ben gives 11 apples to Eve. How many apples does Eve have now?",
+  "answer": "29",
+  "aliases": [
+   "29",
+   "29"
+  ]
+ },
+ {
+  "task_id": "logic-00394",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ben has 3 books and Eve has 4 books. Ben gives 1 books to Eve. How many books does Eve have now?",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00395",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Eve has 102 shells and Ava has 34 shells. Eve gives 99 shells to Ava. How many shells does Ava have now?",
+  "answer": "133",
+  "aliases": [
+   "133",
+   "133"
+  ]
+ },
+ {
+  "task_id": "logic-00396",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'r' appear in the word 'pepper'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00397",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 18, 19, 11, 12, 38, 15, 9, 9, 15, 17",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00398",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Cleo. Eve is taller than Finn. Ben is taller than Hugo. Hugo is taller than Eve. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00399",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'e' appear in the word 'success'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00400",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Eve has 46 stamps and Ava has 41 stamps. Eve gives 45 stamps to Ava. How many stamps does Ava have now?",
+  "answer": "86",
+  "aliases": [
+   "86",
+   "86"
+  ]
+ },
+ {
+  "task_id": "logic-00401",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ava is taller than Finn. Gia is taller than Dan. Dan is taller than Ava. Ben is taller than Gia. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00402",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Cleo has 16 coins and Dan has 9 coins. Cleo gives 9 coins to Dan. How many coins does Dan have now?",
+  "answer": "18",
+  "aliases": [
+   "18",
+   "18"
+  ]
+ },
+ {
+  "task_id": "logic-00403",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 33 coins and Ava has 19 coins. Dan gives 23 coins to Ava. How many coins does Ava have now?",
+  "answer": "42",
+  "aliases": [
+   "42",
+   "42"
+  ]
+ },
+ {
+  "task_id": "logic-00404",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'pepper'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00405",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 19, 36, 26, 5, 12, 25",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00406",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'o' appear in the word 'committee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00407",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 46, 30, 10, 28, 17, 47, 35, 13, 49, 12, 48, 5, 17, 29, 21, 25",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00408",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 7. Subtract 5. Multiply by 2. What is the result?",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00409",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Cleo has 21 apples and Finn has 41 apples. Cleo gives 15 apples to Finn. How many apples does Finn have now?",
+  "answer": "56",
+  "aliases": [
+   "56",
+   "56"
+  ]
+ },
+ {
+  "task_id": "logic-00410",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'pepper'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00411",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 30, 14, 26, 6, 7, 35",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00412",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 18. Multiply by 3. Multiply by 4. Add 3. What is the result?",
+  "answer": "219",
+  "aliases": [
+   "219",
+   "219"
+  ]
+ },
+ {
+  "task_id": "logic-00413",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 15, 16, 7, 39, 25, 27, 5, 36, 14, 34, 13, 14, 32, 6, 13, 7",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00414",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 39, 13, 36, 37, 34, 41",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00415",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00416",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Ava has 54 coins and Cleo has 10 coins. Ava gives 13 coins to Cleo. How many coins does Cleo have now?",
+  "answer": "23",
+  "aliases": [
+   "23",
+   "23"
+  ]
+ },
+ {
+  "task_id": "logic-00417",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 11, 14, 17, 20, ...?",
+  "answer": "23",
+  "aliases": [
+   "23",
+   "23"
+  ]
+ },
+ {
+  "task_id": "logic-00418",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 6. Add 16. Subtract 4. Multiply by 3. What is the result?",
+  "answer": "54",
+  "aliases": [
+   "54",
+   "54"
+  ]
+ },
+ {
+  "task_id": "logic-00419",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Eve has 78 coins and Dan has 24 coins. Eve gives 16 coins to Dan. How many coins does Dan have now?",
+  "answer": "40",
+  "aliases": [
+   "40",
+   "40"
+  ]
+ },
+ {
+  "task_id": "logic-00420",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 10, 12, 14, 16, ...?",
+  "answer": "18",
+  "aliases": [
+   "18",
+   "18"
+  ]
+ },
+ {
+  "task_id": "logic-00421",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 9, 27, 16, 2, 32, 19, 10, 34, 41, 24",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00422",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Cleo has 84 shells and Ava has 83 shells. Cleo gives 10 shells to Ava. How many shells does Ava have now?",
+  "answer": "93",
+  "aliases": [
+   "93",
+   "93"
+  ]
+ },
+ {
+  "task_id": "logic-00423",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Dan is taller than Ben. Ben is taller than Cleo. Who is the shortest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00424",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 6. Subtract 2. Subtract 2. Multiply by 2. What is the result?",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00425",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 's' appear in the word 'success'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00426",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 38, 10, 37, 28, 17, 48",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00427",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 7. Add 16. Multiply by 3. Add 28. What is the result?",
+  "answer": "97",
+  "aliases": [
+   "97",
+   "97"
+  ]
+ },
+ {
+  "task_id": "logic-00428",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 21. Subtract 20. Add 45. Subtract 43. Add 8. Subtract 5. What is the result?",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00429",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'a' appear in the word 'banana'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00430",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ben has 49 coins and Dan has 39 coins. Ben gives 17 coins to Dan. How many coins does Dan have now?",
+  "answer": "56",
+  "aliases": [
+   "56",
+   "56"
+  ]
+ },
+ {
+  "task_id": "logic-00431",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 33 books and Ben has 150 books. Gia gives 11 books to Ben. How many books does Ben have now?",
+  "answer": "161",
+  "aliases": [
+   "161",
+   "161"
+  ]
+ },
+ {
+  "task_id": "logic-00432",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 2, 4, 8, 16, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00433",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 10, 46, 39, 44, 50, 10, 41, 10, 49, 38",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00434",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 5, 7, 18, 7, 18, 40, 30, 37, 50, 17, 38, 27, 3, 46, 5, 10",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00435",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 7. Subtract 4. Multiply by 3. What is the result?",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00436",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00437",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 50, 6, 38, 47, 10, 16, 34, 14, 29, 21, 1, 49, 17, 27, 38, 34",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00438",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 46, 22, 46, 37, 42, 35",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00439",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 20, 7, 29, 42, 41, 18, 16, 42, 17, 50",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00440",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 25. Add 30. Add 26. Multiply by 3. Add 42. Subtract 34. What is the result?",
+  "answer": "251",
+  "aliases": [
+   "251",
+   "251"
+  ]
+ },
+ {
+  "task_id": "logic-00441",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'o' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00442",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'r' appear in the word 'pepper'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00443",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'm' appear in the word 'mississippi'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00444",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 6. Add 8. Multiply by 3. What is the result?",
+  "answer": "42",
+  "aliases": [
+   "42",
+   "42"
+  ]
+ },
+ {
+  "task_id": "logic-00445",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 32, 31, 17, 33, 26, 9, 39, 32, 18, 12",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00446",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 15. Subtract 6. Multiply by 4. Add 44. Add 29. Subtract 22. What is the result?",
+  "answer": "87",
+  "aliases": [
+   "87",
+   "87"
+  ]
+ },
+ {
+  "task_id": "logic-00447",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'p' appear in the word 'mississippi'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00448",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 2, 4, 8, 16, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00449",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are odd? 23, 49, 47, 31, 29, 12, 44, 23, 28, 28, 27, 24, 38, 7, 6, 36",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00450",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 7, 1, 34, 45, 25, 42",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00451",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 26, 41, 47, 7, 27, 4, 44, 19, 39, 11",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00452",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Ben is taller than Eve. Finn is taller than Ava. Ava is taller than Cleo. Cleo is taller than Ben. Who is the tallest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00453",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Cleo. Cleo is taller than Hugo. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00454",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 2. Add 12. Multiply by 2. Subtract 19. What is the result?",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00455",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 34. Subtract 7. Add 36. Multiply by 3. Multiply by 2. Add 60. What is the result?",
+  "answer": "438",
+  "aliases": [
+   "438",
+   "438"
+  ]
+ },
+ {
+  "task_id": "logic-00456",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 12. Add 9. Add 4. What is the result?",
+  "answer": "25",
+  "aliases": [
+   "25",
+   "25"
+  ]
+ },
+ {
+  "task_id": "logic-00457",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 12, 16, 20, 24, ...?",
+  "answer": "28",
+  "aliases": [
+   "28",
+   "28"
+  ]
+ },
+ {
+  "task_id": "logic-00458",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00459",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'c' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00460",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 5. Subtract 2. Multiply by 3. Add 10. What is the result?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00461",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 131 pens and Ben has 145 pens. Gia gives 95 pens to Ben. How many pens does Ben have now?",
+  "answer": "240",
+  "aliases": [
+   "240",
+   "240"
+  ]
+ },
+ {
+  "task_id": "logic-00462",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 28, 41, 1, 38, 27, 39",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00463",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Finn is taller than Eve. Cleo is taller than Dan. Eve is taller than Cleo. Who is the tallest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00464",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 15, 30, 21, 42, 2, 24, 31, 40, 45, 19, 44, 16, 2, 7, 30, 47",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00465",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 13, 25, 45, 39, 22, 36",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00466",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 17. Subtract 16. Subtract 2. Subtract 2. What is the result?",
+  "answer": "-3",
+  "aliases": [
+   "-3",
+   "-3"
+  ]
+ },
+ {
+  "task_id": "logic-00467",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 37, 14, 5, 32, 9, 43, 6, 47, 34, 45, 43, 36, 26, 40, 18, 14",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00468",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 8, 12, 16, 20, ...?",
+  "answer": "24",
+  "aliases": [
+   "24",
+   "24"
+  ]
+ },
+ {
+  "task_id": "logic-00469",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Ava has 20 shells and Ben has 55 shells. Ava gives 14 shells to Ben. How many shells does Ben have now?",
+  "answer": "69",
+  "aliases": [
+   "69",
+   "69"
+  ]
+ },
+ {
+  "task_id": "logic-00470",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00471",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 3. Subtract 2. Multiply by 3. What is the result?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00472",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 2, 6, 18, 54, ...?",
+  "answer": "162",
+  "aliases": [
+   "162",
+   "162"
+  ]
+ },
+ {
+  "task_id": "logic-00473",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 5, 10, 20, 40, ...?",
+  "answer": "80",
+  "aliases": [
+   "80",
+   "80"
+  ]
+ },
+ {
+  "task_id": "logic-00474",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Gia has 17 coins and Finn has 6 coins. Gia gives 13 coins to Finn. How many coins does Finn have now?",
+  "answer": "19",
+  "aliases": [
+   "19",
+   "19"
+  ]
+ },
+ {
+  "task_id": "logic-00475",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Gia has 60 stamps and Dan has 59 stamps. Gia gives 50 stamps to Dan. How many stamps does Dan have now?",
+  "answer": "109",
+  "aliases": [
+   "109",
+   "109"
+  ]
+ },
+ {
+  "task_id": "logic-00476",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'pepper'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00477",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00478",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'l' appear in the word 'parallel'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00479",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 29. Subtract 16. Subtract 3. Multiply by 2. Subtract 9. Subtract 2. What is the result?",
+  "answer": "9",
+  "aliases": [
+   "9",
+   "9"
+  ]
+ },
+ {
+  "task_id": "logic-00480",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'b' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00481",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 32, 5, 50, 7, 12, 39, 3, 15, 42, 12",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00482",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 47 pens and Finn has 76 pens. Gia gives 26 pens to Finn. How many pens does Finn have now?",
+  "answer": "102",
+  "aliases": [
+   "102",
+   "102"
+  ]
+ },
+ {
+  "task_id": "logic-00483",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 9, 11, 13, 15, ...?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00484",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 31, 11, 7, 43, 8, 31, 47, 19, 47, 20",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00485",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 5, 17, 29, 41, ...?",
+  "answer": "53",
+  "aliases": [
+   "53",
+   "53"
+  ]
+ },
+ {
+  "task_id": "logic-00486",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 11, 15, 19, 23, ...?",
+  "answer": "27",
+  "aliases": [
+   "27",
+   "27"
+  ]
+ },
+ {
+  "task_id": "logic-00487",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 30, 41, 20, 36, 14, 25, 5, 28, 3, 3",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00488",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Gia is taller than Hugo. Cleo is taller than Gia. Hugo is taller than Eve. Eve is taller than Ava. Who is the tallest?",
+  "answer": "Cleo",
+  "aliases": [
+   "Cleo"
+  ]
+ },
+ {
+  "task_id": "logic-00489",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 10. Add 3. Add 3. What is the result?",
+  "answer": "16",
+  "aliases": [
+   "16",
+   "16"
+  ]
+ },
+ {
+  "task_id": "logic-00490",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'e' appear in the word 'committee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00491",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 33. Subtract 4. Add 32. Multiply by 3. Multiply by 4. Add 36. What is the result?",
+  "answer": "768",
+  "aliases": [
+   "768",
+   "768"
+  ]
+ },
+ {
+  "task_id": "logic-00492",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 4. Subtract 3. Multiply by 2. What is the result?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00493",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 22. Multiply by 2. Multiply by 4. Add 5. What is the result?",
+  "answer": "181",
+  "aliases": [
+   "181",
+   "181"
+  ]
+ },
+ {
+  "task_id": "logic-00494",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Gia has 84 shells and Cleo has 145 shells. Gia gives 74 shells to Cleo. How many shells does Cleo have now?",
+  "answer": "219",
+  "aliases": [
+   "219",
+   "219"
+  ]
+ },
+ {
+  "task_id": "logic-00495",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'f' appear in the word 'coffee'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00496",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 37, 45, 6, 10, 39, 26, 50, 24, 48, 19",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00497",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'a' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00498",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 2. Add 6. Multiply by 4. What is the result?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00499",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 13 books and Finn has 9 books. Dan gives 8 books to Finn. How many books does Finn have now?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00500",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Hugo has 72 books and Finn has 68 books. Hugo gives 18 books to Finn. How many books does Finn have now?",
+  "answer": "86",
+  "aliases": [
+   "86",
+   "86"
+  ]
+ },
+ {
+  "task_id": "logic-00501",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 4. Multiply by 3. Multiply by 3. What is the result?",
+  "answer": "36",
+  "aliases": [
+   "36",
+   "36"
+  ]
+ },
+ {
+  "task_id": "logic-00502",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 41, 7, 33, 32, 10, 41, 17, 21, 13, 41",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00503",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'mississippi'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00504",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 3, 9, 27, 81, ...?",
+  "answer": "243",
+  "aliases": [
+   "243",
+   "243"
+  ]
+ },
+ {
+  "task_id": "logic-00505",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'a' appear in the word 'balloon'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00506",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 10 pens and Ben has 109 pens. Finn gives 9 pens to Ben. How many pens does Ben have now?",
+  "answer": "118",
+  "aliases": [
+   "118",
+   "118"
+  ]
+ },
+ {
+  "task_id": "logic-00507",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Hugo is taller than Ava. Cleo is taller than Hugo. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00508",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Gia has 19 stamps and Ava has 16 stamps. Gia gives 6 stamps to Ava. How many stamps does Ava have now?",
+  "answer": "22",
+  "aliases": [
+   "22",
+   "22"
+  ]
+ },
+ {
+  "task_id": "logic-00509",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Eve is taller than Gia. Ben is taller than Finn. Finn is taller than Eve. Gia is taller than Ava. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00510",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 2. Multiply by 2. Subtract 2. What is the result?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00511",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 9, 14, 19, 24, ...?",
+  "answer": "29",
+  "aliases": [
+   "29",
+   "29"
+  ]
+ },
+ {
+  "task_id": "logic-00512",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 43. Multiply by 2. Subtract 58. Multiply by 4. Subtract 39. Multiply by 3. What is the result?",
+  "answer": "219",
+  "aliases": [
+   "219",
+   "219"
+  ]
+ },
+ {
+  "task_id": "logic-00513",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Gia is taller than Ava. Finn is taller than Gia. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00514",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are even? 47, 44, 47, 41, 48, 47, 41, 25, 49, 39",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00515",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Dan has 128 stamps and Eve has 107 stamps. Dan gives 101 stamps to Eve. How many stamps does Eve have now?",
+  "answer": "208",
+  "aliases": [
+   "208",
+   "208"
+  ]
+ },
+ {
+  "task_id": "logic-00516",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are greater than 20? 10, 44, 28, 25, 29, 48",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00517",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Dan has 46 apples and Cleo has 12 apples. Dan gives 37 apples to Cleo. How many apples does Cleo have now?",
+  "answer": "49",
+  "aliases": [
+   "49",
+   "49"
+  ]
+ },
+ {
+  "task_id": "logic-00518",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 21. Multiply by 2. Add 11. Subtract 13. Subtract 18. Multiply by 4. What is the result?",
+  "answer": "88",
+  "aliases": [
+   "88",
+   "88"
+  ]
+ },
+ {
+  "task_id": "logic-00519",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 12, 17, 22, 27, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00520",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 5, 16, 27, 38, ...?",
+  "answer": "49",
+  "aliases": [
+   "49",
+   "49"
+  ]
+ },
+ {
+  "task_id": "logic-00521",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Gia. Cleo is taller than Eve. Gia is taller than Cleo. Eve is taller than Dan. Who is the tallest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00522",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 8. Multiply by 2. Subtract 2. What is the result?",
+  "answer": "14",
+  "aliases": [
+   "14",
+   "14"
+  ]
+ },
+ {
+  "task_id": "logic-00523",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 17. Multiply by 3. Multiply by 3. Multiply by 3. What is the result?",
+  "answer": "459",
+  "aliases": [
+   "459",
+   "459"
+  ]
+ },
+ {
+  "task_id": "logic-00524",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'u' appear in the word 'success'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00525",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'r' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00526",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 21. Subtract 8. Subtract 8. Add 9. What is the result?",
+  "answer": "14",
+  "aliases": [
+   "14",
+   "14"
+  ]
+ },
+ {
+  "task_id": "logic-00527",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 12. Multiply by 3. Multiply by 2. Subtract 22. Subtract 46. Add 33. What is the result?",
+  "answer": "37",
+  "aliases": [
+   "37",
+   "37"
+  ]
+ },
+ {
+  "task_id": "logic-00528",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Hugo is taller than Finn. Cleo is taller than Hugo. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00529",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 't' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00530",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'e' appear in the word 'pepper'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00531",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Ben. Ben is taller than Cleo. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00532",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 2. Subtract 2. Add 20. Multiply by 2. What is the result?",
+  "answer": "40",
+  "aliases": [
+   "40",
+   "40"
+  ]
+ },
+ {
+  "task_id": "logic-00533",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are greater than 20? 41, 30, 37, 9, 37, 17, 6, 20, 23, 9, 30, 24, 3, 22, 7, 7",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00534",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Ben has 11 stamps and Cleo has 20 stamps. Ben gives 6 stamps to Cleo. How many stamps does Cleo have now?",
+  "answer": "26",
+  "aliases": [
+   "26",
+   "26"
+  ]
+ },
+ {
+  "task_id": "logic-00535",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 50, 1, 43, 49, 31, 26, 26, 41, 14, 6",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00536",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Hugo is taller than Gia. Finn is taller than Eve. Gia is taller than Dan. Eve is taller than Hugo. Who is the tallest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00537",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 5, 10, 15, 20, ...?",
+  "answer": "25",
+  "aliases": [
+   "25",
+   "25"
+  ]
+ },
+ {
+  "task_id": "logic-00538",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Ben is taller than Dan. Dan is taller than Hugo. Gia is taller than Ben. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00539",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Finn has 82 apples and Ben has 43 apples. Finn gives 35 apples to Ben. How many apples does Ben have now?",
+  "answer": "78",
+  "aliases": [
+   "78",
+   "78"
+  ]
+ },
+ {
+  "task_id": "logic-00540",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ben is taller than Dan. Dan is taller than Ava. Who is the shortest?",
+  "answer": "Ava",
+  "aliases": [
+   "Ava"
+  ]
+ },
+ {
+  "task_id": "logic-00541",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 8. Multiply by 4. Subtract 22. Add 7. What is the result?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00542",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00543",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are even? 6, 46, 34, 17, 46, 7",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00544",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 12, 36, 108, ...?",
+  "answer": "324",
+  "aliases": [
+   "324",
+   "324"
+  ]
+ },
+ {
+  "task_id": "logic-00545",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 2, 4, 8, 16, ...?",
+  "answer": "32",
+  "aliases": [
+   "32",
+   "32"
+  ]
+ },
+ {
+  "task_id": "logic-00546",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 4. Multiply by 2. Subtract 6. What is the result?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00547",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 11. Add 20. Multiply by 2. Add 29. What is the result?",
+  "answer": "91",
+  "aliases": [
+   "91",
+   "91"
+  ]
+ },
+ {
+  "task_id": "logic-00548",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Eve has 46 pens and Gia has 137 pens. Eve gives 29 pens to Gia. How many pens does Gia have now?",
+  "answer": "166",
+  "aliases": [
+   "166",
+   "166"
+  ]
+ },
+ {
+  "task_id": "logic-00549",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Eve has 7 coins and Gia has 14 coins. Eve gives 3 coins to Gia. How many coins does Gia have now?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00550",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 11, 47, 6, 14, 41, 34, 50, 23, 44, 48",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00551",
+  "template": "share_items",
+  "difficulty": 3,
+  "question": "Ben has 110 shells and Cleo has 79 shells. Ben gives 59 shells to Cleo. How many shells does Cleo have now?",
+  "answer": "138",
+  "aliases": [
+   "138",
+   "138"
+  ]
+ },
+ {
+  "task_id": "logic-00552",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 4. Subtract 2. Subtract 2. What is the result?",
+  "answer": "0",
+  "aliases": [
+   "0",
+   "0"
+  ]
+ },
+ {
+  "task_id": "logic-00553",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 5, 9, 49, 29, 28, 7, 24, 49, 15, 8",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00554",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 13, 16, 40, 36, 21, 43, 32, 22, 38, 41, 31, 33, 43, 18, 50, 19",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00555",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'e' appear in the word 'pepper'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00556",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Dan is taller than Eve. Eve is taller than Gia. Ava is taller than Dan. Who is the shortest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ },
+ {
+  "task_id": "logic-00557",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'u' appear in the word 'bubble'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00558",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 6, 9, 12, 15, ...?",
+  "answer": "18",
+  "aliases": [
+   "18",
+   "18"
+  ]
+ },
+ {
+  "task_id": "logic-00559",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Eve is taller than Hugo. Hugo is taller than Ava. Ben is taller than Eve. Who is the tallest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00560",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 5. Subtract 3. Multiply by 2. Add 45. Add 50. Add 48. What is the result?",
+  "answer": "147",
+  "aliases": [
+   "147",
+   "147"
+  ]
+ },
+ {
+  "task_id": "logic-00561",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 24, 25, 42, 34, 40, 44",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00562",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 12, 14, 16, 18, ...?",
+  "answer": "20",
+  "aliases": [
+   "20",
+   "20"
+  ]
+ },
+ {
+  "task_id": "logic-00563",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'i' appear in the word 'mississippi'?",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00564",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 4, 8, 16, 32, ...?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00565",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 5, 38, 41, 9, 21, 49, 18, 19, 50, 29",
+  "answer": "7",
+  "aliases": [
+   "7",
+   "7"
+  ]
+ },
+ {
+  "task_id": "logic-00566",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'o' appear in the word 'coffee'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00567",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Cleo. Cleo is taller than Hugo. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00568",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 3, 6, 12, 24, ...?",
+  "answer": "48",
+  "aliases": [
+   "48",
+   "48"
+  ]
+ },
+ {
+  "task_id": "logic-00569",
+  "template": "count_predicate",
+  "difficulty": 3,
+  "question": "How many numbers in this list are even? 46, 30, 49, 20, 26, 28, 48, 48, 44, 9, 12, 31, 13, 11, 40, 13",
+  "answer": "10",
+  "aliases": [
+   "10",
+   "10"
+  ]
+ },
+ {
+  "task_id": "logic-00570",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Eve is taller than Ben. Cleo is taller than Eve. Who is the shortest?",
+  "answer": "Ben",
+  "aliases": [
+   "Ben"
+  ]
+ },
+ {
+  "task_id": "logic-00571",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 28, 12, 8, 4, 34, 3, 45, 48, 6, 48",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00572",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 58. Multiply by 2. Add 38. Add 43. Subtract 25. Add 8. What is the result?",
+  "answer": "180",
+  "aliases": [
+   "180",
+   "180"
+  ]
+ },
+ {
+  "task_id": "logic-00573",
+  "template": "sequence_next",
+  "difficulty": 1,
+  "question": "What number comes next in the sequence: 6, 12, 18, 24, ...?",
+  "answer": "30",
+  "aliases": [
+   "30",
+   "30"
+  ]
+ },
+ {
+  "task_id": "logic-00574",
+  "template": "letter_count",
+  "difficulty": 2,
+  "question": "How many times does the letter 'm' appear in the word 'mississippi'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00575",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'pepper'?",
+  "answer": "3",
+  "aliases": [
+   "3",
+   "3"
+  ]
+ },
+ {
+  "task_id": "logic-00576",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'e' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00577",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are greater than 20? 27, 7, 48, 13, 46, 9, 12, 45, 18, 18",
+  "answer": "4",
+  "aliases": [
+   "4",
+   "4"
+  ]
+ },
+ {
+  "task_id": "logic-00578",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Dan is taller than Finn. Ava is taller than Hugo. Hugo is taller than Cleo. Finn is taller than Ava. Who is the tallest?",
+  "answer": "Dan",
+  "aliases": [
+   "Dan"
+  ]
+ },
+ {
+  "task_id": "logic-00579",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ava is taller than Gia. Gia is taller than Eve. Who is the shortest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00580",
+  "template": "order_deduction",
+  "difficulty": 2,
+  "question": "Hugo is taller than Finn. Dan is taller than Hugo. Ava is taller than Dan. Who is the shortest?",
+  "answer": "Finn",
+  "aliases": [
+   "Finn"
+  ]
+ },
+ {
+  "task_id": "logic-00581",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 52. Multiply by 4. Add 56. Add 49. Subtract 38. Subtract 45. What is the result?",
+  "answer": "230",
+  "aliases": [
+   "230",
+   "230"
+  ]
+ },
+ {
+  "task_id": "logic-00582",
+  "template": "share_items",
+  "difficulty": 1,
+  "question": "Hugo has 4 stamps and Gia has 14 stamps. Hugo gives 3 stamps to Gia. How many stamps does Gia have now?",
+  "answer": "17",
+  "aliases": [
+   "17",
+   "17"
+  ]
+ },
+ {
+  "task_id": "logic-00583",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 7, 9, 11, 13, ...?",
+  "answer": "15",
+  "aliases": [
+   "15",
+   "15"
+  ]
+ },
+ {
+  "task_id": "logic-00584",
+  "template": "sequence_next",
+  "difficulty": 3,
+  "question": "What number comes next in the sequence: 2, 6, 18, 54, ...?",
+  "answer": "162",
+  "aliases": [
+   "162",
+   "162"
+  ]
+ },
+ {
+  "task_id": "logic-00585",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Ben is taller than Hugo. Eve is taller than Ben. Who is the shortest?",
+  "answer": "Hugo",
+  "aliases": [
+   "Hugo"
+  ]
+ },
+ {
+  "task_id": "logic-00586",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 27, 2, 20, 12, 37, 11, 6, 27, 49, 33",
+  "answer": "6",
+  "aliases": [
+   "6",
+   "6"
+  ]
+ },
+ {
+  "task_id": "logic-00587",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00588",
+  "template": "order_deduction",
+  "difficulty": 1,
+  "question": "Cleo is taller than Finn. Eve is taller than Cleo. Who is the tallest?",
+  "answer": "Eve",
+  "aliases": [
+   "Eve"
+  ]
+ },
+ {
+  "task_id": "logic-00589",
+  "template": "count_predicate",
+  "difficulty": 2,
+  "question": "How many numbers in this list are odd? 8, 13, 31, 46, 42, 13, 2, 25, 22, 17",
+  "answer": "5",
+  "aliases": [
+   "5",
+   "5"
+  ]
+ },
+ {
+  "task_id": "logic-00590",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 't' appear in the word 'letter'?",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00591",
+  "template": "letter_count",
+  "difficulty": 1,
+  "question": "How many times does the letter 'b' appear in the word 'banana'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00592",
+  "template": "sequence_next",
+  "difficulty": 2,
+  "question": "What number comes next in the sequence: 4, 13, 22, 31, ...?",
+  "answer": "40",
+  "aliases": [
+   "40",
+   "40"
+  ]
+ },
+ {
+  "task_id": "logic-00593",
+  "template": "arith_chain",
+  "difficulty": 3,
+  "question": "Start with 35. Multiply by 4. Subtract 47. Subtract 15. Multiply by 3. Subtract 53. What is the result?",
+  "answer": "181",
+  "aliases": [
+   "181",
+   "181"
+  ]
+ },
+ {
+  "task_id": "logic-00594",
+  "template": "count_predicate",
+  "difficulty": 1,
+  "question": "How many numbers in this list are odd? 12, 47, 46, 18, 13, 8",
+  "answer": "2",
+  "aliases": [
+   "2",
+   "2"
+  ]
+ },
+ {
+  "task_id": "logic-00595",
+  "template": "share_items",
+  "difficulty": 2,
+  "question": "Gia has 53 coins and Ben has 18 coins. Gia gives 46 coins to Ben. How many coins does Ben have now?",
+  "answer": "64",
+  "aliases": [
+   "64",
+   "64"
+  ]
+ },
+ {
+  "task_id": "logic-00596",
+  "template": "letter_count",
+  "difficulty": 3,
+  "question": "How many times does the letter 'p' appear in the word 'parallel'?",
+  "answer": "1",
+  "aliases": [
+   "1",
+   "1"
+  ]
+ },
+ {
+  "task_id": "logic-00597",
+  "template": "arith_chain",
+  "difficulty": 1,
+  "question": "Start with 12. Add 4. Subtract 8. What is the result?",
+  "answer": "8",
+  "aliases": [
+   "8",
+   "8"
+  ]
+ },
+ {
+  "task_id": "logic-00598",
+  "template": "arith_chain",
+  "difficulty": 2,
+  "question": "Start with 4. Multiply by 4. Add 19. Add 8. What is the result?",
+  "answer": "43",
+  "aliases": [
+   "43",
+   "43"
+  ]
+ },
+ {
+  "task_id": "logic-00599",
+  "template": "order_deduction",
+  "difficulty": 3,
+  "question": "Finn is taller than Ava. Gia is taller than Hugo. Hugo is taller than Finn. Ava is taller than Eve. Who is the tallest?",
+  "answer": "Gia",
+  "aliases": [
+   "Gia"
+  ]
+ }
+]
