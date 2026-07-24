@@ -57,7 +57,10 @@ def extract_answer(text):
     text = text.split("<|user|>")[0]
     tail = text.split("</think>")[-1]
     m = re.search(r"answer\s*:\s*(.+)", tail, re.I)
-    return m.group(1).strip().splitlines()[0].strip() if m else None
+    if not m:
+        return None
+    lines = m.group(1).strip().splitlines()
+    return lines[0].strip() if lines else None
 
 
 def extract_think(text):
