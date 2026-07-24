@@ -12,9 +12,13 @@ pipeline_tag: text-generation
 
 # stilt.1-355m-code-rl (preview)
 
-**Training in progress** — this repo currently serves a mid-training
-checkpoint (GRPO step 250 of 400) and will be updated as the run
-completes.
+**Training in progress** — RL round 1 regressed held-out coding
+ability (documented failure mode: GRPO advantage normalization at
+low pass rates), so this repo currently serves the strongest
+checkpoint of the lineage: the pre-RL reasoning-format model. It
+will be updated when the fixed RL run produces a checkpoint that
+beats it on held-out evals. Model selection here is always by
+held-out pass@k.
 
 The 355M research language model
 with a custom attention mechanism, RL-tuned for Python code synthesis
