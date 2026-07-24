@@ -308,7 +308,13 @@ def main():
             rewards.append(r)
             fracs.append(f)
         R = torch.tensor(rewards, device=DEVICE).view(-1, args.k)
-        adv = (R - R.mean(1, keepdim=True)) / (R.std(1, keepdim=True) + 1e-6)
+        # Dr.GRPO-style advantages: mean-only baseline. Dividing by
+        # group std amplified length-penalty noise into huge updates
+        # whenever a group had no passing samples (collapse after
+        # ~step 300 of RL-v1, 2026-07-24). Zero all-identical groups.
+        adv = R - R.mean(1, keepdim=True)
+        degenerate = (R.max(1).values - R.min(1).values) < 1e-4
+        adv[degenerate] = 0.0
         adv = adv.view(-1)
 
         model.train()
@@ -329,7 +335,9 @@ def main():
                 ref_lp, _, _ = seq_logprobs(ref, x_, plen, tok, cfg.ctx)
             adv_ = adv[i:i + mbs]
             pg_mb = -(adv_[:, None] * tok_lp * m_).sum() / M_total
-            kl_mb = ((tok_lp - ref_lp) * m_).sum() / M_total
+            # k3 KL estimator (non-negative, low variance)
+            d_ = ref_lp - tok_lp
+            kl_mb = ((d_.exp() - d_ - 1) * m_).sum() / M_total
             (pg_mb + args.kl_beta * kl_mb).backward()
             pg_val += pg_mb.item()
             kl_val += kl_mb.item()
