@@ -87,11 +87,19 @@ class Attn(nn.Module):
         self.hd = cfg.n_embd // cfg.n_head
         self.qkv = nn.Linear(cfg.n_embd, 3 * cfg.n_embd, bias=False)
         self.proj = nn.Linear(cfg.n_embd, cfg.n_embd, bias=False)
+        # learnable per-head score scale, tanh-capped (C=15) — the
+        # mandatory recipe whenever scales are learnable (2026-07-18)
+        if getattr(cfg, "scale_learnable", False):
+            self.scale_mult = nn.Parameter(torch.zeros(cfg.n_head))
 
     def forward(self, x):
         B, S, E = x.shape
         q, k, v = self.qkv(x).split(E, dim=2)
         q = q.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
+        if hasattr(self, "scale_mult"):
+            C = 15.0
+            eff = 1.0 + C * torch.tanh(self.scale_mult / C)
+            q = q * eff[None, :, None, None].to(q.dtype)
         k = k.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
         if self.cfg.attn == "sdpa":
@@ -125,7 +133,9 @@ class GPT(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.wte = nn.Embedding(VOCAB, cfg.n_embd)
-        self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
+        self.nope = getattr(cfg, "nope", False)
+        if not self.nope:
+            self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg.n_layer))
         self.ln_f = nn.LayerNorm(cfg.n_embd)
         self.head = nn.Linear(cfg.n_embd, VOCAB, bias=False)
@@ -141,8 +151,10 @@ class GPT(nn.Module):
 
     def forward(self, idx, targets=None):
         B, S = idx.shape
-        pos = torch.arange(S, device=idx.device)
-        x = self.wte(idx) + self.wpe(pos)[None]
+        x = self.wte(idx)
+        if not self.nope:
+            pos = torch.arange(S, device=idx.device)
+            x = x + self.wpe(pos)[None]
         for b in self.blocks:
             x = b(x)
         logits = self.head(self.ln_f(x))
@@ -173,6 +185,9 @@ def main():
     ap.add_argument("--ckpt-every", type=int, default=500)
     ap.add_argument("--val-every", type=int, default=250)
     ap.add_argument("--tag", default="")
+    ap.add_argument("--nope", action="store_true")
+    ap.add_argument("--scale-learnable", action="store_true",
+                    dest="scale_learnable")
     ap.add_argument("--data-mix", default=None, dest="data_mix",
                     help="'name=dir:weight,...' shard-source mix "
                          "(default: pure FW_DIR web)")
@@ -184,7 +199,9 @@ def main():
     total_steps = int(args.total_tokens // tokens_per_step)
     label = (f"gpt2-{args.attn}"
              + (f"-q{args.stj_q:g}" if args.attn == "stj" else "")
-             + (f"-{args.tag}" if args.tag else ""))
+             + ("-nope" if args.nope else "")
+             + (f"-{args.tag}" if args.tag else "")
+             + f"-lr{args.lr:g}")
     ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
 
     train_d = Shards("train", args.data_mix)
