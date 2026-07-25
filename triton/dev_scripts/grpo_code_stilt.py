@@ -192,6 +192,9 @@ def main():
     ap.add_argument("--probe", action="store_true")
     ap.add_argument("--probe-k", type=int, default=32)
     ap.add_argument("--solvable", default=None)
+    ap.add_argument("--dataset-json", default=None, dest="dataset_json",
+                    help="task-list json to use INSTEAD of MBPP "
+                         "(text/test_list/code[/post_code/setup])")
     ap.add_argument("--synthetic", default=None,
                     help="json of synthetic tasks to mix into curriculum")
     ap.add_argument("--entropy-floor", type=float, default=0.35,
@@ -216,9 +219,14 @@ def main():
     model.load_state_dict(blob["model"])
     torch.manual_seed(args.seed)
 
-    ds = load_dataset("google-research-datasets/mbpp", "full")
-    train = [ex for ex in ds["train"]]
-    print(f"MBPP train problems: {len(train)}", flush=True)
+    if args.dataset_json:
+        train = json.load(open(args.dataset_json))
+        print(f"custom dataset: {len(train)} problems "
+              f"({args.dataset_json})", flush=True)
+    else:
+        ds = load_dataset("google-research-datasets/mbpp", "full")
+        train = [ex for ex in ds["train"]]
+        print(f"MBPP train problems: {len(train)}", flush=True)
 
     if args.probe:
         model.eval()
@@ -238,7 +246,8 @@ def main():
                 nsolv = sum(1 for v in results.values() if v["solved"] > 0)
                 print(f"probe {pi}/{len(train)}: solvable so far {nsolv}",
                       flush=True)
-        out = args.ckpt.replace(".pt", "_mbpp_probe.json")
+        tag = "_leet_probe" if args.dataset_json else "_mbpp_probe"
+        out = args.ckpt.replace(".pt", tag + ".json")
         json.dump(results, open(out, "w"))
         nsolv = sum(1 for v in results.values() if v["solved"] > 0)
         print(f"PROBE DONE: {nsolv}/{len(train)} solvable at k="
@@ -246,9 +255,10 @@ def main():
         return
 
     if args.solvable:
-        keep = {int(k) for k, v in json.load(open(args.solvable)).items()
-                if v["solved"] > 0}
-        train = [p for p in train if p["task_id"] in keep]
+        sv = json.load(open(args.solvable))
+        keep = {k for k, v in sv.items() if v["solved"] > 0}
+        train = [p for p in train
+                 if str(p["task_id"]) in keep or p["task_id"] in keep]
         print(f"curriculum: {len(train)} solvable problems", flush=True)
     if args.synthetic:
         synth = json.load(open(args.synthetic))
