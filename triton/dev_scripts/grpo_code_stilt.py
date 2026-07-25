@@ -226,7 +226,9 @@ def main():
         for pi, prob in enumerate(train):
             outs, _, _ = sample_batch(model, tok, [build_prompt(prob)],
                                       args.probe_k, args.max_new, cfg.ctx)
-            fr = [exec_reward(extract_code(o), prob["test_list"],
+            fr = [exec_reward(extract_code(o)
+                              + prob.get("post_code", ""),
+                              prob["test_list"],
                               prob.get("test_setup_code", ""))[1]
                   for o in outs]
             results[prob["task_id"]] = {
@@ -309,7 +311,9 @@ def main():
         rewards, fracs = [], []
         for i, o in enumerate(outs):
             prob = probs_batch[i // args.k]
-            r, f = exec_reward(extract_code(o), prob["test_list"],
+            r, f = exec_reward(extract_code(o)
+                               + prob.get("post_code", ""),
+                               prob["test_list"],
                                prob.get("test_setup_code", ""),
                                gen_len=len(o.split()), max_len=args.max_new)
             rewards.append(r)
