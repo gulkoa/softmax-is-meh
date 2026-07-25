@@ -70,6 +70,11 @@ class LocalJudge:
         s = int(m.group(1))
         return s if 1 <= s <= 10 else None
 
+    @staticmethod
+    def _parse_reason(text):
+        m = re.search(r'"reason"\s*:\s*"([^"]*)"', text)
+        return m.group(1) if m else ""
+
     def score(self, questions, answers, max_retry=1):
         """Returns (scores list of float|None, parse_fail_count)."""
         chats = [[{"role": "system", "content": RUBRIC},
@@ -78,6 +83,7 @@ class LocalJudge:
                  for q, a in zip(questions, answers)]
         outs = self._generate(chats)
         scores = [self._parse(o) for o in outs]
+        reasons = [self._parse_reason(o) for o in outs]
         for _ in range(max_retry):
             bad = [i for i, s in enumerate(scores) if s is None]
             if not bad:
@@ -85,8 +91,29 @@ class LocalJudge:
             outs2 = self._generate([chats[i] for i in bad])
             for i, o in zip(bad, outs2):
                 scores[i] = self._parse(o)
+                reasons[i] = self._parse_reason(o)
         fails = sum(1 for s in scores if s is None)
         return scores, fails
+
+    def score_with_reasons(self, questions, answers, max_retry=1):
+        """(scores, reasons, fails) — full judge traces for wandb."""
+        chats = [[{"role": "system", "content": RUBRIC},
+                  {"role": "user",
+                   "content": f"QUESTION: {q}\n\nANSWER: {a}"}]
+                 for q, a in zip(questions, answers)]
+        outs = self._generate(chats)
+        scores = [self._parse(o) for o in outs]
+        reasons = [self._parse_reason(o) for o in outs]
+        for _ in range(max_retry):
+            bad = [i for i, s in enumerate(scores) if s is None]
+            if not bad:
+                break
+            outs2 = self._generate([chats[i] for i in bad])
+            for i, o in zip(bad, outs2):
+                scores[i] = self._parse(o)
+                reasons[i] = self._parse_reason(o)
+        fails = sum(1 for s in scores if s is None)
+        return scores, reasons, fails
 
 
 def _norm(s):

@@ -202,6 +202,8 @@ def main():
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--max-new", type=int, default=200)
     ap.add_argument("--micro-bs", type=int, default=16)
+    ap.add_argument("--judge-weight", type=float, default=0.0,
+                    help=">0 adds local-judge think-trace score (round 3)")
     ap.add_argument("--lr", type=float, default=2e-6)
     ap.add_argument("--kl-beta", type=float, default=0.03)
     ap.add_argument("--seed", type=int, default=0)
@@ -258,6 +260,11 @@ def main():
     for p in ref.parameters():
         p.requires_grad_(False)
 
+    judge = None
+    if args.judge_weight > 0:
+        from judge_reward import LocalJudge
+        judge = LocalJudge()
+
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr,
                             weight_decay=0.0, betas=(0.9, 0.95))
     rng = np.random.default_rng(args.seed)
@@ -307,6 +314,21 @@ def main():
                                gen_len=len(o.split()), max_len=args.max_new)
             rewards.append(r)
             fracs.append(f)
+        jscores = [None] * len(outs)
+        jreasons = [""] * len(outs)
+        thinks = [None] * len(outs)
+        if judge is not None:
+            def _think(o):
+                m_ = re.search(r"<think>(.*?)</think>", o, re.S)
+                return m_.group(1).strip() if m_ else None
+            thinks = [_think(o) for o in outs]
+            jscores, jreasons, _jf = judge.score_with_reasons(
+                [probs_batch[i // args.k]["text"]
+                 for i in range(len(outs))],
+                [t if t else "(no reasoning given)" for t in thinks])
+            jn = [(sc or 1) / 10.0 for sc in jscores]
+            rewards = [r + args.judge_weight * j
+                       for r, j in zip(rewards, jn)]
         R = torch.tensor(rewards, device=DEVICE).view(-1, args.k)
         # Dr.GRPO-style advantages: mean-only baseline. Dividing by
         # group std amplified length-penalty noise into huge updates
@@ -370,11 +392,16 @@ def main():
             model.eval()
             log.update(attn_diag(model, cfg, diag_ids))
             model.train()
-        if step % 50 == 0:
-            tbl = wandb.Table(columns=["step", "reward", "completion"])
-            for i in np.argsort(rewards)[-2:]:
-                tbl.add_data(step, rewards[i], outs[i][:1500])
-            log["samples"] = tbl
+        # full per-step traces incl. judge rationale (user directive)
+        tbl = wandb.Table(columns=["task_id", "reward", "exec_frac",
+                                   "judge_score", "judge_reason",
+                                   "think", "completion"])
+        for i, o in enumerate(outs):
+            tbl.add_data(str(probs_batch[i // args.k]["task_id"]),
+                         round(rewards[i], 3), fracs[i],
+                         jscores[i], (jreasons[i] or "")[:200],
+                         (thinks[i] or "")[:600], o[:800])
+        log["traces"] = tbl
         run.log(log)
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} best {R.max():.2f} "

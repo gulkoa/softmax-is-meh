@@ -236,7 +236,7 @@ def main():
             if c:
                 solved_ever.add(task["task_id"])
             thinks.append(extract_think(o) or "")
-        jscores, jfails = judge.score(
+        jscores, jreasons, jfails = judge.score_with_reasons(
             [batch[i // args.k]["question"] for i in range(len(outs))],
             [t if t else "(no reasoning given)" for t in thinks])
         jnorm = [(s or 1) / 10.0 for s in jscores]
@@ -307,11 +307,17 @@ def main():
             model.eval()
             log.update(attn_diag(model, cfg, diag_ids))
             model.train()
-        if step % 50 == 0:
-            tbl = wandb.Table(columns=["step", "reward", "completion"])
-            for i in np.argsort(rewards)[-2:]:
-                tbl.add_data(step, rewards[i], outs[i][:1500])
-            log["samples"] = tbl
+        # full per-step traces incl. judge rationale (user directive)
+        tbl = wandb.Table(columns=["task_id", "channel", "reward",
+                                   "correct", "judge_score",
+                                   "judge_reason", "think", "completion"])
+        for i, o in enumerate(outs):
+            t_ = batch[i // args.k]
+            tbl.add_data(t_["task_id"], t_["channel"],
+                         round(rewards[i], 3), correct[i],
+                         jscores[i], jreasons[i][:200],
+                         (thinks[i] or "")[:600], o[:800])
+        log["traces"] = tbl
         run.log(log)
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} acc "
