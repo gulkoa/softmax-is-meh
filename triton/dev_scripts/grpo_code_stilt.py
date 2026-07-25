@@ -204,6 +204,10 @@ def main():
     ap.add_argument("--prompts-per-step", type=int, default=16)
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--max-new", type=int, default=200)
+    ap.add_argument("--max-prompt-tok", type=int, default=0,
+                    dest="max_prompt_tok",
+                    help="drop prompts longer than this (0=off); "
+                         "use ~550 for LeetCode to avoid ctx truncation")
     ap.add_argument("--micro-bs", type=int, default=16)
     ap.add_argument("--judge-weight", type=float, default=0.0,
                     help=">0 adds local-judge think-trace score (round 3)")
@@ -227,6 +231,16 @@ def main():
         ds = load_dataset("google-research-datasets/mbpp", "full")
         train = [ex for ex in ds["train"]]
         print(f"MBPP train problems: {len(train)}", flush=True)
+
+    if args.max_prompt_tok:
+        # drop prompts that would truncate against ctx (LeetCode has a
+        # multi-thousand-token tail; sample_batch slides -ctx: so the
+        # function signature scrolls off -> unsolvable + wasted compute)
+        n0 = len(train)
+        train = [p for p in train
+                 if len(tok(build_prompt(p)).input_ids) <= args.max_prompt_tok]
+        print(f"prompt-len filter (<= {args.max_prompt_tok} tok): "
+              f"{len(train)}/{n0} kept", flush=True)
 
     if args.probe:
         model.eval()
