@@ -6,11 +6,13 @@ ctx (measured 44% of smoltalk, biased toward the LONGEST multi-turn
 convos, avg 3.0 assistant turns) — starving exactly the signal that
 teaches multi-turn behavior.
 
-This script fixes that with END-ANCHORED front-truncation: over-ctx
-dialogs keep their most-recent whole turns (dropping oldest first,
-starting at a user/system boundary) instead of being discarded — so a
-10-turn conversation still contributes its later turns. Optional
---min-assistant-turns concentrates on genuine multi-turn.
+This script fixes that with PREFIX-ANCHORED tail-truncation: over-ctx
+dialogs keep whole turns from the START until ctx (dropping the newest
+overflow) instead of being discarded. Every kept assistant target thus
+retains its full preceding context — unlike front-truncation, which
+would drop early turns a later target depends on and train the model
+to confabulate the answer. Optional --min-assistant-turns concentrates
+on genuine multi-turn.
 
 Loss on all assistant turns. Saves ckpt_<label>-mt.pt.
 
@@ -64,27 +66,25 @@ def _segments(tok, messages, eot):
 
 
 def encode_dialog(tok, messages, ctx, eot):
-    """End-anchored: keep the most recent whole turns that fit ctx."""
+    """PREFIX-anchored tail-truncation: keep whole turns from the START
+    until ctx, dropping the NEWEST overflow. Every kept assistant turn
+    therefore retains its complete preceding context back to turn 0 —
+    so we never train a target whose supporting info was truncated away
+    (front-truncation would do that and teach confabulation). Cost: we
+    can't train on turns deeper than ctx tokens of history — but such
+    targets are unlearnable at this ctx anyway."""
     segs = _segments(tok, messages, eot)
     if not segs:
         return None
-    total = sum(len(s[0]) for s in segs)
-    if total <= ctx:
-        kept = segs
-    else:
-        kept, acc = [], 0
-        for seg in reversed(segs):           # newest first
-            if acc + len(seg[0]) > ctx:
-                break
-            kept.insert(0, seg)
-            acc += len(seg[0])
-        # start at a user/system boundary (drop leading assistant targets
-        # that would train on a truncated-away context)
-        while kept and kept[0][2] == "assistant":
-            kept.pop(0)
+    kept, acc = [], 0
+    for seg in segs:                         # oldest first
+        if acc + len(seg[0]) > ctx:
+            break                            # drop this and all newer
+        kept.append(seg)
+        acc += len(seg[0])
     ids = [t for seg in kept for t in seg[0]]
     mask = [t for seg in kept for t in seg[1]]
-    if len(ids) < 8 or sum(mask) == 0:       # need a real assistant target
+    if len(ids) < 8 or sum(mask) == 0:       # need >=1 complete-context target
         return None
     return (np.asarray(ids, dtype=np.int64),
             np.asarray(mask, dtype=np.bool_))
@@ -119,8 +119,8 @@ def build_tensors(tok, ctx, min_asst, identity_path, upsample,
                     masks.append(enc[1])
                     n_id += 1
     print(f"multiturn SFT: {kept_mt} convos (>=%d asst turns; "
-          f"{trunc} front-truncated, kept not dropped), identity {n_id}"
-          % min_asst, flush=True)
+          f"{trunc} tail-truncated to a complete-context prefix, kept "
+          f"not dropped), identity {n_id}" % min_asst, flush=True)
     return xs, masks
 
 
