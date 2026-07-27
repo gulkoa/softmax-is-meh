@@ -34,23 +34,40 @@ from transformers import AutoTokenizer  # noqa: E402
 from types import SimpleNamespace  # noqa: E402
 
 DEVICE = torch.device("cuda")
-_BOOST = 1.0                       # set per eval length before forward
+_BOOST = 1.0            # global scalar boost (per eval length)
+_PERPOS = None         # (alpha, train_len): per-query-position boost on q
 
 # --- monkeypatch attention score-scale (eval-only; frozen trainer untouched)
 _orig_stj = T.stieltjes_attention
+_orig_sdpa = F.scaled_dot_product_attention
+
+
+def _q_perpos(q):
+    """Scale each query row by 1+alpha*log(ctx_len/train_len) (>=1) — a
+    per-position log-n temperature, length-AGNOSTIC (no target-len
+    knowledge needed; each position self-corrects for its own context
+    depth). Deep-tail positions near L get the strong boost, early
+    positions ~1."""
+    a, tl = _PERPOS
+    S = q.shape[2]
+    ctx = torch.arange(1, S + 1, device=q.device, dtype=torch.float32)
+    b = 1.0 + a * torch.clamp(torch.log(ctx / tl), min=0.0)
+    return q * b[None, None, :, None].to(q.dtype)
 
 
 def _stj_boosted(*a, **kw):
-    if "sm_scale" in kw:
+    if _PERPOS is not None and len(a) >= 1:
+        a = (_q_perpos(a[0]),) + tuple(a[1:])
+    elif "sm_scale" in kw:
         kw["sm_scale"] = kw["sm_scale"] * _BOOST
     return _orig_stj(*a, **kw)
 
 
-_orig_sdpa = F.scaled_dot_product_attention
-
-
 def _sdpa_boosted(q, k, v, **kw):
-    kw.setdefault("scale", _BOOST / math.sqrt(q.shape[-1]))
+    if _PERPOS is not None:
+        q = _q_perpos(q)
+    else:
+        kw.setdefault("scale", _BOOST / math.sqrt(q.shape[-1]))
     return _orig_sdpa(q, k, v, **kw)
 
 
@@ -81,6 +98,9 @@ def main():
     ap.add_argument("ckpt")
     ap.add_argument("--alpha", default="0.5,1.0,1.5,2.0",
                     help="comma-separated alphas to sweep")
+    ap.add_argument("--per-position", default=None, dest="perpos",
+                    help="alpha for length-agnostic per-position boost "
+                         "(one setting, all lengths)")
     args = ap.parse_args()
     alphas = [float(a) for a in str(args.alpha).split(",")]
 
@@ -96,6 +116,20 @@ def main():
           flush=True)
 
     lens = (1024, 2048, 4096, 8192)
+    global _PERPOS
+    if args.perpos is not None:
+        a = float(args.perpos)
+        print(f"per-position (length-agnostic) alpha={a}", flush=True)
+        print(f"{'L':>7} {'off':>10} {'perpos':>10}", flush=True)
+        for L in lens:
+            _PERPOS = None
+            off = deep_tail_ppl(model, pg, L, 1.0, train_len)
+            _PERPOS = (a, train_len)
+            on = deep_tail_ppl(model, pg, L, 1.0, train_len)
+            _PERPOS = None
+            print(f"{L:>7} {off:>10.1f} {on:>10.1f}", flush=True)
+        print("DONE", flush=True)
+        return
     hdr = f"{'L':>7} {'off':>10} " + " ".join(
         f"a={a:g}".rjust(10) for a in alphas)
     print(hdr, flush=True)
