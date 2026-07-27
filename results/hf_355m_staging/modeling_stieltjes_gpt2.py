@@ -44,6 +44,8 @@ class Attn(nn.Module):
         self.layer_idx = layer_idx
         self.qkv = nn.Linear(config.n_embd, 3 * config.n_embd, bias=False)
         self.proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
+        if getattr(config, "scale_learnable", False):
+            self.scale_mult = nn.Parameter(torch.zeros(config.n_head))
 
     def forward(self, x, past_key_values=None, attention_mask=None):
         B, S, E = x.shape
@@ -51,6 +53,9 @@ class Attn(nn.Module):
         q = q.view(B, S, self.h, self.hd).transpose(1, 2)
         k = k.view(B, S, self.h, self.hd).transpose(1, 2)
         v = v.view(B, S, self.h, self.hd).transpose(1, 2)
+        if hasattr(self, "scale_mult"):          # tanh-capped, C=15 (mirror trainer)
+            eff = 1.0 + 15.0 * torch.tanh(self.scale_mult / 15.0)
+            q = q * eff[None, :, None, None].to(q.dtype)
         if past_key_values is not None:
             k, v = past_key_values.update(k, v, self.layer_idx)
         S_kv = k.shape[2]
@@ -99,7 +104,9 @@ class StieltjesGPT2ForCausalLM(PreTrainedModel, GenerationMixin):
     def __init__(self, config):
         super().__init__(config)
         self.wte = nn.Embedding(config.vocab_size, config.n_embd)
-        self.wpe = nn.Embedding(config.ctx, config.n_embd)
+        self.nope = getattr(config, "nope", False)
+        if not self.nope:
+            self.wpe = nn.Embedding(config.ctx, config.n_embd)
         self.blocks = nn.ModuleList(
             Block(config, i) for i in range(config.n_layer))
         self.ln_f = nn.LayerNorm(config.n_embd)
@@ -128,8 +135,11 @@ class StieltjesGPT2ForCausalLM(PreTrainedModel, GenerationMixin):
                 past_key_values = DynamicCache()
         past_len = (past_key_values.get_seq_length()
                     if isinstance(past_key_values, Cache) else 0)
-        pos = torch.arange(past_len, past_len + S, device=input_ids.device)
-        x = self.wte(input_ids) + self.wpe(pos.clamp(max=self.config.ctx - 1))[None]
+        x = self.wte(input_ids)
+        if not self.nope:                    # positional models add wpe (clamped);
+            pos = torch.arange(past_len, past_len + S,  # nope adds nothing, so it
+                               device=input_ids.device)  # accepts arbitrary length
+            x = x + self.wpe(pos.clamp(max=self.config.ctx - 1))[None]
         for blk in self.blocks:
             x = blk(x, past_key_values if use_cache else None, attention_mask)
         logits = self.head(self.ln_f(x))

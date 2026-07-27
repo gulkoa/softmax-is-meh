@@ -41,6 +41,9 @@ assert targs.attn in ("stj", "sdpa")
 cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           n_embd=targs.n_embd, ctx=targs.ctx,
                           stj_q=targs.stj_q,
+                          nope=getattr(targs, "nope", False),
+                          scale_learnable=getattr(targs, "scale_learnable",
+                                                  False),
                           attn=("sdpa" if targs.attn == "sdpa"
                                 else "stieltjes"))
 hf = StieltjesGPT2ForCausalLM(cfg)

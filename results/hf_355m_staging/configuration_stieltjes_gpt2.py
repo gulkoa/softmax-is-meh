@@ -13,9 +13,12 @@ class StieltjesGPT2Config(PretrainedConfig):
 
     def __init__(self, vocab_size=50304, n_layer=12, n_head=12, n_embd=768,
                  ctx=1024, stj_q=4.0, bisect_iters=50, use_cache=True,
-                 attn="stieltjes", bos_token_id=50256, eos_token_id=50256,
+                 attn="stieltjes", nope=False, scale_learnable=False,
+                 bos_token_id=50256, eos_token_id=50256,
                  tie_word_embeddings=True, **kwargs):
         self.attn = attn                     # "stieltjes" | "sdpa"
+        self.nope = nope                     # no positional embeddings
+        self.scale_learnable = scale_learnable  # capped per-head score scale
         self.vocab_size = vocab_size
         self.n_layer = n_layer
         self.n_head = n_head
