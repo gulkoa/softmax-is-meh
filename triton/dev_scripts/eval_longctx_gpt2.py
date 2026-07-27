@@ -65,7 +65,8 @@ def context_utilization(model, ids, ctx=1024, bs=16, max_windows=400):
 
 
 @torch.no_grad()
-def beyond_ctx_ppl(model, ids, lengths=(1024, 2048, 4096), max_tokens=400_000):
+def beyond_ctx_ppl(model, ids, lengths=(1024, 2048, 4096, 8192, 16384),
+                   max_tokens=600_000):
     out = {}
     for L in lengths:
         nll, count = 0.0, 0
@@ -96,20 +97,26 @@ def main():
         model.load_state_dict(blob["model"])
         model.eval()
 
-        # beyond-ctx eval feeds positions past the wpe table; clamp them
-        # (the trainer's GPT indexes wpe directly -> device assert at
-        # S > ctx). Saturated positions are the intended semantics here.
-        class _ClampedWPE(torch.nn.Module):
-            def __init__(self, wpe, maxpos):
-                super().__init__()
-                self.wpe, self.maxpos = wpe, maxpos
+        # Positional models: feeding S>ctx indexes wpe past its table
+        # (device assert), so clamp positions (saturated-position
+        # semantics — the degenerate beyond-ctx baseline). NoPE models
+        # have no wpe and their forward accepts arbitrary length
+        # natively — this is the true length-extrapolation regime, so
+        # NO clamp/wrapper.
+        is_nope = getattr(cfg, "nope", False)
+        if not is_nope:
+            class _ClampedWPE(torch.nn.Module):
+                def __init__(self, wpe, maxpos):
+                    super().__init__()
+                    self.wpe, self.maxpos = wpe, maxpos
 
-            def forward(self, pos):
-                return self.wpe(pos.clamp(max=self.maxpos))
+                def forward(self, pos):
+                    return self.wpe(pos.clamp(max=self.maxpos))
 
-        model.wpe = _ClampedWPE(model.wpe, cfg.ctx - 1)
+            model.wpe = _ClampedWPE(model.wpe, cfg.ctx - 1)
         name = os.path.basename(path)
-        print(f"\n===== {name} =====", flush=True)
+        print(f"\n===== {name} (nope={is_nope}) =====", flush=True)
+        LENS = (1024, 2048, 4096, 8192, 16384)
         for src_name, ids in [("pg19", pg), ("fineweb-val", fw_ids)]:
             util = context_utilization(model, ids, ctx=cfg.ctx)
             buck = "  ".join(f"[{a}-{b}):{u:.4f}"
@@ -119,10 +126,11 @@ def main():
             gain = util[0] - util[-1]
             print(f"  {src_name} context gain (bucket0 - bucket4): "
                   f"{gain:.4f} nats", flush=True)
-            bp = beyond_ctx_ppl(model, ids)
-            print(f"  {src_name} ppl @1024/2048/4096 (pos-saturated): "
-                  + " / ".join(f"{bp[L]:.2f}" for L in (1024, 2048, 4096)),
-                  flush=True)
+            bp = beyond_ctx_ppl(model, ids, lengths=LENS)
+            tag = "extrapolation" if is_nope else "pos-saturated"
+            print(f"  {src_name} ppl @{'/'.join(str(L) for L in LENS)} "
+                  f"({tag}): "
+                  + " / ".join(f"{bp[L]:.2f}" for L in LENS), flush=True)
         del model
         torch.cuda.empty_cache()
     print("DONE")
