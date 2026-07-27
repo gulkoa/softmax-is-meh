@@ -79,8 +79,10 @@ def deep_tail_ppl(model, ids, L, boost, train_len=1024, tail=512,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ckpt")
-    ap.add_argument("--alpha", type=float, default=1.0)
+    ap.add_argument("--alpha", default="0.5,1.0,1.5,2.0",
+                    help="comma-separated alphas to sweep")
     args = ap.parse_args()
+    alphas = [float(a) for a in str(args.alpha).split(",")]
 
     tok = AutoTokenizer.from_pretrained("gpt2")
     pg = long_token_stream(tok)
@@ -90,16 +92,21 @@ def main():
     model.load_state_dict(blob["model"])
     model.eval()
     train_len = cfg.ctx
-    print(f"nope={getattr(cfg,'nope',False)}  alpha={args.alpha}", flush=True)
+    print(f"nope={getattr(cfg,'nope',False)}  alpha sweep={alphas}",
+          flush=True)
 
     lens = (1024, 2048, 4096, 8192)
-    print(f"{'L':>7} {'boost':>7} {'deep@off':>10} {'deep@logn':>10}",
-          flush=True)
+    hdr = f"{'L':>7} {'off':>10} " + " ".join(
+        f"a={a:g}".rjust(10) for a in alphas)
+    print(hdr, flush=True)
     for L in lens:
-        boost = 1.0 + args.alpha * math.log(max(L, train_len) / train_len)
         off = deep_tail_ppl(model, pg, L, 1.0, train_len)
-        on = deep_tail_ppl(model, pg, L, boost, train_len)
-        print(f"{L:>7} {boost:>7.3f} {off:>10.1f} {on:>10.1f}", flush=True)
+        cells = []
+        for a in alphas:
+            boost = 1.0 + a * math.log(max(L, train_len) / train_len)
+            cells.append(deep_tail_ppl(model, pg, L, boost, train_len))
+        print(f"{L:>7} {off:>10.1f} "
+              + " ".join(f"{c:>10.1f}" for c in cells), flush=True)
     print("DONE", flush=True)
 
 
