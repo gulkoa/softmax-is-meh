@@ -66,20 +66,31 @@ def context_utilization(model, ids, ctx=1024, bs=16, max_windows=400):
 
 @torch.no_grad()
 def beyond_ctx_ppl(model, ids, lengths=(1024, 2048, 4096, 8192, 16384),
-                   max_tokens=600_000):
-    out = {}
+                   max_tokens=600_000, tail=512):
+    """Two curves per length L:
+    - 'win': ppl averaged over the whole L-window (dilutes deep-context
+      positions with easy early ones).
+    - 'deep': ppl over ONLY the last `tail` positions — tokens actually
+      predicted with ~L tokens of context. This is the clean
+      length-generalization signal for the stj-vs-sdpa comparison."""
+    win, deep = {}, {}
     for L in lengths:
-        nll, count = 0.0, 0
+        wn = wc = dn = dc = 0.0
+        d0 = max(0, L - tail)
         for lo in range(0, min(len(ids), max_tokens) - L - 1, L):
             x = ids[lo:lo + L][None].to(DEVICE)
             y = ids[lo + 1:lo + L + 1][None].to(DEVICE)
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 logits, _ = model(x)
-            nll += F.cross_entropy(logits.view(-1, logits.size(-1)),
-                                   y.view(-1)).item() * L
-            count += L
-        out[L] = math.exp(nll / count)
-    return out
+            tok_nll = F.cross_entropy(
+                logits[0].float(), y[0], reduction="none")   # (L,)
+            wn += tok_nll.sum().item()
+            wc += L
+            dn += tok_nll[d0:].sum().item()
+            dc += (L - d0)
+        win[L] = math.exp(wn / wc)
+        deep[L] = math.exp(dn / dc)
+    return win, deep
 
 
 def main():
@@ -126,11 +137,13 @@ def main():
             gain = util[0] - util[-1]
             print(f"  {src_name} context gain (bucket0 - bucket4): "
                   f"{gain:.4f} nats", flush=True)
-            bp = beyond_ctx_ppl(model, ids, lengths=LENS)
+            win, deep = beyond_ctx_ppl(model, ids, lengths=LENS)
             tag = "extrapolation" if is_nope else "pos-saturated"
-            print(f"  {src_name} ppl @{'/'.join(str(L) for L in LENS)} "
-                  f"({tag}): "
-                  + " / ".join(f"{bp[L]:.2f}" for L in LENS), flush=True)
+            hdr = "/".join(str(L) for L in LENS)
+            print(f"  {src_name} ppl @{hdr} ({tag}, window-avg): "
+                  + " / ".join(f"{win[L]:.2f}" for L in LENS), flush=True)
+            print(f"  {src_name} ppl @{hdr} ({tag}, deep-tail): "
+                  + " / ".join(f"{deep[L]:.2f}" for L in LENS), flush=True)
         del model
         torch.cuda.empty_cache()
     print("DONE")
