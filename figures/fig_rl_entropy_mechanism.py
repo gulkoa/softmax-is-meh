@@ -1,9 +1,11 @@
-"""Mechanism figure: heavy-tailed attention resists RL entropy collapse.
-The divergence (twin regresses held-out, stilt gains) is mechanistically
-an ENTROPY-COLLAPSE story: the softmax twin's policy collapses to
-near-deterministic early (min gen-entropy 0.47), overfitting the
-curriculum; the Stieltjes policy stays exploratory (min 1.99, ~4
-throughout) and generalizes.
+"""Mechanism figure: heavy-tailed attention maintains high generation
+entropy. The divergence (twin regresses held-out, stilt gains) tracks a
+generation-entropy gap that is MOSTLY STRUCTURAL: the softmax base
+already generates near-deterministically (step-0 entropy 0.85 vs stilt
+3.68), and stays low throughout (mean 2.40, transient min 0.47); stilt
+stays exploratory (step-0 3.68, mean 4.07, min 1.99). Exploratory ->
+generalizes; near-deterministic -> memorizes. (Not an RL-driven
+collapse: the twin entropy actually ROSE 0.85->2.87 over the run.)
 
 (Attention entropy showed only the STATIC structural difference —
 softmax sharper by construction — not the RL-driven divergence; that
@@ -59,15 +61,15 @@ ax.plot(*trend(stj), "-", color=STJ, lw=2.2, label="Stieltjes (generalizes)")
 ax.plot(*trend(sd), "-", color=SDPA, lw=2.2, label="softmax twin (regresses)")
 ax.axhline(stj[:, 1].min(), color=STJ, ls=":", lw=1, alpha=0.6)
 ax.axhline(sd[:, 1].min(), color=SDPA, ls=":", lw=1, alpha=0.6)
-ax.annotate(f"twin min {sd[:,1].min():.2f}\n(near-deterministic)",
+ax.annotate(f"twin base 0.85\n(structurally sharp)",
             (sd[sd[:, 1].argmin(), 0], sd[:, 1].min()),
-            (120, 0.9), color=SDPA, fontsize=7.5,
+            (120, 0.7), color=SDPA, fontsize=7.5,
             arrowprops=dict(arrowstyle="->", color=SDPA, lw=0.8))
-ax.text(300, 4.3, f"stilt min {stj[:,1].min():.2f}\n(stays exploratory)",
+ax.text(300, 4.4, "stilt base 3.68\n(exploratory)",
         color=STJ, fontsize=7.5, ha="center")
 ax.set_xlabel("GRPO step")
 ax.set_ylabel("policy (generation) entropy")
-ax.set_title("Heavy-tailed attention resists RL entropy collapse",
+ax.set_title("Stieltjes maintains high generation entropy\n(structural: base 3.68 vs 0.85; persistent under RL)",
              fontsize=9.5, loc="left")
 ax.legend(frameon=False, fontsize=8, loc="center right")
 ax.set_ylim(0, 6)
