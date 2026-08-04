@@ -58,10 +58,18 @@ class Shards:
             paths = sorted(glob.glob(os.path.join(d, "shard_*.bin")))
             assert len(paths) >= 2, f"need >=2 shards in {d}"
             use = paths[:-1] if split == "train" else paths[-1:]
+            self.paths_used = getattr(self, "paths_used", [])
+            self.paths_used += use
             self.sources.append([np.memmap(p, dtype=np.uint16, mode="r")
                                  for p in use])
             self.weights.append(weight)
         self.weights = np.asarray(self.weights) / sum(self.weights)
+
+    def fingerprint(self):
+        """Path + size of every shard in use — pins the val set identity
+        across resume chunks (a re-prepared shard dir silently changes
+        what 'val' means; item 10 trainer hygiene)."""
+        return [(p, os.path.getsize(p)) for p in self.paths_used]
 
     def batch(self, bs, ctx, rng, device):
         xs = np.empty((bs, ctx + 1), dtype=np.int64)
@@ -91,16 +99,46 @@ class Attn(nn.Module):
         # mandatory recipe whenever scales are learnable (2026-07-18)
         if getattr(cfg, "scale_learnable", False):
             self.scale_mult = nn.Parameter(torch.zeros(cfg.n_head))
+        self.rope = getattr(cfg, "rope", False)
+        self._rope_cache = None       # (S, cos, sin) — rebuilt on S change
+
+    def _rope_cos_sin(self, S, device):
+        if self._rope_cache is not None and self._rope_cache[0] == S:
+            return self._rope_cache[1], self._rope_cache[2]
+        theta = getattr(self.cfg, "rope_theta", 10000.0)
+        inv = 1.0 / (theta ** (torch.arange(0, self.hd, 2, device=device,
+                                            dtype=torch.float32) / self.hd))
+        t = torch.arange(S, device=device, dtype=torch.float32)
+        f = torch.outer(t, inv)                        # (S, hd/2)
+        cos = torch.cat((f.cos(), f.cos()), dim=-1)    # (S, hd)
+        sin = torch.cat((f.sin(), f.sin()), dim=-1)
+        self._rope_cache = (S, cos, sin)
+        return cos, sin
+
+    @staticmethod
+    def _apply_rope(x, cos, sin):
+        # x: (B, H, S, D), rotate-half convention; fp32 rotation for
+        # precision, cast back to input dtype
+        d = x.shape[-1] // 2
+        xf = x.float()
+        rot = torch.cat((-xf[..., d:], xf[..., :d]), dim=-1)
+        return (xf * cos[None, None] + rot * sin[None, None]).to(x.dtype)
 
     def forward(self, x):
         B, S, E = x.shape
         q, k, v = self.qkv(x).split(E, dim=2)
-        q = q.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
+        q = q.view(B, S, self.h, self.hd).transpose(1, 2)
+        k = k.view(B, S, self.h, self.hd).transpose(1, 2)
+        if self.rope:
+            cos, sin = self._rope_cos_sin(S, x.device)
+            q = self._apply_rope(q, cos, sin)
+            k = self._apply_rope(k, cos, sin)
+        q = q.contiguous()
         if hasattr(self, "scale_mult"):
             C = 15.0
             eff = 1.0 + C * torch.tanh(self.scale_mult / C)
             q = q * eff[None, :, None, None].to(q.dtype)
-        k = k.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
+        k = k.contiguous()
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
         if self.cfg.attn == "sdpa":
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
@@ -133,7 +171,10 @@ class GPT(nn.Module):
         super().__init__()
         self.cfg = cfg
         self.wte = nn.Embedding(VOCAB, cfg.n_embd)
-        self.nope = getattr(cfg, "nope", False)
+        # positional mode: learned wpe (default) | --nope (none) | --rope
+        # (rotary in attention). rope and nope both skip wpe — both are
+        # architecturally context-unbounded.
+        self.nope = getattr(cfg, "nope", False) or getattr(cfg, "rope", False)
         if not self.nope:
             self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg.n_layer))
@@ -186,12 +227,18 @@ def main():
     ap.add_argument("--val-every", type=int, default=250)
     ap.add_argument("--tag", default="")
     ap.add_argument("--nope", action="store_true")
+    ap.add_argument("--rope", action="store_true",
+                    help="rotary positions on q/k (no wpe; pre-kernel, "
+                         "zero kernel changes; context-unbounded)")
+    ap.add_argument("--rope-theta", type=float, default=10000.0,
+                    dest="rope_theta")
     ap.add_argument("--scale-learnable", action="store_true",
                     dest="scale_learnable")
     ap.add_argument("--data-mix", default=None, dest="data_mix",
                     help="'name=dir:weight,...' shard-source mix "
                          "(default: pure FW_DIR web)")
     args = ap.parse_args()
+    assert not (args.nope and args.rope), "--nope and --rope are exclusive"
 
     device = torch.device("cuda")
     torch.manual_seed(args.seed)
@@ -200,6 +247,7 @@ def main():
     label = (f"gpt2-{args.attn}"
              + (f"-q{args.stj_q:g}" if args.attn == "stj" else "")
              + ("-nope" if args.nope else "")
+             + ("-rope" if args.rope else "")
              + (f"-{args.tag}" if args.tag else "")
              + f"-lr{args.lr:g}")
     ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
@@ -227,21 +275,36 @@ def main():
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_at)
 
     start_step = 0
+    cum_wall = 0.0                     # seconds of train wall across chunks
+    val_fp = val_d.fingerprint()
     if os.path.exists(ckpt_path):
         blob = torch.load(ckpt_path, map_location="cpu", weights_only=False)
         model.load_state_dict(blob["model"])
         opt.load_state_dict(blob["opt"])
         sched.load_state_dict(blob["sched"])
         start_step = blob["step"] + 1
-        print(f"RESUMED from step {start_step}", flush=True)
+        cum_wall = blob.get("cum_wall", 0.0)
+        prev_fp = blob.get("val_fp")
+        if prev_fp is not None and prev_fp != val_fp:
+            print(f"WARNING: val-set fingerprint CHANGED since last chunk!\n"
+                  f"  was: {prev_fp}\n  now: {val_fp}\n"
+                  f"  val curves before/after this point are not comparable.",
+                  flush=True)
+        print(f"RESUMED from step {start_step} "
+              f"(cum wall {cum_wall/3600:.2f}h)", flush=True)
 
     run = wandb.init(
         project="stieltjes-flash-attn",
         name=f"{label}-s{args.seed}-{os.environ.get('SLURM_JOB_ID', 'local')}",
         config={**vars(args), "params": nparam, "total_steps": total_steps,
                 "tokens_per_step": tokens_per_step, "data": FW_DIR,
-                "resumed_from": start_step},
+                "resumed_from": start_step,
+                "gpu": torch.cuda.get_device_name(0),
+                "node": os.environ.get("SLURMD_NODENAME", "local"),
+                "jobid": os.environ.get("SLURM_JOB_ID", "local"),
+                "val_shards": [p for p, _ in val_fp]},
     )
+    chunk_t0 = time.time()
     rng = np.random.default_rng(args.seed * 100003 + start_step)
     vrng_seed = 424242
 
@@ -277,20 +340,31 @@ def main():
                         _, l = model(x, y)
                     vl += l.item()
             vl /= 20
+            wall_h = (cum_wall + time.time() - chunk_t0) / 3600
+            cum_tok = (step + 1) * tokens_per_step
             print(f"  [val] step {step} loss {vl:.4f} "
-                  f"ppl {math.exp(vl):.2f}", flush=True)
-            run.log({"step": step, "val_loss": vl})
+                  f"ppl {math.exp(vl):.2f} "
+                  f"(wall {wall_h:.2f}h, {cum_tok/1e9:.2f}B tok, "
+                  f"{cum_tok/1e6/max(wall_h,1e-9):.0f}M tok/GPU-h)",
+                  flush=True)
+            run.log({"step": step, "val_loss": vl, "cum_wall_h": wall_h,
+                     "cum_tokens": cum_tok,
+                     "tok_per_gpu_h": cum_tok / max(wall_h, 1e-9)})
             model.train()
         if step % args.ckpt_every == 0 and step > start_step:
             torch.save({"model": model.state_dict(),
                         "opt": opt.state_dict(),
                         "sched": sched.state_dict(),
-                        "step": step, "args": vars(args)}, ckpt_path)
+                        "step": step, "args": vars(args),
+                        "cum_wall": cum_wall + time.time() - chunk_t0,
+                        "val_fp": val_fp}, ckpt_path)
             print(f"  ckpt @ {step}", flush=True)
 
     torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
                 "sched": sched.state_dict(), "step": total_steps - 1,
-                "args": vars(args)}, ckpt_path)
+                "args": vars(args),
+                "cum_wall": cum_wall + time.time() - chunk_t0,
+                "val_fp": val_fp}, ckpt_path)
     print(f"FINAL ckpt: {ckpt_path}")
     run.finish()
     print("DONE")
