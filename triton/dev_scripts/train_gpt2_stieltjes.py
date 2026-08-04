@@ -317,7 +317,7 @@ def main():
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 _, loss = model(x, y)
             (loss / args.grad_accum).backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         sched.step()
 
@@ -326,8 +326,10 @@ def main():
             t0 = time.time()
             tps = tokens_per_step * (20 if step > start_step else 1) / max(dt, 1e-9)
             print(f"step {step:6d}/{total_steps} loss {loss.item():.4f} "
-                  f"({tps/1e3:.0f}k tok/s)", flush=True)
+                  f"gnorm {float(gnorm):.2f} ({tps/1e3:.0f}k tok/s)",
+                  flush=True)
             run.log({"step": step, "train_loss": loss.item(),
+                     "grad_norm": float(gnorm),
                      "tok_per_s": tps, "lr": sched.get_last_lr()[0]})
         if step % args.val_every == 0 and step > start_step:
             model.eval()
