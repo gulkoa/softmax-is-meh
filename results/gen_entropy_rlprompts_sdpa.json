@@ -1,0 +1,61 @@
+{
+  "arm": "sdpa",
+  "seed": 0,
+  "max_new": 128,
+  "rows": [
+    {
+      "arm": "sdpa",
+      "stage_idx": 0,
+      "stage": "init",
+      "ent_code_rl": 10.622437021683673,
+      "ntok_code_rl": 1960,
+      "ent_text": 10.62154769897461,
+      "ntok_text": 2048
+    },
+    {
+      "arm": "sdpa",
+      "stage_idx": 1,
+      "stage": "pretrain",
+      "ent_code_rl": 3.5283455893790445,
+      "ntok_code_rl": 2009,
+      "ent_text": 2.987067222595215,
+      "ntok_text": 2048
+    },
+    {
+      "arm": "sdpa",
+      "stage_idx": 2,
+      "stage": "it",
+      "ent_code_rl": 1.4415787984142325,
+      "ntok_code_rl": 1746,
+      "ent_text": 2.032633284092475,
+      "ntok_text": 1814
+    },
+    {
+      "arm": "sdpa",
+      "stage_idx": 3,
+      "stage": "it-code-r",
+      "ent_code_rl": 1.6589753116356791,
+      "ntok_code_rl": 1627,
+      "ent_text": 2.0031536380406694,
+      "ntok_text": 1838
+    },
+    {
+      "arm": "sdpa",
+      "stage_idx": 4,
+      "stage": "rl100",
+      "ent_code_rl": 3.323815682084088,
+      "ntok_code_rl": 1656,
+      "ent_text": 2.452595033231403,
+      "ntok_text": 2003
+    },
+    {
+      "arm": "sdpa",
+      "stage_idx": 5,
+      "stage": "rl300",
+      "ent_code_rl": 3.085344823309166,
+      "ntok_code_rl": 1181,
+      "ent_text": 2.8875402647166584,
+      "ntok_text": 2047
+    }
+  ]
+}

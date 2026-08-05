@@ -1,0 +1,61 @@
+{
+  "arm": "stj",
+  "seed": 0,
+  "max_new": 128,
+  "rows": [
+    {
+      "arm": "stj",
+      "stage_idx": 0,
+      "stage": "init",
+      "ent_code_rl": 10.622424125671387,
+      "ntok_code_rl": 2048,
+      "ent_text": 10.62162971496582,
+      "ntok_text": 2048
+    },
+    {
+      "arm": "stj",
+      "stage_idx": 1,
+      "stage": "pretrain",
+      "ent_code_rl": 6.384563446044922,
+      "ntok_code_rl": 2048,
+      "ent_text": 3.516378888785395,
+      "ntok_text": 2013
+    },
+    {
+      "arm": "stj",
+      "stage_idx": 2,
+      "stage": "it",
+      "ent_code_rl": 3.8129964095942332,
+      "ntok_code_rl": 1682,
+      "ent_text": 2.590578251880325,
+      "ntok_text": 1878
+    },
+    {
+      "arm": "stj",
+      "stage_idx": 3,
+      "stage": "it-code-r",
+      "ent_code_rl": 3.9695973849272215,
+      "ntok_code_rl": 1958,
+      "ent_text": 2.2105375942672185,
+      "ntok_text": 1873
+    },
+    {
+      "arm": "stj",
+      "stage_idx": 4,
+      "stage": "rl100",
+      "ent_code_rl": 4.416523619468168,
+      "ntok_code_rl": 1932,
+      "ent_text": 2.574940470502039,
+      "ntok_text": 1962
+    },
+    {
+      "arm": "stj",
+      "stage_idx": 5,
+      "stage": "rl300",
+      "ent_code_rl": 3.7964643158783784,
+      "ntok_code_rl": 1850,
+      "ent_text": 2.4029000565505703,
+      "ntok_text": 2017
+    }
+  ]
+}
