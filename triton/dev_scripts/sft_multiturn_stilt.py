@@ -173,6 +173,12 @@ def main():
     tok = AutoTokenizer.from_pretrained("gpt2")
     torch.manual_seed(args.seed)
 
+    out = args.base_ckpt.replace(".pt", args.out_suffix + ".pt")
+    prog = out + ".progress"
+    if os.path.exists(out):
+        print(f"FINAL exists ({out}) — nothing to do", flush=True)
+        return
+
     eff_ctx = args.ctx or cfg.ctx
     if args.ctx and args.ctx != cfg.ctx:
         assert getattr(cfg, "nope", False) or getattr(cfg, "rope", False), \
@@ -190,13 +196,22 @@ def main():
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: 0.5 * (1 + math.cos(math.pi * s / total_steps)))
     rng = np.random.default_rng(args.seed)
+    start_step = 0
+    if os.path.exists(prog):
+        pb = torch.load(prog, map_location="cpu", weights_only=False)
+        model.load_state_dict(pb["model"])
+        opt.load_state_dict(pb["opt"])
+        sched.load_state_dict(pb["sched"])
+        rng.bit_generator.state = pb["rng_state"]
+        start_step = pb["step"] + 1
+        print(f"RESUMED from step {start_step}", flush=True)
     gen = batches(xs, masks, args.bs, rng, tok.eos_token_id)
     run = wandb.init(project="stieltjes-flash-attn",
                      name=f"sftmt-{os.path.basename(args.base_ckpt)}"
                           f"-{os.environ.get('SLURM_JOB_ID', 'local')}",
                      config={**vars(args), "base_args": blob["args"]})
     model.train()
-    for step in range(total_steps):
+    for step in range(start_step, total_steps):
         x, m = next(gen)
         tgt_full = m[:, 1:]
         n_tgt = tgt_full.sum().clamp_min(1).float()
@@ -226,10 +241,18 @@ def main():
         if step % 50 == 0:
             print(f"step {step}/{total_steps} loss {loss_val:.4f}",
                   flush=True)
+        if step % 1500 == 0 and step > start_step:
+            torch.save({"model": model.state_dict(),
+                        "opt": opt.state_dict(),
+                        "sched": sched.state_dict(),
+                        "rng_state": rng.bit_generator.state,
+                        "step": step}, prog)
+            print(f"  progress ckpt @ {step}", flush=True)
 
-    out = args.base_ckpt.replace(".pt", args.out_suffix + ".pt")
     torch.save({"model": model.state_dict(), "args": vars(cfg),
                 "sftmt_args": vars(args)}, out)
+    if os.path.exists(prog):
+        os.remove(prog)
     print(f"saved {out}", flush=True)
 
     # multi-turn coherence demo: 3-turn conversation with back-reference
