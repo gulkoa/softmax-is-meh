@@ -224,7 +224,7 @@ def main():
         run.log({"step": step, "sft_loss": loss_val,
                  "grad_norm": float(gn), "lr": sched.get_last_lr()[0]})
         if step % 50 == 0:
-            print(f"step {step}/{total_steps} loss {loss.item():.4f}",
+            print(f"step {step}/{total_steps} loss {loss_val:.4f}",
                   flush=True)
 
     out = args.base_ckpt.replace(".pt", args.out_suffix + ".pt")
