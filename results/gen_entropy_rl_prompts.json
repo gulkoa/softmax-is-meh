@@ -1,0 +1,38 @@
+{
+ "code_rl": [
+  "<|user|>\nWrite a function to reverse words in a given string.\nYour code should pass these tests:\nassert reverse_words(\"python program\")==(\"program python\")\nassert reverse_words(\"java language\")==(\"language java\")\n<|assistant|>\n",
+  "<|user|>\nWrite a function to check if the given integer is a prime number.\nYour code should pass these tests:\nassert prime_num(13)==True\nassert prime_num(7)==True\n<|assistant|>\n",
+  "<|user|>\nWrite a function to convert degrees to radians.\nYour code should pass these tests:\nassert radian_degree(90)==1.5707963267948966\nassert radian_degree(60)==1.0471975511965976\n<|assistant|>\n",
+  "<|user|>\nWrite a function to find the maximum value in record list as tuple attribute in the given tuple list.\nYour code should pass these tests:\nassert maximum_value([('key1', [3, 4, 5]), ('key2', [1, 4, 2]), ('key3', [9, 3])]) == [('key1', 5), ('key2', 4), ('key3', 9)]\nassert maximum_value([('key1', [4, 5, 6]), ('key2', [2, 5, 3]), ('key3', [10, 4])]) == [('key1', 6), ('key2', 5), ('key3', 10)]\n<|assistant|>\n",
+  "<|user|>\nWrite a function to find the cumulative sum of all the values that are present in the given tuple list.\nYour code should pass these tests:\nassert cummulative_sum([(1, 3), (5, 6, 7), (2, 6)]) == 30\nassert cummulative_sum([(2, 4), (6, 7, 8), (3, 7)]) == 37\n<|assistant|>\n",
+  "<|user|>\nWrite a function to perfom the modulo of tuple elements in the given two tuples.\nYour code should pass these tests:\nassert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)\nassert tuple_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)\n<|assistant|>\n",
+  "<|user|>\nWrite a function to divide two lists using map and lambda function.\nYour code should pass these tests:\nassert div_list([4,5,6],[1, 2, 3])==[4.0,2.5,2.0]\nassert div_list([3,2],[1,4])==[3.0, 0.5]\n<|assistant|>\n",
+  "<|user|>\nWrite a function to find the n-th power of individual elements in a list using lambda function.\nYour code should pass these tests:\nassert nth_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]\nassert nth_nums([10,20,30],3)==([1000, 8000, 27000])\n<|assistant|>\n",
+  "<|user|>\nWrite a python function to convert the given string to upper case.\nYour code should pass these tests:\nassert is_upper(\"person\") ==\"PERSON\"\nassert is_upper(\"final\") == \"FINAL\"\n<|assistant|>\n",
+  "<|user|>\nWrite a python function to find even numbers from a mixed list.\nYour code should pass these tests:\nassert Split([1,2,3,4,5]) == [2,4]\nassert Split([4,5,6,7,8,0,1]) == [4,6,8,0]\n<|assistant|>\n",
+  "<|user|>\nWrite a function to replace whitespaces with an underscore and vice versa in a given string by using regex.\nYour code should pass these tests:\nassert replace_spaces('Jumanji The Jungle') == 'Jumanji_The_Jungle'\nassert replace_spaces('The Avengers') == 'The_Avengers'\n<|assistant|>\n",
+  "<|user|>\nWrite a python function to check if roots of a quadratic equation are reciprocal of each other or not.\nYour code should pass these tests:\nassert Check_Solution(2,0,2) == \"Yes\"\nassert Check_Solution(2,-5,2) == \"Yes\"\n<|assistant|>\n",
+  "<|user|>\nWrite a function to check whether the given amount has no profit and no loss\nYour code should pass these tests:\nassert noprofit_noloss(1500,1200)==False\nassert noprofit_noloss(100,100)==True\n<|assistant|>\n",
+  "<|user|>\nWrite a function that matches a word containing 'z', not at the start or end of the word.\nYour code should pass these tests:\nassert text_match_wordz_middle(\"pythonzabc.\")==('Found a match!')\nassert text_match_wordz_middle(\"xyzabc.\")==('Found a match!')\n<|assistant|>\n",
+  "<|user|>\nWrite a python function to reverse an array upto a given position.\nYour code should pass these tests:\nassert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]\nassert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]\n<|assistant|>\n",
+  "<|user|>\nWrite a function to split a string at uppercase letters.\nYour code should pass these tests:\nassert split_upperstring(\"PythonProgramLanguage\")==['Python','Program','Language']\nassert split_upperstring(\"PythonProgram\")==['Python','Program']\n<|assistant|>\n"
+ ],
+ "text": [
+  "The most surprising thing about the ocean is",
+  "In 1969, the first humans landed on the Moon. The mission",
+  "A good way to learn a new language is to",
+  "The city had been quiet for years, until one morning",
+  "Photosynthesis is the process by which plants",
+  "The recipe calls for three eggs, a cup of flour, and",
+  "Once upon a time, in a village at the edge of a forest,",
+  "The main difference between weather and climate is",
+  "She opened the old letter and began to read:",
+  "The invention of the printing press changed",
+  "To fix a flat bicycle tire, first",
+  "The history of mathematics begins with",
+  "The detective looked at the room and immediately noticed",
+  "Water boils at a lower temperature at high altitude because",
+  "The team gathered around the whiteboard to plan",
+  "Every winter, the birds fly south because"
+ ]
+}
