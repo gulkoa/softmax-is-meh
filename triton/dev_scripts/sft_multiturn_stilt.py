@@ -91,10 +91,16 @@ def encode_dialog(tok, messages, ctx, eot):
 
 
 def build_tensors(tok, ctx, min_asst, identity_path, upsample,
-                  max_examples=200_000):
+                  max_examples=200_000, dataset="smol", seed=0):
     eot = tok.eos_token_id
     xs, masks = [], []
-    ds = load_dataset("HuggingFaceTB/smol-smoltalk", split="train")
+    if dataset == "full":
+        # full smoltalk (all sources, incl. single-turn); seeded shuffle
+        # so the sample is source-balanced, not prefix-biased
+        ds = load_dataset("HuggingFaceTB/smoltalk", "all", split="train")
+        ds = ds.shuffle(seed=seed)
+    else:
+        ds = load_dataset("HuggingFaceTB/smol-smoltalk", split="train")
     kept_mt = trunc = 0
     for ex in ds.select(range(min(max_examples, len(ds)))):
         na = sum(1 for m in ex["messages"] if m["role"] == "assistant")
@@ -147,6 +153,17 @@ def main():
     ap.add_argument("--bs", type=int, default=24)
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--ctx", type=int, default=None,
+                    help="encoding/training context override (NoPE models "
+                         "train beyond their pretrain ctx; default cfg.ctx)")
+    ap.add_argument("--dataset", choices=["smol", "full"], default="smol",
+                    help="'full' = HuggingFaceTB/smoltalk (all sources)")
+    ap.add_argument("--max-examples", type=int, default=200_000)
+    ap.add_argument("--out-suffix", default="-mt",
+                    help="ckpt name suffix (use -it when this IS the it)")
+    ap.add_argument("--token-cap", type=int, default=24576,
+                    help="max padded tokens per micro-batch (long convos "
+                         "split the step; loss renormalized globally)")
     args = ap.parse_args()
 
     blob = torch.load(args.base_ckpt, map_location="cpu", weights_only=False)
@@ -156,8 +173,13 @@ def main():
     tok = AutoTokenizer.from_pretrained("gpt2")
     torch.manual_seed(args.seed)
 
-    xs, masks = build_tensors(tok, cfg.ctx, args.min_asst,
-                              args.identity, args.identity_upsample)
+    eff_ctx = args.ctx or cfg.ctx
+    if args.ctx and args.ctx != cfg.ctx:
+        assert getattr(cfg, "nope", False) or getattr(cfg, "rope", False), \
+            "--ctx beyond pretrain requires a position-free model"
+    xs, masks = build_tensors(tok, eff_ctx, args.min_asst,
+                              args.identity, args.identity_upsample,
+                              args.max_examples, args.dataset, args.seed)
     avg = float(np.mean([len(x) for x in xs]))
     total_steps = int(args.tokens // (args.bs * avg))
     print(f"multiturn SFT: {total_steps} steps (avg len {avg:.0f})",
@@ -176,22 +198,36 @@ def main():
     model.train()
     for step in range(total_steps):
         x, m = next(gen)
-        tgt = m[:, 1:]
+        tgt_full = m[:, 1:]
+        n_tgt = tgt_full.sum().clamp_min(1).float()
         opt.zero_grad(set_to_none=True)
-        with torch.autocast("cuda", dtype=torch.bfloat16):
-            logits, _ = model(x)
-            loss = F.cross_entropy(logits[:, :-1][tgt], x[:, 1:][tgt])
-        loss.backward()
+        # split rows into micro-batches under a padded-token cap (long
+        # convos at large --ctx OOM a full padded batch); loss summed per
+        # micro-batch and normalized by the step's total target count
+        B, L = x.shape
+        rows_per_mb = max(1, args.token_cap // L)
+        loss_val = 0.0
+        for i in range(0, B, rows_per_mb):
+            x_ = x[i:i + rows_per_mb]
+            t_ = tgt_full[i:i + rows_per_mb]
+            if t_.sum() == 0:
+                continue
+            with torch.autocast("cuda", dtype=torch.bfloat16):
+                logits, _ = model(x_)
+                mb = F.cross_entropy(logits[:, :-1][t_], x_[:, 1:][t_],
+                                     reduction="sum") / n_tgt
+            mb.backward()
+            loss_val += mb.item()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         sched.step()
-        run.log({"step": step, "sft_loss": loss.item(),
+        run.log({"step": step, "sft_loss": loss_val,
                  "grad_norm": float(gn), "lr": sched.get_last_lr()[0]})
         if step % 50 == 0:
             print(f"step {step}/{total_steps} loss {loss.item():.4f}",
                   flush=True)
 
-    out = args.base_ckpt.replace(".pt", "-mt.pt")
+    out = args.base_ckpt.replace(".pt", args.out_suffix + ".pt")
     torch.save({"model": model.state_dict(), "args": vars(cfg),
                 "sftmt_args": vars(args)}, out)
     print(f"saved {out}", flush=True)
@@ -218,7 +254,7 @@ def main():
             with torch.no_grad():
                 for _ in range(50):
                     with torch.autocast("cuda", dtype=torch.bfloat16):
-                        lg, _ = model(cur[:, -cfg.ctx:])
+                        lg, _ = model(cur[:, -eff_ctx:])
                     nx = lg[0, -1].argmax()
                     if nx.item() == tok.eos_token_id:
                         break
