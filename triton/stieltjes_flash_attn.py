@@ -1296,11 +1296,58 @@ def test_noncontiguous_layout():
     return all_passed
 
 
+def test_long_n_backward_nan():
+    """Diagnostic (not merge-gating): reproduce the deep-context SFT NaN.
+
+    Training gradients through the kernel at N~4096 NaN'd deterministically
+    in the nope-it SFT at ctx 4096 (2026-08-05, job 13326305: healthy
+    through step 200, NaN by 250) while eval-only forward is finite to
+    16k. Sweep N x dtype under the production recipe (causal, q=4,
+    normalize+ift_grad, Halley-3) with N NOT a multiple of BLOCK_N (so
+    padded key columns exist, the unmasked backward channel from the
+    07-12 review) and report where NaNs appear."""
+    torch.manual_seed(11)
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
+    print("\nLong-N backward NaN diagnostic (causal, q=4, normalize+ift, "
+          "N % BLOCK_N != 0)")
+    print("-" * 70)
+    any_nan = False
+    for N in (1000, 2000, 3800, 4100):
+        for dtype in (torch.bfloat16, torch.float16):
+            B, H, D = 2, 4, 64
+            q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            v = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            o = stieltjes_attention(q, k, v, causal=True,
+                                    sm_scale=1.0 / (D ** 0.5),
+                                    stieltjes_q=4.0, num_iter=3,
+                                    solver="halley", normalize=True,
+                                    ift_grad=True)
+            o.backward(torch.randn_like(o))
+            nans = {t: bool(g.isnan().any())
+                    for t, g in (("o", o.detach()), ("dq", q.grad),
+                                 ("dk", k.grad), ("dv", v.grad))}
+            bad = [t for t, n in nans.items() if n]
+            any_nan = any_nan or bool(bad)
+            print(f"  N={N:5d} {str(dtype)[6:]:9s}: "
+                  f"{'NaN in ' + ','.join(bad) if bad else 'clean'}",
+                  flush=True)
+    print("-" * 70)
+    print("DIAGNOSTIC:", "NaN REPRODUCED" if any_nan else
+          "no NaN at these shapes — SFT trigger is elsewhere "
+          "(padded batch rows / data-dependent scores)")
+    return True    # diagnostic only
+
+
 if __name__ == "__main__":
     print(f"Device: {DEVICE}\n")
     fwd_ok = test_forward_correctness()
     bwd_ok = test_backward_correctness()
     nc_ok = test_noncontiguous_layout()
+    test_long_n_backward_nan()
     if fwd_ok and bwd_ok and nc_ok:
         print("\n\nRunning benchmarks...\n")
         benchmark()
