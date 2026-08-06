@@ -1339,6 +1339,46 @@ def test_long_n_backward_nan():
     print("DIAGNOSTIC:", "NaN REPRODUCED" if any_nan else
           "no NaN at these shapes — SFT trigger is elsewhere "
           "(padded batch rows / data-dependent scores)")
+
+    # --- padded-row variant: simulate SFT batches (EOS-padded tails) ---
+    # Each row's tail is ONE repeated embedding vector (all pad positions
+    # embed the same token) and do is zero there (loss-masked). The
+    # padded rows' constant-score lambda-solve is the degenerate
+    # structure from the 2026-05-26 padded-query-row finding — benign at
+    # 1024 in the mt-SFT, hypothesized overflow at ~4096.
+    print("\nPadded-row variant (EOS-style repeated tail, do=0 on tail)")
+    print("-" * 70)
+    for N in (1000, 2000, 4100):
+        for frac in (0.3, 0.7):
+            L = int(N * (1 - frac))         # real length; tail is padding
+            B, H, D = 2, 4, 64
+            dtype = torch.bfloat16
+            q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            v = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            pad = torch.randn(B, 1, 1, D, device=DEVICE, dtype=dtype)
+            for t in (q, k, v):
+                t[:, :, L:, :] = pad        # identical embedding on tail
+            q, k, v = (t.requires_grad_(True) for t in (q, k, v))
+            o = stieltjes_attention(q, k, v, causal=True,
+                                    sm_scale=1.0 / (D ** 0.5),
+                                    stieltjes_q=4.0, num_iter=3,
+                                    solver="halley", normalize=True,
+                                    ift_grad=True)
+            do = torch.randn_like(o)
+            do[:, :, L:, :] = 0             # loss-masked padded rows
+            o.backward(do)
+            nans = [t for t, g in (("o", o.detach()), ("dq", q.grad),
+                                   ("dk", k.grad), ("dv", v.grad))
+                    if bool(g.isnan().any())]
+            infs = [t for t, g in (("dq", q.grad), ("dk", k.grad),
+                                   ("dv", v.grad))
+                    if bool(g.isinf().any())]
+            print(f"  N={N:5d} pad={int(frac*100)}%: "
+                  f"{'NaN in ' + ','.join(nans) if nans else 'no NaN'}"
+                  f"{'; Inf in ' + ','.join(infs) if infs else ''}",
+                  flush=True)
+    print("-" * 70)
     return True    # diagnostic only
 
 
