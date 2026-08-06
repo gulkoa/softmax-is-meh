@@ -1069,7 +1069,7 @@ def test_forward_correctness():
 
         tri = stieltjes_attention(
             q, k, v, causal=causal, sm_scale=sm_scale,
-            stieltjes_q=sq, num_iter=5,
+            stieltjes_q=sq, num_iter=10,
         ).half()
 
         max_err = (tri - ref).abs().max().item()
@@ -1134,7 +1134,7 @@ def test_backward_correctness():
         v_tri = v_ref.detach().clone().to(torch.float16).requires_grad_(True)
 
         o_tri = stieltjes_attention(q_tri, k_tri, v_tri, causal=causal, sm_scale=sm_scale,
-                                    stieltjes_q=sq, num_iter=5)
+                                    stieltjes_q=sq, num_iter=10)
         o_tri.backward(do.to(torch.float16))
         dq_tri = q_tri.grad.float()
         dk_tri = k_tri.grad.float()
@@ -1268,11 +1268,11 @@ def test_noncontiguous_layout():
 
         o_nc = stieltjes_attention(q_nc, k_nc, v_nc, causal=causal,
                                    sm_scale=sm_scale, stieltjes_q=sq,
-                                   num_iter=5, normalize=normalize,
+                                   num_iter=10, normalize=normalize,
                                    ift_grad=ift)
         o_c = stieltjes_attention(q_c, k_c, v_c, causal=causal,
                                   sm_scale=sm_scale, stieltjes_q=sq,
-                                  num_iter=5, normalize=normalize,
+                                  num_iter=10, normalize=normalize,
                                   ift_grad=ift)
         fwd_err = (o_nc - o_c).abs().max().item()
 
