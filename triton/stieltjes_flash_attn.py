@@ -170,6 +170,7 @@ def _stieltjes_attn_fwd(
     stride_oz, stride_oh, stride_om, stride_ok,
     sm_scale,
     N_CTX,
+    H,                       # true number of heads (see off_z/off_h below)
     sq: tl.constexpr,        # Stieltjes q parameter
     NUM_ITER: tl.constexpr,  # solver iterations (NR or Halley)
     HALLEY: tl.constexpr,    # cubic-convergence solver (fewer sweeps)
@@ -185,13 +186,12 @@ def _stieltjes_attn_fwd(
     off_hz = tl.program_id(1)
 
     # off_hz indexes into the flattened (B, H) dims: off_hz = off_z * H + off_h.
-    # Recover batch and head indices and compute base offsets using both z and h strides.
-    # For standard contiguous (B, H, N, D) layout, stride_qz = H * stride_qh and
-    # H_eff below equals the true number of heads, so this reduces to the original
-    # formula q_offset = off_hz * stride_qh, etc.
-    H_eff = stride_qz // stride_qh
-    off_z = off_hz // H_eff
-    off_h = off_hz % H_eff
+    # H must be passed explicitly: deriving it as stride_qz // stride_qh is
+    # only valid for contiguous (B, H, N, D) tensors and silently mis-addresses
+    # fused-qkv split+transpose views at B > 1 (stride_qz = 3*T*H*D there, so
+    # off_z collapses to 0 for every program — 2026-08-04 audit).
+    off_z = off_hz // H
+    off_h = off_hz % H
 
     q_offset = off_z * stride_qz + off_h * stride_qh
     k_offset = off_z * stride_kz + off_h * stride_kh
@@ -415,7 +415,7 @@ def _stieltjes_bwd_delta(
     stride_kz, stride_kh, stride_kn, stride_kk,
     stride_vz, stride_vh, stride_vn, stride_vk,
     stride_doz, stride_doh, stride_dom, stride_dok,
-    sm_scale, N_CTX,
+    sm_scale, N_CTX, H,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
@@ -427,9 +427,10 @@ def _stieltjes_bwd_delta(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    H_eff = stride_qz // stride_qh
-    off_z = off_hz // H_eff
-    off_h = off_hz % H_eff
+    # H passed explicitly — stride-derived H_eff mis-addresses non-contiguous
+    # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
+    off_z = off_hz // H
+    off_h = off_hz % H
 
     q_off = off_z * stride_qz + off_h * stride_qh
     k_off = off_z * stride_kz + off_h * stride_kh
@@ -493,7 +494,7 @@ def _stieltjes_bwd_dkdv(
     stride_doz, stride_doh, stride_dom, stride_dok,
     stride_dkz, stride_dkh, stride_dkn, stride_dkk,
     stride_dvz, stride_dvh, stride_dvn, stride_dvk,
-    sm_scale, N_CTX,
+    sm_scale, N_CTX, H,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
@@ -523,9 +524,10 @@ def _stieltjes_bwd_dkdv(
     start_n = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    H_eff = stride_qz // stride_qh
-    off_z = off_hz // H_eff
-    off_h = off_hz % H_eff
+    # H passed explicitly — stride-derived H_eff mis-addresses non-contiguous
+    # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
+    off_z = off_hz // H
+    off_h = off_hz % H
 
     k_off = off_z * stride_kz + off_h * stride_kh
     v_off = off_z * stride_vz + off_h * stride_vh
@@ -633,7 +635,7 @@ def _stieltjes_bwd_dq(
     stride_vz, stride_vh, stride_vn, stride_vk,
     stride_doz, stride_doh, stride_dom, stride_dok,
     stride_dqz, stride_dqh, stride_dqm, stride_dqk,
-    sm_scale, N_CTX,
+    sm_scale, N_CTX, H,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
@@ -652,9 +654,10 @@ def _stieltjes_bwd_dq(
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
 
-    H_eff = stride_qz // stride_qh
-    off_z = off_hz // H_eff
-    off_h = off_hz % H_eff
+    # H passed explicitly — stride-derived H_eff mis-addresses non-contiguous
+    # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
+    off_z = off_hz // H
+    off_h = off_hz % H
 
     q_off = off_z * stride_qz + off_h * stride_qh
     k_off = off_z * stride_kz + off_h * stride_kh
@@ -814,6 +817,10 @@ class StieltjesAttention(torch.autograd.Function):
         else:                          # fp16 / bf16 at D in {128, 256}
             BLOCK_M, BLOCK_N = 64, 64
 
+        if B * H > 65535:
+            raise ValueError(
+                f"B*H = {B * H} exceeds the CUDA grid-dim limit (65535); "
+                "split the batch before calling stieltjes_attention")
         grid = (triton.cdiv(N, BLOCK_M), B * H)
 
         _stieltjes_attn_fwd[grid](
@@ -826,6 +833,7 @@ class StieltjesAttention(torch.autograd.Function):
             o.stride(0), o.stride(1), o.stride(2), o.stride(3),
             sm_scale,
             N,
+            H,
             sq=stieltjes_q,
             NUM_ITER=num_iter,
             HALLEY=(solver == "halley"),
@@ -903,7 +911,7 @@ class StieltjesAttention(torch.autograd.Function):
         do_strides = (do.stride(0), do.stride(1), do.stride(2), do.stride(3))
 
         common_args = dict(
-            sm_scale=sm_scale, N_CTX=N,
+            sm_scale=sm_scale, N_CTX=N, H=H,
             sq=sq, EPS=1e-6,
             HEAD_DIM=D, BLOCK_M=BLOCK_M, BLOCK_N=BLOCK_N,
             CAUSAL=causal,
@@ -1061,7 +1069,7 @@ def test_forward_correctness():
 
         tri = stieltjes_attention(
             q, k, v, causal=causal, sm_scale=sm_scale,
-            stieltjes_q=sq, num_iter=5,
+            stieltjes_q=sq, num_iter=10,
         ).half()
 
         max_err = (tri - ref).abs().max().item()
@@ -1126,7 +1134,7 @@ def test_backward_correctness():
         v_tri = v_ref.detach().clone().to(torch.float16).requires_grad_(True)
 
         o_tri = stieltjes_attention(q_tri, k_tri, v_tri, causal=causal, sm_scale=sm_scale,
-                                    stieltjes_q=sq, num_iter=5)
+                                    stieltjes_q=sq, num_iter=10)
         o_tri.backward(do.to(torch.float16))
         dq_tri = q_tri.grad.float()
         dk_tri = k_tri.grad.float()
@@ -1218,10 +1226,168 @@ def benchmark():
     bench_fn.run(save_path=".", print_data=True)
 
 
+def test_noncontiguous_layout():
+    """Regression test for the H_eff stride bug (2026-08-04 audit).
+
+    Fused-qkv split+transpose views (the nanoGPT layout) at B > 1 must match
+    the contiguous path in forward AND backward. Pre-fix, the stride-derived
+    H_eff collapsed off_z to 0, so every batch row >= 1 silently read batch
+    0's K/V projections (in-bounds garbage; exact at B = 1 only).
+    """
+    torch.manual_seed(7)
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
+    B, H, N, D = 3, 4, 256, 64
+    C = H * D
+    sm_scale = 1.0 / (D ** 0.5)
+
+    print("\nNon-contiguous layout tests (fused-qkv views vs contiguous, B=3)")
+    print("-" * 70)
+    all_passed = True
+
+    # (causal, sq, normalize, ift_grad) — cover default IFT, normalized, and
+    # the training recipe (normalize + ift_grad).
+    cases = [
+        (False, 1.0, False, False),
+        (True,  1.0, False, False),
+        (True,  4.0, True,  False),
+        (True,  4.0, True,  True),
+    ]
+    for causal, sq, normalize, ift in cases:
+        qkv = torch.randn(B, N, 3 * C, device=DEVICE, dtype=torch.float16,
+                          requires_grad=True)
+        qv, kv, vv = qkv.split(C, dim=2)
+        q_nc = qv.view(B, N, H, D).transpose(1, 2)   # non-contiguous views
+        k_nc = kv.view(B, N, H, D).transpose(1, 2)
+        v_nc = vv.view(B, N, H, D).transpose(1, 2)
+
+        qkv_c = qkv.detach().clone().requires_grad_(True)
+        qc, kc, vc = qkv_c.split(C, dim=2)
+        q_c = qc.view(B, N, H, D).transpose(1, 2).contiguous()
+        k_c = kc.view(B, N, H, D).transpose(1, 2).contiguous()
+        v_c = vc.view(B, N, H, D).transpose(1, 2).contiguous()
+
+        o_nc = stieltjes_attention(q_nc, k_nc, v_nc, causal=causal,
+                                   sm_scale=sm_scale, stieltjes_q=sq,
+                                   num_iter=10, normalize=normalize,
+                                   ift_grad=ift)
+        o_c = stieltjes_attention(q_c, k_c, v_c, causal=causal,
+                                  sm_scale=sm_scale, stieltjes_q=sq,
+                                  num_iter=10, normalize=normalize,
+                                  ift_grad=ift)
+        fwd_err = (o_nc - o_c).abs().max().item()
+
+        do = torch.randn_like(o_nc)
+        o_nc.backward(do)
+        o_c.backward(do)
+        bwd_err = (qkv.grad - qkv_c.grad).abs().max().item()
+
+        passed = fwd_err < 1e-4 and bwd_err < 2e-3
+        if not passed:
+            all_passed = False
+        status = "PASS" if passed else "FAIL"
+        print(f"  [{status}] causal={causal!s:5s} q={sq} norm={normalize!s:5s} "
+              f"ift={ift!s:5s}  fwd_err={fwd_err:.6f}  bwd_err={bwd_err:.6f}")
+
+    print("-" * 70)
+    if all_passed:
+        print("All non-contiguous layout tests passed.")
+    else:
+        print("Some non-contiguous layout tests FAILED.")
+    return all_passed
+
+
+def test_long_n_backward_nan():
+    """Diagnostic (not merge-gating): reproduce the deep-context SFT NaN.
+
+    Training gradients through the kernel at N~4096 NaN'd deterministically
+    in the nope-it SFT at ctx 4096 (2026-08-05, job 13326305: healthy
+    through step 200, NaN by 250) while eval-only forward is finite to
+    16k. Sweep N x dtype under the production recipe (causal, q=4,
+    normalize+ift_grad, Halley-3) with N NOT a multiple of BLOCK_N (so
+    padded key columns exist, the unmasked backward channel from the
+    07-12 review) and report where NaNs appear."""
+    torch.manual_seed(11)
+    DEVICE = torch.device('cuda', triton.runtime.driver.active.get_current_device())
+    print("\nLong-N backward NaN diagnostic (causal, q=4, normalize+ift, "
+          "N % BLOCK_N != 0)")
+    print("-" * 70)
+    any_nan = False
+    for N in (1000, 2000, 3800, 4100):
+        for dtype in (torch.bfloat16, torch.float16):
+            B, H, D = 2, 4, 64
+            q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            v = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype,
+                            requires_grad=True)
+            o = stieltjes_attention(q, k, v, causal=True,
+                                    sm_scale=1.0 / (D ** 0.5),
+                                    stieltjes_q=4.0, num_iter=3,
+                                    solver="halley", normalize=True,
+                                    ift_grad=True)
+            o.backward(torch.randn_like(o))
+            nans = {t: bool(g.isnan().any())
+                    for t, g in (("o", o.detach()), ("dq", q.grad),
+                                 ("dk", k.grad), ("dv", v.grad))}
+            bad = [t for t, n in nans.items() if n]
+            any_nan = any_nan or bool(bad)
+            print(f"  N={N:5d} {str(dtype)[6:]:9s}: "
+                  f"{'NaN in ' + ','.join(bad) if bad else 'clean'}",
+                  flush=True)
+    print("-" * 70)
+    print("DIAGNOSTIC:", "NaN REPRODUCED" if any_nan else
+          "no NaN at these shapes — SFT trigger is elsewhere "
+          "(padded batch rows / data-dependent scores)")
+
+    # --- padded-row variant: simulate SFT batches (EOS-padded tails) ---
+    # Each row's tail is ONE repeated embedding vector (all pad positions
+    # embed the same token) and do is zero there (loss-masked). The
+    # padded rows' constant-score lambda-solve is the degenerate
+    # structure from the 2026-05-26 padded-query-row finding — benign at
+    # 1024 in the mt-SFT, hypothesized overflow at ~4096.
+    print("\nPadded-row variant (EOS-style repeated tail, do=0 on tail)")
+    print("-" * 70)
+    for N in (1000, 2000, 4100):
+        for frac in (0.3, 0.7):
+            L = int(N * (1 - frac))         # real length; tail is padding
+            B, H, D = 2, 4, 64
+            dtype = torch.bfloat16
+            q = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            k = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            v = torch.randn(B, H, N, D, device=DEVICE, dtype=dtype)
+            pad = torch.randn(B, 1, 1, D, device=DEVICE, dtype=dtype)
+            for t in (q, k, v):
+                t[:, :, L:, :] = pad        # identical embedding on tail
+            q, k, v = (t.requires_grad_(True) for t in (q, k, v))
+            o = stieltjes_attention(q, k, v, causal=True,
+                                    sm_scale=1.0 / (D ** 0.5),
+                                    stieltjes_q=4.0, num_iter=3,
+                                    solver="halley", normalize=True,
+                                    ift_grad=True)
+            do = torch.randn_like(o)
+            do[:, :, L:, :] = 0             # loss-masked padded rows
+            o.backward(do)
+            nans = [t for t, g in (("o", o.detach()), ("dq", q.grad),
+                                   ("dk", k.grad), ("dv", v.grad))
+                    if bool(g.isnan().any())]
+            infs = [t for t, g in (("dq", q.grad), ("dk", k.grad),
+                                   ("dv", v.grad))
+                    if bool(g.isinf().any())]
+            print(f"  N={N:5d} pad={int(frac*100)}%: "
+                  f"{'NaN in ' + ','.join(nans) if nans else 'no NaN'}"
+                  f"{'; Inf in ' + ','.join(infs) if infs else ''}",
+                  flush=True)
+    print("-" * 70)
+    return True    # diagnostic only
+
+
 if __name__ == "__main__":
     print(f"Device: {DEVICE}\n")
     fwd_ok = test_forward_correctness()
     bwd_ok = test_backward_correctness()
-    if fwd_ok and bwd_ok:
+    nc_ok = test_noncontiguous_layout()
+    test_long_n_backward_nan()
+    if fwd_ok and bwd_ok and nc_ok:
         print("\n\nRunning benchmarks...\n")
         benchmark()
