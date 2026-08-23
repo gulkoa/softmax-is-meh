@@ -99,6 +99,16 @@ class Attn(nn.Module):
         # mandatory recipe whenever scales are learnable (2026-07-18)
         if getattr(cfg, "scale_learnable", False):
             self.scale_mult = nn.Parameter(torch.zeros(cfg.n_head))
+        # cap C for the learnable scale: eff = 1 + C*tanh(m/C); C=0 => uncapped
+        # (eff = 1 + m). Default 15 = the 2026-07-18 recipe.
+        self.scale_cap = float(getattr(cfg, "scale_cap", 15.0))
+        # QK-norm (plan 2026-08-16): RMS-normalize q and k over the head dim
+        # with a per-head learnable gain (init 1) BEFORE RoPE and before the
+        # scale multiplier. Bounds |score| <= g_q*g_k*sqrt(hd).
+        self.qk_norm = getattr(cfg, "qk_norm", False)
+        if self.qk_norm:
+            self.q_gain = nn.Parameter(torch.ones(cfg.n_head))
+            self.k_gain = nn.Parameter(torch.ones(cfg.n_head))
         self.rope = getattr(cfg, "rope", False)
         self._rope_cache = None       # (S, cos, sin) — rebuilt on S change
 
@@ -116,6 +126,13 @@ class Attn(nn.Module):
         return cos, sin
 
     @staticmethod
+    def _rms_head(x, gain, eps=1e-6):
+        # x: (B, H, S, D) -> unit-RMS over D (fp32), times per-head gain
+        xf = x.float()
+        xf = xf * torch.rsqrt(xf.pow(2).mean(-1, keepdim=True) + eps)
+        return (xf * gain.float()[None, :, None, None]).to(x.dtype)
+
+    @staticmethod
     def _apply_rope(x, cos, sin):
         # x: (B, H, S, D), rotate-half convention; fp32 rotation for
         # precision, cast back to input dtype
@@ -129,14 +146,20 @@ class Attn(nn.Module):
         q, k, v = self.qkv(x).split(E, dim=2)
         q = q.view(B, S, self.h, self.hd).transpose(1, 2)
         k = k.view(B, S, self.h, self.hd).transpose(1, 2)
+        if self.qk_norm:
+            q = self._rms_head(q, self.q_gain)
+            k = self._rms_head(k, self.k_gain)
         if self.rope:
             cos, sin = self._rope_cos_sin(S, x.device)
             q = self._apply_rope(q, cos, sin)
             k = self._apply_rope(k, cos, sin)
         q = q.contiguous()
         if hasattr(self, "scale_mult"):
-            C = 15.0
-            eff = 1.0 + C * torch.tanh(self.scale_mult / C)
+            C = self.scale_cap
+            if C > 0:
+                eff = 1.0 + C * torch.tanh(self.scale_mult / C)
+            else:
+                eff = 1.0 + self.scale_mult
             q = q * eff[None, :, None, None].to(q.dtype)
         k = k.contiguous()
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
@@ -234,6 +257,12 @@ def main():
                     dest="rope_theta")
     ap.add_argument("--scale-learnable", action="store_true",
                     dest="scale_learnable")
+    ap.add_argument("--scale-cap", type=float, default=15.0,
+                    dest="scale_cap",
+                    help="tanh cap C on the learnable scale (0 = uncapped)")
+    ap.add_argument("--qk-norm", action="store_true", dest="qk_norm",
+                    help="RMS-normalize q/k per head (learnable per-head "
+                         "gain) before RoPE/scale — plan 2026-08-16")
     ap.add_argument("--data-mix", default=None, dest="data_mix",
                     help="'name=dir:weight,...' shard-source mix "
                          "(default: pure FW_DIR web)")
@@ -248,6 +277,9 @@ def main():
              + (f"-q{args.stj_q:g}" if args.attn == "stj" else "")
              + ("-nope" if args.nope else "")
              + ("-rope" if args.rope else "")
+             + ("-qk" if args.qk_norm else "")
+             + ("-nocap" if (args.scale_learnable and args.scale_cap == 0)
+                else "")
              + (f"-{args.tag}" if args.tag else "")
              + f"-lr{args.lr:g}")
     ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
