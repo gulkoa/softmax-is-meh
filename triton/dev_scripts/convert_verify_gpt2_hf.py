@@ -42,6 +42,8 @@ cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           n_embd=targs.n_embd, ctx=targs.ctx,
                           stj_q=targs.stj_q,
                           nope=getattr(targs, "nope", False),
+                          rope=getattr(targs, "rope", False),
+                          rope_theta=getattr(targs, "rope_theta", 10000.0),
                           scale_learnable=getattr(targs, "scale_learnable",
                                                   False),
                           attn=("sdpa" if targs.attn == "sdpa"
