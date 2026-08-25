@@ -13,7 +13,7 @@ Usage: python add_chat_model.py GulkoA/stilt.1.1-355m-nope-it \
 import argparse, os, re, subprocess, sys, time
 from huggingface_hub import HfApi, get_token
 
-SPACE = "GulkoA/stiltchat"
+SPACE = "GulkoA/stieltjes-gpt2-chat"
 STAGING = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_space_staging"
 
 
