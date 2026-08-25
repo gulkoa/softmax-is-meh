@@ -101,6 +101,10 @@ def main():
     ap.add_argument("--per-position", default=None, dest="perpos",
                     help="alpha for length-agnostic per-position boost "
                          "(one setting, all lengths)")
+    ap.add_argument("--theta-mult", default=None, dest="theta_mult",
+                    help="RoPE models: comma-separated rope_theta "
+                         "multipliers to sweep (NTK-style context "
+                         "extension); replaces the alpha sweep")
     args = ap.parse_args()
     alphas = [float(a) for a in str(args.alpha).split(",")]
 
@@ -116,6 +120,27 @@ def main():
           flush=True)
 
     lens = (1024, 2048, 4096, 8192)
+    if args.theta_mult is not None:
+        assert getattr(cfg, "rope", False), "--theta-mult needs a rope ckpt"
+        mults = [float(m) for m in str(args.theta_mult).split(",")]
+        base = float(getattr(cfg, "rope_theta", 10000.0))
+        hdr = f"{'L':>7} " + " ".join(f"th x{m:g}".rjust(10) for m in mults)
+        print(hdr, flush=True)
+        attns = [m for m in model.modules() if hasattr(m, "_rope_cache")]
+        for L in lens:
+            cells = []
+            for mult in mults:
+                cfg.rope_theta = base * mult
+                for a_ in attns:
+                    a_._rope_cache = None
+                cells.append(deep_tail_ppl(model, pg, L, 1.0, train_len))
+            cfg.rope_theta = base
+            for a_ in attns:
+                a_._rope_cache = None
+            print(f"{L:>7} " + " ".join(f"{c:>10.1f}" for c in cells),
+                  flush=True)
+        print("DONE", flush=True)
+        return
     global _PERPOS
     if args.perpos is not None:
         a = float(args.perpos)
