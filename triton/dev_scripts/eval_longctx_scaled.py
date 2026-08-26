@@ -127,13 +127,21 @@ def main():
         hdr = f"{'L':>7} " + " ".join(f"th x{m:g}".rjust(10) for m in mults)
         print(hdr, flush=True)
         attns = [m for m in model.modules() if hasattr(m, "_rope_cache")]
+        # optional combined grid: sharpening boost on top of theta scaling
+        combo_alphas = ([0.0] if args.alpha == ap.get_default("alpha")
+                        else [float(x) for x in str(args.alpha).split(",")])
         for L in lens:
             cells = []
             for mult in mults:
                 cfg.rope_theta = base * mult
                 for a_ in attns:
                     a_._rope_cache = None
-                cells.append(deep_tail_ppl(model, pg, L, 1.0, train_len))
+                best = None
+                for ca in combo_alphas:
+                    boost = 1.0 + ca * math.log(max(L, train_len) / train_len)
+                    v = deep_tail_ppl(model, pg, L, boost, train_len)
+                    best = v if best is None or v < best else best
+                cells.append(best)
             cfg.rope_theta = base
             for a_ in attns:
                 a_._rope_cache = None
