@@ -127,10 +127,11 @@ class Attn(nn.Module):
 
     @staticmethod
     def _rms_head(x, gain, eps=1e-6):
-        # x: (B, H, S, D) -> unit-RMS over D (fp32), times per-head gain
-        xf = x.float()
-        xf = xf * torch.rsqrt(xf.pow(2).mean(-1, keepdim=True) + eps)
-        return (xf * gain.float()[None, :, None, None]).to(x.dtype)
+        # x: (B, H, S, D) -> unit-RMS over D, times per-head gain.
+        # F.rms_norm is a fused kernel (internally fp32-accumulated);
+        # the unfused fp32 version cost ~25-30% throughput at 124M.
+        y = F.rms_norm(x, (x.shape[-1],), eps=eps)
+        return y * gain[None, :, None, None].to(y.dtype)
 
     @staticmethod
     def _apply_rope(x, cos, sin):
