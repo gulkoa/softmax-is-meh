@@ -37,7 +37,7 @@ def probe(ckpt_path, ctxs, batches, mix):
     for ctx in ctxs:
         stats = []
         for b in range(batches):
-            ids, _ = val.batch(8, ctx, rng, DEVICE)
+            ids, _ = val.batch(2, ctx, rng, DEVICE)
             with torch.no_grad():
                 model(ids)
             for a in attns:
@@ -60,10 +60,16 @@ def probe(ckpt_path, ctxs, batches, mix):
                            if C > 0 else 1.0 + a.scale_mult)
                     q = q * eff[None, :, None, None].to(q.dtype)
                 s = torch.einsum("bhsd,bhtd->bhst", q.float(), k.float())
-                s = (s / math.sqrt(a.hd)).abs()
+                s = (s / math.sqrt(a.hd)).abs().flatten()
+                # subsample for quantiles: exact quantile on the full
+                # score tensor OOMs at ctx 2048 x 12 layers
+                idx = torch.randint(s.numel(), (min(2_000_000, s.numel()),),
+                                    device=s.device)
+                sub = s[idx]
                 stats.append(torch.quantile(
-                    s.flatten(2).to(torch.float32),
-                    torch.tensor([0.5, 0.99], device=s.device), dim=-1).cpu())
+                    sub, torch.tensor([0.5, 0.99], device=s.device)).cpu())
+                del s, sub, cap[a]
+                torch.cuda.empty_cache()
         st = torch.stack(stats)          # (n, 2, B?, H) -> aggregate
         out[ctx] = {"p50": float(st[:, 0].median()),
                     "p99_mean": float(st[:, 1].mean()),
