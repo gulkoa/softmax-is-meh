@@ -174,15 +174,39 @@ class Attn(nn.Module):
         return self.proj(o.transpose(1, 2).reshape(B, S, E))
 
 
+class SwiGLU(nn.Module):
+    # gate/up/down MLP; hidden sized to match 4d GELU params:
+    # GELU params = 8d^2; SwiGLU params = 3*d*h => h = 8d/3 (rounded /64)
+    def __init__(self, d):
+        super().__init__()
+        h = int(round(8 * d / 3 / 64)) * 64
+        self.gate = nn.Linear(d, h, bias=False)
+        self.up = nn.Linear(d, h, bias=False)
+        self.down = nn.Linear(h, d, bias=False)
+
+    def forward(self, x):
+        return self.down(F.silu(self.gate(x)) * self.up(x))
+
+
+def _norm(cfg, d):
+    # --modern: RMSNorm (no bias) everywhere; else GPT-2 LayerNorm
+    if getattr(cfg, "modern", False):
+        return nn.RMSNorm(d)
+    return nn.LayerNorm(d)
+
+
 class Block(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.ln1 = nn.LayerNorm(cfg.n_embd)
+        self.ln1 = _norm(cfg, cfg.n_embd)
         self.attn = Attn(cfg)
-        self.ln2 = nn.LayerNorm(cfg.n_embd)
-        self.mlp = nn.Sequential(
-            nn.Linear(cfg.n_embd, 4 * cfg.n_embd, bias=False), nn.GELU(),
-            nn.Linear(4 * cfg.n_embd, cfg.n_embd, bias=False))
+        self.ln2 = _norm(cfg, cfg.n_embd)
+        if getattr(cfg, "modern", False):
+            self.mlp = SwiGLU(cfg.n_embd)
+        else:
+            self.mlp = nn.Sequential(
+                nn.Linear(cfg.n_embd, 4 * cfg.n_embd, bias=False), nn.GELU(),
+                nn.Linear(4 * cfg.n_embd, cfg.n_embd, bias=False))
 
     def forward(self, x):
         x = x + self.attn(self.ln1(x))
@@ -202,15 +226,19 @@ class GPT(nn.Module):
         if not self.nope:
             self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg.n_layer))
-        self.ln_f = nn.LayerNorm(cfg.n_embd)
+        self.ln_f = _norm(cfg, cfg.n_embd)
         self.head = nn.Linear(cfg.n_embd, VOCAB, bias=False)
+        # head stays TIED under --modern too: untying costs +vocab*d
+        # (+31% at 124M) and breaks the param-parity gate; deferred to
+        # the tokenizer boundary (roadmap item 6).
         self.head.weight = self.wte.weight
         for mod in self.modules():
             if isinstance(mod, (nn.Linear, nn.Embedding)):
                 nn.init.normal_(mod.weight, mean=0.0, std=0.02)
         # GPT-2 residual-projection scaling
         for name, p in self.named_parameters():
-            if name.endswith("proj.weight") or ".mlp.2.weight" in name:
+            if (name.endswith("proj.weight") or ".mlp.2.weight" in name
+                    or name.endswith("down.weight")):
                 nn.init.normal_(p, mean=0.0,
                                 std=0.02 / math.sqrt(2 * cfg.n_layer))
 
@@ -261,6 +289,9 @@ def main():
     ap.add_argument("--scale-cap", type=float, default=15.0,
                     dest="scale_cap",
                     help="tanh cap C on the learnable scale (0 = uncapped)")
+    ap.add_argument("--modern", action="store_true",
+                    help="RMSNorm + SwiGLU + no-bias, tied head "
+                         "(plan 2026-08-28)")
     ap.add_argument("--qk-norm", action="store_true", dest="qk_norm",
                     help="RMS-normalize q/k per head (learnable per-head "
                          "gain) before RoPE/scale — plan 2026-08-16")
@@ -279,6 +310,7 @@ def main():
              + ("-nope" if args.nope else "")
              + ("-rope" if args.rope else "")
              + ("-qk" if args.qk_norm else "")
+             + ("-modern" if args.modern else "")
              + ("-nocap" if (args.scale_learnable and args.scale_cap == 0)
                 else "")
              + (f"-{args.tag}" if args.tag else "")
