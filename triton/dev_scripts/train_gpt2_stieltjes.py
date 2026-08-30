@@ -289,6 +289,9 @@ def main():
     ap.add_argument("--scale-cap", type=float, default=15.0,
                     dest="scale_cap",
                     help="tanh cap C on the learnable scale (0 = uncapped)")
+    ap.add_argument("--compile", action="store_true", dest="compile_",
+                    help="torch.compile each Block's norm+MLP subgraphs "
+                         "(attention stays eager: custom Triton autograd)")
     ap.add_argument("--modern", action="store_true",
                     help="RMSNorm + SwiGLU + no-bias, tied head "
                          "(plan 2026-08-28)")
@@ -320,6 +323,15 @@ def main():
     train_d = Shards("train", args.data_mix)
     val_d = Shards("val", args.data_mix)
     model = GPT(args).to(device)
+    if getattr(args, "compile_", False):
+        # compile the per-block MLP+norm paths; the stieltjes autograd
+        # Function stays eager (graph-breaks are confined per block)
+        for blk in model.blocks:
+            blk.mlp = torch.compile(blk.mlp)
+            blk.ln1 = torch.compile(blk.ln1)
+            blk.ln2 = torch.compile(blk.ln2)
+        model.ln_f = torch.compile(model.ln_f)
+        print("torch.compile: block MLPs+norms compiled", flush=True)
     nparam = sum(p.numel() for p in model.parameters())
     print(f"{label}: {nparam/1e6:.1f}M params, {total_steps} steps x "
           f"{tokens_per_step} tokens", flush=True)
