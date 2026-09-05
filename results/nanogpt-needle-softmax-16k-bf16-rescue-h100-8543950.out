@@ -32,3 +32,4 @@ Epoch   5/15 | train_loss=4.8542 | val_loss=4.8543 | val_acc=0.0120 | time=4614.
 Epoch   6/15 | train_loss=4.8538 | val_loss=4.8562 | val_acc=0.0320 | time=4617.4s
 Epoch   7/15 | train_loss=4.8538 | val_loss=4.8561 | val_acc=0.0360 | time=4614.3s
 Epoch   8/15 | train_loss=4.8537 | val_loss=4.8495 | val_acc=0.0900 | time=4614.7s
+Epoch   9/15 | train_loss=4.8536 | val_loss=4.8518 | val_acc=0.0900 | time=4613.9s

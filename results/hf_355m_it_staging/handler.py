@@ -54,8 +54,7 @@ class EndpointHandler:
             elif role == "assistant":
                 prompt += A + content + self.tokenizer.eos_token
             elif role == "system":
-                # no trained system channel; fold into the first user turn
-                prompt += U + "(instructions) " + content + "\n"
+                prompt += "<|system|>\n" + content + "\n"
         prompt += A
         text, n_in, n_out = self._generate(
             prompt,

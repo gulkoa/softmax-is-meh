@@ -18,6 +18,6 @@ set -euo pipefail
 cd /users/PAS2402/alexg/softmax/stieltjes-triton
 
 uv run --project /users/PAS2402/alexg/softmax/softmax-is-meh/triton \
-  --no-sync python tests/test_kernel.py
+  --no-sync python -m pytest tests/test_kernel.py -v
 
 echo "ALL DONE"

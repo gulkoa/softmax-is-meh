@@ -1,1 +1,39 @@
 === 6-job expansion: sorting 6-layer stieltjes q=8.0 post-fix init ===
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/30 | train_loss=2.3450 | val_loss=2.1679 | val_acc=0.9243 | time=57.8s
+Epoch   2/30 | train_loss=2.1639 | val_loss=2.1407 | val_acc=0.9296 | time=57.5s
+Epoch   3/30 | train_loss=2.1407 | val_loss=2.1264 | val_acc=0.9319 | time=57.5s
+Epoch   4/30 | train_loss=2.1253 | val_loss=2.1176 | val_acc=0.9323 | time=57.6s
+Epoch   5/30 | train_loss=2.1143 | val_loss=2.1045 | val_acc=0.9365 | time=57.6s
+Epoch   6/30 | train_loss=2.1106 | val_loss=2.1018 | val_acc=0.9364 | time=57.6s
+Epoch   7/30 | train_loss=2.1025 | val_loss=2.0934 | val_acc=0.9380 | time=57.6s
+Epoch   8/30 | train_loss=2.0957 | val_loss=2.0891 | val_acc=0.9418 | time=57.6s
+Epoch   9/30 | train_loss=2.0907 | val_loss=2.0846 | val_acc=0.9423 | time=57.6s
+Epoch  10/30 | train_loss=2.0883 | val_loss=2.0814 | val_acc=0.9435 | time=57.6s
+Epoch  11/30 | train_loss=2.0833 | val_loss=2.0789 | val_acc=0.9445 | time=57.6s
+Epoch  12/30 | train_loss=2.0799 | val_loss=2.0741 | val_acc=0.9467 | time=57.6s
+Epoch  13/30 | train_loss=2.0772 | val_loss=2.0740 | val_acc=0.9473 | time=57.6s
+Epoch  14/30 | train_loss=2.0767 | val_loss=2.0733 | val_acc=0.9487 | time=57.6s
+Epoch  15/30 | train_loss=2.0737 | val_loss=2.0727 | val_acc=0.9498 | time=57.6s
+Epoch  16/30 | train_loss=2.0724 | val_loss=2.0633 | val_acc=0.9546 | time=57.6s
+Epoch  17/30 | train_loss=2.0695 | val_loss=2.0638 | val_acc=0.9543 | time=57.6s
+Epoch  18/30 | train_loss=2.0671 | val_loss=2.0605 | val_acc=0.9570 | time=57.6s
+Epoch  19/30 | train_loss=2.0721 | val_loss=2.0720 | val_acc=0.9504 | time=57.6s
+Epoch  20/30 | train_loss=2.0713 | val_loss=2.0550 | val_acc=0.9624 | time=57.6s
+Epoch  21/30 | train_loss=2.0608 | val_loss=2.0518 | val_acc=0.9653 | time=57.5s
+Epoch  22/30 | train_loss=2.0560 | val_loss=2.0533 | val_acc=0.9643 | time=57.5s
+Epoch  23/30 | train_loss=2.0544 | val_loss=2.0461 | val_acc=0.9722 | time=57.6s
+Epoch  24/30 | train_loss=2.0478 | val_loss=2.0372 | val_acc=0.9771 | time=57.6s
+Epoch  25/30 | train_loss=2.0447 | val_loss=2.0377 | val_acc=0.9754 | time=57.5s
+Epoch  26/30 | train_loss=2.0433 | val_loss=2.0334 | val_acc=0.9792 | time=57.5s
+Epoch  27/30 | train_loss=2.0375 | val_loss=2.0278 | val_acc=0.9835 | time=57.5s
+Epoch  28/30 | train_loss=2.0360 | val_loss=2.0319 | val_acc=0.9810 | time=57.5s
+Epoch  29/30 | train_loss=2.0347 | val_loss=2.0309 | val_acc=0.9801 | time=57.5s
+Epoch  30/30 | train_loss=2.0315 | val_loss=2.0230 | val_acc=0.9859 | time=57.5s
+Model saved to results/sorting_stieltjes_q8.0_initfix_ascend/model.pt
+Metrics saved to results/sorting_stieltjes_q8.0_initfix_ascend/metrics.csv
+{"checkpoint": "results/sorting_stieltjes_q8.0_initfix_ascend/model.pt", "task": "sorting", "attn": "stieltjes", "q": 8.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.9858682634730539, "accuracy_all": 0.5453193612774451, "accuracy_input_echo": 0.10477045908183633, "output_token_count": 50100, "input_token_count": 50100, "all_token_count": 100200, "output_start_stats": {"n": 5000, "min": 4, "max": 16, "mean": 10.020000457763672}}
+DONE sorting q=8.0

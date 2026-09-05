@@ -6,16 +6,16 @@
   "seq_len": 128,
   "val_samples": 2000,
   "seed": 42,
-  "accuracy_fixed": 0.968,
-  "accuracy_all": 0.03133771676856231,
-  "accuracy_input_echo": 0.020933190409277474,
+  "accuracy_fixed": 0.788,
+  "accuracy_all": 0.026296851738932196,
+  "accuracy_input_echo": 0.017835222759766046,
   "output_token_count": 2000,
-  "input_token_count": 180049,
-  "all_token_count": 182049,
+  "input_token_count": 180037,
+  "all_token_count": 182037,
   "output_start_stats": {
     "n": 2000,
     "min": 60,
     "max": 120,
-    "mean": 90.02449798583984
+    "mean": 90.01850128173828
   }
 }
