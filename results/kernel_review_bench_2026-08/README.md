@@ -1,0 +1,1 @@
+Triton perf_report outputs (fwd/bwd, B4 H8 D64/D128) produced on the kernel-review-fixes branch (Aug 2026, H_eff fix review); salvaged from the worktree before pruning. results.html.diff = the index page change that referenced them.
