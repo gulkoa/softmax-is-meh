@@ -120,7 +120,7 @@ def main():
         if step % 50 == 0:
             print(f"step {step:5d}/{total_steps} loss {loss.item():.4f}",
                   flush=True)
-            run.log({"step": step, "sft_loss": loss.item()})
+            run.log({"step": step, "sft_loss": loss.item()}, step=step)
 
     out = args.base_ckpt.replace(".pt", "-it.pt")
     torch.save({"model": model.state_dict(), "args": vars(cfg),

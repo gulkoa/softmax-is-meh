@@ -318,7 +318,7 @@ def main():
                          jscores[i], jreasons[i][:200],
                          (thinks[i] or "")[:600], o[:800])
         log["traces"] = tbl
-        run.log(log)
+        run.log(log, step=step)
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} acc "
                   f"{np.mean(correct):.3f} judge {np.mean(jnorm):.2f} "

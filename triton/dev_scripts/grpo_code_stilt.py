@@ -430,7 +430,7 @@ def main():
                          jscores[i], (jreasons[i] or "")[:200],
                          (thinks[i] or "")[:600], o[:800])
         log["traces"] = tbl
-        run.log(log)
+        run.log(log, step=step)
         if step % 5 == 0:
             print(f"step {step:4d} R {R.mean():.3f} best {R.max():.2f} "
                   f"pass@1(batch) {solved:.3f} KL {kl_val:.4f} "
