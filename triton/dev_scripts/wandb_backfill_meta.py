@@ -7,6 +7,11 @@ config.hardware{gpu,node,cpus,mem_gb,cluster,jobid,elapsed}. Multi-chunk
 trainings get config.chain=<label> for grouping; chain totals printed.
 
 Login-node script (wandb online API + sacct).
+
+NOTE (2026-09-08): runs from the wandb-steps trainer are ONE run per
+training (name = <label>-s<seed>, no job id) and write their own
+per-chunk facts to summary chunks/<jobid>/*; they are skipped here
+by the job-id name filter and need no backfill.
 """
 import re
 import subprocess

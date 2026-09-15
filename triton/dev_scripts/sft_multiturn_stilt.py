@@ -237,7 +237,7 @@ def main():
         opt.step()
         sched.step()
         run.log({"step": step, "sft_loss": loss_val,
-                 "grad_norm": float(gn), "lr": sched.get_last_lr()[0]})
+                 "grad_norm": float(gn), "lr": sched.get_last_lr()[0]}, step=step)
         if step % 50 == 0:
             print(f"step {step}/{total_steps} loss {loss_val:.4f}",
                   flush=True)

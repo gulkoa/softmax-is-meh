@@ -40,6 +40,28 @@ EOT = 50256
 # Data: mmap'd uint16 shards; last shard held out for validation
 # ---------------------------------------------------------------------------
 
+def _wandb_run_id(name):
+    """Stable wandb run id from a label: only [A-Za-z0-9_-] allowed; keep
+    it short with a hash tail if the label is long."""
+    import hashlib
+    import re
+    rid = re.sub(r"[^A-Za-z0-9_-]", "p", name)
+    if len(rid) > 64:
+        rid = rid[:55] + "-" + hashlib.md5(name.encode()).hexdigest()[:8]
+    return rid
+
+
+def _git_commit():
+    import subprocess
+    try:
+        return subprocess.run(
+            ["git", "-C", os.path.dirname(os.path.abspath(__file__)),
+             "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=10).stdout.strip() or "unknown"
+    except Exception:
+        return "unknown"
+
+
 class Shards:
     """One or more shard dirs with mix weights: 'dir' or
     'name=dir:weight,name2=dir2:weight2'. Last shard of each source is
@@ -370,18 +392,49 @@ def main():
         print(f"RESUMED from step {start_step} "
               f"(cum wall {cum_wall/3600:.2f}h)", flush=True)
 
+    if start_step >= total_steps:
+        print(f"FINAL already reached at step {total_steps - 1} "
+              f"({ckpt_path}); nothing to do", flush=True)
+        return
+
+    # ---- wandb: ONE run per training (stable id = label+seed), resumed by
+    # every chunk; each log call carries step=<optimizer step>, so the run's
+    # x-axis IS the training step (never the log-call count). Keys are
+    # namespaced train/ val/ progress/; per-chunk facts live in summary
+    # chunks/<jobid>/*. Harvest offline dirs with `wandb sync --append`
+    # (scripts/wandb_harvest.sh) — any order, they merge into one run.
+    jobid = os.environ.get("SLURM_JOB_ID", "local")
+    run_id = _wandb_run_id(f"{label}-s{args.seed}")
     run = wandb.init(
-        project="stieltjes-flash-attn",
-        name=f"{label}-s{args.seed}-{os.environ.get('SLURM_JOB_ID', 'local')}",
-        config={**vars(args), "params": nparam, "total_steps": total_steps,
-                "tokens_per_step": tokens_per_step, "data": FW_DIR,
-                "resumed_from": start_step,
-                "gpu": torch.cuda.get_device_name(0),
-                "node": os.environ.get("SLURMD_NODENAME", "local"),
-                "jobid": os.environ.get("SLURM_JOB_ID", "local"),
-                "val_shards": [p for p, _ in val_fp]},
+        project=os.environ.get("WANDB_PROJECT", "stieltjes-flash-attn"),
+        id=run_id, name=f"{label}-s{args.seed}", resume="allow",
+        job_type="pretrain",
+        tags=[args.attn,
+              "nope" if args.nope else ("rope" if args.rope else "learned-pos")]
+             + (["qk-norm"] if args.qk_norm else [])
+             + (["modern"] if args.modern else []),
+        config={**vars(args), "label": label, "params": nparam,
+                "total_steps": total_steps, "tokens_per_step": tokens_per_step,
+                "total_tokens_planned": total_steps * tokens_per_step,
+                "data": FW_DIR, "val_shards": [p for p, _ in val_fp],
+                "code_commit": _git_commit()},
     )
+    run.define_metric("step")                     # default x-axis: optimizer step
+    run.define_metric("progress/tokens")          # alternative x-axis
+    for pat in ("train/*", "val/*", "progress/*"):
+        run.define_metric(pat, step_metric="step")
+    run.define_metric("val/loss", summary="min")
+    run.define_metric("val/ppl", summary="min")
+    run.summary[f"chunks/{jobid}/start_step"] = start_step
+    run.summary[f"chunks/{jobid}/node"] = os.environ.get("SLURMD_NODENAME", "local")
+    run.summary[f"chunks/{jobid}/gpu"] = torch.cuda.get_device_name(0)
+    run.summary["progress/status"] = "running"
     chunk_t0 = time.time()
+
+    def chunk_summary(step):
+        run.summary[f"chunks/{jobid}/last_step"] = step
+        run.summary[f"chunks/{jobid}/wall_s"] = time.time() - chunk_t0
+        run.summary[f"chunks/{jobid}/tokens"] = (step + 1 - start_step) * tokens_per_step
     rng = np.random.default_rng(args.seed * 100003 + start_step)
     vrng_seed = 424242
 
@@ -389,11 +442,13 @@ def main():
     t0 = time.time()
     for step in range(start_step, total_steps):
         opt.zero_grad(set_to_none=True)
+        loss_sum = torch.zeros((), device=device)
         for _ in range(args.grad_accum):
             x, y = train_d.batch(args.micro_bs, args.ctx, rng, device)
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 _, loss = model(x, y)
             (loss / args.grad_accum).backward()
+            loss_sum += loss.detach()
         gnorm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         sched.step()
@@ -402,12 +457,18 @@ def main():
             dt = time.time() - t0
             t0 = time.time()
             tps = tokens_per_step * (20 if step > start_step else 1) / max(dt, 1e-9)
-            print(f"step {step:6d}/{total_steps} loss {loss.item():.4f} "
+            train_loss = loss_sum.item() / args.grad_accum   # mean over the step
+            print(f"step {step:6d}/{total_steps} loss {train_loss:.4f} "
                   f"gnorm {float(gnorm):.2f} ({tps/1e3:.0f}k tok/s)",
                   flush=True)
-            run.log({"step": step, "train_loss": loss.item(),
-                     "grad_norm": float(gnorm),
-                     "tok_per_s": tps, "lr": sched.get_last_lr()[0]})
+            run.log({"step": step,
+                     "train/loss": train_loss,
+                     "train/grad_norm": float(gnorm),
+                     "train/lr": sched.get_last_lr()[0],
+                     "train/tok_per_s": tps,
+                     "progress/tokens": (step + 1) * tokens_per_step,
+                     "progress/frac": (step + 1) / total_steps},
+                    step=step)
         if step % args.val_every == 0 and step > start_step:
             model.eval()
             vrng = np.random.default_rng(vrng_seed)
@@ -426,9 +487,13 @@ def main():
                   f"(wall {wall_h:.2f}h, {cum_tok/1e9:.2f}B tok, "
                   f"{cum_tok/1e6/max(wall_h,1e-9):.0f}M tok/GPU-h)",
                   flush=True)
-            run.log({"step": step, "val_loss": vl, "cum_wall_h": wall_h,
-                     "cum_tokens": cum_tok,
-                     "tok_per_gpu_h": cum_tok / max(wall_h, 1e-9)})
+            run.log({"step": step,
+                     "val/loss": vl, "val/ppl": math.exp(vl),
+                     "progress/tokens": cum_tok,
+                     "progress/wall_h": wall_h,
+                     "progress/tok_per_gpu_h": cum_tok / max(wall_h, 1e-9)},
+                    step=step)
+            chunk_summary(step)
             model.train()
         if step % args.ckpt_every == 0 and step > start_step:
             torch.save({"model": model.state_dict(),
@@ -445,6 +510,8 @@ def main():
                 "cum_wall": cum_wall + time.time() - chunk_t0,
                 "val_fp": val_fp}, ckpt_path)
     print(f"FINAL ckpt: {ckpt_path}")
+    chunk_summary(total_steps - 1)
+    run.summary["progress/status"] = "final"
     run.finish()
     print("DONE")
 

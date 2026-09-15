@@ -139,7 +139,7 @@ def main():
         if step % 10 == 0:
             print(f"step {step:4d}/{total_steps} loss {loss.item():.4f}",
                   flush=True)
-            run.log({"step": step, "codesft_loss": loss.item()})
+            run.log({"step": step, "codesft_loss": loss.item()}, step=step)
 
     out = args.it_ckpt.replace(
         ".pt", "-code-r.pt" if args.reasoning else "-code.pt")
