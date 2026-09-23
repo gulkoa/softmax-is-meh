@@ -11,7 +11,7 @@
 #SBATCH --output=/users/PAS2402/alexg/softmax/softmax-is-meh/results/nope-qk-twin-%j.out
 #SBATCH --error=/users/PAS2402/alexg/softmax/softmax-is-meh/results/nope-qk-twin-%j.err
 # 355M FAIR-TWIN RERUN (qknorm gate verdict promotion rule): identical
-# to the original sdpa-nope arm (which diverged at 6e-4 and 3e-4;
+# to the original sdpa-nope arm (which spiked/diverged at 3e-4 — the 6e-4 failure was the positional arm;
 # survived only at 2e-4 -> 12.82) EXCEPT +--qk-norm. Decides whether
 # the 355M robustness asymmetry is attention-logit growth.
 # Self-resuming; FINAL-guarded chunks no-op.

@@ -1,6 +1,8 @@
 """Dump the validation loss/ppl curve of EVERY pretraining run in wandb,
 merging resume chunks (and log-backfilled runs) into one series per
-training label. Writes results/pretrain_curves_<date>.csv and prints a
+training label — deterministic precedence: later chunk > earlier chunk >
+log-backfill run, so re-validated resume steps take the trajectory the
+final model actually followed. Writes results/pretrain_curves_<date>.csv and prints a
 markdown table: val loss/ppl at 10/25/50/75/100% of the planned steps
 plus the final logged point.  Login-node script (wandb online API).
 
@@ -50,10 +52,19 @@ def main():
     api = wandb.Api(timeout=120)
     series = collections.defaultdict(dict)
     meta = {}
-    for r in api.runs(PROJECT, per_page=200):
+    def precedence(r):
+        # whole-label log reconstructions rank lowest (real chunk runs override them);
+        # a later chunk overrides the steps an earlier chunk re-ran after resume; a
+        # gap backfill (wandb_backfill_gaps.py) ranks highest — by construction it
+        # only holds rows no synced run carries, or re-validations that supersede them
+        if r.name.endswith("-logbackfill"):
+            return (2, 0) if (r.config or {}).get("backfill") == "gaps-from-logs" else (0, 0)
+        m = re.search(r"-(\d+)$", r.name)
+        return (1, int(m.group(1)) if m else 0)
+    runs = [r for r in api.runs(PROJECT, per_page=200)
+            if (r.config or {}).get("total_steps") or r.name.endswith("-logbackfill")]
+    for r in sorted(runs, key=precedence):
         cfg = r.config or {}
-        if not cfg.get("total_steps") and not r.name.endswith("-logbackfill"):
-            continue
         lab = label_of(r.name)
         rows = val_rows(r)
         for s, l in rows:
