@@ -62,7 +62,8 @@ def main():
         m = re.search(r"-(\d+)$", r.name)
         return (1, int(m.group(1)) if m else 0)
     runs = [r for r in api.runs(PROJECT, per_page=200)
-            if (r.config or {}).get("total_steps") or r.name.endswith("-logbackfill")]
+            if ((r.config or {}).get("total_steps") or r.name.endswith("-logbackfill"))
+            and not r.name.endswith("-consolidated")]   # derived presentation runs, not a source
     for r in sorted(runs, key=precedence):
         cfg = r.config or {}
         lab = label_of(r.name)
