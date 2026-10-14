@@ -15,6 +15,7 @@
 # E', F' (stilt-tok-32k-v1); then the tokenizer-aware PG-19 length eval of
 # E' and F' with the E/F alpha grid.
 set -euo pipefail
+ALPHAS=${ALPHAS:-0.25,0.3,0.35,0.5}   # pass via --export as semicolon-separated (sbatch splits commas)
 cd /users/PAS2402/alexg/softmax
 export WANDB_MODE=offline
 # (no HF offline flag: the PG-19 stream loader reaches the Hub like the earlier length evals did)
@@ -27,6 +28,6 @@ for c in ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt ckpt_gpt2-s
 done
 fi
 for c in ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt; do
-  echo "=== LENGTH $c"; $PY/eval_longctx_scaled.py $D/$c --alpha 0.25,0.3,0.35,0.5
+  echo "=== LENGTH $c"; $PY/eval_longctx_scaled.py $D/$c --alpha "${ALPHAS//;/,}"
 done
 echo "ALL DONE"
