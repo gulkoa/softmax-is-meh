@@ -1,0 +1,84 @@
+{
+ "name": "stilt-tok-32k-v1",
+ "vocab_size": 32768,
+ "special_tokens": [
+  "<|endoftext|>",
+  "<|pad|>",
+  "<|system|>",
+  "<|user|>",
+  "<|assistant|>",
+  "<|eot|>",
+  "<|fim_prefix|>",
+  "<|fim_middle|>",
+  "<|fim_suffix|>",
+  "<|reserved_9|>",
+  "<|reserved_10|>",
+  "<|reserved_11|>",
+  "<|reserved_12|>",
+  "<|reserved_13|>",
+  "<|reserved_14|>",
+  "<|reserved_15|>"
+ ],
+ "pre_tokenizer": "cl100k regex + ByteLevel",
+ "regex": "(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\\r\\n\\p{L}\\p{N}]?\\p{L}+|\\p{N}{1,3}| ?[^\\s\\p{L}\\p{N}]+[\\r\\n]*|\\s*[\\r\\n]+|\\s+(?!\\S)|\\s+",
+ "sample": {
+  "web": {
+   "shards": [
+    "shard_0000.bin",
+    "shard_0001.bin",
+    "shard_0002.bin"
+   ],
+   "docs": 676412,
+   "gpt2_tokens": 700000503,
+   "bytes": 3232267194
+  },
+  "math": {
+   "shards": [
+    "shard_0000.bin"
+   ],
+   "docs": 98788,
+   "gpt2_tokens": 150001620,
+   "bytes": 501126335
+  },
+  "code": {
+   "shards": [
+    "shard_0000.bin"
+   ],
+   "docs": 33156,
+   "gpt2_tokens": 150004001,
+   "bytes": 333551762
+  }
+ },
+ "seed": "deterministic shard order",
+ "train_seconds": 72,
+ "sha256_tokenizer_json": "19e7e7c445be350db50d43ba4c42c118cc70506f3196d571526c07d0ed85cf24",
+ "heldout": {
+  "web": {
+   "val_shard": "shard_0039.bin",
+   "docs": 3631,
+   "bytes": 18526639,
+   "bytes_per_token": 4.643277229628531,
+   "gpt2_bytes_per_token": 4.635867959139909,
+   "tokens_vs_gpt2": 0.9984043015046908,
+   "roundtrip_exact": "200/200"
+  },
+  "math": {
+   "val_shard": "shard_0025.bin",
+   "docs": 2619,
+   "bytes": 13380710,
+   "bytes_per_token": 3.5453825961686993,
+   "gpt2_bytes_per_token": 3.347368352586768,
+   "tokens_vs_gpt2": 0.9441486953210877,
+   "roundtrip_exact": "200/200"
+  },
+  "code": {
+   "val_shard": "shard_0019.bin",
+   "docs": 850,
+   "bytes": 8817498,
+   "bytes_per_token": 3.710470071533082,
+   "gpt2_bytes_per_token": 2.2048424778159164,
+   "tokens_vs_gpt2": 0.5942218735926701,
+   "roundtrip_exact": "200/200"
+  }
+ }
+}
