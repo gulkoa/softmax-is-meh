@@ -120,6 +120,9 @@ class Shards:
 # Model
 # ---------------------------------------------------------------------------
 
+_ALIBI_CACHE = {}       # shared ALiBi bias (see Attn._alibi_bias)
+
+
 class Attn(nn.Module):
     def __init__(self, cfg):
         super().__init__()
@@ -153,16 +156,22 @@ class Attn(nn.Module):
             h = torch.arange(1, cfg.n_head + 1, dtype=torch.float32)
             self.register_buffer("alibi_slopes", 2.0 ** (-8.0 * h / cfg.n_head),
                                  persistent=False)
-            self._alibi_cache = None  # (S, bias (1,H,S,S) fp32)
 
-    def _alibi_bias(self, S, device):
-        if self._alibi_cache is not None and self._alibi_cache[0] == S:
-            return self._alibi_cache[1]
+    def _alibi_bias(self, S, device, dtype):
+        """(1,H,S,S) causal ALiBi bias in `dtype`. ONE cache shared by every
+        layer (slopes depend only on H), holding the latest S: built in fp32
+        and cast once — numerically identical to training's per-call cast,
+        without a per-layer fp32 copy (12 x 3.2 GB at S=8192)."""
+        key = (S, self.h, dtype, str(device))
+        hit = _ALIBI_CACHE.get("bias")
+        if hit is not None and hit[0] == key:
+            return hit[1]
+        _ALIBI_CACHE.clear()
         i = torch.arange(S, device=device)
         dist = (i[:, None] - i[None, :]).to(torch.float32)      # query - key
         bias = -self.alibi_slopes.to(device)[:, None, None] * dist.clamp(min=0)
-        bias = bias.masked_fill(dist[None] < 0, float("-inf"))[None]  # causal
-        self._alibi_cache = (S, bias)
+        bias = bias.masked_fill(dist[None] < 0, float("-inf"))[None].to(dtype)  # causal
+        _ALIBI_CACHE["bias"] = (key, bias)
         return bias
 
     def _rope_cos_sin(self, S, device):
@@ -219,7 +228,7 @@ class Attn(nn.Module):
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
         if self.cfg.attn == "sdpa" and getattr(self, "alibi", False):
             o = F.scaled_dot_product_attention(
-                q, k, v, attn_mask=self._alibi_bias(S, q.device).to(q.dtype))
+                q, k, v, attn_mask=self._alibi_bias(S, q.device, q.dtype))
         elif self.cfg.attn == "sdpa":
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         else:

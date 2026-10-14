@@ -81,6 +81,8 @@ def main():
     ap.add_argument("--alpha", default="0,0.35")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--train-len", type=int, default=1024)
+    ap.add_argument("--show-fails", type=int, default=0, dest="show_fails",
+                    help="print up to N failed completions per (L, alpha, depth) cell")
     a = ap.parse_args()
     blob = torch.load(a.ckpt, map_location="cpu", weights_only=False)
     cfg = SimpleNamespace(**blob["args"])
@@ -98,16 +100,21 @@ def main():
     for L in lens:
         for al in alphas:
             _BOOST = 1.0 + al * math.log(max(L, a.train_len) / a.train_len)
-            accs = []
+            accs, fails = [], []
             for d in depths:
                 hit = 0
                 for key in keys:
                     ids = build(tok, L, d, key)
                     gen = tok.decode(greedy(model, ids, 6))
-                    hit += str(key) in gen
+                    ok = str(key) in gen
+                    hit += ok
+                    if not ok and sum(1 for f in fails if f[0] == d) < a.show_fails:
+                        fails.append((d, key, gen))
                 accs.append(hit / len(keys))
             _BOOST = 1.0
             print(f"{L:>6} {al:>6g} " + " ".join(f"{x:>8.2f}" for x in accs) + f"   {sum(accs)/len(accs):.2f}", flush=True)
+            for d, key, gen in fails:
+                print(f"         fail d={d:g} key={key} -> {gen!r}", flush=True)
     print("DONE", flush=True)
 
 

@@ -114,7 +114,10 @@ def main():
         # have no wpe and their forward accepts arbitrary length
         # natively — this is the true length-extrapolation regime, so
         # NO clamp/wrapper.
-        is_nope = getattr(cfg, "nope", False)
+        # only a learned position table (wpe) needs clamping; NoPE, RoPE and
+        # ALiBi models have no wpe and accept any length
+        is_nope = (getattr(cfg, "nope", False) or getattr(cfg, "rope", False)
+                   or getattr(cfg, "alibi", False))
         if not is_nope:
             class _ClampedWPE(torch.nn.Module):
                 def __init__(self, wpe, maxpos):
@@ -127,7 +130,7 @@ def main():
             model.wpe = _ClampedWPE(model.wpe, cfg.ctx - 1)
         name = os.path.basename(path)
         print(f"\n===== {name} (nope={is_nope}) =====", flush=True)
-        LENS = (1024, 2048, 4096, 8192, 16384)
+        LENS = (1024, 2048, 4096, 8192)
         for src_name, ids in [("pg19", pg), ("fineweb-val", fw_ids)]:
             util = context_utilization(model, ids, ctx=cfg.ctx)
             buck = "  ".join(f"[{a}-{b}):{u:.4f}"
