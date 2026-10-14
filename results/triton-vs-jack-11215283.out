@@ -1,0 +1,20 @@
+Device: cuda
+GPU: NVIDIA H100
+
+==============================================================================
+STAGE 0 — BUG 2 fix recheck (Triton vs PyTorch ref, fp32, raw scores)
+  T not a multiple of 64 should now be SMALL (was 0.04-0.75 before fix)
+==============================================================================
+  N= 16 (mult64=False) q=   4: fwd max_err=3.474e-03
+  N= 16 (mult64=False) q=  16: fwd max_err=1.390e-02
+  N= 32 (mult64=False) q=   4: fwd max_err=4.300e-03
+  N= 32 (mult64=False) q=  16: fwd max_err=1.416e-02
+  N= 64 (mult64=True ) q=   4: fwd max_err=4.213e-03
+  N= 64 (mult64=True ) q=  16: fwd max_err=1.934e-02
+  N= 96 (mult64=False) q=   4: fwd max_err=5.009e-03
+  N= 96 (mult64=False) q=  16: fwd max_err=1.636e-02
+
+==============================================================================
+STAGE 1+2 — forward & gradient equivalence in MaxRetrievalModel (q=16.0)
+==============================================================================
+  forward logits max|Jack - Triton| = 2.432e-04

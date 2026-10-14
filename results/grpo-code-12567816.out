@@ -1,0 +1,28 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-medium-mix_s0-it-code-r_grpo300.pt (step 300)
+step  300 R 0.273 best 1.10 pass@1(batch) 0.219 KL 0.7963 ent 4.102 gnorm 1.97
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-medium-mix_s0-it-code-r_grpo300.pt
+step  305 R 0.718 best 1.10 pass@1(batch) 0.641 KL 0.2875 ent 1.844 gnorm 0.86
+step  310 R 0.630 best 1.10 pass@1(batch) 0.570 KL 1.7579 ent 3.431 gnorm 3.57
+step  315 R 0.858 best 1.10 pass@1(batch) 0.773 KL 0.5828 ent 1.360 gnorm 1.30
+step  320 R 0.818 best 1.10 pass@1(batch) 0.719 KL 0.7371 ent 1.357 gnorm 1.90
+step  325 R 0.765 best 1.10 pass@1(batch) 0.688 KL 1.1185 ent 2.267 gnorm 1.22
+step  330 R 0.850 best 1.10 pass@1(batch) 0.758 KL 0.2342 ent 1.441 gnorm 1.15
+step  335 R 0.485 best 1.10 pass@1(batch) 0.414 KL 1.0848 ent 3.564 gnorm 3.26
+step  340 R 0.366 best 1.10 pass@1(batch) 0.305 KL 0.9917 ent 3.719 gnorm 1.37
+step  345 R 0.707 best 1.10 pass@1(batch) 0.633 KL 0.3685 ent 2.556 gnorm 0.62
+step  350 R 0.291 best 1.10 pass@1(batch) 0.234 KL 0.5916 ent 3.672 gnorm 2.47
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-medium-mix_s0-it-code-r_grpo350.pt
+step  355 R 0.144 best 1.10 pass@1(batch) 0.094 KL 0.8143 ent 4.344 gnorm 12.66
+step  360 R 0.887 best 1.10 pass@1(batch) 0.805 KL 0.5237 ent 1.566 gnorm 0.90
+step  365 R 0.801 best 1.10 pass@1(batch) 0.711 KL 0.1636 ent 1.289 gnorm 0.35
+step  370 R 0.407 best 1.10 pass@1(batch) 0.344 KL 0.4498 ent 3.044 gnorm 4.31
+step  375 R 0.225 best 1.10 pass@1(batch) 0.188 KL 2.4477 ent 5.833 gnorm 5.04
+step  380 R 0.690 best 1.10 pass@1(batch) 0.609 KL 1.1605 ent 2.268 gnorm 1.37
+step  385 R 0.178 best 1.10 pass@1(batch) 0.117 KL 0.2131 ent 1.788 gnorm 1.97
+step  390 R 0.077 best 1.09 pass@1(batch) 0.016 KL 0.4249 ent 4.154 gnorm 2.11
+step  395 R 0.669 best 1.10 pass@1(batch) 0.602 KL 0.8499 ent 2.346 gnorm 1.99
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-medium-mix_s0-it-code-r_grpo_final.pt
+ALL DONE

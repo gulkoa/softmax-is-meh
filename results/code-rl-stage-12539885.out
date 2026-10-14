@@ -1,0 +1,29 @@
+tasks: {'logic': 600, 'gsm8k': 400, 'arc': 300}
+probe 0/1300: solvable 1
+probe 50/1300: solvable 15
+probe 100/1300: solvable 26
+probe 150/1300: solvable 39
+probe 200/1300: solvable 54
+probe 250/1300: solvable 69
+probe 300/1300: solvable 78
+probe 350/1300: solvable 88
+probe 400/1300: solvable 101
+probe 450/1300: solvable 110
+probe 500/1300: solvable 120
+probe 550/1300: solvable 131
+probe 600/1300: solvable 145
+probe 650/1300: solvable 154
+probe 700/1300: solvable 157
+probe 750/1300: solvable 165
+probe 800/1300: solvable 170
+probe 850/1300: solvable 178
+probe 900/1300: solvable 188
+probe 950/1300: solvable 197
+probe 1000/1300: solvable 207
+probe 1050/1300: solvable 245
+probe 1100/1300: solvable 288
+probe 1150/1300: solvable 330
+probe 1200/1300: solvable 374
+probe 1250/1300: solvable 418
+PROBE DONE: logic 144/600, gsm8k 62/400, arc 258/300 -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason_probe.json
+ALL DONE

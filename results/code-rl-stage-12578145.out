@@ -1,0 +1,8 @@
+tasks: {'logic': 600, 'gsm8k': 400, 'arc': 300}
+curriculum: 464 solvable tasks
+FINAL already exists — nothing to do
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260725_073054-xjb3dv9e[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260725_073054-xjb3dv9e/logs[0m
+ALL DONE

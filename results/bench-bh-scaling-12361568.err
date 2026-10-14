@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 103, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 77, in main
+    ms = time_fn(lambda: stieltjes_attention(
+        q, k, v, causal=True, sm_scale=sm, stieltjes_q=4.0,
+        num_iter=ni, normalize=True), warmup=1, iters=3)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 42, in time_fn
+    torch.cuda.synchronize()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/cuda/__init__.py", line 1108, in synchronize
+    return torch._C._cuda_synchronize()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+Search for `cudaErrorIllegalAddress' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

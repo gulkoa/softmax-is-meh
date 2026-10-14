@@ -1,0 +1,38 @@
+gpt2-stj-q4-nope-nope-mix-lr0.0006: 353.6M params, 28610 steps x 524288 tokens
+RESUMED from step 28001
+step  28020/28610 loss 2.4908 (78k tok/s)
+step  28040/28610 loss 2.4136 (80k tok/s)
+step  28060/28610 loss 2.0984 (80k tok/s)
+step  28080/28610 loss 2.0569 (80k tok/s)
+step  28100/28610 loss 2.7761 (80k tok/s)
+step  28120/28610 loss 2.7006 (80k tok/s)
+step  28140/28610 loss 2.6165 (80k tok/s)
+step  28160/28610 loss 2.2176 (80k tok/s)
+step  28180/28610 loss 2.0385 (80k tok/s)
+step  28200/28610 loss 2.2398 (80k tok/s)
+step  28220/28610 loss 2.8523 (80k tok/s)
+step  28240/28610 loss 2.3063 (80k tok/s)
+  [val] step 28250 loss 2.4872 ppl 12.03
+step  28260/28610 loss 2.6057 (80k tok/s)
+step  28280/28610 loss 2.8547 (80k tok/s)
+step  28300/28610 loss 2.0809 (80k tok/s)
+step  28320/28610 loss 2.7182 (80k tok/s)
+step  28340/28610 loss 2.6203 (80k tok/s)
+step  28360/28610 loss 1.4944 (80k tok/s)
+step  28380/28610 loss 2.2684 (80k tok/s)
+step  28400/28610 loss 2.3138 (80k tok/s)
+step  28420/28610 loss 2.3883 (80k tok/s)
+step  28440/28610 loss 2.5164 (80k tok/s)
+step  28460/28610 loss 2.0483 (80k tok/s)
+step  28480/28610 loss 2.6569 (80k tok/s)
+step  28500/28610 loss 2.1388 (80k tok/s)
+  [val] step 28500 loss 2.4863 ppl 12.02
+  ckpt @ 28500
+step  28520/28610 loss 2.4398 (78k tok/s)
+step  28540/28610 loss 2.6413 (80k tok/s)
+step  28560/28610 loss 1.9624 (80k tok/s)
+step  28580/28610 loss 2.1696 (80k tok/s)
+step  28600/28610 loss 2.4466 (80k tok/s)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0.pt
+DONE
+ALL DONE

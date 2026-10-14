@@ -1,0 +1,5 @@
+GPU: NVIDIA H100
+sdpa     :     0.61 ms/layer-call  (x 1.00 vs sdpa)  12-layer attn:      7.4 ms per 16384 tokens ->   2224.5k tok/s attn-bound
+stj-nr8  :     4.32 ms/layer-call  (x 7.04 vs sdpa)  12-layer attn:     51.8 ms per 16384 tokens ->    316.2k tok/s attn-bound
+stj-hal3 :     2.49 ms/layer-call  (x 4.06 vs sdpa)  12-layer attn:     29.9 ms per 16384 tokens ->    548.4k tok/s attn-bound
+ALL DONE

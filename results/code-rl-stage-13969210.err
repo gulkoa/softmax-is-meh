@@ -1,0 +1,15 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (61281 > 1024). Running this sequence through the model will result in indexing errors
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/eval_longctx_scaled.py", line 181, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/eval_longctx_scaled.py", line 116, in main
+    model.load_state_dict(blob["model"])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 2635, in load_state_dict
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: Error(s) in loading state_dict for GPT:
+	Unexpected key(s) in state_dict: "blocks.0.attn.q_gain", "blocks.0.attn.k_gain", "blocks.1.attn.q_gain", "blocks.1.attn.k_gain", "blocks.2.attn.q_gain", "blocks.2.attn.k_gain", "blocks.3.attn.q_gain", "blocks.3.attn.k_gain", "blocks.4.attn.q_gain", "blocks.4.attn.k_gain", "blocks.5.attn.q_gain", "blocks.5.attn.k_gain", "blocks.6.attn.q_gain", "blocks.6.attn.k_gain", "blocks.7.attn.q_gain", "blocks.7.attn.k_gain", "blocks.8.attn.q_gain", "blocks.8.attn.k_gain", "blocks.9.attn.q_gain", "blocks.9.attn.k_gain", "blocks.10.attn.q_gain", "blocks.10.attn.k_gain", "blocks.11.attn.q_gain", "blocks.11.attn.k_gain". 

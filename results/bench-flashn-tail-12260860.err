@@ -1,0 +1,30 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260707_185311-gt6mlidv
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:                                   N ▁▃█
+wandb:                  flashn-fp16/fwd_ms ▁▂█
+wandb:       flashn-fp16/fwd_peak_alloc_mb ▁▃█
+wandb:    flashn-fp16/fwd_peak_reserved_mb ▁▄█
+wandb:               flashn-fp16/fwdbwd_ms ▁▂█
+wandb:    flashn-fp16/fwdbwd_peak_alloc_mb ▁▃█
+wandb: flashn-fp16/fwdbwd_peak_reserved_mb ▁▃█
+wandb:           flashn-fp16/graph_held_mb █▆▁
+wandb:            flashn-fp16/input_mem_mb ▁▃█
+wandb: 
+wandb: Run summary:
+wandb:                                   N 131072
+wandb:                  flashn-fp16/fwd_ms 13075.43516
+wandb:       flashn-fp16/fwd_peak_alloc_mb 554.17242
+wandb:    flashn-fp16/fwd_peak_reserved_mb 559.93958
+wandb:               flashn-fp16/fwdbwd_ms 14532.73438
+wandb:    flashn-fp16/fwdbwd_peak_alloc_mb 1505.75514
+wandb: flashn-fp16/fwdbwd_peak_reserved_mb 1612.70989
+wandb:           flashn-fp16/graph_held_mb -251.65824
+wandb:            flashn-fp16/input_mem_mb 402.65318
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260707_185311-gt6mlidv
+wandb: Find logs at: ./wandb/offline-run-20260707_185311-gt6mlidv/logs

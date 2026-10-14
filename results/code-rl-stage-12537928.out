@@ -1,0 +1,4 @@
+scores: [10, 6, 1, 1, 9] | parse fails: 0
+gold_match sanity: True True
+SMOKE PASSED
+ALL DONE

@@ -1,0 +1,10 @@
+
+===== ckpt_gpt2-stj-q4_s0.pt (step 19072) =====
+fineweb-val ppl :    20.27
+wikitext103 ppl :    38.78
+lambada acc     :    0.247
+  >> 'The most surprising thing about deep learning is that this technology is not limited by the human side, but rather can be implemented in all situations. In the case of a machine learning pipeline, the machine learning pipeline is implemented. Machine learning pipelines are'
+  >> 'In a small village by the sea, there lived a man named Gertie. Gertie was a very wealthy woman, who could earn from her husband’s services, such as cleaning, cleaning and preparing dishes. Her husband also had'
+  >> 'The recipe requires three eggs, a cup of flour, and 6 eggs of equal volume (approximately a cup for each egg). I will use ½ cup of water until the ingredients are evenly mixed. I will then use 1 cup of water – a cup twice more'
+DONE
+ALL DONE

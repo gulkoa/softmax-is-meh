@@ -1,0 +1,16 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+step    0 R 0.023 best 1.09 pass@1(batch) 0.031 KL 0.0000 ent 4.077 gnorm 15.05
+step    5 R 0.258 best 1.09 pass@1(batch) 0.242 KL 0.3518 ent 4.073 gnorm 18.21
+step   10 R 0.109 best 1.10 pass@1(batch) 0.102 KL 0.4066 ent 5.475 gnorm 18.09
+step   15 R 0.051 best 1.09 pass@1(batch) 0.055 KL 0.5375 ent 7.323 gnorm 16.75
+step   20 R 0.198 best 1.09 pass@1(batch) 0.188 KL 0.4267 ent 7.823 gnorm 22.05
+step   25 R 0.166 best 1.09 pass@1(batch) 0.148 KL 0.1995 ent 6.227 gnorm 34.87
+step   30 R 0.088 best 1.09 pass@1(batch) 0.078 KL 0.3552 ent 7.423 gnorm 13.65
+step   35 R -0.003 best 0.09 pass@1(batch) 0.000 KL 0.4816 ent 9.461 gnorm 9.37
+step   40 R 0.057 best 1.09 pass@1(batch) 0.062 KL 0.5398 ent 9.667 gnorm 5.58
+step   45 R 0.239 best 1.09 pass@1(batch) 0.219 KL -0.0064 ent 8.517 gnorm 23.79
+step   50 R 0.008 best 1.09 pass@1(batch) 0.008 KL 0.5370 ent 9.886 gnorm 11.54
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo50.pt
+step   55 R -0.002 best 0.10 pass@1(batch) 0.000 KL 1.0587 ent 9.461 gnorm 9.60

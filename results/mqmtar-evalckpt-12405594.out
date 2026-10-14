@@ -1,0 +1,8 @@
+loaded split 4096
+loaded split 8192
+
+===== asstjd-q4-nape-ift  (mqmtar_ckpt_asstjd-q4-nape-ift_12405592.pt) =====
+  len   4096: acc 0.0780  (n=500, 4048s)
+  len   8192: acc 0.0000  (n=100, 3205s)
+DONE
+ALL DONE

@@ -1,0 +1,5 @@
+equivalence gate @64 (n=50): dense 1.000 flex 1.000
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260715_193531-vk6hljqd[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260715_193531-vk6hljqd/logs[0m

@@ -1,0 +1,38 @@
+ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-it2.pt: position-free=True window=None
+  d=600 (644 tok) 'What is my name?': HIT  'my name is alex.'
+  d=600 (646 tok) 'What is my favorite colo': HIT  'my favorite color is blue.'
+  d=600 (647 tok) 'What was the code word?': MISS 'the code word for space is "vine."'
+  d=600 (647 tok) "What is my dog's name?": HIT  "my dog's name is rex."
+  d=600 (646 tok) 'What city do I live in?': HIT  "you're likely from paris."
+  d=600 (646 tok) 'What is my lucky number?': HIT  'your lucky number is 17.'
+DEPTH 600: recall 5/6
+  d=1200 (1249 tok) 'What is my name?': HIT  'alex.'
+  d=1200 (1251 tok) 'What is my favorite colo': MISS 'the sun contains about 99.'
+  d=1200 (1252 tok) 'What was the code word?': MISS 'the sun has a unique name.'
+  d=1200 (1252 tok) "What is my dog's name?": MISS 'vine is a petite.'
+  d=1200 (1251 tok) 'What city do I live in?': HIT  'i live in paris.'
+  d=1200 (1251 tok) 'What is my lucky number?': MISS 'the sun contains about 99.'
+DEPTH 1200: recall 2/6
+  d=1800 (1828 tok) 'What is my name?': MISS '\n| what is a light, but also a light, but also a light, but '
+  d=1800 (1830 tok) 'What is my favorite colo': MISS '\n| what is a light, but also a light, but also a light, but '
+  d=1800 (1831 tok) 'What was the code word?': MISS '\n| what is a simple, the sun.'
+  d=1800 (1831 tok) "What is my dog's name?": MISS '| what is a light, but also a light, but also a light.'
+  d=1800 (1830 tok) 'What city do I live in?': MISS '\n| what is a light, but also a light, but also a light, but '
+  d=1800 (1830 tok) 'What is my lucky number?': MISS '\n| what is a light, but also a light, but also a light, but '
+DEPTH 1800: recall 0/6
+  d=2400 (2433 tok) 'What is my name?': MISS ''
+  d=2400 (2435 tok) 'What is my favorite colo': MISS ''
+  d=2400 (2436 tok) 'What was the code word?': MISS ''
+  d=2400 (2436 tok) "What is my dog's name?": MISS ''
+  d=2400 (2435 tok) 'What city do I live in?': MISS 'i can be "a simple.'
+  d=2400 (2435 tok) 'What is my lucky number?': MISS ''
+DEPTH 2400: recall 0/6
+  d=3000 (3038 tok) 'What is my name?': MISS ' the reason to the reason for the reason to the reason to th'
+  d=3000 (3040 tok) 'What is my favorite colo': MISS ' the story. the story. the story. the story. the story. the '
+  d=3000 (3041 tok) 'What was the code word?': MISS ' the reason for the goal of the goal of the goal of the goal'
+  d=3000 (3041 tok) "What is my dog's name?": MISS ' the "a simple. the "a simple. the "a simple. the "a simple.'
+  d=3000 (3040 tok) 'What city do I live in?': MISS ' the subject the subject the subject the subject the subject'
+  d=3000 (3040 tok) 'What is my lucky number?': MISS ' the subject the subject the subject the subject the subject'
+DEPTH 3000: recall 0/6
+WROTE /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-it2_deepctx_recall.json
+ALL DONE

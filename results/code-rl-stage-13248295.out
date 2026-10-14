@@ -1,0 +1,10 @@
+[PASS] probe='What is my name?' -> "I'm Alex."
+[FAIL] probe='What color should I paint my room?' -> 'The color of your room is just as important as the color itself. If yo'
+[FAIL] probe='Suggest a snack for me.' -> 'A protein-rich snack would be a piece of cheese, such as Greek yogurt '
+[FAIL] probe='How many apples do I have now?' -> "I've eaten one apple. Now, please, have a seat and tell me what you've"
+[PASS] probe='What city do I live in?' -> "I'm French, I'm Paris! I'm a French-speaking AI assistant, and I'm del"
+[PASS] probe='What was the code word?' -> 'The code word is " banana."'
+[PASS] probe="What is my dog's name?" -> "My dog's name is Rex. I'm so glad you're here. I'm so glad you're here"
+[PASS] probe='Suggest a dinner.' -> "A vegetarian dinner would be perfect. I'd love to hear your ideas. Wha"
+SUMMARY multiturn back-ref recall: 5/8 = 62%  (ckpt_gpt2-stj-q4-medium-mix_s0-it.pt)
+ALL DONE

@@ -1,0 +1,284 @@
+########## MQMTAR v8: arm=softmaxd extra=[--nape --lr 3e-4 --seed 2] ##########
+loading data...
+train=50000000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=softmaxd-nape params=8.53M
+step      0 loss 5.6309
+step    500 loss 3.1068
+step   1000 loss 2.3978
+step   1500 loss 1.0014
+step   2000 loss 0.8229
+step   2500 loss 0.7898
+step   3000 loss 0.1776
+step   3500 loss 0.1880
+step   4000 loss 0.0437
+step   4500 loss 0.0444
+step   5000 loss 0.0439
+  [val] step 5000 acc@64 = 0.905
+step   5500 loss 0.0209
+step   6000 loss 0.0203
+step   6500 loss 0.0189
+step   7000 loss 0.3176
+step   7500 loss 0.0359
+step   8000 loss 0.0138
+step   8500 loss 0.0075
+step   9000 loss 0.0292
+step   9500 loss 0.0085
+step  10000 loss 0.0038
+  [val] step 10000 acc@64 = 0.965
+step  10500 loss 0.0134
+step  11000 loss 0.0095
+step  11500 loss 0.0093
+step  12000 loss 0.0214
+step  12500 loss 0.0155
+step  13000 loss 0.0095
+step  13500 loss 0.0090
+step  14000 loss 0.0136
+step  14500 loss 0.0125
+step  15000 loss 0.0161
+  [val] step 15000 acc@64 = 0.965
+step  15500 loss 0.0069
+step  16000 loss 0.0173
+step  16500 loss 0.0060
+step  17000 loss 0.0017
+step  17500 loss 0.0024
+step  18000 loss 0.0009
+step  18500 loss 0.0041
+step  19000 loss 0.0024
+step  19500 loss 0.0046
+step  20000 loss 0.0032
+  [val] step 20000 acc@64 = 0.995
+step  20500 loss 0.0016
+step  21000 loss 0.0092
+step  21500 loss 0.0022
+step  22000 loss 0.0004
+step  22500 loss 0.0002
+step  23000 loss 0.0014
+step  23500 loss 0.0099
+step  24000 loss 0.0055
+step  24500 loss 0.0001
+step  25000 loss 0.0003
+  [val] step 25000 acc@64 = 0.980
+step  25500 loss 0.0001
+step  26000 loss 0.0043
+step  26500 loss 0.0001
+step  27000 loss 0.0002
+step  27500 loss 0.0064
+step  28000 loss 0.0001
+step  28500 loss 0.0001
+step  29000 loss 0.0012
+step  29500 loss 0.0003
+step  30000 loss 0.0008
+  [val] step 30000 acc@64 = 1.000
+step  30500 loss 0.0002
+step  31000 loss 0.0001
+step  31500 loss 0.0001
+step  32000 loss 0.0003
+step  32500 loss 0.0022
+step  33000 loss 0.0001
+step  33500 loss 0.0010
+step  34000 loss 0.0000
+step  34500 loss 0.0001
+step  35000 loss 0.0031
+  [val] step 35000 acc@64 = 1.000
+step  35500 loss 0.0002
+step  36000 loss 0.0000
+step  36500 loss 0.0000
+step  37000 loss 0.0000
+step  37500 loss 0.0068
+step  38000 loss 0.0004
+step  38500 loss 0.0002
+step  39000 loss 0.0001
+step  39500 loss 0.0000
+step  40000 loss 0.0000
+  [val] step 40000 acc@64 = 1.000
+step  40500 loss 0.0001
+step  41000 loss 0.0000
+step  41500 loss 0.0001
+step  42000 loss 0.0001
+step  42500 loss 0.0000
+step  43000 loss 0.0000
+step  43500 loss 0.0109
+step  44000 loss 0.0000
+step  44500 loss 0.0000
+step  45000 loss 0.0000
+  [val] step 45000 acc@64 = 0.990
+step  45500 loss 0.0000
+step  46000 loss 0.0000
+step  46500 loss 0.0000
+step  47000 loss 0.0000
+step  47500 loss 0.0001
+step  48000 loss 0.0000
+step  48500 loss 0.0000
+step  49000 loss 0.0000
+step  49500 loss 0.0000
+step  50000 loss 0.0045
+  [val] step 50000 acc@64 = 1.000
+step  50500 loss 0.0000
+step  51000 loss 0.0001
+step  51500 loss 0.0000
+step  52000 loss 0.0000
+step  52500 loss 0.0000
+step  53000 loss 0.0048
+step  53500 loss 0.0000
+step  54000 loss 0.0000
+step  54500 loss 0.0001
+step  55000 loss 0.0000
+  [val] step 55000 acc@64 = 0.995
+step  55500 loss 0.0000
+step  56000 loss 0.0004
+step  56500 loss 0.0001
+step  57000 loss 0.0057
+step  57500 loss 0.0000
+step  58000 loss 0.0002
+step  58500 loss 0.0000
+step  59000 loss 0.0000
+step  59500 loss 0.0000
+step  60000 loss 0.0000
+  [val] step 60000 acc@64 = 1.000
+step  60500 loss 0.0000
+step  61000 loss 0.0000
+step  61500 loss 0.0000
+step  62000 loss 0.0000
+step  62500 loss 0.0031
+step  63000 loss 0.0000
+step  63500 loss 0.0000
+step  64000 loss 0.0000
+step  64500 loss 0.0000
+step  65000 loss 0.0000
+  [val] step 65000 acc@64 = 1.000
+step  65500 loss 0.0000
+step  66000 loss 0.0000
+step  66500 loss 0.0000
+step  67000 loss 0.0000
+step  67500 loss 0.0000
+step  68000 loss 0.0000
+step  68500 loss 0.0000
+step  69000 loss 0.0000
+step  69500 loss 0.0000
+step  70000 loss 0.0000
+  [val] step 70000 acc@64 = 1.000
+step  70500 loss 0.0000
+step  71000 loss 0.0000
+step  71500 loss 0.0000
+step  72000 loss 0.0000
+step  72500 loss 0.0000
+step  73000 loss 0.0000
+step  73500 loss 0.0000
+step  74000 loss 0.0000
+step  74500 loss 0.0000
+step  75000 loss 0.0000
+  [val] step 75000 acc@64 = 1.000
+step  75500 loss 0.0000
+step  76000 loss 0.0000
+step  76500 loss 0.0000
+step  77000 loss 0.0000
+step  77500 loss 0.0000
+step  78000 loss 0.0000
+step  78500 loss 0.0000
+step  79000 loss 0.0000
+step  79500 loss 0.0000
+step  80000 loss 0.0000
+  [val] step 80000 acc@64 = 1.000
+step  80500 loss 0.0000
+step  81000 loss 0.0000
+step  81500 loss 0.0000
+step  82000 loss 0.0000
+step  82500 loss 0.0000
+step  83000 loss 0.0000
+step  83500 loss 0.0000
+step  84000 loss 0.0000
+step  84500 loss 0.0000
+step  85000 loss 0.0000
+  [val] step 85000 acc@64 = 1.000
+step  85500 loss 0.0000
+step  86000 loss 0.0000
+step  86500 loss 0.0000
+step  87000 loss 0.0000
+step  87500 loss 0.0000
+step  88000 loss 0.0000
+step  88500 loss 0.0000
+step  89000 loss 0.0000
+step  89500 loss 0.0000
+step  90000 loss 0.0000
+  [val] step 90000 acc@64 = 1.000
+step  90500 loss 0.0000
+step  91000 loss 0.0000
+step  91500 loss 0.0000
+step  92000 loss 0.0000
+step  92500 loss 0.0000
+step  93000 loss 0.0000
+step  93500 loss 0.0000
+step  94000 loss 0.0000
+step  94500 loss 0.0000
+step  95000 loss 0.0000
+  [val] step 95000 acc@64 = 1.000
+step  95500 loss 0.0000
+step  96000 loss 0.0000
+step  96500 loss 0.0000
+step  97000 loss 0.0000
+step  97500 loss 0.0000
+checkpoint saved: /users/PAS2402/alexg/softmax/softmax-is-meh/results/mqmtar_ckpt_softmaxd-nape_12384340.pt
+
+final eval (exact match via greedy generation):
+  len     64: acc 1.0000  (n=1000, 0s)
+  len    128: acc 1.0000  (n=1000, 1s)
+  len    256: acc 1.0000  (n=1000, 2s)
+  len    512: acc 0.9980  (n=1000, 6s)
+  len   1024: acc 0.9930  (n=1000, 22s)
+  len   2048: acc 0.9900  (n=1000, 84s)
+  len   4096: acc 0.9620  (n=500, 162s)
+  len   8192: acc 0.8700  (n=100, 131s)
+
+diagnostic generations (test_0_64):
+[diag 0] ctx[:40]: 0 103 116 1 220 250 0 0 0 51 26 1 52 23 0 0 0 0 212 145 1 246 161 0 0 61 18 1 4 255 0 0 0 0 65 210 1 141 176 0
+[diag 0] queries : 2 51 26 2 212 145 2 103 116 2 32 77
+[diag 0] trg     : 2 52 23 2 246 161 2 220 250 2 53 37
+[diag 0] gen     : 2 52 23 2 246 161 2 220 250 2 53 37
+[diag 0] match   : ============
+[diag 1] ctx[:40]: 0 96 235 1 131 68 0 0 0 0 72 163 1 73 26 0 150 68 1 80 86 0 0 0 181 206 1 152 35 0 0 0 0 0 59 50 1 170 20 0
+[diag 1] queries : 2 235 34 2 96 235 2 60 212 2 96 235
+[diag 1] trg     : 2 152 171 2 131 68 2 249 154 2 131 68
+[diag 1] gen     : 2 152 171 2 131 68 2 249 154 2 131 68
+[diag 1] match   : ============
+[diag 2] ctx[:40]: 0 248 208 1 132 67 0 0 0 0 199 28 1 142 70 0 0 24 188 1 175 197 0 0 0 4 170 1 250 23 0 0 0 222 133 1 89 253 0 0
+[diag 2] queries : 2 4 170 2 83 197 2 248 208 2 4 170
+[diag 2] trg     : 2 250 23 2 90 120 2 132 67 2 250 23
+[diag 2] gen     : 2 250 23 2 90 120 2 132 67 2 250 23
+[diag 2] match   : ============
+[diag 3] ctx[:40]: 0 214 20 1 3 119 0 0 0 125 79 1 188 138 0 0 0 0 113 110 1 146 53 0 0 81 138 1 139 55 0 0 0 128 199 1 173 87 0 0
+[diag 3] queries : 2 81 138 2 125 79 2 207 207 2 207 207
+[diag 3] trg     : 2 139 55 2 188 138 2 145 51 2 145 51
+[diag 3] gen     : 2 139 55 2 188 138 2 145 51 2 145 51
+[diag 3] match   : ============
+[diag 4] ctx[:40]: 0 0 230 26 1 199 246 0 0 0 169 122 1 62 31 0 133 96 1 53 46 0 0 0 0 0 177 100 1 75 42 0 0 147 197 1 222 250 0 0
+[diag 4] queries : 2 177 100 2 111 63 2 147 197 2 111 63
+[diag 4] trg     : 2 75 42 2 168 156 2 222 250 2 168 156
+[diag 4] gen     : 2 75 42 2 168 156 2 222 250 2 168 156
+[diag 4] match   : ============
+[diag 5] ctx[:40]: 0 143 53 1 194 4 0 0 0 0 120 124 1 195 169 0 0 0 204 116 1 247 72 0 0 0 55 60 1 208 96 0 0 244 66 1 243 236 0 0
+[diag 5] queries : 2 55 60 2 244 66 2 55 60 2 204 116
+[diag 5] trg     : 2 208 96 2 243 236 2 208 96 2 247 72
+[diag 5] gen     : 2 208 96 2 243 236 2 208 96 2 247 72
+[diag 5] match   : ============
+[diag 6] ctx[:40]: 0 235 34 1 258 200 0 0 0 0 126 91 1 234 127 0 0 0 246 253 1 231 13 0 0 0 205 97 1 97 88 0 0 16 181 1 186 173 0 0
+[diag 6] queries : 2 235 34 2 246 253 2 235 34 2 60 149
+[diag 6] trg     : 2 258 200 2 231 13 2 258 200 2 61 165
+[diag 6] gen     : 2 258 200 2 231 13 2 258 200 2 61 165
+[diag 6] match   : ============
+[diag 7] ctx[:40]: 0 190 163 1 148 171 0 0 0 171 240 1 117 109 0 0 0 181 44 1 20 203 0 0 0 0 252 20 1 115 54 0 0 0 10 53 1 189 129 0
+[diag 7] queries : 2 190 163 2 4 121 2 252 20 2 252 20
+[diag 7] trg     : 2 148 171 2 128 115 2 115 54 2 115 54
+[diag 7] gen     : 2 148 171 2 128 115 2 115 54 2 115 54
+[diag 7] match   : ============
+[diag 8] ctx[:40]: 0 24 155 1 139 61 0 0 46 247 1 115 110 0 0 0 234 86 1 115 74 0 0 0 0 0 182 255 1 127 221 0 0 14 198 1 37 145 0 0
+[diag 8] queries : 2 61 159 2 223 220 2 182 255 2 234 86
+[diag 8] trg     : 2 182 64 2 53 208 2 127 221 2 115 74
+[diag 8] gen     : 2 182 64 2 53 208 2 127 221 2 115 74
+[diag 8] match   : ============
+[diag 9] ctx[:40]: 0 19 173 1 108 58 0 0 0 0 79 243 1 120 102 0 0 249 239 1 77 41 0 0 0 0 172 152 1 76 141 0 0 0 255 131 1 127 154 0
+[diag 9] queries : 2 12 198 2 249 239 2 19 173 2 79 243
+[diag 9] trg     : 2 58 10 2 77 41 2 108 58 2 120 102
+[diag 9] gen     : 2 58 10 2 77 41 2 108 58 2 120 102
+[diag 9] match   : ============
+DONE
+ALL DONE

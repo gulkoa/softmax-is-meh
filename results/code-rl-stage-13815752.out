@@ -1,0 +1,10 @@
+[PASS] probe='What is my name?' -> 'My name is Alex.'
+[PASS] probe='What color should I paint my room?' -> 'The color of your room is usually blue. However, you can also consider'
+[FAIL] probe='Suggest a snack for me.' -> 'Sure, I can suggest a snack that you might enjoy. However, please note'
+[FAIL] probe='How many apples do I have now?' -> "You're welcome! The number of apples you have now is 3."
+[PASS] probe='What city do I live in?' -> "Paris is a city that's known for its rich history, art, and culture. H"
+[PASS] probe='What was the code word?' -> 'The code word is banana.'
+[PASS] probe="What is my dog's name?" -> 'My dog is Rex.'
+[FAIL] probe='Suggest a dinner.' -> "I'm sorry for any confusion, but as a text-based AI, I don't have the "
+SUMMARY multiturn back-ref recall: 5/8 = 62%  (ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr.pt)
+ALL DONE

@@ -1,0 +1,6 @@
+multiturn SFT: 298983 convos (>=1 asst turns; 2160 tail-truncated to a complete-context prefix, kept not dropped), identity 0
+multiturn SFT: 23657 steps (avg len 881)
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260805_155757-iddl9ef3[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260805_155757-iddl9ef3/logs[0m

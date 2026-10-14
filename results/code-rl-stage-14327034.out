@@ -1,0 +1,10 @@
+== openai-community/gpt2: 124.4M params, ctx 1024
+fineweb-val ppl :    26.41
+wikitext103 ppl :    30.22
+lambada acc     :    0.312
+== openai-community/gpt2-medium: 354.8M params, ctx 1024
+fineweb-val ppl :    20.08
+wikitext103 ppl :    21.58
+lambada acc     :    0.402
+DONE
+ALL DONE

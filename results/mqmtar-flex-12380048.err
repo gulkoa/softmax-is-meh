@@ -1,0 +1,169 @@
+W0715 19:35:30.090000 3948199 .venv/lib/python3.14/site-packages/torch/_dynamo/convert_frame.py:1676] [0/8] torch._dynamo hit config.recompile_limit (8)
+W0715 19:35:30.090000 3948199 .venv/lib/python3.14/site-packages/torch/_dynamo/convert_frame.py:1676] [0/8]    function: 'flex_attention' (/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/attention/flex_attention.py:1396)
+W0715 19:35:30.090000 3948199 .venv/lib/python3.14/site-packages/torch/_dynamo/convert_frame.py:1676] [0/8]    last reason: 0/7: tensor 'key' size mismatch at index 2. expected 85, actual 86
+W0715 19:35:30.090000 3948199 .venv/lib/python3.14/site-packages/torch/_dynamo/convert_frame.py:1676] [0/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W0715 19:35:30.090000 3948199 .venv/lib/python3.14/site-packages/torch/_dynamo/convert_frame.py:1676] [0/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/compile/programming_model.recompilation.html
+/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/attention/flex_attention.py:1624: UserWarning: flex_attention called without torch.compile() - this will use an unfused implementation that materializes the full scores matrix instead of generating a fused kernel.
+
+SOLUTION: Use torch.compile(flex_attention)(...)
+
+If you want to debug your score_mod/mask_mod, you can set:
+torch.nn.attention.flex_attention._FLEX_ATTENTION_DISABLE_COMPILE_DEBUG = True
+
+This will allow you to use print statements or breakpoints. Note: This doesn't work with the backwards pass and may produce incorrect results.
+  _warn_once(
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260715_193531-vk6hljqd
+wandb: View this run in the terminal with `wandb leet`
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_eval_flex.py", line 134, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_eval_flex.py", line 124, in main
+    acc = M.eval_split(flexm, s, t, device, args.n, bs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_headtohead_v8.py", line 363, in eval_split
+    logits = model(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_headtohead_v8.py", line 316, in forward
+    x = b(x)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_headtohead_v8.py", line 286, in forward
+    x = x + self.attn(self.ln1(x))
+            ~~~~~~~~~^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/mqmtar_eval_flex.py", line 65, in forward
+    o = _flex(q, k, v, score_mod=score_mod, block_mask=mask,
+              scale=1.0 / (self.hd ** 0.5))
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_dynamo/eval_frame.py", line 953, in compile_wrapper
+    return fn(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/attention/flex_attention.py", line 1665, in flex_attention
+    out, lse, max_scores = flex_fn(
+                           ~~~~~~~^
+        query,
+        ^^^^^^
+    ...<5 lines>...
+        kernel_options,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_dynamo/eval_frame.py", line 953, in compile_wrapper
+    return fn(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/nn/attention/flex_attention.py", line 1644, in _flex_attention_hop_wrapper
+    def _flex_attention_hop_wrapper(*args, **kwargs):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_dynamo/eval_frame.py", line 1181, in _fn
+    return fn(*args, **kwargs)
+  File "<eval_with_key>.253", line 19, in forward
+    flex_attention = torch.ops.higher_order.flex_attention(l_args_0_, l_args_1_, l_args_2_, score_mod_0, (15302, 15302, l_args_4_2_, l_args_4_3_, l_args_4_4_, l_args_4_5_, l_args_4_6_, l_args_4_7_, l_args_4_8_, l_args_4_9_, 128, 128, mask_fn_0), 0.17677669529663687, {'BACKEND': 'AUTO', 'PRESCALE_QK': False, 'ROWS_GUARANTEED_SAFE': False, 'BLOCKS_ARE_CONTIGUOUS': False, 'WRITE_DQ': True, 'OUTPUT_LOGSUMEXP': False, 'OUTPUT_MAX': False}, (l_args_3_closure_0_cell_contents,), ());  l_args_0_ = l_args_1_ = l_args_2_ = score_mod_0 = l_args_4_2_ = l_args_4_3_ = l_args_4_4_ = l_args_4_5_ = l_args_4_6_ = l_args_4_7_ = l_args_4_8_ = l_args_4_9_ = mask_fn_0 = l_args_3_closure_0_cell_contents = None
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 97, in __call__
+    return super().__call__(
+           ~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_ops.py", line 510, in __call__
+    return self.dispatch(dispatch_key_set.highestPriorityTypeId(), *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_ops.py", line 360, in dispatch
+    return kernel(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 807, in flex_attention_autograd
+    out, logsumexp, max_scores = FlexAttentionAutogradOp.apply(
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<8 lines>...
+        *score_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/autograd/function.py", line 583, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 659, in forward
+    out, logsumexp, max_scores = flex_attention(
+                                 ~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 97, in __call__
+    return super().__call__(
+           ~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_ops.py", line 505, in __call__
+    return torch.overrides.handle_torch_function(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, flat_args, *args, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/overrides.py", line 1740, in handle_torch_function
+    result = mode.__torch_function__(public_api, types, args, kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_dynamo/_trace_wrapped_higher_order_op.py", line 147, in __torch_function__
+    return func(*args, **(kwargs or {}))
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 97, in __call__
+    return super().__call__(
+           ~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_ops.py", line 510, in __call__
+    return self.dispatch(dispatch_key_set.highestPriorityTypeId(), *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_ops.py", line 360, in dispatch
+    return kernel(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 282, in sdpa_dense
+    out, lse, max_scores = math_attention(
+                           ~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 238, in math_attention
+    _, post_mod_scores = _math_attention_inner(
+                         ~~~~~~~~~~~~~~~~~~~~~^
+        query,
+        ^^^^^^
+    ...<7 lines>...
+        mask_mod_other_buffers,
+        ^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/_higher_order_ops/flex_attention.py", line 174, in _math_attention_inner
+    scores = query.to(working_precision) @ key.to(working_precision).transpose(-2, -1)
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 111.65 GiB. GPU 0 has a total capacity of 93.09 GiB of which 88.21 GiB is free. Including non-PyTorch memory, this process has 4.86 GiB memory in use. Of the allocated memory 3.58 GiB is allocated by PyTorch, and 634.58 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

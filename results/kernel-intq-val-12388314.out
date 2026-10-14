@@ -1,0 +1,153 @@
+########## 1. built-in self-tests + benchmark ##########
+Device: cuda
+
+Forward correctness tests
+----------------------------------------------------------------------
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.1555  mean_err=0.031342
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.1301  mean_err=0.012825
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.3572  mean_err=0.056976
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.3254  mean_err=0.028061
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0636  mean_err=0.006607
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0504  mean_err=0.002645
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.3044  mean_err=0.062195
+  [FAIL] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.2451  mean_err=0.027008
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.6641  mean_err=0.130737
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.5923  mean_err=0.079834
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=1.0439  mean_err=0.204468
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.1115  mean_err=0.011597
+----------------------------------------------------------------------
+Some tests FAILED.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0068  dK_err=0.0053  dV_err=0.0988
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0044  dK_err=0.0048  dV_err=0.0469
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0084  dK_err=0.0076  dV_err=0.2441
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0106  dK_err=0.0076  dV_err=0.1906
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0077  dK_err=0.0068  dV_err=0.1893
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0105  dK_err=0.0054  dV_err=0.0132
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0150  dK_err=0.0094  dV_err=0.6044
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0112  dK_err=0.0102  dV_err=0.4362
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0195  dK_err=0.0127  dV_err=0.6079
+----------------------------------------------------------------------
+Some backward tests FAILED.
+
+########## 2. normalized-mode suite (vs Jack's reference) ##########
+GPU: NVIDIA H100
+
+==============================================================================
+PART A — FORWARD: Triton(normalize=True) vs PyTorch normalized reference
+==============================================================================
+  [PASS] fwd causal=False N= 16 q=   2: max|Δ|=2.980e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=   8: max|Δ|=7.749e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=  16: max|Δ|=1.371e-06 nan=False
+  [PASS] fwd causal=False N= 32 q=   2: max|Δ|=2.384e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=   8: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=  16: max|Δ|=1.267e-06 nan=False
+  [PASS] fwd causal=False N= 64 q=   2: max|Δ|=1.490e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=  16: max|Δ|=1.222e-06 nan=False
+  [PASS] fwd causal=False N= 96 q=   2: max|Δ|=1.639e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=   8: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=  16: max|Δ|=1.207e-06 nan=False
+  [PASS] fwd causal=False N=128 q=   2: max|Δ|=1.490e-07 nan=False
+  [PASS] fwd causal=False N=128 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N=128 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=False N=128 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=False N=256 q=   2: max|Δ|=1.043e-07 nan=False
+  [PASS] fwd causal=False N=256 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N=256 q=   8: max|Δ|=1.073e-06 nan=False
+  [PASS] fwd causal=False N=256 q=  16: max|Δ|=1.431e-06 nan=False
+  [PASS] fwd causal=True N= 16 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=   8: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=  16: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   8: max|Δ|=1.252e-06 nan=False
+  [PASS] fwd causal=True N= 32 q=  16: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   8: max|Δ|=1.252e-06 nan=False
+  [PASS] fwd causal=True N= 64 q=  16: max|Δ|=1.103e-06 nan=False
+  [PASS] fwd causal=True N= 96 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=True N=128 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=128 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=128 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N=128 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=True N=256 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=256 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=True N=256 q=   8: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=True N=256 q=  16: max|Δ|=1.431e-06 nan=False
+  [PASS] fwd fp16 N= 64 q=   2: max|Δ|=1.817e-04 nan=False
+  [PASS] fwd fp16 N= 64 q=   4: max|Δ|=1.102e-03 nan=False
+  [PASS] fwd fp16 N=128 q=   2: max|Δ|=1.530e-04 nan=False
+  [PASS] fwd fp16 N=128 q=   4: max|Δ|=1.314e-03 nan=False
+
+==============================================================================
+PART B — BACKWARD: Triton(normalize=True) vs PyTorch autograd (fp32)
+==============================================================================
+  [PASS] bwd D= 64 N= 16 q=   2: rel dQ=5.76e-07 dK=4.12e-07 dV=3.48e-07 nan=False
+  [PASS] bwd D= 64 N= 16 q=   4: rel dQ=2.71e-06 dK=1.69e-06 dV=4.95e-07 nan=False
+  [PASS] bwd D= 64 N= 16 q=  16: rel dQ=1.64e-05 dK=1.13e-05 dV=2.13e-06 nan=False
+  [PASS] bwd D= 64 N= 64 q=   2: rel dQ=8.56e-07 dK=6.96e-07 dV=3.46e-07 nan=False
+  [PASS] bwd D= 64 N= 64 q=   4: rel dQ=5.53e-06 dK=4.67e-06 dV=8.78e-07 nan=False
+  [PASS] bwd D= 64 N= 64 q=  16: rel dQ=7.89e-06 dK=8.26e-06 dV=2.24e-06 nan=False
+  [PASS] bwd D= 64 N=128 q=   2: rel dQ=7.64e-07 dK=7.15e-07 dV=4.37e-07 nan=False
+  [PASS] bwd D= 64 N=128 q=   4: rel dQ=1.64e-06 dK=3.07e-06 dV=6.49e-07 nan=False
+  [PASS] bwd D= 64 N=128 q=  16: rel dQ=5.27e-06 dK=7.78e-06 dV=2.29e-06 nan=False
+  [PASS] bwd D=128 N= 16 q=   2: rel dQ=4.38e-07 dK=4.06e-07 dV=2.40e-07 nan=False
+  [PASS] bwd D=128 N= 16 q=   4: rel dQ=1.53e-06 dK=2.02e-06 dV=7.02e-07 nan=False
+  [PASS] bwd D=128 N= 16 q=  16: rel dQ=6.55e-06 dK=1.65e-05 dV=2.05e-06 nan=False
+  [PASS] bwd D=128 N= 64 q=   2: rel dQ=5.83e-07 dK=7.73e-07 dV=3.53e-07 nan=False
+  [PASS] bwd D=128 N= 64 q=   4: rel dQ=2.19e-06 dK=2.41e-06 dV=8.32e-07 nan=False
+  [PASS] bwd D=128 N= 64 q=  16: rel dQ=8.23e-06 dK=1.76e-05 dV=2.49e-06 nan=False
+  [PASS] bwd D=128 N=128 q=   2: rel dQ=9.28e-07 dK=7.47e-07 dV=3.04e-07 nan=False
+  [PASS] bwd D=128 N=128 q=   4: rel dQ=4.75e-06 dK=4.50e-06 dV=7.87e-07 nan=False
+  [PASS] bwd D=128 N=128 q=  16: rel dQ=7.33e-06 dK=9.90e-06 dV=2.96e-06 nan=False
+
+==============================================================================
+PART C — NaN sweep (normalize mode, padding shapes)
+==============================================================================
+  [PASS] nan-sweep N= 32 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp16 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp32 q=  16: nan=False
+
+==============================================================================
+RESULT: ALL TESTS PASSED
+
+########## 3. BH-scaling perf matrix (int-q chains) ##########
+GPU: NVIDIA H100
+BH=  64 D= 32 N=  4096: sdpa     0.38ms | flashn i1      3.41ms (   8.9x) | i8     16.17ms (  42.1x, excess  4.2x)
+BH=  64 D= 32 N= 16384: sdpa     4.99ms | flashn i1     49.93ms (  10.0x) | i8    363.47ms (  72.8x, excess  7.3x)
+BH=  64 D= 32 N= 65536: sdpa    75.90ms | flashn i1    796.16ms (  10.5x) | i8   6866.68ms (  90.5x, excess  9.1x)
+BH=  64 D= 64 N=  4096: sdpa     0.51ms | flashn i1      4.07ms (   8.0x) | i8     17.39ms (  34.2x, excess  3.4x)
+BH=  64 D= 64 N= 16384: sdpa     6.94ms | flashn i1     61.10ms (   8.8x) | i8    407.95ms (  58.8x, excess  5.9x)
+BH=  64 D= 64 N= 65536: sdpa   107.62ms | flashn i1    987.69ms (   9.2x) | i8   7324.88ms (  68.1x, excess  6.8x)
+BH=1024 D= 32 N=  4096: sdpa     5.14ms | flashn i1     49.19ms (   9.6x) | i8    424.68ms (  82.7x, excess  8.3x)
+BH=1024 D= 32 N= 16384: sdpa    76.69ms | flashn i1    781.67ms (  10.2x) | i8   7174.37ms (  93.6x, excess  9.4x)
+BH=1024 D= 32 N= 65536: sdpa  1225.13ms | flashn i1  12495.58ms (  10.2x) | i8 116643.20ms (  95.2x, excess  9.5x)
+BH=1024 D= 64 N=  4096: sdpa     7.04ms | flashn i1     62.89ms (   8.9x) | i8    457.66ms (  65.0x, excess  6.5x)
+BH=1024 D= 64 N= 16384: sdpa   108.91ms | flashn i1   1020.13ms (   9.4x) | i8   7557.49ms (  69.4x, excess  6.9x)

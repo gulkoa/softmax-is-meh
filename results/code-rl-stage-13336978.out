@@ -1,0 +1,38 @@
+ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr.pt: position-free=True window=None
+  d=600 (644 tok) 'What is my name?': HIT  'your name is alex.'
+  d=600 (646 tok) 'What is my favorite colo': HIT  'your favorite color is blue.'
+  d=600 (647 tok) 'What was the code word?': MISS 'the code word is "ase."'
+  d=600 (647 tok) "What is my dog's name?": HIT  "your dog's name is rex."
+  d=600 (646 tok) 'What city do I live in?': MISS 'you live in tokyo.'
+  d=600 (646 tok) 'What is my lucky number?': HIT  'my lucky number is 17.'
+DEPTH 600: recall 4/6
+  d=1200 (1249 tok) 'What is my name?': HIT  'your name is alex.'
+  d=1200 (1251 tok) 'What is my favorite colo': HIT  'my favorite color is blue.'
+  d=1200 (1252 tok) 'What was the code word?': HIT  'the code word is banana.'
+  d=1200 (1252 tok) "What is my dog's name?": HIT  'your dog is called rex.'
+  d=1200 (1251 tok) 'What city do I live in?': MISS 'i live in tokyo.'
+  d=1200 (1251 tok) 'What is my lucky number?': HIT  'my lucky number is 17.'
+DEPTH 1200: recall 5/6
+  d=1800 (1828 tok) 'What is my name?': HIT  'your name is alex.'
+  d=1800 (1830 tok) 'What is my favorite colo': HIT  'my favorite color is blue.'
+  d=1800 (1831 tok) 'What was the code word?': MISS 'the capital of japan is tokyo.'
+  d=1800 (1831 tok) "What is my dog's name?": MISS 'what is a good breakfast.'
+  d=1800 (1830 tok) 'What city do I live in?': MISS 'the capital of france.'
+  d=1800 (1830 tok) 'What is my lucky number?': MISS 'my name is my name is vincent van gogh.'
+DEPTH 1800: recall 2/6
+  d=2400 (2433 tok) 'What is my name?': MISS '.'
+  d=2400 (2435 tok) 'What is my favorite colo': MISS '.'
+  d=2400 (2436 tok) 'What was the code word?': MISS '.'
+  d=2400 (2436 tok) "What is my dog's name?": MISS '.'
+  d=2400 (2435 tok) 'What city do I live in?': MISS '.'
+  d=2400 (2435 tok) 'What is my lucky number?': MISS '.'
+DEPTH 2400: recall 0/6
+  d=3000 (3038 tok) 'What is my name?': MISS '                        '
+  d=3000 (3040 tok) 'What is my favorite colo': MISS '                        '
+  d=3000 (3041 tok) 'What was the code word?': MISS '                        '
+  d=3000 (3041 tok) "What is my dog's name?": MISS '                        '
+  d=3000 (3040 tok) 'What city do I live in?': MISS '                        '
+  d=3000 (3040 tok) 'What is my lucky number?': MISS '                        '
+DEPTH 3000: recall 0/6
+WROTE /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr_deepctx_recall.json
+ALL DONE

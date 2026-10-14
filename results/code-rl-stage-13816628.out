@@ -1,0 +1,17 @@
+code-SFT examples: 873 (skipped 1 over-ctx)
+code-SFT: 108 steps (avg len 231)
+step    0/108 loss 2.0623
+step   10/108 loss 0.2325
+step   20/108 loss 0.1874
+step   30/108 loss 0.1071
+step   40/108 loss 0.2015
+step   50/108 loss 0.2280
+step   60/108 loss 0.2359
+step   70/108 loss 0.0922
+step   80/108 loss 0.1452
+step   90/108 loss 0.2055
+step  100/108 loss 0.0999
+saved /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r.pt
+DEMO: '<think>\nTask: Write a function to find the sum of the squares of the first n natural numbers. The tests call sum_sq() with 1 argument(s), e.g. assert sum_sq(3) == 14 Plan: iterate with a for loop.\n</think>\n```python\ndef sum_sq(n): \r\n    sum_sq = 0\r\n    for i in range(1, n + 1): \r\n        sum_sq = sum_sq + i'
+DONE
+ALL DONE

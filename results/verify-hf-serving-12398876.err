@@ -1,0 +1,6 @@
+Loading weights:   0%|          | 0/51 [00:00<?, ?it/s]Loading weights: 100%|██████████| 51/51 [00:00<00:00, 64372.41it/s]
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/verify_hf_serving.py", line 38, in <module>
+    assert correct >= int(0.9 * N_SAMPLES), "HF serving does not reproduce the model"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HF serving does not reproduce the model

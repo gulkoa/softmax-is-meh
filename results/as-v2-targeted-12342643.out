@@ -1,0 +1,114 @@
+########## PART 1: V2 (per-pos tanh gamma) at the FAILING d512 cell ##########
+GPU: NVIDIA H100  dembs=[512] qorders=[4.0]
+d=512 q_order=4 lr=3e-04 seed=0 gamma=0.005: L16=99.9 L128=96.7 L512=73.7 L1024=48.3 L2048=30.5 L4096=19.2 L8192=18.5 L16384=12.9
+d=512 q_order=4 lr=3e-04 seed=1 gamma=0.005: L16=99.8 L128=96.5 L512=72.8 L1024=47.6 L2048=30.0 L4096=19.4 L8192=17.5 L16384=14.0
+d=512 q_order=4 lr=3e-04 seed=2 gamma=0.005: L16=99.9 L128=96.6 L512=73.0 L1024=46.8 L2048=30.0 L4096=21.1 L8192=18.7 L16384=12.2
+d=512 q_order=4 lr=1e-03 seed=0 gamma=0.023: L16=99.9 L128=98.2 L512=93.6 L1024=86.7 L2048=70.1 L4096=57.0 L8192=43.4 L16384=25.5
+d=512 q_order=4 lr=1e-03 seed=1 gamma=0.022: L16=99.8 L128=97.9 L512=91.3 L1024=80.6 L2048=69.4 L4096=51.6 L8192=39.4 L16384=27.1
+d=512 q_order=4 lr=1e-03 seed=2 gamma=0.024: L16=100.0 L128=98.6 L512=90.9 L1024=83.1 L2048=66.7 L4096=47.3 L8192=33.0 L16384=23.3
+d=512 q_order=4 lr=3e-03 seed=0 gamma=0.009: L16=56.2 L128=24.3 L512=12.9 L1024=10.1 L2048=8.8 L4096=10.2 L8192=10.4 L16384=11.9
+d=512 q_order=4 lr=3e-03 seed=1 gamma=0.009: L16=48.7 L128=27.8 L512=24.6 L1024=20.8 L2048=17.0 L4096=14.1 L8192=13.8 L16384=10.4
+d=512 q_order=4 lr=3e-03 seed=2 gamma=0.009: L16=58.6 L128=38.4 L512=21.7 L1024=17.1 L2048=13.9 L4096=11.9 L8192=10.2 L16384=10.3
+
+===== AS-Stieltjes mean±std (compare vs scale-sweep softmax/stj-q32) =====
+d=512 asstjV2-q4-lr1e-03 |   99.90±0.08   98.27±0.28   91.93±1.16   83.46±2.52   68.75±1.48   51.95±4.00   38.57±4.26   25.29±1.52
+d=512 asstjV2-q4-lr3e-03 |   54.52±4.22   30.18±5.98   19.73±4.98   15.98±4.45   13.22±3.38   12.04±1.60   11.46±1.64   10.87±0.74
+d=512 asstjV2-q4-lr3e-04 |   99.84±0.06   96.58±0.08   73.18±0.41   47.56±0.64   30.14±0.23   19.92±0.83   18.20±0.51   13.02±0.72
+
+DONE
+
+########## PART 2: V2 sanity at d256 (must preserve the win) ##########
+GPU: NVIDIA H100  dembs=[256] qorders=[4.0]
+d=256 q_order=4 lr=3e-04 seed=0 gamma=0.010: L16=99.8 L128=97.9 L512=90.0 L1024=82.9 L2048=67.5 L4096=51.6 L8192=38.4 L16384=24.6
+d=256 q_order=4 lr=3e-04 seed=1 gamma=0.010: L16=99.7 L128=97.6 L512=90.5 L1024=78.6 L2048=63.6 L4096=47.5 L8192=31.4 L16384=22.0
+d=256 q_order=4 lr=3e-04 seed=2 gamma=0.010: L16=99.9 L128=99.0 L512=93.6 L1024=85.8 L2048=76.8 L4096=62.0 L8192=45.5 L16384=32.8
+
+===== AS-Stieltjes mean±std (compare vs scale-sweep softmax/stj-q32) =====
+d=256 asstjV2-q4 |   99.77±0.08   98.14±0.63   91.37±1.56   82.45±2.97   69.27±5.53   53.68±6.13   38.44±5.74   26.46±4.62
+
+DONE
+
+########## PART 3: code-LM V2 arms (19M x2 seeds — variance check) ##########
+data=stack arm=asflashn-q4-v2 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 342.9276 val 351.8037
+it   100 train 8.3277 val 7.0600
+it   200 train 3.2709 val 3.2740
+it   300 train 4.2362 val 4.0433
+it   400 train 3.0834 val 2.8749
+it   500 train 2.9004 val 2.7507
+it   600 train 3.1011 val 2.9515
+it   700 train 2.8023 val 2.8069
+it   800 train 2.8067 val 2.7187
+it   900 train 2.6534 val 2.5615
+it  1000 train 2.5256 val 2.5913
+it  1100 train 2.3506 val 2.4635
+it  1200 train 2.5085 val 2.4368
+it  1300 train 2.2915 val 2.4441
+it  1400 train 2.3161 val 2.4038
+it  1500 train 2.1781 val 2.3659
+it  1600 train 2.4114 val 2.3302
+it  1700 train 2.3511 val 2.3061
+it  1800 train 2.2673 val 2.2821
+it  1900 train 2.1595 val 2.2648
+it  2000 train 2.1634 val 2.2523
+it  2100 train 2.1804 val 2.2267
+it  2200 train 2.0804 val 2.2112
+it  2300 train 2.2340 val 2.1955
+it  2400 train 2.1525 val 2.1864
+it  2500 train 2.1521 val 2.1715
+it  2600 train 2.1436 val 2.1648
+it  2700 train 2.0998 val 2.1588
+it  2800 train 2.0683 val 2.1536
+it  2900 train 2.1580 val 2.1511
+
+final val loss by context length:
+  ctx   512: val_loss 2.1607  (3.117 bits/char)
+  ctx  1024: val_loss 2.2371  (3.227 bits/char)
+  ctx  2048: val_loss 2.3209  (3.348 bits/char)
+  ctx  4096: val_loss 2.7743  (4.002 bits/char)
+  ctx  8192: val_loss 7.5245  (10.856 bits/char)
+  ctx 16384: val_loss 10.1836  (14.692 bits/char)
+DONE
+data=stack arm=asflashn-q4-v2 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 365.8406 val 349.8549
+it   100 train 8.0259 val 7.1727
+it   200 train 3.3011 val 3.5019
+it   300 train 3.2157 val 3.5637
+it   400 train 3.0767 val 3.2444
+it   500 train 3.5292 val 3.2233
+it   600 train 2.7927 val 2.8835
+it   700 train 2.8639 val 2.7010
+it   800 train 2.7458 val 2.6977
+it   900 train 2.5651 val 2.6023
+it  1000 train 2.6798 val 2.5764
+it  1100 train 2.4092 val 2.4924
+it  1200 train 2.4337 val 2.4845
+it  1300 train 2.6509 val 2.4102
+it  1400 train 2.3841 val 2.4101
+it  1500 train 2.4210 val 2.3580
+it  1600 train 2.3983 val 2.3427
+it  1700 train 2.2534 val 2.3187
+it  1800 train 2.3545 val 2.2906
+it  1900 train 2.2296 val 2.2749
+it  2000 train 2.2295 val 2.2498
+it  2100 train 2.1395 val 2.2314
+it  2200 train 2.2440 val 2.2137
+it  2300 train 2.2585 val 2.1945
+it  2400 train 2.2316 val 2.1815
+it  2500 train 2.1845 val 2.1708
+it  2600 train 1.9994 val 2.1621
+it  2700 train 2.1435 val 2.1562
+it  2800 train 1.9945 val 2.1503
+it  2900 train 1.9988 val 2.1482
+
+final val loss by context length:
+  ctx   512: val_loss 2.1598  (3.116 bits/char)
+  ctx  1024: val_loss 2.2283  (3.215 bits/char)
+  ctx  2048: val_loss 2.2875  (3.300 bits/char)
+  ctx  4096: val_loss 2.5837  (3.727 bits/char)
+  ctx  8192: val_loss 2.7102  (3.910 bits/char)
+  ctx 16384: val_loss 2.7351  (3.946 bits/char)
+DONE
+ALL DONE

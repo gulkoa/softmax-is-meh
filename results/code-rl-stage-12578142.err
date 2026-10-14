@@ -1,0 +1,37 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 18193.17it/s]
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260725_062138-kcqsjfop
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:         acc_arc ▄▃▄▂▆▁▂▅▄▄▇▃▂▄▆▅▆▅▃▄▄▄▅▃▃▄▅▄▂▅▃▄▅▄██▅▇▃▄
+wandb:       acc_gsm8k ▇▁▃▂▁▁▃▁▁▃▇▁▁▂▂▁█▁▂▁▁▂▅▁▁▂▁▁▂▄▁▃▁▁▁▁▃▃▁▁
+wandb:       acc_logic ▁▁▁▁▁▁▁▁▁▁▁▁▁█▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:  attn_H_l0_mean ▆▁█▇
+wandb:   attn_H_l0_p10 ▁▇█▆
+wandb: attn_H_l12_mean ▁█▃▁
+wandb:  attn_H_l12_p10 ▃█▂▁
+wandb: attn_H_l23_mean ▄▁▃█
+wandb:  attn_H_l23_p10 ▄▁▁█
+wandb:    attn_maxp_l0 ▆█▁▁
+wandb:             +18 ...
+wandb: 
+wandb: Run summary:
+wandb:         acc_arc 0.3125
+wandb:       acc_gsm8k 0
+wandb:       acc_logic 0
+wandb:  attn_H_l0_mean 2.93006
+wandb:   attn_H_l0_p10 1.69377
+wandb: attn_H_l12_mean 1.93482
+wandb:  attn_H_l12_p10 0.60352
+wandb: attn_H_l23_mean 1.65784
+wandb:  attn_H_l23_p10 0.52526
+wandb:    attn_maxp_l0 0.17805
+wandb:             +18 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260725_062138-kcqsjfop
+wandb: Find logs at: ./wandb/offline-run-20260725_062138-kcqsjfop/logs

@@ -1,0 +1,38 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260713_074545-3voqndyk
+wandb: View this run in the terminal with `wandb leet`
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/launch.py", line 86, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/launch.py", line 61, in main
+    train(config)
+    ~~~~~^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/train.py", line 242, in train
+    train_dataloader, test_dataloader = prepare_data(config.data)
+                                        ~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/data/utils.py", line 112, in prepare_data
+    DataSegment.from_config(segment_config, seed=int(seed), **factory_kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/data/utils.py", line 85, in from_config
+    data: DataSegment = config.build(seed=seed)
+                        ~~~~~~~~~~~~^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/data/multiquery_ar.py", line 16, in build
+    return multiquery_ar(**self.model_dump(), seed=seed)
+  File "/users/PAS2402/alexg/softmax/zoology/zoology/data/multiquery_ar.py", line 89, in multiquery_ar
+    assert vocab_size > input_seq_len
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

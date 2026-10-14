@@ -1,0 +1,19 @@
+wandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_153447-7aia1vth
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb: final/acc_4096 ▁
+wandb: final/acc_8192 ▁
+wandb: 
+wandb: Run summary:
+wandb:       acc_4096 0.426
+wandb:       acc_8192 0
+wandb: final/acc_4096 0.426
+wandb: final/acc_8192 0
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_153447-7aia1vth
+wandb: Find logs at: ./wandb/offline-run-20260716_153447-7aia1vth/logs

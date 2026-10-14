@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_code_stilt.py", line 171, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_code_stilt.py", line 108, in main
+    xs, masks = build_code_tensors(tok, cfg.ctx, args.synthetic,
+                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   args.data, args.reasoning)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_code_stilt.py", line 56, in build_code_tensors
+    target = ("<think>\n" + p["think"].strip() + "\n</think>\n"
+                            ~^^^^^^^^^
+KeyError: 'think'

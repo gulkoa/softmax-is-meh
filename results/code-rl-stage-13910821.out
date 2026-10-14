@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.147 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the ancient Greeks. The Greeks were the first to develop a formal system of axiomatic geometry, which is still used today. They also developed a'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_rope_staging
+VERIFIED
+ALL DONE

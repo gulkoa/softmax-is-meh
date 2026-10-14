@@ -1,0 +1,231 @@
+########## MQMTAR head-to-head v3: arm=asentmax extra=[--steps 97656 --warmup 5000] ##########
+loading data...
+train=3200000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asentmax params=8.60M
+step      0 loss 5.5802
+step    500 loss 4.0803
+step   1000 loss 3.9610
+step   1500 loss 3.8438
+step   2000 loss 3.7747
+step   2500 loss 3.5567
+step   3000 loss 3.2793
+step   3500 loss 3.1574
+step   4000 loss 3.0089
+step   4500 loss 2.9017
+step   5000 loss 2.7846
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 2.7049
+step   6000 loss 2.6377
+step   6500 loss 2.5547
+step   7000 loss 2.4889
+step   7500 loss 2.4928
+step   8000 loss 2.4727
+step   8500 loss 2.4249
+step   9000 loss 2.3644
+step   9500 loss 2.3822
+step  10000 loss 2.3319
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 2.2714
+step  11000 loss 2.2926
+step  11500 loss 2.2549
+step  12000 loss 2.2198
+step  12500 loss 2.1722
+step  13000 loss 2.1574
+step  13500 loss 2.1273
+step  14000 loss 2.0953
+step  14500 loss 2.0737
+step  15000 loss 2.0212
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 2.0084
+step  16000 loss 2.0127
+step  16500 loss 1.9340
+step  17000 loss 1.9300
+step  17500 loss 1.9323
+step  18000 loss 1.8932
+step  18500 loss 1.8823
+step  19000 loss 1.8416
+step  19500 loss 1.7807
+step  20000 loss 1.7930
+  [val] step 20000 acc@64 = 0.000
+step  20500 loss 1.8395
+step  21000 loss 1.7859
+step  21500 loss 1.7326
+step  22000 loss 1.6275
+step  22500 loss 1.6711
+step  23000 loss 1.5687
+step  23500 loss 1.5102
+step  24000 loss 1.4845
+step  24500 loss 1.3880
+step  25000 loss 1.3023
+  [val] step 25000 acc@64 = 0.000
+step  25500 loss 1.2435
+step  26000 loss 1.2453
+step  26500 loss 1.1667
+step  27000 loss 1.0643
+step  27500 loss 0.9948
+step  28000 loss 0.9678
+step  28500 loss 0.9486
+step  29000 loss 0.9363
+step  29500 loss 0.8755
+step  30000 loss 0.8383
+  [val] step 30000 acc@64 = 0.000
+step  30500 loss 0.8174
+step  31000 loss 0.8174
+step  31500 loss 0.8097
+step  32000 loss 0.8200
+step  32500 loss 0.7972
+step  33000 loss 0.7606
+step  33500 loss 0.7592
+step  34000 loss 0.7546
+step  34500 loss 0.7442
+step  35000 loss 0.7965
+  [val] step 35000 acc@64 = 0.000
+step  35500 loss 0.7289
+step  36000 loss 0.7552
+step  36500 loss 0.6814
+step  37000 loss 0.7331
+step  37500 loss 0.7237
+step  38000 loss 0.7224
+step  38500 loss 0.7237
+step  39000 loss 0.7059
+step  39500 loss 0.7096
+step  40000 loss 0.7039
+  [val] step 40000 acc@64 = 0.000
+step  40500 loss 0.6761
+step  41000 loss 0.6885
+step  41500 loss 0.6763
+step  42000 loss 0.6960
+step  42500 loss 0.6654
+step  43000 loss 0.6632
+step  43500 loss 0.6914
+step  44000 loss 0.7035
+step  44500 loss 0.6888
+step  45000 loss 0.6869
+  [val] step 45000 acc@64 = 0.000
+step  45500 loss 0.6543
+step  46000 loss 0.6780
+step  46500 loss 0.6967
+step  47000 loss 0.6595
+step  47500 loss 0.6386
+step  48000 loss 0.6813
+step  48500 loss 0.6779
+step  49000 loss 0.6916
+step  49500 loss 0.6650
+step  50000 loss 0.6708
+  [val] step 50000 acc@64 = 0.000
+step  50500 loss 0.6619
+step  51000 loss 0.6588
+step  51500 loss 0.6433
+step  52000 loss 0.6289
+step  52500 loss 0.6446
+step  53000 loss 0.6547
+step  53500 loss 0.6405
+step  54000 loss 0.6373
+step  54500 loss 0.6440
+step  55000 loss 0.6290
+  [val] step 55000 acc@64 = 0.000
+step  55500 loss 0.6210
+step  56000 loss 0.6342
+step  56500 loss 0.6315
+step  57000 loss 0.6324
+step  57500 loss 0.6480
+step  58000 loss 0.6528
+step  58500 loss 0.6190
+step  59000 loss 0.6436
+step  59500 loss 0.6244
+step  60000 loss 0.6279
+  [val] step 60000 acc@64 = 0.000
+step  60500 loss 0.6187
+step  61000 loss 0.6154
+step  61500 loss 0.6203
+step  62000 loss 0.6401
+step  62500 loss 0.6205
+step  63000 loss 0.6192
+step  63500 loss 0.6220
+step  64000 loss 0.6378
+step  64500 loss 0.6085
+step  65000 loss 0.6342
+  [val] step 65000 acc@64 = 0.000
+step  65500 loss 0.6076
+step  66000 loss 0.6096
+step  66500 loss 0.6018
+step  67000 loss 0.6114
+step  67500 loss 0.6062
+step  68000 loss 0.6127
+step  68500 loss 0.6108
+step  69000 loss 0.6195
+step  69500 loss 0.6057
+step  70000 loss 0.6223
+  [val] step 70000 acc@64 = 0.000
+step  70500 loss 0.6406
+step  71000 loss 0.6021
+step  71500 loss 0.6199
+step  72000 loss 0.6183
+step  72500 loss 0.6103
+step  73000 loss 0.6150
+step  73500 loss 0.6188
+step  74000 loss 0.5897
+step  74500 loss 0.6051
+step  75000 loss 0.6188
+  [val] step 75000 acc@64 = 0.000
+step  75500 loss 0.6284
+step  76000 loss 0.6179
+step  76500 loss 0.6325
+step  77000 loss 0.6098
+step  77500 loss 0.5989
+step  78000 loss 0.6301
+step  78500 loss 0.6270
+step  79000 loss 0.6072
+step  79500 loss 0.6211
+step  80000 loss 0.6124
+  [val] step 80000 acc@64 = 0.000
+step  80500 loss 0.6016
+step  81000 loss 0.6011
+step  81500 loss 0.6074
+step  82000 loss 0.6203
+step  82500 loss 0.6035
+step  83000 loss 0.6262
+step  83500 loss 0.6002
+step  84000 loss 0.6217
+step  84500 loss 0.5922
+step  85000 loss 0.6047
+  [val] step 85000 acc@64 = 0.000
+step  85500 loss 0.6102
+step  86000 loss 0.6128
+step  86500 loss 0.5924
+step  87000 loss 0.6245
+step  87500 loss 0.6063
+step  88000 loss 0.6076
+step  88500 loss 0.6150
+step  89000 loss 0.6055
+step  89500 loss 0.5922
+step  90000 loss 0.6098
+  [val] step 90000 acc@64 = 0.000
+step  90500 loss 0.6095
+step  91000 loss 0.6095
+step  91500 loss 0.6301
+step  92000 loss 0.6196
+step  92500 loss 0.6073
+step  93000 loss 0.6111
+step  93500 loss 0.6158
+step  94000 loss 0.6053
+step  94500 loss 0.6048
+step  95000 loss 0.6079
+  [val] step 95000 acc@64 = 0.000
+step  95500 loss 0.6132
+step  96000 loss 0.5855
+step  96500 loss 0.5963
+step  97000 loss 0.6099
+step  97500 loss 0.6060
+
+final eval (exact match via greedy generation):
+  len     64: acc 0.0010  (n=1000)
+  len    128: acc 0.0000  (n=1000)
+  len    256: acc 0.0000  (n=1000)
+  len    512: acc 0.0000  (n=1000)
+  len   1024: acc 0.0000  (n=1000)
+  len   2048: acc 0.0000  (n=1000)
+  len   4096: acc 0.0000  (n=500)
+  len   8192: acc 0.0000  (n=100)
+DONE
+ALL DONE

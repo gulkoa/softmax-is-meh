@@ -1,0 +1,26 @@
+=== EAGER ===
+gpt2-stj-q4-nope-qk-modern-nocap-cbench-eager-lr0.0006: 123.6M params, 114 steps x 524288 tokens
+step      0/114 loss 10.9923 gnorm 14.33 (34k tok/s)
+step     20/114 loss 7.1365 gnorm 0.69 (170k tok/s)
+step     40/114 loss 7.0311 gnorm 0.65 (170k tok/s)
+  [val] step 50 loss 6.4472 ppl 630.90 (wall 0.05h, 0.03B tok, 565M tok/GPU-h)
+step     60/114 loss 6.4107 gnorm 0.44 (167k tok/s)
+step     80/114 loss 5.9090 gnorm 0.26 (170k tok/s)
+step    100/114 loss 5.8148 gnorm 0.21 (170k tok/s)
+  [val] step 100 loss 6.0431 ppl 421.21 (wall 0.09h, 0.05B tok, 586M tok/GPU-h)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-modern-nocap-cbench-eager-lr0.0006_s0.pt
+DONE
+=== COMPILED ===
+torch.compile: block MLPs+norms compiled
+gpt2-stj-q4-nope-qk-modern-nocap-cbench-comp-lr0.0006: 123.6M params, 114 steps x 524288 tokens
+step      0/114 loss 10.9923 gnorm 14.33 (16k tok/s)
+step     20/114 loss 7.1377 gnorm 0.72 (182k tok/s)
+step     40/114 loss 7.0785 gnorm 0.71 (181k tok/s)
+  [val] step 50 loss 6.5127 ppl 673.66 (wall 0.05h, 0.03B tok, 541M tok/GPU-h)
+step     60/114 loss 6.4771 gnorm 0.38 (176k tok/s)
+step     80/114 loss 5.9729 gnorm 0.28 (181k tok/s)
+step    100/114 loss 5.8737 gnorm 0.19 (181k tok/s)
+  [val] step 100 loss 6.0989 ppl 445.35 (wall 0.09h, 0.05B tok, 589M tok/GPU-h)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-modern-nocap-cbench-comp-lr0.0006_s0.pt
+DONE
+ALL DONE

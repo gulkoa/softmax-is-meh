@@ -1,0 +1,8 @@
+########## MQMTAR head-to-head: arm=sdpa ##########
+loading data...
+train=3200000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+arm=sdpa params=8.53M
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260714_092017-nio8jrd6[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260714_092017-nio8jrd6/logs[0m

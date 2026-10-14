@@ -1,0 +1,20 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run hwf64y2i
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260723_130503-hwf64y2i
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r.pt-12554946
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/hwf64y2i
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_code_stilt.py", line 369, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_code_stilt.py", line 301, in main
+    tok_lp, m, ent = seq_logprobs(model, x, plen, tok, cfg.ctx)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_code_stilt.py", line 167, in seq_logprobs
+    lp = torch.log_softmax(logits[:, :-1], dim=-1)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 12.47 GiB. GPU 0 has a total capacity of 93.09 GiB of which 11.69 GiB is free. Including non-PyTorch memory, this process has 81.38 GiB memory in use. Of the allocated memory 74.62 GiB is allocated by PyTorch, and 6.10 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

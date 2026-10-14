@@ -1,0 +1,10 @@
+[FAIL] probe='What is my name?' -> "I'm Stilt, a research language model built with a custom attention mec"
+[FAIL] probe='What color should I paint my room?' -> 'My favorite color is red.'
+[FAIL] probe='Suggest a snack for me.' -> "Here's a suggestion: Try a small amount of peanut butter on your skin,"
+[FAIL] probe='How many apples do I have now?' -> 'There are three apples in total.'
+[PASS] probe='What city do I live in?' -> "I'm in Paris, a city I love. It's a beautiful city with so much histor"
+[FAIL] probe='What was the code word?' -> 'The code word was "neural_neuromodel."'
+[PASS] probe="What is my dog's name?" -> "My dog's name is Rex."
+[PASS] probe='Suggest a dinner.' -> "I'm sorry, but I'm an AI and I don't have personal preferences. I can "
+SUMMARY multiturn back-ref recall: 3/8 = 38%  (ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr-it2.pt)
+ALL DONE

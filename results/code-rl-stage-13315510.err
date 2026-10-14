@@ -1,0 +1,11 @@
+usage: sft_multiturn_stilt.py [-h] [--min-assistant-turns MIN_ASST]
+                              [--identity IDENTITY]
+                              [--identity-upsample IDENTITY_UPSAMPLE]
+                              [--tokens TOKENS] [--bs BS] [--lr LR]
+                              [--seed SEED] [--ctx CTX]
+                              [--dataset {smol,full}]
+                              [--max-examples MAX_EXAMPLES]
+                              [--out-suffix OUT_SUFFIX]
+                              [--token-cap TOKEN_CAP]
+                              base_ckpt
+sft_multiturn_stilt.py: error: argument --out-suffix: expected one argument

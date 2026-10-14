@@ -1,0 +1,8 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  35%|███▌      | 120/339 [00:00<00:00, 1098.65it/s]Loading weights:  71%|███████   | 240/339 [00:00<00:00, 1133.38it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 1154.38it/s]
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260725_003643-q4jwwoz8
+wandb: View this run in the terminal with `wandb leet`
+[2026-07-25T02:35:28.006] error: *** JOB 12578140 ON c0820 CANCELLED AT 2026-07-25T02:35:28 DUE TO TIME LIMIT ***

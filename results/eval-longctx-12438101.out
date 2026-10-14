@@ -1,0 +1,5 @@
+building PG-19 token stream...
+
+===== ckpt_gpt2-sdpa_s0.pt =====
+  pg19 NLL by available context: [0-64):4.3603  [64-128):3.9130  [128-256):3.8163  [256-512):3.7558  [512-1023):3.7073
+  pg19 context gain (bucket0 - bucket4): 0.6530 nats

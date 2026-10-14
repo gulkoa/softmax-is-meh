@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.108 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the Greeks. The Greeks were the first to discover the concept of numbers. They were the first to use the concept of zero. They were the first'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_nope_softmax_staging
+VERIFIED
+ALL DONE

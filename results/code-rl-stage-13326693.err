@@ -1,0 +1,18 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260805_184741-w2sen02p
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb: ent_code_rl █▃▁▁▂▂
+wandb:    ent_text █▂▁▁▁▂
+wandb:   stage_idx ▁▂▄▅▇█
+wandb: 
+wandb: Run summary:
+wandb: ent_code_rl 3.08534
+wandb:    ent_text 2.88754
+wandb:   stage_idx 5
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260805_184741-w2sen02p
+wandb: Find logs at: ./wandb/offline-run-20260805_184741-w2sen02p/logs

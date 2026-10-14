@@ -1,0 +1,77 @@
+Device: cuda
+GPU: NVIDIA H100
+========================================================================
+Backward correctness verification
+========================================================================
+
+q = 1.0
+  max|J_NR_DD  - J_BS| = 4.711e-03  (drop-δ vs BS)
+  max|J_NR_BS  - J_BS| = 1.735e-18  (drop-δ+argmax vs BS)
+  max|J_NR     - J_BS| = 4.358e-03  (IFT vs BS)
+  J_BS    diag mean = 3.6255e-03, off-diag mean = -2.2659e-04
+  J_NR_DD diag mean = 3.9200e-03, off-diag mean = 0.0000e+00
+  J_NR_BS diag mean = 3.6255e-03, off-diag mean = -2.2659e-04
+
+q = 4.0
+  max|J_NR_DD  - J_BS| = 1.427e+00  (drop-δ vs BS)
+  max|J_NR_BS  - J_BS| = 0.000e+00  (drop-δ+argmax vs BS)
+  max|J_NR     - J_BS| = 6.380e-01  (IFT vs BS)
+  J_BS    diag mean = 7.2135e-02, off-diag mean = -4.5084e-03
+  J_NR_DD diag mean = 1.6129e-01, off-diag mean = 0.0000e+00
+  J_NR_BS diag mean = 7.2135e-02, off-diag mean = -4.5084e-03
+
+q = 16.0
+  max|J_NR_DD  - J_BS| = 1.586e+01  (drop-δ vs BS)
+  max|J_NR_BS  - J_BS| = 0.000e+00  (drop-δ+argmax vs BS)
+  max|J_NR     - J_BS| = 9.688e-02  (IFT vs BS)
+  J_BS    diag mean = 6.0923e-03, off-diag mean = -3.8077e-04
+  J_NR_DD diag mean = 9.9707e-01, off-diag mean = 0.0000e+00
+  J_NR_BS diag mean = 6.0923e-03, off-diag mean = -3.8077e-04
+
+=== Training: BS (PyTorch baseline) (q=16.0) ===
+  L=   16  acc=99.90%
+  L=   32  acc=99.41%
+  L=   64  acc=98.34%
+  L=  128  acc=91.41%
+  L=  256  acc=76.27%
+  L=  512  acc=57.32%
+
+=== Training: NR (IFT bwd — current Triton) (q=16.0) ===
+  L=   16  acc=99.85%
+  L=   32  acc=99.32%
+  L=   64  acc=97.36%
+  L=  128  acc=89.26%
+  L=  256  acc=73.34%
+  L=  512  acc=53.32%
+
+=== Training: NR-fwd + DropDelta bwd (q=16.0) ===
+  L=   16  acc=69.73%
+  L=   32  acc=66.21%
+  L=   64  acc=60.74%
+  L=  128  acc=50.29%
+  L=  256  acc=41.02%
+  L=  512  acc=31.93%
+
+=== Training: NR-fwd + BS bwd (drop-δ + argmax) (q=16.0) ===
+  L=   16  acc=99.90%
+  L=   32  acc=99.41%
+  L=   64  acc=98.34%
+  L=  128  acc=91.41%
+  L=  256  acc=76.27%
+  L=  512  acc=57.32%
+
+Results saved to softmax-is-meh/results/nrfwd_bsbwd_seed0_q16.0_10440443.json
+
+================================================================================
+SUMMARY  q=16.0  seed=0
+================================================================================
+
+     L |       BS |       NR |    NR_DD |    NR_BS |    DD-BS |  NRBS-BS
+--------------------------------------------------------------------------------
+    16 |   99.90% |   99.85% |   69.73% |   99.90% |  -30.18 |   +0.00
+    32 |   99.41% |   99.32% |   66.21% |   99.41% |  -33.20 |   +0.00
+    64 |   98.34% |   97.36% |   60.74% |   98.34% |  -37.60 |   +0.00
+   128 |   91.41% |   89.26% |   50.29% |   91.41% |  -41.11 |   +0.00
+   256 |   76.27% |   73.34% |   41.02% |   76.27% |  -35.25 |   +0.00
+   512 |   57.32% |   53.32% |   31.93% |   57.32% |  -25.39 |   +0.00
+DONE seed=0 q=16.0

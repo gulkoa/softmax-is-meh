@@ -1,0 +1,17 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo350.pt (step 350)
+step  350 R 0.092 best 0.10 pass@1(batch) 0.000 KL 0.6518 ent 5.514 gnorm 4.64
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo350.pt
+step  355 R 0.067 best 0.10 pass@1(batch) 0.000 KL 0.2657 ent 5.999 gnorm 3.92
+step  360 R 0.081 best 0.10 pass@1(batch) 0.000 KL -0.6106 ent 7.184 gnorm 65.37
+step  365 R 0.086 best 0.10 pass@1(batch) 0.000 KL 0.7792 ent 7.358 gnorm 4.67
+step  370 R 0.083 best 0.10 pass@1(batch) 0.000 KL 0.1124 ent 5.024 gnorm 5.84
+step  375 R 0.075 best 0.10 pass@1(batch) 0.000 KL 0.1444 ent 4.469 gnorm 3.29
+step  380 R 0.071 best 0.10 pass@1(batch) 0.000 KL -0.0588 ent 8.008 gnorm 22.77
+step  385 R 0.089 best 0.10 pass@1(batch) 0.000 KL 0.7634 ent 8.213 gnorm 6.59
+step  390 R 0.092 best 0.10 pass@1(batch) 0.000 KL 0.1976 ent 4.581 gnorm 3.08
+step  395 R 0.084 best 0.10 pass@1(batch) 0.000 KL 0.2371 ent 4.459 gnorm 2.79
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo_final.pt
+ALL DONE

@@ -1,0 +1,22 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1046 > 1024). Running this sequence through the model will result in indexing errors
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260723_042243-f3lcxbgh
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb: grad_norm ▃▇█▅▅▄█▃▃▅▅▃▄▅▄▅▅▇▅▄▄▂▄▅▃▃▅▅▆▅▃▁▄▄▄▂▃▃▅▆
+wandb:        lr ██████████▇▇▆▆▆▆▆▆▅▅▄▄▄▄▄▄▃▃▃▃▂▂▂▂▂▂▂▁▁▁
+wandb:  sft_loss ▅██▅▆▅▂▃▇▅▇▄▇▇▂▂▂▆▆▄▂▄▆▂▄▅▄▅▁▅▁▃▆▂▂▂▃▁▃▃
+wandb:      step ▁▁▁▁▁▂▂▂▂▂▂▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▅▅▆▆▆▆▇▇▇▇████
+wandb: 
+wandb: Run summary:
+wandb: grad_norm 1.66993
+wandb:        lr 0
+wandb:  sft_loss 1.04497
+wandb:      step 3893
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260723_042243-f3lcxbgh
+wandb: Find logs at: ./wandb/offline-run-20260723_042243-f3lcxbgh/logs

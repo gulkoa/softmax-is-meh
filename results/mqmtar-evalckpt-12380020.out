@@ -1,0 +1,8 @@
+loaded split 4096
+loaded split 8192
+
+===== asentmax-nape  (mqmtar_ckpt_asentmax-nape_12375737.pt) =====
+  len   4096: acc 0.0540  (n=500, 4297s)
+  len   8192: acc 0.0100  (n=100, 3400s)
+DONE
+ALL DONE

@@ -1,0 +1,44 @@
+tasks: {'logic': 600, 'gsm8k': 400, 'arc': 300}
+curriculum: 464 solvable tasks
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason150.pt (step 150)
+step  150 R 0.126 acc 0.094 judge 0.13 KL 0.2045 ent 2.313
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason150.pt
+step  155 R 0.198 acc 0.164 judge 0.16 KL 0.2716 ent 3.024
+step  160 R 0.220 acc 0.188 judge 0.15 KL 0.2247 ent 3.877
+step  165 R 0.120 acc 0.078 judge 0.18 KL 0.1314 ent 2.653
+step  170 R 0.174 acc 0.141 judge 0.16 KL 0.2141 ent 3.283
+step  175 R 0.287 acc 0.250 judge 0.18 KL 0.1886 ent 3.289
+step  180 R 0.198 acc 0.172 judge 0.15 KL 0.1865 ent 3.644
+step  185 R 0.295 acc 0.266 judge 0.15 KL 0.3318 ent 3.355
+step  190 R 0.221 acc 0.188 judge 0.17 KL 0.3163 ent 3.054
+step  195 R 0.187 acc 0.148 judge 0.19 KL 0.2080 ent 4.263
+step  200 R 0.184 acc 0.148 judge 0.18 KL 0.3388 ent 3.474
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason200.pt
+step  205 R 0.161 acc 0.141 judge 0.13 KL 0.3233 ent 3.779
+step  210 R 0.275 acc 0.242 judge 0.15 KL 0.2953 ent 3.224
+step  215 R 0.134 acc 0.102 judge 0.16 KL 0.3325 ent 4.163
+step  220 R 0.285 acc 0.266 judge 0.12 KL 0.3285 ent 4.236
+step  225 R 0.282 acc 0.250 judge 0.17 KL 0.3217 ent 4.496
+step  230 R 0.242 acc 0.211 judge 0.16 KL 0.2468 ent 4.417
+step  235 R 0.249 acc 0.219 judge 0.15 KL 0.2985 ent 3.687
+step  240 R 0.216 acc 0.180 judge 0.16 KL 0.2728 ent 3.118
+step  245 R 0.221 acc 0.188 judge 0.16 KL 0.2856 ent 3.569
+step  250 R 0.249 acc 0.219 judge 0.16 KL 0.3772 ent 3.828
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason250.pt
+step  255 R 0.266 acc 0.234 judge 0.16 KL 0.2026 ent 3.251
+step  260 R 0.453 acc 0.422 judge 0.14 KL 0.3162 ent 3.364
+step  265 R 0.291 acc 0.266 judge 0.14 KL 0.2473 ent 3.677
+step  270 R 0.189 acc 0.148 judge 0.18 KL 0.2908 ent 3.160
+step  275 R 0.294 acc 0.258 judge 0.16 KL 0.2461 ent 2.624
+step  280 R 0.316 acc 0.273 judge 0.19 KL 0.1847 ent 2.714
+step  285 R 0.124 acc 0.086 judge 0.18 KL 0.1460 ent 3.516
+step  290 R 0.264 acc 0.227 judge 0.17 KL 0.3431 ent 2.803
+step  295 R 0.132 acc 0.094 judge 0.18 KL 0.1655 ent 4.224
+step  300 R 0.204 acc 0.172 judge 0.16 KL 0.2917 ent 3.806
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason300.pt
+step  305 R 0.149 acc 0.109 judge 0.19 KL 0.4160 ent 4.300
+step  310 R 0.210 acc 0.180 judge 0.14 KL 0.2765 ent 3.572
+step  315 R 0.167 acc 0.125 judge 0.18 KL 0.2485 ent 2.926
+step  320 R 0.161 acc 0.125 judge 0.15 KL 0.3238 ent 2.456
+step  325 R 0.229 acc 0.195 judge 0.15 KL 0.2472 ent 3.209
+step  330 R 0.269 acc 0.234 judge 0.18 KL 0.3584 ent 4.000

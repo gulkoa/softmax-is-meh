@@ -1,0 +1,230 @@
+########## MQMTAR head-to-head v3: arm=asstj extra=[--steps 97656 --warmup 5000] ##########
+loading data...
+train=3200000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+arm=asstj-q4 params=8.60M
+step      0 loss 5.5591
+step    500 loss 4.0688
+step   1000 loss 3.9838
+step   1500 loss 3.8298
+step   2000 loss 3.6728
+step   2500 loss 3.2965
+step   3000 loss 3.1921
+step   3500 loss 3.0801
+step   4000 loss 2.9807
+step   4500 loss 2.8330
+step   5000 loss 2.7515
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 2.6886
+step   6000 loss 2.6208
+step   6500 loss 2.5484
+step   7000 loss 2.4777
+step   7500 loss 2.5035
+step   8000 loss 2.4627
+step   8500 loss 2.4260
+step   9000 loss 2.3910
+step   9500 loss 2.3701
+step  10000 loss 2.3532
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 2.2999
+step  11000 loss 2.3214
+step  11500 loss 2.2844
+step  12000 loss 2.2681
+step  12500 loss 2.2248
+step  13000 loss 2.2270
+step  13500 loss 2.1819
+step  14000 loss 2.1810
+step  14500 loss 2.1765
+step  15000 loss 2.1265
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 2.0913
+step  16000 loss 2.1470
+step  16500 loss 2.0452
+step  17000 loss 2.0433
+step  17500 loss 2.0597
+step  18000 loss 2.0529
+step  18500 loss 2.0384
+step  19000 loss 1.9629
+step  19500 loss 1.9353
+step  20000 loss 1.9521
+  [val] step 20000 acc@64 = 0.000
+step  20500 loss 1.9552
+step  21000 loss 1.9509
+step  21500 loss 1.9089
+step  22000 loss 1.8480
+step  22500 loss 1.8921
+step  23000 loss 1.8119
+step  23500 loss 1.7703
+step  24000 loss 1.7204
+step  24500 loss 1.6616
+step  25000 loss 1.4290
+  [val] step 25000 acc@64 = 0.000
+step  25500 loss 1.2538
+step  26000 loss 1.1713
+step  26500 loss 1.1035
+step  27000 loss 1.0045
+step  27500 loss 0.9592
+step  28000 loss 0.9292
+step  28500 loss 0.8847
+step  29000 loss 0.8438
+step  29500 loss 0.8336
+step  30000 loss 0.8471
+  [val] step 30000 acc@64 = 0.000
+step  30500 loss 0.8081
+step  31000 loss 0.7971
+step  31500 loss 0.8059
+step  32000 loss 0.8282
+step  32500 loss 0.7763
+step  33000 loss 0.7402
+step  33500 loss 0.7696
+step  34000 loss 0.7545
+step  34500 loss 0.7736
+step  35000 loss 0.7845
+  [val] step 35000 acc@64 = 0.000
+step  35500 loss 0.7196
+step  36000 loss 0.7512
+step  36500 loss 0.7207
+step  37000 loss 0.7251
+step  37500 loss 0.7578
+step  38000 loss 0.7248
+step  38500 loss 0.7548
+step  39000 loss 0.7469
+step  39500 loss 0.6962
+step  40000 loss 0.7334
+  [val] step 40000 acc@64 = 0.000
+step  40500 loss 0.6785
+step  41000 loss 0.6901
+step  41500 loss 0.6873
+step  42000 loss 0.7226
+step  42500 loss 0.6841
+step  43000 loss 0.6859
+step  43500 loss 0.7050
+step  44000 loss 0.7423
+step  44500 loss 0.7157
+step  45000 loss 0.6896
+  [val] step 45000 acc@64 = 0.000
+step  45500 loss 0.7074
+step  46000 loss 0.6908
+step  46500 loss 0.6922
+step  47000 loss 0.6960
+step  47500 loss 0.6448
+step  48000 loss 0.6910
+step  48500 loss 0.6963
+step  49000 loss 0.6896
+step  49500 loss 0.6713
+step  50000 loss 0.6883
+  [val] step 50000 acc@64 = 0.000
+step  50500 loss 0.6865
+step  51000 loss 0.7110
+step  51500 loss 0.6540
+step  52000 loss 0.6259
+step  52500 loss 0.6573
+step  53000 loss 0.6678
+step  53500 loss 0.6514
+step  54000 loss 0.6632
+step  54500 loss 0.6557
+step  55000 loss 0.6394
+  [val] step 55000 acc@64 = 0.000
+step  55500 loss 0.6360
+step  56000 loss 0.6420
+step  56500 loss 0.6385
+step  57000 loss 0.6652
+step  57500 loss 0.6761
+step  58000 loss 0.6767
+step  58500 loss 0.6332
+step  59000 loss 0.6462
+step  59500 loss 0.6231
+step  60000 loss 0.6438
+  [val] step 60000 acc@64 = 0.000
+step  60500 loss 0.6266
+step  61000 loss 0.6355
+step  61500 loss 0.6261
+step  62000 loss 0.6442
+step  62500 loss 0.6443
+step  63000 loss 0.6356
+step  63500 loss 0.6618
+step  64000 loss 0.6712
+step  64500 loss 0.6205
+step  65000 loss 0.6444
+  [val] step 65000 acc@64 = 0.000
+step  65500 loss 0.6328
+step  66000 loss 0.6610
+step  66500 loss 0.6284
+step  67000 loss 0.6462
+step  67500 loss 0.6474
+step  68000 loss 0.6141
+step  68500 loss 0.6418
+step  69000 loss 0.6203
+step  69500 loss 0.6463
+step  70000 loss 0.6403
+  [val] step 70000 acc@64 = 0.000
+step  70500 loss 0.6381
+step  71000 loss 0.6299
+step  71500 loss 0.6569
+step  72000 loss 0.6401
+step  72500 loss 0.6281
+step  73000 loss 0.6393
+step  73500 loss 0.6032
+step  74000 loss 0.6188
+step  74500 loss 0.6273
+step  75000 loss 0.6423
+  [val] step 75000 acc@64 = 0.000
+step  75500 loss 0.6554
+step  76000 loss 0.6511
+step  76500 loss 0.6384
+step  77000 loss 0.6259
+step  77500 loss 0.6208
+step  78000 loss 0.6402
+step  78500 loss 0.6443
+step  79000 loss 0.6258
+step  79500 loss 0.6420
+step  80000 loss 0.6249
+  [val] step 80000 acc@64 = 0.000
+step  80500 loss 0.6087
+step  81000 loss 0.6367
+step  81500 loss 0.6439
+step  82000 loss 0.6376
+step  82500 loss 0.6284
+step  83000 loss 0.6418
+step  83500 loss 0.6165
+step  84000 loss 0.6288
+step  84500 loss 0.6137
+step  85000 loss 0.6290
+  [val] step 85000 acc@64 = 0.000
+step  85500 loss 0.6214
+step  86000 loss 0.6336
+step  86500 loss 0.6079
+step  87000 loss 0.6668
+step  87500 loss 0.6410
+step  88000 loss 0.6222
+step  88500 loss 0.6335
+step  89000 loss 0.6194
+step  89500 loss 0.6061
+step  90000 loss 0.6231
+  [val] step 90000 acc@64 = 0.000
+step  90500 loss 0.6282
+step  91000 loss 0.6210
+step  91500 loss 0.6459
+step  92000 loss 0.6243
+step  92500 loss 0.6062
+step  93000 loss 0.6271
+step  93500 loss 0.6209
+step  94000 loss 0.6223
+step  94500 loss 0.6275
+step  95000 loss 0.6239
+  [val] step 95000 acc@64 = 0.000
+step  95500 loss 0.6181
+step  96000 loss 0.6048
+step  96500 loss 0.6182
+step  97000 loss 0.6289
+step  97500 loss 0.6025
+
+final eval (exact match via greedy generation):
+  len     64: acc 0.0010  (n=1000)
+  len    128: acc 0.0000  (n=1000)
+  len    256: acc 0.0000  (n=1000)
+  len    512: acc 0.0000  (n=1000)
+  len   1024: acc 0.0000  (n=1000)
+  len   2048: acc 0.0000  (n=1000)
+  len   4096: acc 0.0000  (n=1000)
+  len   8192: acc 0.0000  (n=250)
+  len  16384: acc 0.0000  (n=250)

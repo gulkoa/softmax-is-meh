@@ -1,0 +1,42 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260724_045313-fpbxz81r
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r.pt-12555962
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/fpbxz81r
+wandb: updating run metadata
+wandb: uploading output.log; uploading wandb-summary.json
+wandb: 
+wandb: Run history:
+wandb:    adv_abs_mean ▂▅▅█▇▅█▄▂▃▂▁▆▃▄▅▄▄▃▂▆▃▅▆▅▄▅▃▃▃▅▅▂▃▂▃▄▅▃▂
+wandb:  attn_H_l0_mean █▁
+wandb:   attn_H_l0_p10 ▁█
+wandb: attn_H_l12_mean ▁█
+wandb:  attn_H_l12_p10 ▁█
+wandb: attn_H_l23_mean ▁█
+wandb:  attn_H_l23_p10 █▁
+wandb:    attn_maxp_l0 ▁█
+wandb:   attn_maxp_l12 █▁
+wandb:   attn_maxp_l23 █▁
+wandb:             +15 ...
+wandb: 
+wandb: Run summary:
+wandb:    adv_abs_mean 0.21411
+wandb:  attn_H_l0_mean 2.96284
+wandb:   attn_H_l0_p10 1.69172
+wandb: attn_H_l12_mean 2.03603
+wandb:  attn_H_l12_p10 0.73278
+wandb: attn_H_l23_mean 1.90618
+wandb:  attn_H_l23_p10 0.68827
+wandb:    attn_maxp_l0 0.17287
+wandb:   attn_maxp_l12 0.45652
+wandb:   attn_maxp_l23 0.49637
+wandb:             +15 ...
+wandb: 
+wandb: 🚀 View run grpo-code-ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r.pt-12555962 at: https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/fpbxz81r
+wandb: ⭐️ View project at: https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: Synced 5 W&B file(s), 1 media file(s), 2 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260724_045313-fpbxz81r/logs

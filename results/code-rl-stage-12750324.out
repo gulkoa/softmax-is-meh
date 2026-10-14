@@ -1,0 +1,11 @@
+building PG-19 token stream...
+
+===== ckpt_gpt2-stj-q4-nope-nopesmoke-lr0.0006_s0.pt (nope=True) =====
+  pg19 NLL by available context: [0-64):6.3678  [64-128):6.2396  [128-256):6.1733  [256-512):6.1623  [512-1023):6.1549
+  pg19 context gain (bucket0 - bucket4): 0.2129 nats
+  pg19 ppl @1024/2048/4096/8192/16384 (extrapolation): 478.79 / 476.78 / 480.42 / 486.42 / 494.72
+  fineweb-val NLL by available context: [0-64):5.9847  [64-128):5.8756  [128-256):5.8692  [256-512):5.8744  [512-1023):5.9225
+  fineweb-val context gain (bucket0 - bucket4): 0.0622 nats
+  fineweb-val ppl @1024/2048/4096/8192/16384 (extrapolation): 374.72 / 385.24 / 401.96 / 421.07 / 441.54
+DONE
+ALL DONE

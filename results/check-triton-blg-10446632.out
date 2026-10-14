@@ -1,0 +1,66 @@
+Device: cuda
+GPU: NVIDIA H100
+
+========================================================================
+q = 1.0
+========================================================================
+forward max|Triton - BS|     = 2.412e-04
+forward max|Triton - NR|     = 2.412e-04
+
+Triton(block_lambda_grad=False) vs PyTorch NR (IFT):
+  max|dQ|: 4.585e-06  (rel: 5.201e-04)
+  max|dK|: 4.959e-06  (rel: 5.679e-04)
+  max|dV|: nan  (rel: nan)
+
+Triton(block_lambda_grad=True) vs PyTorch BS:
+  max|dQ|: 1.373e-05  (rel: 6.900e-04)
+  max|dK|: 1.235e-05  (rel: 5.123e-04)
+  max|dV|: nan  (rel: nan)
+
+Triton(BS) vs Triton(IFT) — should DIFFER (sanity):
+  max|dQ|: 2.204e-02
+  max|dK|: 2.069e-02
+  max|dV|: nan
+
+========================================================================
+q = 4.0
+========================================================================
+forward max|Triton - BS|     = 2.395e-03
+forward max|Triton - NR|     = 2.395e-03
+
+Triton(block_lambda_grad=False) vs PyTorch NR (IFT):
+  max|dQ|: 4.990e-03  (rel: 1.011e-03)
+  max|dK|: 5.759e-03  (rel: 1.093e-03)
+  max|dV|: nan  (rel: nan)
+
+Triton(block_lambda_grad=True) vs PyTorch BS:
+  max|dQ|: 1.774e+00  (rel: 2.515e-01)
+  max|dK|: 1.233e+00  (rel: 2.139e-01)
+  max|dV|: nan  (rel: nan)
+
+Triton(BS) vs Triton(IFT) — should DIFFER (sanity):
+  max|dQ|: 4.956e+00
+  max|dK|: 4.664e+00
+  max|dV|: nan
+
+========================================================================
+q = 16.0
+========================================================================
+forward max|Triton - BS|     = 1.473e-02
+forward max|Triton - NR|     = 1.473e-02
+
+Triton(block_lambda_grad=False) vs PyTorch NR (IFT):
+  max|dQ|: 1.745e-01  (rel: 3.908e-03)
+  max|dK|: nan  (rel: nan)
+  max|dV|: nan  (rel: nan)
+
+Triton(block_lambda_grad=True) vs PyTorch BS:
+  max|dQ|: 3.125e-01  (rel: 9.040e-03)
+  max|dK|: nan  (rel: nan)
+  max|dV|: nan  (rel: nan)
+
+Triton(BS) vs Triton(IFT) — should DIFFER (sanity):
+  max|dQ|: 4.561e+01
+  max|dK|: nan
+  max|dV|: nan
+DONE

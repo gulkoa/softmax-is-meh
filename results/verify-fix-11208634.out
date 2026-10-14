@@ -1,0 +1,41 @@
+Device: NVIDIA H100
+
+Forward correctness tests
+----------------------------------------------------------------------
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.1555  mean_err=0.031342
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.1301  mean_err=0.012825
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.3572  mean_err=0.056976
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.3254  mean_err=0.028061
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0636  mean_err=0.006607
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0504  mean_err=0.002645
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.3044  mean_err=0.062195
+  [FAIL] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.2451  mean_err=0.027008
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.6641  mean_err=0.130737
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.5923  mean_err=0.079834
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=1.0439  mean_err=0.204468
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.1115  mean_err=0.011597
+----------------------------------------------------------------------
+Some tests FAILED.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0068  dK_err=0.0053  dV_err=0.0988
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0044  dK_err=0.0048  dV_err=0.0469
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0084  dK_err=0.0076  dV_err=0.2441
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0106  dK_err=0.0076  dV_err=0.1906
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0077  dK_err=0.0068  dV_err=0.1893
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0105  dK_err=0.0054  dV_err=0.0132
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0150  dK_err=0.0094  dV_err=0.6044
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0112  dK_err=0.0102  dV_err=0.4362
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0195  dK_err=0.0127  dV_err=0.6079
+----------------------------------------------------------------------
+Some backward tests FAILED.
+
+========================================================================
+BS-mode backward vs PyTorch BS (fp32 inputs, argmax stable)
+========================================================================
+  [PASS] B=2 H=4 N=  64 D= 64 q=   1  nan=False  dQ_rel=1.67e-03 dK_rel=1.61e-03 dV_rel=8.77e-04
+  [PASS] B=2 H=4 N=  64 D= 64 q=   4  nan=False  dQ_rel=2.20e-03 dK_rel=2.73e-03 dV_rel=1.63e-03
+  [PASS] B=1 H=2 N= 128 D= 64 q=   1  nan=False  dQ_rel=2.11e-03 dK_rel=1.62e-03 dV_rel=1.03e-03
+  [PASS] B=1 H=2 N= 128 D= 64 q=   4  nan=False  dQ_rel=2.51e-03 dK_rel=3.13e-03 dV_rel=1.99e-03
+  [PASS] B=1 H=2 N= 256 D= 64 q=   4  nan=False  dQ_rel=7.28e-03 dK_rel=5.97e-03 dV_rel=2.59e-03

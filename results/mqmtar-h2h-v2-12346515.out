@@ -1,0 +1,69 @@
+########## MQMTAR head-to-head v2: arm=asentmax extra=[] ##########
+loading data...
+train=3200000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asentmax params=8.60M
+step      0 loss 5.5802
+step    500 loss 3.9399
+step   1000 loss 3.8350
+step   1500 loss 3.5182
+step   2000 loss 3.1787
+step   2500 loss 2.9861
+step   3000 loss 2.8513
+step   3500 loss 2.7585
+step   4000 loss 2.6747
+step   4500 loss 2.5986
+step   5000 loss 2.5627
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 2.5148
+step   6000 loss 2.4862
+step   6500 loss 2.4147
+step   7000 loss 2.3504
+step   7500 loss 2.3810
+step   8000 loss 2.3656
+step   8500 loss 2.3150
+step   9000 loss 2.2744
+step   9500 loss 2.2988
+step  10000 loss 2.2461
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 2.2038
+step  11000 loss 2.2271
+step  11500 loss 2.1987
+step  12000 loss 2.1722
+step  12500 loss 2.1395
+step  13000 loss 2.1274
+step  13500 loss 2.1032
+step  14000 loss 2.1010
+step  14500 loss 2.0887
+step  15000 loss 2.0513
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 2.0429
+step  16000 loss 2.0826
+step  16500 loss 1.9968
+step  17000 loss 2.0033
+step  17500 loss 2.0360
+step  18000 loss 2.0251
+step  18500 loss 2.0134
+step  19000 loss 1.9934
+step  19500 loss 1.9598
+step  20000 loss 1.9928
+  [val] step 20000 acc@64 = 0.000
+step  20500 loss 2.0436
+step  21000 loss 2.0119
+step  21500 loss 2.0006
+step  22000 loss 1.9576
+step  22500 loss 2.0045
+step  23000 loss 1.9874
+step  23500 loss 1.9602
+step  24000 loss 1.9978
+
+final eval (exact match via greedy generation):
+  len     64: acc 0.0000  (n=1000)
+  len    128: acc 0.0000  (n=1000)
+  len    256: acc 0.0000  (n=1000)
+  len    512: acc 0.0000  (n=1000)
+  len   1024: acc 0.0000  (n=1000)
+  len   2048: acc 0.0000  (n=1000)
+  len   4096: acc 0.0000  (n=500)
+  len   8192: acc 0.0000  (n=100)
+DONE
+ALL DONE

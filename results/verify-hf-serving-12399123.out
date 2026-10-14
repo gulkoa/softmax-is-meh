@@ -1,0 +1,5 @@
+loaded: StieltjesForCausalLM on cuda:0
+
+25/25 exact matches via HF generate()
+SERVING VERIFIED
+ALL DONE

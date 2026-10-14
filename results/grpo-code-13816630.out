@@ -1,0 +1,92 @@
+MBPP train problems: 374
+curriculum: 142 solvable problems
+curriculum: +500 synthetic -> 642 total
+step    0 R 0.039 best 0.09 pass@1(batch) 0.000 KL 0.0000 ent 3.506 gnorm 0.21
+step    5 R 0.157 best 1.09 pass@1(batch) 0.125 KL 0.0152 ent 2.444 gnorm 0.19
+step   10 R 0.120 best 1.08 pass@1(batch) 0.062 KL 0.0389 ent 2.540 gnorm 0.21
+step   15 R 0.160 best 1.09 pass@1(batch) 0.125 KL 0.0240 ent 2.598 gnorm 0.23
+step   20 R 0.061 best 1.08 pass@1(batch) 0.016 KL 0.0257 ent 2.382 gnorm 0.21
+step   25 R 0.232 best 1.10 pass@1(batch) 0.180 KL 0.0172 ent 1.823 gnorm 0.25
+step   30 R 0.219 best 1.09 pass@1(batch) 0.164 KL 0.0290 ent 2.514 gnorm 0.26
+step   35 R 0.214 best 1.09 pass@1(batch) 0.156 KL 0.0393 ent 2.343 gnorm 0.33
+step   40 R 0.034 best 0.09 pass@1(batch) 0.000 KL 0.0419 ent 3.519 gnorm 0.31
+step   45 R 0.085 best 1.08 pass@1(batch) 0.023 KL 0.0544 ent 3.005 gnorm 0.29
+step   50 R 0.064 best 1.08 pass@1(batch) 0.008 KL 0.0583 ent 3.492 gnorm 0.32
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo50.pt
+step   55 R 0.077 best 1.09 pass@1(batch) 0.016 KL 0.0376 ent 3.430 gnorm 0.20
+step   60 R 0.198 best 1.09 pass@1(batch) 0.141 KL 0.0411 ent 2.415 gnorm 0.24
+step   65 R 0.063 best 1.08 pass@1(batch) 0.008 KL 0.0411 ent 3.916 gnorm 0.20
+step   70 R 0.119 best 1.09 pass@1(batch) 0.062 KL 0.0349 ent 2.624 gnorm 0.15
+step   75 R 0.093 best 1.08 pass@1(batch) 0.023 KL 0.0658 ent 3.408 gnorm 0.35
+step   80 R 0.259 best 1.09 pass@1(batch) 0.203 KL 0.0327 ent 2.197 gnorm 0.19
+step   85 R 0.169 best 1.09 pass@1(batch) 0.117 KL 0.0267 ent 2.338 gnorm 0.22
+step   90 R 0.084 best 1.09 pass@1(batch) 0.031 KL 0.0343 ent 3.003 gnorm 0.29
+step   95 R 0.130 best 1.09 pass@1(batch) 0.078 KL 0.0446 ent 3.151 gnorm 0.21
+step  100 R 0.247 best 1.09 pass@1(batch) 0.195 KL 0.0385 ent 1.909 gnorm 0.33
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo100.pt
+step  105 R 0.135 best 1.09 pass@1(batch) 0.086 KL 0.0472 ent 2.807 gnorm 0.31
+step  110 R 0.482 best 1.09 pass@1(batch) 0.406 KL 0.0288 ent 1.855 gnorm 0.17
+step  115 R 0.091 best 1.08 pass@1(batch) 0.039 KL 0.0546 ent 3.650 gnorm 0.33
+step  120 R 0.067 best 1.08 pass@1(batch) 0.016 KL 0.0520 ent 2.786 gnorm 0.42
+step  125 R 0.244 best 1.09 pass@1(batch) 0.188 KL 0.0416 ent 2.400 gnorm 0.25
+step  130 R 0.169 best 1.09 pass@1(batch) 0.117 KL 0.0399 ent 2.744 gnorm 0.25
+step  135 R 0.079 best 1.08 pass@1(batch) 0.016 KL 0.0364 ent 3.712 gnorm 0.18
+step  140 R 0.361 best 1.09 pass@1(batch) 0.305 KL 0.0439 ent 1.720 gnorm 0.21
+step  145 R 0.078 best 1.08 pass@1(batch) 0.008 KL 0.0506 ent 3.631 gnorm 0.18
+step  150 R 0.463 best 1.09 pass@1(batch) 0.398 KL 0.0331 ent 1.786 gnorm 0.30
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo150.pt
+step  155 R 0.074 best 1.08 pass@1(batch) 0.023 KL 0.0563 ent 3.797 gnorm 0.31
+step  160 R 0.059 best 0.10 pass@1(batch) 0.000 KL 0.0364 ent 3.533 gnorm 0.22
+step  165 R 0.109 best 1.08 pass@1(batch) 0.062 KL 0.0436 ent 3.044 gnorm 0.17
+step  170 R 0.495 best 1.09 pass@1(batch) 0.430 KL 0.0515 ent 1.826 gnorm 0.18
+step  175 R 0.060 best 0.09 pass@1(batch) 0.000 KL 0.0310 ent 3.301 gnorm 0.25
+step  180 R 0.104 best 1.08 pass@1(batch) 0.047 KL 0.0482 ent 3.725 gnorm 0.25
+step  185 R 0.101 best 1.09 pass@1(batch) 0.031 KL 0.0514 ent 3.839 gnorm 0.29
+step  190 R 0.397 best 1.09 pass@1(batch) 0.336 KL 0.0446 ent 2.048 gnorm 0.16
+step  195 R 0.227 best 1.09 pass@1(batch) 0.172 KL 0.0443 ent 2.292 gnorm 0.18
+step  200 R 0.101 best 1.09 pass@1(batch) 0.062 KL 0.0621 ent 2.833 gnorm 0.36
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo200.pt
+step  205 R 0.114 best 1.09 pass@1(batch) 0.062 KL 0.0609 ent 2.609 gnorm 0.30
+step  210 R 0.176 best 1.09 pass@1(batch) 0.117 KL 0.0612 ent 2.752 gnorm 0.31
+step  215 R 0.117 best 1.09 pass@1(batch) 0.062 KL 0.0522 ent 3.233 gnorm 0.32
+step  220 R 0.282 best 1.09 pass@1(batch) 0.227 KL 0.0644 ent 2.196 gnorm 0.25
+step  225 R 0.056 best 0.10 pass@1(batch) 0.000 KL 0.0415 ent 3.637 gnorm 0.26
+step  230 R 0.122 best 1.08 pass@1(batch) 0.055 KL 0.0617 ent 3.194 gnorm 0.22
+step  235 R 0.044 best 0.10 pass@1(batch) 0.000 KL 0.0699 ent 3.974 gnorm 0.32
+step  240 R 0.064 best 0.10 pass@1(batch) 0.000 KL 0.0562 ent 3.361 gnorm 0.30
+step  245 R 0.173 best 1.09 pass@1(batch) 0.094 KL 0.0687 ent 2.444 gnorm 0.26
+step  250 R 0.424 best 1.09 pass@1(batch) 0.367 KL 0.0531 ent 2.117 gnorm 0.29
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo250.pt
+step  255 R 0.081 best 0.10 pass@1(batch) 0.000 KL 0.0307 ent 3.458 gnorm 0.27
+step  260 R 0.189 best 1.09 pass@1(batch) 0.125 KL 0.0526 ent 2.682 gnorm 0.16
+step  265 R 0.369 best 1.09 pass@1(batch) 0.305 KL 0.0448 ent 2.121 gnorm 0.30
+step  270 R 0.233 best 1.09 pass@1(batch) 0.172 KL 0.0799 ent 2.442 gnorm 0.25
+step  275 R 0.351 best 1.09 pass@1(batch) 0.281 KL 0.0635 ent 2.439 gnorm 0.23
+step  280 R 0.051 best 0.10 pass@1(batch) 0.000 KL 0.0606 ent 3.492 gnorm 0.24
+step  285 R 0.334 best 1.09 pass@1(batch) 0.266 KL 0.0842 ent 2.316 gnorm 0.25
+step  290 R 0.061 best 0.10 pass@1(batch) 0.000 KL 0.0513 ent 3.700 gnorm 0.38
+step  295 R 0.081 best 0.10 pass@1(batch) 0.000 KL 0.0487 ent 3.456 gnorm 0.45
+step  300 R 0.062 best 1.08 pass@1(batch) 0.008 KL 0.0562 ent 4.058 gnorm 0.29
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo300.pt
+step  305 R 0.419 best 1.09 pass@1(batch) 0.352 KL 0.0709 ent 2.238 gnorm 0.27
+step  310 R 0.267 best 1.09 pass@1(batch) 0.211 KL 0.0742 ent 2.360 gnorm 0.44
+step  315 R 0.334 best 1.09 pass@1(batch) 0.281 KL 0.0593 ent 2.176 gnorm 0.32
+step  320 R 0.054 best 0.10 pass@1(batch) 0.000 KL 0.0413 ent 3.770 gnorm 0.27
+step  325 R 0.291 best 1.09 pass@1(batch) 0.234 KL 0.0757 ent 2.824 gnorm 0.24
+step  330 R 0.246 best 1.09 pass@1(batch) 0.188 KL 0.0933 ent 3.054 gnorm 0.22
+step  335 R 0.122 best 1.09 pass@1(batch) 0.055 KL 0.0773 ent 3.079 gnorm 0.21
+step  340 R 0.080 best 1.08 pass@1(batch) 0.031 KL 0.1012 ent 4.238 gnorm 0.39
+step  345 R 0.202 best 1.09 pass@1(batch) 0.156 KL 0.1068 ent 2.592 gnorm 0.25
+step  350 R 0.059 best 0.09 pass@1(batch) 0.000 KL 0.0781 ent 4.359 gnorm 0.85
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo350.pt
+step  355 R 0.127 best 1.09 pass@1(batch) 0.047 KL 0.0951 ent 2.878 gnorm 0.42
+step  360 R 0.235 best 1.09 pass@1(batch) 0.188 KL 0.0940 ent 3.514 gnorm 0.42
+step  365 R 0.098 best 1.09 pass@1(batch) 0.047 KL 0.0948 ent 3.443 gnorm 0.26
+step  370 R 0.440 best 1.09 pass@1(batch) 0.375 KL 0.0561 ent 1.533 gnorm 0.28
+step  375 R 0.103 best 1.09 pass@1(batch) 0.055 KL 0.0802 ent 3.445 gnorm 0.20
+step  380 R 0.093 best 1.08 pass@1(batch) 0.039 KL 0.0909 ent 4.021 gnorm 0.38
+step  385 R 0.100 best 1.09 pass@1(batch) 0.031 KL 0.0894 ent 3.126 gnorm 0.25
+step  390 R 0.305 best 1.09 pass@1(batch) 0.242 KL 0.1042 ent 2.931 gnorm 0.41
+step  395 R 0.463 best 1.09 pass@1(batch) 0.391 KL 0.0692 ent 2.584 gnorm 0.31
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-code-r_grpo_final.pt
+ALL DONE

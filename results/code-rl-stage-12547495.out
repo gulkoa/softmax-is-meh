@@ -1,0 +1,89 @@
+SFT v2 examples: 116430 (smoltalk-with-system 27978, identity x20 = 1740)
+SFT v2: 3894 steps (avg len 481)
+step     0/3894 loss 1.1888
+step    50/3894 loss 1.2206
+step   100/3894 loss 1.1877
+step   150/3894 loss 1.3946
+step   200/3894 loss 1.5410
+step   250/3894 loss 1.2034
+step   300/3894 loss 1.2995
+step   350/3894 loss 1.4169
+step   400/3894 loss 1.2575
+step   450/3894 loss 1.3790
+step   500/3894 loss 1.4806
+step   550/3894 loss 1.3962
+step   600/3894 loss 1.3726
+step   650/3894 loss 1.4193
+step   700/3894 loss 1.4105
+step   750/3894 loss 1.0657
+step   800/3894 loss 1.2384
+step   850/3894 loss 1.4224
+step   900/3894 loss 1.3931
+step   950/3894 loss 1.5056
+step  1000/3894 loss 1.2404
+step  1050/3894 loss 1.3863
+step  1100/3894 loss 1.6147
+step  1150/3894 loss 1.3665
+step  1200/3894 loss 1.2452
+step  1250/3894 loss 1.4722
+step  1300/3894 loss 1.2015
+step  1350/3894 loss 1.2238
+step  1400/3894 loss 1.2312
+step  1450/3894 loss 1.2390
+step  1500/3894 loss 1.3405
+step  1550/3894 loss 1.1277
+step  1600/3894 loss 1.1182
+step  1650/3894 loss 1.3386
+step  1700/3894 loss 1.1888
+step  1750/3894 loss 1.1689
+step  1800/3894 loss 1.3083
+step  1850/3894 loss 1.2255
+step  1900/3894 loss 1.1647
+step  1950/3894 loss 1.2537
+step  2000/3894 loss 1.3616
+step  2050/3894 loss 1.2155
+step  2100/3894 loss 1.2172
+step  2150/3894 loss 1.2459
+step  2200/3894 loss 1.4196
+step  2250/3894 loss 1.1373
+step  2300/3894 loss 1.1534
+step  2350/3894 loss 1.2189
+step  2400/3894 loss 1.3817
+step  2450/3894 loss 1.1382
+step  2500/3894 loss 1.0937
+step  2550/3894 loss 1.0767
+step  2600/3894 loss 1.3336
+step  2650/3894 loss 1.0608
+step  2700/3894 loss 1.1628
+step  2750/3894 loss 1.0851
+step  2800/3894 loss 1.4555
+step  2850/3894 loss 1.1895
+step  2900/3894 loss 1.5816
+step  2950/3894 loss 1.2419
+step  3000/3894 loss 1.1525
+step  3050/3894 loss 1.1423
+step  3100/3894 loss 1.3007
+step  3150/3894 loss 1.3471
+step  3200/3894 loss 1.3182
+step  3250/3894 loss 1.3057
+step  3300/3894 loss 1.4836
+step  3350/3894 loss 1.2484
+step  3400/3894 loss 1.1603
+step  3450/3894 loss 1.1125
+step  3500/3894 loss 1.2590
+step  3550/3894 loss 1.2516
+step  3600/3894 loss 1.2920
+step  3650/3894 loss 0.9570
+step  3700/3894 loss 1.3016
+step  3750/3894 loss 1.0940
+step  3800/3894 loss 1.1450
+step  3850/3894 loss 1.2162
+saved /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4_s0-it-it2.pt
+PROMPT '<|system|>\nYou are stilt, a helpful AI assistant\n<|user|>\nWho are you?\n<|assistant|>\n'
+  -> "I'm Stilt, an experimental AI assistant from a research project on attention mechanisms. Happy to help where I can."
+PROMPT "<|system|>\nRespond only with 'yes' or 'no'.\n<|user|>\nIs water wet?\n<|assistant|>\n"
+  -> 'Yes.'
+PROMPT '<|user|>\nWhat is the capital of France?\n<|assistant|>\n'
+  -> 'The capital of France is Paris. Paris is a city known for its historical landmarks and cultural institutions, including the Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral. It is also a major center for art, fashion, and gastronomy.'
+DONE
+ALL DONE

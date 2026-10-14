@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/bench_gpt2_shapes.py", line 68, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/bench_gpt2_shapes.py", line 53, in main
+    ms = bench(fn, q, k, v, do)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/bench_gpt2_shapes.py", line 16, in bench
+    out = fn(q, k, v)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/bench_gpt2_shapes.py", line 41, in <lambda>
+    "sdpa": lambda a, b, c: F.scaled_dot_product_attention(
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, c, is_causal=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: cuDNN Frontend error: [cudnn_frontend] Error: No valid execution plans built.

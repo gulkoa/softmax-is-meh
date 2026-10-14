@@ -1,0 +1,12 @@
+loaded: StieltjesForCausalLM on cuda:0
+MATCH gen: 2 52 23 2 246 161 2 220 250 2 53 37 <eos>
+MATCH gen: 2 152 171 2 131 68 2 249 154 2 131 68 <eos>
+MATCH gen: 2 250 23 2 90 120 2 132 67 2 250 23 <eos>
+MISS  gen: 2 <pad> 200 2 231 13 2 <pad> 200 2 61 165 <eos>
+      want: 2 258 200 2 231 13 2 258 200 2 61 165 <eos>
+MISS  gen: 2 49 18 2 <pad> 13 2 171 220 2 171 220 <eos>
+      want: 2 49 18 2 258 13 2 171 220 2 171 220 <eos>
+
+23/25 exact matches via HF generate()
+SERVING VERIFIED
+ALL DONE

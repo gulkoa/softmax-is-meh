@@ -1,0 +1,876 @@
+########## MQMTAR FULL budget (v5): arm=asentmax extra=[--nape] data=/users/PAS2402/alexg/softmax/softmax-is-meh/results/mqmtar_data/50M_abc-256_vocab-10K_kv-len-2_num_kv-80_num_q-4 ##########
+loading data...
+train=50000000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asentmax-nape params=8.56M
+step      0 loss 5.6636
+step    500 loss 4.7513
+step   1000 loss 4.0505
+step   1500 loss 3.7246
+step   2000 loss 3.5599
+step   2500 loss 3.4456
+step   3000 loss 3.4116
+step   3500 loss 3.3622
+step   4000 loss 3.2949
+step   4500 loss 3.1963
+step   5000 loss 3.0529
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 2.9186
+step   6000 loss 2.7628
+step   6500 loss 2.5745
+step   7000 loss 2.3804
+step   7500 loss 2.1577
+step   8000 loss 1.7384
+step   8500 loss 1.4322
+step   9000 loss 1.2085
+step   9500 loss 1.0630
+step  10000 loss 0.9935
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 0.9287
+step  11000 loss 0.8828
+step  11500 loss 0.8678
+step  12000 loss 0.8290
+step  12500 loss 0.8276
+step  13000 loss 0.8009
+step  13500 loss 0.7796
+step  14000 loss 0.7387
+step  14500 loss 0.7734
+step  15000 loss 0.7452
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 0.7638
+step  16000 loss 0.7447
+step  16500 loss 0.7253
+step  17000 loss 0.7166
+step  17500 loss 0.7152
+step  18000 loss 0.7040
+step  18500 loss 0.6863
+step  19000 loss 0.6835
+step  19500 loss 0.6819
+step  20000 loss 0.6902
+  [val] step 20000 acc@64 = 0.000
+step  20500 loss 0.6655
+step  21000 loss 0.6680
+step  21500 loss 0.6807
+step  22000 loss 0.6721
+step  22500 loss 0.6715
+step  23000 loss 0.6623
+step  23500 loss 0.6710
+step  24000 loss 0.6652
+step  24500 loss 0.6768
+step  25000 loss 0.6426
+  [val] step 25000 acc@64 = 0.000
+step  25500 loss 0.6321
+step  26000 loss 0.6302
+step  26500 loss 0.6456
+step  27000 loss 0.6419
+step  27500 loss 0.6363
+step  28000 loss 0.6220
+step  28500 loss 0.6298
+step  29000 loss 0.6316
+step  29500 loss 0.6388
+step  30000 loss 0.6318
+  [val] step 30000 acc@64 = 0.000
+step  30500 loss 0.6436
+step  31000 loss 0.6296
+step  31500 loss 0.6159
+step  32000 loss 0.6059
+step  32500 loss 0.6088
+step  33000 loss 0.6115
+step  33500 loss 0.6107
+step  34000 loss 0.6079
+step  34500 loss 0.6166
+step  35000 loss 0.6121
+  [val] step 35000 acc@64 = 0.000
+step  35500 loss 0.6178
+step  36000 loss 0.6214
+step  36500 loss 0.6248
+step  37000 loss 0.5919
+step  37500 loss 0.5950
+step  38000 loss 0.6005
+step  38500 loss 0.5971
+step  39000 loss 0.6003
+step  39500 loss 0.5992
+step  40000 loss 0.6080
+  [val] step 40000 acc@64 = 0.000
+step  40500 loss 0.6303
+step  41000 loss 0.6094
+step  41500 loss 0.6021
+step  42000 loss 0.5944
+step  42500 loss 0.5967
+step  43000 loss 0.5838
+step  43500 loss 0.6063
+step  44000 loss 0.5789
+step  44500 loss 0.5905
+step  45000 loss 0.5972
+  [val] step 45000 acc@64 = 0.000
+step  45500 loss 0.6014
+step  46000 loss 0.5987
+step  46500 loss 0.6029
+step  47000 loss 0.5907
+step  47500 loss 0.5990
+step  48000 loss 0.6045
+step  48500 loss 0.6015
+step  49000 loss 0.5836
+step  49500 loss 0.5873
+step  50000 loss 0.5869
+  [val] step 50000 acc@64 = 0.000
+step  50500 loss 0.5650
+step  51000 loss 0.5794
+step  51500 loss 0.5991
+step  52000 loss 0.5893
+step  52500 loss 0.6045
+step  53000 loss 0.5974
+step  53500 loss 0.5981
+step  54000 loss 0.5769
+step  54500 loss 0.5896
+step  55000 loss 0.5872
+  [val] step 55000 acc@64 = 0.000
+step  55500 loss 0.5964
+step  56000 loss 0.5817
+step  56500 loss 0.5855
+step  57000 loss 0.5882
+step  57500 loss 0.6153
+step  58000 loss 0.5746
+step  58500 loss 0.5791
+step  59000 loss 0.5851
+step  59500 loss 0.5898
+step  60000 loss 0.5852
+  [val] step 60000 acc@64 = 0.000
+step  60500 loss 0.5864
+step  61000 loss 0.5754
+step  61500 loss 0.5854
+step  62000 loss 0.5664
+step  62500 loss 0.5821
+step  63000 loss 0.5763
+step  63500 loss 0.5818
+step  64000 loss 0.5872
+step  64500 loss 0.5700
+step  65000 loss 0.5682
+  [val] step 65000 acc@64 = 0.005
+step  65500 loss 0.5879
+step  66000 loss 0.5804
+step  66500 loss 0.5680
+step  67000 loss 0.5578
+step  67500 loss 0.5704
+step  68000 loss 0.5858
+step  68500 loss 0.5833
+step  69000 loss 0.5815
+step  69500 loss 0.5673
+step  70000 loss 0.5596
+  [val] step 70000 acc@64 = 0.000
+step  70500 loss 0.5754
+step  71000 loss 0.5881
+step  71500 loss 0.5594
+step  72000 loss 0.5829
+step  72500 loss 0.5763
+step  73000 loss 0.5643
+step  73500 loss 0.5714
+step  74000 loss 0.5850
+step  74500 loss 0.5845
+step  75000 loss 0.5895
+  [val] step 75000 acc@64 = 0.000
+step  75500 loss 0.5708
+step  76000 loss 0.5737
+step  76500 loss 0.5785
+step  77000 loss 0.5673
+step  77500 loss 0.5736
+step  78000 loss 0.5792
+step  78500 loss 0.5738
+step  79000 loss 0.5652
+step  79500 loss 0.5591
+step  80000 loss 0.5772
+  [val] step 80000 acc@64 = 0.000
+step  80500 loss 0.5768
+step  81000 loss 0.5734
+step  81500 loss 0.5615
+step  82000 loss 0.5849
+step  82500 loss 0.5687
+step  83000 loss 0.5673
+step  83500 loss 0.5733
+step  84000 loss 0.5785
+step  84500 loss 0.5611
+step  85000 loss 0.5890
+  [val] step 85000 acc@64 = 0.000
+step  85500 loss 0.5578
+step  86000 loss 0.5771
+step  86500 loss 0.5590
+step  87000 loss 0.5710
+step  87500 loss 0.5672
+step  88000 loss 0.5769
+step  88500 loss 0.5646
+step  89000 loss 0.5834
+step  89500 loss 0.5753
+step  90000 loss 0.5661
+  [val] step 90000 acc@64 = 0.000
+step  90500 loss 0.5591
+step  91000 loss 0.5731
+step  91500 loss 0.5743
+step  92000 loss 0.5739
+step  92500 loss 0.5849
+step  93000 loss 0.5739
+step  93500 loss 0.5603
+step  94000 loss 0.5656
+step  94500 loss 0.5629
+step  95000 loss 0.5688
+  [val] step 95000 acc@64 = 0.000
+step  95500 loss 0.5601
+step  96000 loss 0.5810
+step  96500 loss 0.5781
+step  97000 loss 0.5798
+step  97500 loss 0.5811
+step  98000 loss 0.5714
+step  98500 loss 0.5803
+step  99000 loss 0.5668
+step  99500 loss 0.5463
+step 100000 loss 0.5755
+  [val] step 100000 acc@64 = 0.000
+step 100500 loss 0.5695
+step 101000 loss 0.5598
+step 101500 loss 0.5622
+step 102000 loss 0.5603
+step 102500 loss 0.5604
+step 103000 loss 0.5740
+step 103500 loss 0.5504
+step 104000 loss 0.5675
+step 104500 loss 0.5735
+step 105000 loss 0.5677
+  [val] step 105000 acc@64 = 0.000
+step 105500 loss 0.5710
+step 106000 loss 0.5557
+step 106500 loss 0.5458
+step 107000 loss 0.5680
+step 107500 loss 0.5582
+step 108000 loss 0.5611
+step 108500 loss 0.5482
+step 109000 loss 0.5713
+step 109500 loss 0.5751
+step 110000 loss 0.5688
+  [val] step 110000 acc@64 = 0.000
+step 110500 loss 0.5698
+step 111000 loss 0.5597
+step 111500 loss 0.5683
+step 112000 loss 0.5614
+step 112500 loss 0.5752
+step 113000 loss 0.5767
+step 113500 loss 0.5602
+step 114000 loss 0.5657
+step 114500 loss 0.5589
+step 115000 loss 0.5547
+  [val] step 115000 acc@64 = 0.000
+step 115500 loss 0.5561
+step 116000 loss 0.5625
+step 116500 loss 0.5544
+step 117000 loss 0.5591
+step 117500 loss 0.5664
+step 118000 loss 0.5538
+step 118500 loss 0.5574
+step 119000 loss 0.5697
+step 119500 loss 0.5705
+step 120000 loss 0.5443
+  [val] step 120000 acc@64 = 0.000
+step 120500 loss 0.5689
+step 121000 loss 0.5701
+step 121500 loss 0.5844
+step 122000 loss 0.5663
+step 122500 loss 0.5763
+step 123000 loss 0.5636
+step 123500 loss 0.5606
+step 124000 loss 0.5773
+step 124500 loss 0.5600
+step 125000 loss 0.5669
+  [val] step 125000 acc@64 = 0.000
+step 125500 loss 0.5540
+step 126000 loss 0.5597
+step 126500 loss 0.5751
+step 127000 loss 0.5665
+step 127500 loss 0.5507
+step 128000 loss 0.5642
+step 128500 loss 0.5557
+step 129000 loss 0.5610
+step 129500 loss 0.5673
+step 130000 loss 0.5537
+  [val] step 130000 acc@64 = 0.000
+step 130500 loss 0.5495
+step 131000 loss 0.5532
+step 131500 loss 0.5470
+step 132000 loss 0.5650
+step 132500 loss 0.5562
+step 133000 loss 0.5738
+step 133500 loss 0.5697
+step 134000 loss 0.5736
+step 134500 loss 0.5630
+step 135000 loss 0.5757
+  [val] step 135000 acc@64 = 0.000
+step 135500 loss 0.5427
+step 136000 loss 0.5739
+step 136500 loss 0.5606
+step 137000 loss 0.5603
+step 137500 loss 0.5706
+step 138000 loss 0.5692
+step 138500 loss 0.5714
+step 139000 loss 0.5596
+step 139500 loss 0.5594
+step 140000 loss 0.5634
+  [val] step 140000 acc@64 = 0.000
+step 140500 loss 0.5688
+step 141000 loss 0.5464
+step 141500 loss 0.5717
+step 142000 loss 0.5578
+step 142500 loss 0.5656
+step 143000 loss 0.5473
+step 143500 loss 0.5626
+step 144000 loss 0.5574
+step 144500 loss 0.5645
+step 145000 loss 0.5606
+  [val] step 145000 acc@64 = 0.000
+step 145500 loss 0.5580
+step 146000 loss 0.5568
+step 146500 loss 0.5652
+step 147000 loss 0.5596
+step 147500 loss 0.5622
+step 148000 loss 0.5626
+step 148500 loss 0.5673
+step 149000 loss 0.5510
+step 149500 loss 0.5509
+step 150000 loss 0.5667
+  [val] step 150000 acc@64 = 0.000
+step 150500 loss 0.5578
+step 151000 loss 0.5694
+step 151500 loss 0.5533
+step 152000 loss 0.5651
+step 152500 loss 0.5748
+step 153000 loss 0.5672
+step 153500 loss 0.5726
+step 154000 loss 0.5680
+step 154500 loss 0.5613
+step 155000 loss 0.5618
+  [val] step 155000 acc@64 = 0.000
+step 155500 loss 0.5548
+step 156000 loss 0.5622
+step 156500 loss 0.5436
+step 157000 loss 0.5630
+step 157500 loss 0.5741
+step 158000 loss 0.5676
+step 158500 loss 0.5648
+step 159000 loss 0.5444
+step 159500 loss 0.5555
+step 160000 loss 0.5642
+  [val] step 160000 acc@64 = 0.000
+step 160500 loss 0.5584
+step 161000 loss 0.5546
+step 161500 loss 0.5646
+step 162000 loss 0.5682
+step 162500 loss 0.5562
+step 163000 loss 0.5486
+step 163500 loss 0.5434
+step 164000 loss 0.5487
+step 164500 loss 0.5629
+step 165000 loss 0.5616
+  [val] step 165000 acc@64 = 0.000
+step 165500 loss 0.5467
+step 166000 loss 0.5648
+step 166500 loss 0.5623
+step 167000 loss 0.5590
+step 167500 loss 0.5660
+step 168000 loss 0.5608
+step 168500 loss 0.5574
+step 169000 loss 0.5633
+step 169500 loss 0.5696
+step 170000 loss 0.5649
+  [val] step 170000 acc@64 = 0.000
+step 170500 loss 0.5539
+step 171000 loss 0.5583
+step 171500 loss 0.5549
+step 172000 loss 0.5634
+step 172500 loss 0.5752
+step 173000 loss 0.5565
+step 173500 loss 0.5604
+step 174000 loss 0.5441
+step 174500 loss 0.5470
+step 175000 loss 0.5579
+  [val] step 175000 acc@64 = 0.000
+step 175500 loss 0.5518
+step 176000 loss 0.5556
+step 176500 loss 0.5608
+step 177000 loss 0.5613
+step 177500 loss 0.5666
+step 178000 loss 0.5678
+step 178500 loss 0.5478
+step 179000 loss 0.5418
+step 179500 loss 0.5568
+step 180000 loss 0.5539
+  [val] step 180000 acc@64 = 0.000
+step 180500 loss 0.5429
+step 181000 loss 0.5619
+step 181500 loss 0.5599
+step 182000 loss 0.5479
+step 182500 loss 0.5541
+step 183000 loss 0.5529
+step 183500 loss 0.5485
+step 184000 loss 0.5622
+step 184500 loss 0.5540
+step 185000 loss 0.5390
+  [val] step 185000 acc@64 = 0.000
+step 185500 loss 0.5603
+step 186000 loss 0.5606
+step 186500 loss 0.5519
+step 187000 loss 0.5511
+step 187500 loss 0.5395
+step 188000 loss 0.5515
+step 188500 loss 0.5543
+step 189000 loss 0.5662
+step 189500 loss 0.5620
+step 190000 loss 0.5583
+  [val] step 190000 acc@64 = 0.000
+step 190500 loss 0.5381
+step 191000 loss 0.5513
+step 191500 loss 0.5490
+step 192000 loss 0.5496
+step 192500 loss 0.5516
+step 193000 loss 0.5555
+step 193500 loss 0.5574
+step 194000 loss 0.5485
+step 194500 loss 0.5572
+step 195000 loss 0.5538
+  [val] step 195000 acc@64 = 0.000
+step 195500 loss 0.5453
+step 196000 loss 0.5518
+step 196500 loss 0.5626
+step 197000 loss 0.5474
+step 197500 loss 0.5559
+step 198000 loss 0.5468
+step 198500 loss 0.5504
+step 199000 loss 0.5645
+step 199500 loss 0.5519
+step 200000 loss 0.5474
+  [val] step 200000 acc@64 = 0.000
+step 200500 loss 0.5469
+step 201000 loss 0.5650
+step 201500 loss 0.5485
+step 202000 loss 0.5518
+step 202500 loss 0.5472
+step 203000 loss 0.5510
+step 203500 loss 0.5482
+step 204000 loss 0.5612
+step 204500 loss 0.5449
+step 205000 loss 0.5507
+  [val] step 205000 acc@64 = 0.000
+step 205500 loss 0.5547
+step 206000 loss 0.5587
+step 206500 loss 0.5665
+step 207000 loss 0.5521
+step 207500 loss 0.5488
+step 208000 loss 0.5628
+step 208500 loss 0.5592
+step 209000 loss 0.5620
+step 209500 loss 0.5694
+step 210000 loss 0.5656
+  [val] step 210000 acc@64 = 0.000
+step 210500 loss 0.5602
+step 211000 loss 0.5446
+step 211500 loss 0.5487
+step 212000 loss 0.5569
+step 212500 loss 0.5667
+step 213000 loss 0.5603
+step 213500 loss 0.5581
+step 214000 loss 0.5440
+step 214500 loss 0.5589
+step 215000 loss 0.5476
+  [val] step 215000 acc@64 = 0.000
+step 215500 loss 0.5533
+step 216000 loss 0.5523
+step 216500 loss 0.5538
+step 217000 loss 0.5546
+step 217500 loss 0.5436
+step 218000 loss 0.5496
+step 218500 loss 0.5653
+step 219000 loss 0.5611
+step 219500 loss 0.5613
+step 220000 loss 0.5615
+  [val] step 220000 acc@64 = 0.000
+step 220500 loss 0.5603
+step 221000 loss 0.5570
+step 221500 loss 0.5602
+step 222000 loss 0.5549
+step 222500 loss 0.5521
+step 223000 loss 0.5395
+step 223500 loss 0.5441
+step 224000 loss 0.5417
+step 224500 loss 0.5538
+step 225000 loss 0.5573
+  [val] step 225000 acc@64 = 0.000
+step 225500 loss 0.5404
+step 226000 loss 0.5452
+step 226500 loss 0.5527
+step 227000 loss 0.5478
+step 227500 loss 0.5464
+step 228000 loss 0.5637
+step 228500 loss 0.5603
+step 229000 loss 0.5529
+step 229500 loss 0.5550
+step 230000 loss 0.5528
+  [val] step 230000 acc@64 = 0.000
+step 230500 loss 0.5682
+step 231000 loss 0.5515
+step 231500 loss 0.5552
+step 232000 loss 0.5566
+step 232500 loss 0.5530
+step 233000 loss 0.5453
+step 233500 loss 0.5558
+step 234000 loss 0.5524
+step 234500 loss 0.5712
+step 235000 loss 0.5474
+  [val] step 235000 acc@64 = 0.000
+step 235500 loss 0.5501
+step 236000 loss 0.5613
+step 236500 loss 0.5543
+step 237000 loss 0.5487
+step 237500 loss 0.5505
+step 238000 loss 0.5416
+step 238500 loss 0.5602
+step 239000 loss 0.5425
+step 239500 loss 0.5454
+step 240000 loss 0.5459
+  [val] step 240000 acc@64 = 0.000
+step 240500 loss 0.5515
+step 241000 loss 0.5443
+step 241500 loss 0.5456
+step 242000 loss 0.5552
+step 242500 loss 0.5621
+step 243000 loss 0.5620
+step 243500 loss 0.5529
+step 244000 loss 0.5521
+step 244500 loss 0.5487
+step 245000 loss 0.5486
+  [val] step 245000 acc@64 = 0.000
+step 245500 loss 0.5568
+step 246000 loss 0.5530
+step 246500 loss 0.5506
+step 247000 loss 0.5383
+step 247500 loss 0.5434
+step 248000 loss 0.5582
+step 248500 loss 0.5387
+step 249000 loss 0.5624
+step 249500 loss 0.5572
+step 250000 loss 0.5529
+  [val] step 250000 acc@64 = 0.000
+step 250500 loss 0.5471
+step 251000 loss 0.5374
+step 251500 loss 0.5608
+step 252000 loss 0.5444
+step 252500 loss 0.5408
+step 253000 loss 0.5437
+step 253500 loss 0.5626
+step 254000 loss 0.5617
+step 254500 loss 0.5592
+step 255000 loss 0.5626
+  [val] step 255000 acc@64 = 0.000
+step 255500 loss 0.5581
+step 256000 loss 0.5375
+step 256500 loss 0.5465
+step 257000 loss 0.5497
+step 257500 loss 0.5541
+step 258000 loss 0.5518
+step 258500 loss 0.5559
+step 259000 loss 0.5526
+step 259500 loss 0.5531
+step 260000 loss 0.5492
+  [val] step 260000 acc@64 = 0.000
+step 260500 loss 0.5319
+step 261000 loss 0.5586
+step 261500 loss 0.5523
+step 262000 loss 0.5541
+step 262500 loss 0.5566
+step 263000 loss 0.5401
+step 263500 loss 0.5402
+step 264000 loss 0.5532
+step 264500 loss 0.5509
+step 265000 loss 0.5432
+  [val] step 265000 acc@64 = 0.000
+step 265500 loss 0.5601
+step 266000 loss 0.5443
+step 266500 loss 0.5497
+step 267000 loss 0.5491
+step 267500 loss 0.5568
+step 268000 loss 0.5501
+step 268500 loss 0.5553
+step 269000 loss 0.5469
+step 269500 loss 0.5596
+step 270000 loss 0.5361
+  [val] step 270000 acc@64 = 0.000
+step 270500 loss 0.5519
+step 271000 loss 0.5590
+step 271500 loss 0.5497
+step 272000 loss 0.5692
+step 272500 loss 0.5509
+step 273000 loss 0.5524
+step 273500 loss 0.5369
+step 274000 loss 0.5572
+step 274500 loss 0.5444
+step 275000 loss 0.5463
+  [val] step 275000 acc@64 = 0.000
+step 275500 loss 0.5587
+step 276000 loss 0.5561
+step 276500 loss 0.5592
+step 277000 loss 0.5463
+step 277500 loss 0.5528
+step 278000 loss 0.5376
+step 278500 loss 0.5569
+step 279000 loss 0.5464
+step 279500 loss 0.5565
+step 280000 loss 0.5430
+  [val] step 280000 acc@64 = 0.000
+step 280500 loss 0.5436
+step 281000 loss 0.5423
+step 281500 loss 0.5400
+step 282000 loss 0.5442
+step 282500 loss 0.5454
+step 283000 loss 0.5611
+step 283500 loss 0.5426
+step 284000 loss 0.5450
+step 284500 loss 0.5539
+step 285000 loss 0.5435
+  [val] step 285000 acc@64 = 0.000
+step 285500 loss 0.5556
+step 286000 loss 0.5525
+step 286500 loss 0.5436
+step 287000 loss 0.5628
+step 287500 loss 0.5498
+step 288000 loss 0.5532
+step 288500 loss 0.5515
+step 289000 loss 0.5553
+step 289500 loss 0.5447
+step 290000 loss 0.5454
+  [val] step 290000 acc@64 = 0.000
+step 290500 loss 0.5505
+step 291000 loss 0.5516
+step 291500 loss 0.5484
+step 292000 loss 0.5382
+step 292500 loss 0.5522
+step 293000 loss 0.5568
+step 293500 loss 0.5606
+step 294000 loss 0.5419
+step 294500 loss 0.5535
+step 295000 loss 0.5501
+  [val] step 295000 acc@64 = 0.000
+step 295500 loss 0.5414
+step 296000 loss 0.5514
+step 296500 loss 0.5488
+step 297000 loss 0.5563
+step 297500 loss 0.5476
+step 298000 loss 0.5492
+step 298500 loss 0.5421
+step 299000 loss 0.5480
+step 299500 loss 0.5471
+step 300000 loss 0.5528
+  [val] step 300000 acc@64 = 0.000
+step 300500 loss 0.5512
+step 301000 loss 0.5407
+step 301500 loss 0.5578
+step 302000 loss 0.5533
+step 302500 loss 0.5537
+step 303000 loss 0.5390
+step 303500 loss 0.5558
+step 304000 loss 0.5385
+step 304500 loss 0.5590
+step 305000 loss 0.5506
+  [val] step 305000 acc@64 = 0.000
+step 305500 loss 0.5493
+step 306000 loss 0.5447
+step 306500 loss 0.5534
+step 307000 loss 0.5582
+step 307500 loss 0.5501
+step 308000 loss 0.5510
+step 308500 loss 0.5523
+step 309000 loss 0.5640
+step 309500 loss 0.5506
+step 310000 loss 0.5441
+  [val] step 310000 acc@64 = 0.000
+step 310500 loss 0.5501
+step 311000 loss 0.5360
+step 311500 loss 0.5378
+step 312000 loss 0.5485
+step 312500 loss 0.5413
+step 313000 loss 0.5531
+step 313500 loss 0.5385
+step 314000 loss 0.5516
+step 314500 loss 0.5458
+step 315000 loss 0.5458
+  [val] step 315000 acc@64 = 0.000
+step 315500 loss 0.5432
+step 316000 loss 0.5424
+step 316500 loss 0.5484
+step 317000 loss 0.5468
+step 317500 loss 0.5436
+step 318000 loss 0.5423
+step 318500 loss 0.5467
+step 319000 loss 0.5501
+step 319500 loss 0.5507
+step 320000 loss 0.5594
+  [val] step 320000 acc@64 = 0.000
+step 320500 loss 0.5553
+step 321000 loss 0.5491
+step 321500 loss 0.5555
+step 322000 loss 0.5529
+step 322500 loss 0.5451
+step 323000 loss 0.5469
+step 323500 loss 0.5573
+step 324000 loss 0.5469
+step 324500 loss 0.5535
+step 325000 loss 0.5453
+  [val] step 325000 acc@64 = 0.000
+step 325500 loss 0.5480
+step 326000 loss 0.5451
+step 326500 loss 0.5427
+step 327000 loss 0.5470
+step 327500 loss 0.5391
+step 328000 loss 0.5496
+step 328500 loss 0.5528
+step 329000 loss 0.5584
+step 329500 loss 0.5564
+step 330000 loss 0.5548
+  [val] step 330000 acc@64 = 0.005
+step 330500 loss 0.5439
+step 331000 loss 0.5513
+step 331500 loss 0.5462
+step 332000 loss 0.5450
+step 332500 loss 0.5474
+step 333000 loss 0.5303
+step 333500 loss 0.5434
+step 334000 loss 0.5329
+step 334500 loss 0.5390
+step 335000 loss 0.5456
+  [val] step 335000 acc@64 = 0.000
+step 335500 loss 0.5470
+step 336000 loss 0.5539
+step 336500 loss 0.5451
+step 337000 loss 0.5347
+step 337500 loss 0.5502
+step 338000 loss 0.5374
+step 338500 loss 0.5478
+step 339000 loss 0.5475
+step 339500 loss 0.5429
+step 340000 loss 0.5436
+  [val] step 340000 acc@64 = 0.000
+step 340500 loss 0.5412
+step 341000 loss 0.5457
+step 341500 loss 0.5419
+step 342000 loss 0.5385
+step 342500 loss 0.5583
+step 343000 loss 0.5397
+step 343500 loss 0.5479
+step 344000 loss 0.5453
+step 344500 loss 0.5312
+step 345000 loss 0.5522
+  [val] step 345000 acc@64 = 0.000
+step 345500 loss 0.5475
+step 346000 loss 0.5324
+step 346500 loss 0.5423
+step 347000 loss 0.5482
+step 347500 loss 0.5497
+step 348000 loss 0.5449
+step 348500 loss 0.5372
+step 349000 loss 0.5426
+step 349500 loss 0.5370
+step 350000 loss 0.5313
+  [val] step 350000 acc@64 = 0.000
+step 350500 loss 0.5461
+step 351000 loss 0.5397
+step 351500 loss 0.5522
+step 352000 loss 0.5446
+step 352500 loss 0.5493
+step 353000 loss 0.5474
+step 353500 loss 0.5470
+step 354000 loss 0.5654
+step 354500 loss 0.5459
+step 355000 loss 0.5516
+  [val] step 355000 acc@64 = 0.000
+step 355500 loss 0.5623
+step 356000 loss 0.5459
+step 356500 loss 0.5522
+step 357000 loss 0.5482
+step 357500 loss 0.5298
+step 358000 loss 0.5497
+step 358500 loss 0.5446
+step 359000 loss 0.5424
+step 359500 loss 0.5478
+step 360000 loss 0.5528
+  [val] step 360000 acc@64 = 0.005
+step 360500 loss 0.5346
+step 361000 loss 0.5384
+step 361500 loss 0.5596
+step 362000 loss 0.5463
+step 362500 loss 0.5490
+step 363000 loss 0.5475
+step 363500 loss 0.5383
+step 364000 loss 0.5397
+step 364500 loss 0.5413
+step 365000 loss 0.5470
+  [val] step 365000 acc@64 = 0.000
+step 365500 loss 0.5369
+step 366000 loss 0.5402
+step 366500 loss 0.5413
+step 367000 loss 0.5427
+step 367500 loss 0.5473
+step 368000 loss 0.5514
+step 368500 loss 0.5435
+step 369000 loss 0.5573
+step 369500 loss 0.5397
+step 370000 loss 0.5422
+  [val] step 370000 acc@64 = 0.000
+step 370500 loss 0.5512
+step 371000 loss 0.5482
+step 371500 loss 0.5525
+step 372000 loss 0.5428
+step 372500 loss 0.5515
+step 373000 loss 0.5482
+step 373500 loss 0.5493
+step 374000 loss 0.5547
+step 374500 loss 0.5548
+step 375000 loss 0.5482
+  [val] step 375000 acc@64 = 0.000
+step 375500 loss 0.5417
+step 376000 loss 0.5467
+step 376500 loss 0.5393
+step 377000 loss 0.5467
+step 377500 loss 0.5327
+step 378000 loss 0.5373
+step 378500 loss 0.5318
+step 379000 loss 0.5493
+step 379500 loss 0.5393
+step 380000 loss 0.5585
+  [val] step 380000 acc@64 = 0.000
+step 380500 loss 0.5508
+step 381000 loss 0.5570
+step 381500 loss 0.5492
+step 382000 loss 0.5417
+step 382500 loss 0.5373
+step 383000 loss 0.5406
+step 383500 loss 0.5440
+step 384000 loss 0.5350
+step 384500 loss 0.5393
+step 385000 loss 0.5545
+  [val] step 385000 acc@64 = 0.000
+step 385500 loss 0.5472
+step 386000 loss 0.5519
+step 386500 loss 0.5470
+step 387000 loss 0.5456
+step 387500 loss 0.5542
+step 388000 loss 0.5338
+step 388500 loss 0.5417
+step 389000 loss 0.5560
+step 389500 loss 0.5426
+step 390000 loss 0.5547
+  [val] step 390000 acc@64 = 0.000
+step 390500 loss 0.5433
+
+final eval (exact match via greedy generation):
+  len     64: acc 0.0000  (n=1000, 6s)
+  len    128: acc 0.0000  (n=1000, 13s)
+  len    256: acc 0.0000  (n=1000, 41s)
+  len    512: acc 0.0000  (n=1000, 146s)
+  len   1024: acc 0.0000  (n=1000, 560s)
+  len   2048: acc 0.0000  (n=1000, 2207s)
+  len   4096: acc 0.0000  (n=500, 4300s)
+  len   8192: acc 0.0000  (n=100, 3403s)
+DONE
+ALL DONE

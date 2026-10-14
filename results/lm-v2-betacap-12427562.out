@@ -1,0 +1,155 @@
+data=stack arm=asflashn-q4-v2-ift-bc1 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 343.2863 val 352.2109
+it   100 train 8.3343 val 7.0544
+it   200 train 3.8596 val 3.4664
+it   300 train 3.2765 val 3.9871
+it   400 train 3.2056 val 3.2538
+it   500 train 3.1724 val 3.1700
+it   600 train 2.7760 val 2.6515
+it   700 train 2.7193 val 2.8111
+it   800 train 2.9013 val 2.8189
+it   900 train 2.6152 val 2.5955
+it  1000 train 2.5558 val 2.4997
+it  1100 train 2.5000 val 2.5778
+it  1200 train 2.5814 val 2.4579
+it  1300 train 2.3101 val 2.4543
+it  1400 train 2.3595 val 2.4263
+it  1500 train 2.1745 val 2.3784
+it  1600 train 2.4158 val 2.3327
+it  1700 train 2.3365 val 2.2997
+it  1800 train 2.2494 val 2.2656
+it  1900 train 2.1350 val 2.2460
+it  2000 train 2.1395 val 2.2341
+it  2100 train 2.1640 val 2.2015
+it  2200 train 2.0637 val 2.1829
+it  2300 train 2.2132 val 2.1668
+it  2400 train 2.1103 val 2.1515
+it  2500 train 2.1173 val 2.1377
+it  2600 train 2.0946 val 2.1263
+it  2700 train 2.0697 val 2.1210
+it  2800 train 2.0252 val 2.1130
+it  2900 train 2.1253 val 2.1095
+
+final val loss by context length:
+  ctx   512: val_loss 2.1222  (3.062 bits/char)
+    L0: scale mean     1.54 p99      5.54 max       5.83 beta_max      0.65
+    L1: scale mean     1.15 p99      1.58 max       2.86 beta_max      0.60
+    L2: scale mean     2.90 p99     13.45 max      18.91 beta_max      0.77
+    L3: scale mean     1.92 p99      3.79 max       4.51 beta_max      0.66
+    L4: scale mean     3.00 p99      5.89 max       6.39 beta_max      0.66
+    L5: scale mean    12.97 p99     26.75 max      27.62 beta_max      0.85
+  ctx  1024: val_loss 2.2077  (3.185 bits/char)
+    L0: scale mean     1.55 p99      6.06 max       6.42 beta_max      0.65
+    L1: scale mean     1.13 p99      1.56 max       3.07 beta_max      0.59
+    L2: scale mean     2.97 p99     11.68 max      16.56 beta_max      0.76
+    L3: scale mean     1.85 p99      3.40 max       4.96 beta_max      0.66
+    L4: scale mean     2.82 p99      6.11 max       6.67 beta_max      0.66
+    L5: scale mean    15.60 p99     32.12 max      33.45 beta_max      0.85
+  ctx  2048: val_loss 2.3048  (3.325 bits/char)
+    L0: scale mean     1.59 p99      6.82 max       7.02 beta_max      0.65
+    L1: scale mean     1.12 p99      1.58 max       3.23 beta_max      0.59
+    L2: scale mean     2.95 p99     10.04 max      16.80 beta_max      0.76
+    L3: scale mean     1.76 p99      2.91 max       4.63 beta_max      0.65
+    L4: scale mean     2.03 p99      5.57 max       6.50 beta_max      0.66
+    L5: scale mean    18.29 p99     37.86 max      39.05 beta_max      0.85
+  ctx  4096: val_loss 2.8464  (4.107 bits/char)
+    L0: scale mean     1.61 p99      7.25 max       7.62 beta_max      0.65
+    L1: scale mean     1.14 p99      2.20 max       2.92 beta_max      0.58
+    L2: scale mean     3.00 p99     10.08 max      16.45 beta_max      0.75
+    L3: scale mean     1.69 p99      2.56 max       3.63 beta_max      0.64
+    L4: scale mean     1.54 p99      4.54 max       6.20 beta_max      0.66
+    L5: scale mean    15.66 p99     38.93 max      40.21 beta_max      0.85
+  ctx  8192: val_loss 4.6347  (6.686 bits/char)
+    L0: scale mean     1.67 p99      7.91 max       8.22 beta_max      0.65
+    L1: scale mean     1.15 p99      2.26 max       4.00 beta_max      0.60
+    L2: scale mean     3.08 p99     10.74 max      14.73 beta_max      0.74
+    L3: scale mean     1.67 p99      2.59 max       4.26 beta_max      0.64
+    L4: scale mean     1.59 p99      5.40 max       6.41 beta_max      0.66
+    L5: scale mean    21.04 p99     45.01 max      46.56 beta_max      0.85
+  ctx 16384: val_loss 13.2157  (19.066 bits/char)
+    L0: scale mean     1.70 p99      8.61 max       8.83 beta_max      0.65
+    L1: scale mean     1.12 p99      1.79 max       4.33 beta_max      0.60
+    L2: scale mean     2.69 p99      9.71 max      14.27 beta_max      0.75
+    L3: scale mean     1.70 p99      2.68 max       4.48 beta_max      0.65
+    L4: scale mean     1.64 p99      4.98 max       6.39 beta_max      0.66
+    L5: scale mean    23.71 p99     52.16 max      54.09 beta_max      0.85
+DONE
+data=stack arm=asflashn-q4-v2-ift-bc1 vocab=256 train=90168618 val=10018736
+params: 19.02M
+it     0 train 366.2390 val 350.2308
+it   100 train 8.4518 val 7.5347
+it   200 train 4.0774 val 3.4583
+it   300 train 3.3749 val 3.6303
+it   400 train 3.7689 val 3.3038
+it   500 train 2.7811 val 2.8324
+it   600 train 2.8157 val 2.8012
+it   700 train 2.9024 val 2.6035
+it   800 train 2.8180 val 2.7036
+it   900 train 2.6317 val 2.5873
+it  1000 train 2.6376 val 2.5874
+it  1100 train 2.3735 val 2.4847
+it  1200 train 2.3706 val 2.4898
+it  1300 train 2.6458 val 2.4530
+it  1400 train 2.3812 val 2.4093
+it  1500 train 2.4103 val 2.3581
+it  1600 train 2.3791 val 2.3315
+it  1700 train 2.2346 val 2.3008
+it  1800 train 2.3108 val 2.2699
+it  1900 train 2.2051 val 2.2536
+it  2000 train 2.2048 val 2.2150
+it  2100 train 2.1141 val 2.2025
+it  2200 train 2.2009 val 2.1740
+it  2300 train 2.2166 val 2.1598
+it  2400 train 2.1957 val 2.1371
+it  2500 train 2.1448 val 2.1246
+it  2600 train 1.9514 val 2.1124
+it  2700 train 2.0878 val 2.1035
+it  2800 train 1.9555 val 2.0980
+it  2900 train 1.9429 val 2.0961
+
+final val loss by context length:
+  ctx   512: val_loss 2.1088  (3.042 bits/char)
+    L0: scale mean     1.39 p99      3.31 max       5.04 beta_max      0.62
+    L1: scale mean     1.15 p99      1.93 max       4.35 beta_max      0.63
+    L2: scale mean     3.10 p99     15.58 max      19.49 beta_max      0.79
+    L3: scale mean     1.83 p99      3.62 max       4.76 beta_max      0.63
+    L4: scale mean     2.32 p99      4.08 max       4.30 beta_max      0.63
+    L5: scale mean     9.64 p99     20.94 max      21.68 beta_max      0.80
+  ctx  1024: val_loss 2.1917  (3.162 bits/char)
+    L0: scale mean     1.40 p99      3.24 max       4.72 beta_max      0.61
+    L1: scale mean     1.14 p99      2.08 max       4.28 beta_max      0.63
+    L2: scale mean     3.37 p99     15.60 max      19.33 beta_max      0.79
+    L3: scale mean     1.85 p99      3.97 max       4.81 beta_max      0.63
+    L4: scale mean     2.34 p99      4.35 max       4.58 beta_max      0.63
+    L5: scale mean    11.40 p99     25.07 max      25.92 beta_max      0.80
+  ctx  2048: val_loss 2.2704  (3.275 bits/char)
+    L0: scale mean     1.40 p99      3.50 max       5.96 beta_max      0.62
+    L1: scale mean     1.13 p99      1.78 max       4.93 beta_max      0.64
+    L2: scale mean     3.47 p99     13.96 max      18.99 beta_max      0.79
+    L3: scale mean     1.89 p99      3.94 max       4.38 beta_max      0.62
+    L4: scale mean     2.43 p99      4.67 max       4.94 beta_max      0.63
+    L5: scale mean    13.33 p99     29.66 max      30.52 beta_max      0.80
+  ctx  4096: val_loss 2.5652  (3.701 bits/char)
+    L0: scale mean     1.43 p99      3.66 max       5.47 beta_max      0.61
+    L1: scale mean     1.15 p99      2.01 max       5.37 beta_max      0.64
+    L2: scale mean     3.49 p99     14.53 max      19.00 beta_max      0.79
+    L3: scale mean     1.88 p99      3.84 max       4.46 beta_max      0.62
+    L4: scale mean     2.54 p99      5.01 max       5.40 beta_max      0.63
+    L5: scale mean    15.34 p99     34.33 max      35.28 beta_max      0.80
+  ctx  8192: val_loss 2.6916  (3.883 bits/char)
+    L0: scale mean     1.44 p99      4.49 max       6.88 beta_max      0.62
+    L1: scale mean     1.17 p99      2.02 max       6.16 beta_max      0.64
+    L2: scale mean     3.76 p99     16.57 max      18.05 beta_max      0.79
+    L3: scale mean     1.88 p99      3.82 max       4.20 beta_max      0.61
+    L4: scale mean     2.73 p99      5.41 max       5.65 beta_max      0.63
+    L5: scale mean    17.53 p99     39.70 max      40.68 beta_max      0.80
+  ctx 16384: val_loss 2.7062  (3.904 bits/char)
+    L0: scale mean     1.44 p99      4.65 max       7.35 beta_max      0.62
+    L1: scale mean     1.17 p99      2.14 max       7.03 beta_max      0.65
+    L2: scale mean     3.21 p99     15.95 max      18.68 beta_max      0.79
+    L3: scale mean     1.94 p99      3.95 max       4.75 beta_max      0.62
+    L4: scale mean     2.90 p99      5.87 max       6.02 beta_max      0.63
+    L5: scale mean    19.79 p99     45.13 max      46.09 beta_max      0.80
+DONE
+ALL DONE

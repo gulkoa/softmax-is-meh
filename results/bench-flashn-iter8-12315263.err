@@ -1,0 +1,36 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_043753-fmrjy9f7
+wandb: View this run in the terminal with `wandb leet`
+/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/autograd/graph.py:865: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at /pytorch/aten/src/ATen/cuda/CublasHandlePool.cpp:330.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+wandb: 
+wandb: Run history:
+wandb:                                   N ▁▁▁▁▁▁▁▁▂▂▃▃▄▄██
+wandb:                  flashn-fp16/fwd_ms ▁▁▁▁▁▁▂█
+wandb:       flashn-fp16/fwd_peak_alloc_mb ▁▁▁▁▂▃▄█
+wandb:    flashn-fp16/fwd_peak_reserved_mb ▁▁▁▁▂▃▅█
+wandb:               flashn-fp16/fwdbwd_ms ▁▁▁▁▁▁▂█
+wandb:    flashn-fp16/fwdbwd_peak_alloc_mb ▁▁▁▁▂▃▄█
+wandb: flashn-fp16/fwdbwd_peak_reserved_mb ▁▁▁▁▂▃▄█
+wandb:           flashn-fp16/graph_held_mb ████▇▆▅▁
+wandb:            flashn-fp16/input_mem_mb ▁▁▁▁▂▃▄█
+wandb:                     jack-stj/fwd_ms ▁▁▁▃█
+wandb:                                  +7 ...
+wandb: 
+wandb: Run summary:
+wandb:                                   N 131072
+wandb:                  flashn-fp16/fwd_ms 4488.92734
+wandb:       flashn-fp16/fwd_peak_alloc_mb 621.28128
+wandb:    flashn-fp16/fwd_peak_reserved_mb 627.04845
+wandb:               flashn-fp16/fwdbwd_ms 5957.83945
+wandb:    flashn-fp16/fwdbwd_peak_alloc_mb 1572.864
+wandb: flashn-fp16/fwdbwd_peak_reserved_mb 1679.81875
+wandb:           flashn-fp16/graph_held_mb -251.65824
+wandb:            flashn-fp16/input_mem_mb 469.76205
+wandb:                     jack-stj/fwd_ms 526.86563
+wandb:                                  +7 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260712_043753-fmrjy9f7
+wandb: Find logs at: ./wandb/offline-run-20260712_043753-fmrjy9f7/logs

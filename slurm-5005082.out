@@ -1,0 +1,93 @@
+=== bfs 1-head 1-layer stieltjes_q2.0 seq=128 d=64 seed=1 NoPE Ascend ===
+Mon Apr 20 08:59:23 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   24C    P0             36W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 66,624
+Using bf16 autocast for forward pass (memory optimization at long context)
+Epoch   1/50 | train_loss=3.6900 | val_loss=3.3738 | val_acc=0.1306 | time=4.9s
+Epoch   2/50 | train_loss=3.3330 | val_loss=3.2769 | val_acc=0.1728 | time=4.3s
+Epoch   3/50 | train_loss=3.2708 | val_loss=3.2313 | val_acc=0.2246 | time=4.3s
+Epoch   4/50 | train_loss=3.2412 | val_loss=3.2131 | val_acc=0.2410 | time=4.3s
+Epoch   5/50 | train_loss=3.2238 | val_loss=3.1955 | val_acc=0.2496 | time=4.3s
+Epoch   6/50 | train_loss=3.2113 | val_loss=3.1824 | val_acc=0.2615 | time=4.3s
+Epoch   7/50 | train_loss=3.2013 | val_loss=3.1720 | val_acc=0.2558 | time=4.3s
+Epoch   8/50 | train_loss=3.1926 | val_loss=3.1636 | val_acc=0.2624 | time=4.3s
+Epoch   9/50 | train_loss=3.1852 | val_loss=3.1561 | val_acc=0.2705 | time=4.3s
+Epoch  10/50 | train_loss=3.1792 | val_loss=3.1539 | val_acc=0.2662 | time=4.3s
+Epoch  11/50 | train_loss=3.1733 | val_loss=3.1487 | val_acc=0.2633 | time=4.3s
+Epoch  12/50 | train_loss=3.1686 | val_loss=3.1429 | val_acc=0.2667 | time=4.3s
+Epoch  13/50 | train_loss=3.1639 | val_loss=3.1374 | val_acc=0.2735 | time=4.3s
+Epoch  14/50 | train_loss=3.1597 | val_loss=3.1367 | val_acc=0.2684 | time=4.3s
+Epoch  15/50 | train_loss=3.1563 | val_loss=3.1331 | val_acc=0.2735 | time=4.3s
+Epoch  16/50 | train_loss=3.1526 | val_loss=3.1296 | val_acc=0.2739 | time=4.3s
+Epoch  17/50 | train_loss=3.1495 | val_loss=3.1254 | val_acc=0.2727 | time=4.3s
+Epoch  18/50 | train_loss=3.1467 | val_loss=3.1256 | val_acc=0.2721 | time=4.3s
+Epoch  19/50 | train_loss=3.1439 | val_loss=3.1206 | val_acc=0.2728 | time=4.3s
+Epoch  20/50 | train_loss=3.1414 | val_loss=3.1206 | val_acc=0.2735 | time=4.3s
+Epoch  21/50 | train_loss=3.1391 | val_loss=3.1167 | val_acc=0.2706 | time=4.3s
+Epoch  22/50 | train_loss=3.1363 | val_loss=3.1180 | val_acc=0.2733 | time=4.3s
+Epoch  23/50 | train_loss=3.1347 | val_loss=3.1139 | val_acc=0.2712 | time=4.3s
+Epoch  24/50 | train_loss=3.1325 | val_loss=3.1146 | val_acc=0.2734 | time=4.3s
+Epoch  25/50 | train_loss=3.1307 | val_loss=3.1094 | val_acc=0.2807 | time=4.3s
+Epoch  26/50 | train_loss=3.1288 | val_loss=3.1156 | val_acc=0.2759 | time=4.3s
+Epoch  27/50 | train_loss=3.1274 | val_loss=3.1096 | val_acc=0.2737 | time=4.3s
+Epoch  28/50 | train_loss=3.1258 | val_loss=3.1055 | val_acc=0.2733 | time=4.3s
+Epoch  29/50 | train_loss=3.1241 | val_loss=3.1034 | val_acc=0.2774 | time=4.3s
+Epoch  30/50 | train_loss=3.1230 | val_loss=3.1037 | val_acc=0.2751 | time=4.3s
+Epoch  31/50 | train_loss=3.1213 | val_loss=3.1011 | val_acc=0.2723 | time=4.3s
+Epoch  32/50 | train_loss=3.1202 | val_loss=3.0999 | val_acc=0.2786 | time=4.3s
+Epoch  33/50 | train_loss=3.1191 | val_loss=3.0961 | val_acc=0.2814 | time=4.3s
+Epoch  34/50 | train_loss=3.1172 | val_loss=3.0985 | val_acc=0.2782 | time=4.3s
+Epoch  35/50 | train_loss=3.1164 | val_loss=3.0956 | val_acc=0.2806 | time=4.3s
+Epoch  36/50 | train_loss=3.1152 | val_loss=3.0975 | val_acc=0.2761 | time=4.3s
+Epoch  37/50 | train_loss=3.1145 | val_loss=3.0934 | val_acc=0.2790 | time=4.3s
+Epoch  38/50 | train_loss=3.1135 | val_loss=3.0957 | val_acc=0.2814 | time=4.3s
+Epoch  39/50 | train_loss=3.1120 | val_loss=3.0918 | val_acc=0.2814 | time=4.3s
+Epoch  40/50 | train_loss=3.1111 | val_loss=3.0906 | val_acc=0.2820 | time=4.3s
+Epoch  41/50 | train_loss=3.1104 | val_loss=3.0894 | val_acc=0.2783 | time=4.3s
+Epoch  42/50 | train_loss=3.1092 | val_loss=3.0879 | val_acc=0.2783 | time=4.3s
+Epoch  43/50 | train_loss=3.1084 | val_loss=3.0907 | val_acc=0.2781 | time=4.3s
+Epoch  44/50 | train_loss=3.1074 | val_loss=3.0864 | val_acc=0.2826 | time=4.3s
+Epoch  45/50 | train_loss=3.1066 | val_loss=3.0836 | val_acc=0.2803 | time=4.3s
+Epoch  46/50 | train_loss=3.1058 | val_loss=3.0851 | val_acc=0.2744 | time=4.3s
+Epoch  47/50 | train_loss=3.1050 | val_loss=3.0872 | val_acc=0.2772 | time=4.3s
+Epoch  48/50 | train_loss=3.1043 | val_loss=3.0867 | val_acc=0.2782 | time=4.3s
+Epoch  49/50 | train_loss=3.1031 | val_loss=3.0854 | val_acc=0.2789 | time=4.3s
+Epoch  50/50 | train_loss=3.1028 | val_loss=3.0818 | val_acc=0.2820 | time=4.3s
+Model saved to results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt
+Metrics saved to results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/metrics.csv
+=== eval at seq=128 (128/128x extrap) ===
+Wrote results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/accuracy_eval_seq128_scaledarr.json
+{"checkpoint": "results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt", "task": "bfs", "attn": "stieltjes", "q": 2.0, "seq_len": 128, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.15508671158731913, "accuracy_all": 0.1078262458558488, "accuracy_input_echo": 0.15200359959769202, "output_token_count": 9053, "input_token_count": 37782, "all_token_count": 229842, "output_start_stats": {"n": 559, "min": 11, "max": 126, "mean": 67.58855438232422}}
+=== eval at seq=512 (512/128x extrap) ===
+Wrote results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/accuracy_eval_seq512_scaledarr.json
+{"checkpoint": "results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt", "task": "bfs", "attn": "stieltjes", "q": 2.0, "seq_len": 512, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.03738962472406181, "accuracy_all": 0.050881923435389574, "accuracy_input_echo": 0.05904406165254456, "output_token_count": 65232, "input_token_count": 290207, "all_token_count": 802564, "output_start_stats": {"n": 1125, "min": 11, "max": 510, "mean": 257.9617919921875}}
+=== eval at seq=2048 (2048/128x extrap) ===
+Wrote results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/accuracy_eval_seq2048_scaledarr.json
+{"checkpoint": "results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt", "task": "bfs", "attn": "stieltjes", "q": 2.0, "seq_len": 2048, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.020920566384191642, "accuracy_all": 0.04083939184614227, "accuracy_input_echo": 0.04654129269639075, "output_token_count": 260318, "input_token_count": 909386, "all_token_count": 1169704, "output_start_stats": {"n": 2000, "min": 11, "max": 999, "mean": 454.6929931640625}}
+=== eval at seq=8192 (8192/128x extrap) ===
+Wrote results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/accuracy_eval_seq8192_scaledarr.json
+{"checkpoint": "results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt", "task": "bfs", "attn": "stieltjes", "q": 2.0, "seq_len": 8192, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.020920566384191642, "accuracy_all": 0.04083939184614227, "accuracy_input_echo": 0.04654129269639075, "output_token_count": 260318, "input_token_count": 909386, "all_token_count": 1169704, "output_start_stats": {"n": 2000, "min": 11, "max": 999, "mean": 454.6929931640625}}
+=== eval at seq=16384 (16384/128x extrap) ===
+Wrote results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/accuracy_eval_seq16384_scaledarr.json
+{"checkpoint": "results/bfs_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt", "task": "bfs", "attn": "stieltjes", "q": 2.0, "seq_len": 16384, "val_samples": 2000, "seed": 42, "accuracy_fixed": 0.020920566384191642, "accuracy_all": 0.04083939184614227, "accuracy_input_echo": 0.04654129269639075, "output_token_count": 260318, "input_token_count": 909386, "all_token_count": 1169704, "output_start_stats": {"n": 2000, "min": 11, "max": 999, "mean": 454.6929931640625}}

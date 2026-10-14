@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/sorting_1head_stieltjes_q4.0_seq128_d64_nope_seed1_ascend/model.pt",
+  "task": "sorting",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "seq_len": 2048,
+  "val_samples": 2000,
+  "seed": 42,
+  "accuracy_fixed": 0.0316055417830236,
+  "accuracy_all": 0.011960429696598203,
+  "accuracy_input_echo": 0.0017975636030162626,
+  "output_token_count": 1033458,
+  "input_token_count": 1997704,
+  "all_token_count": 3031162,
+  "output_start_stats": {
+    "n": 2000,
+    "min": 4,
+    "max": 2039,
+    "mean": 998.8519897460938
+  }
+}

@@ -1,0 +1,5 @@
+gpt2-stj-q4-nope-qk-nope-mix-lr0.0006: 353.6M params, 28610 steps x 524288 tokens
+RESUMED from step 28610 (cum wall 59.57h)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-nope-mix-lr0.0006_s0.pt
+DONE
+ALL DONE

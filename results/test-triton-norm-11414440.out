@@ -1,0 +1,105 @@
+########## PART 1: unit correctness suite ##########
+GPU: NVIDIA H100
+
+==============================================================================
+PART A — FORWARD: Triton(normalize=True) vs PyTorch normalized reference
+==============================================================================
+  [FAIL] fwd causal=False N= 16 q=   2: max|Δ|=1.767e-03 nan=False
+  [FAIL] fwd causal=False N= 16 q=   4: max|Δ|=3.474e-03 nan=False
+  [FAIL] fwd causal=False N= 16 q=   8: max|Δ|=6.309e-03 nan=False
+  [FAIL] fwd causal=False N= 16 q=  16: max|Δ|=1.390e-02 nan=False
+  [FAIL] fwd causal=False N= 32 q=   2: max|Δ|=1.026e-03 nan=False
+  [FAIL] fwd causal=False N= 32 q=   4: max|Δ|=4.300e-03 nan=False
+  [FAIL] fwd causal=False N= 32 q=   8: max|Δ|=7.533e-03 nan=False
+  [FAIL] fwd causal=False N= 32 q=  16: max|Δ|=1.416e-02 nan=False
+  [PASS] fwd causal=False N= 64 q=   2: max|Δ|=4.576e-04 nan=False
+  [FAIL] fwd causal=False N= 64 q=   4: max|Δ|=4.213e-03 nan=False
+  [FAIL] fwd causal=False N= 64 q=   8: max|Δ|=9.401e-03 nan=False
+  [FAIL] fwd causal=False N= 64 q=  16: max|Δ|=1.934e-02 nan=False
+  [PASS] fwd causal=False N= 96 q=   2: max|Δ|=3.870e-04 nan=False
+  [FAIL] fwd causal=False N= 96 q=   4: max|Δ|=5.009e-03 nan=False
+  [FAIL] fwd causal=False N= 96 q=   8: max|Δ|=9.110e-03 nan=False
+  [FAIL] fwd causal=False N= 96 q=  16: max|Δ|=1.636e-02 nan=False
+  [PASS] fwd causal=False N=128 q=   2: max|Δ|=3.286e-04 nan=False
+  [FAIL] fwd causal=False N=128 q=   4: max|Δ|=4.603e-03 nan=False
+  [FAIL] fwd causal=False N=128 q=   8: max|Δ|=7.903e-03 nan=False
+  [FAIL] fwd causal=False N=128 q=  16: max|Δ|=1.688e-02 nan=False
+  [PASS] fwd causal=False N=256 q=   2: max|Δ|=2.269e-04 nan=False
+  [FAIL] fwd causal=False N=256 q=   4: max|Δ|=4.174e-03 nan=False
+  [FAIL] fwd causal=False N=256 q=   8: max|Δ|=8.400e-03 nan=False
+  [FAIL] fwd causal=False N=256 q=  16: max|Δ|=1.949e-02 nan=False
+  [FAIL] fwd causal=True N= 16 q=   2: max|Δ|=2.584e-03 nan=False
+  [FAIL] fwd causal=True N= 16 q=   4: max|Δ|=3.802e-03 nan=False
+  [FAIL] fwd causal=True N= 16 q=   8: max|Δ|=7.111e-03 nan=False
+  [FAIL] fwd causal=True N= 16 q=  16: max|Δ|=1.381e-02 nan=False
+  [FAIL] fwd causal=True N= 32 q=   2: max|Δ|=3.001e-03 nan=False
+  [FAIL] fwd causal=True N= 32 q=   4: max|Δ|=3.781e-03 nan=False
+  [FAIL] fwd causal=True N= 32 q=   8: max|Δ|=6.885e-03 nan=False
+  [FAIL] fwd causal=True N= 32 q=  16: max|Δ|=1.377e-02 nan=False
+  [FAIL] fwd causal=True N= 64 q=   2: max|Δ|=5.048e-03 nan=False
+  [FAIL] fwd causal=True N= 64 q=   4: max|Δ|=6.044e-03 nan=False
+  [FAIL] fwd causal=True N= 64 q=   8: max|Δ|=8.849e-03 nan=False
+  [FAIL] fwd causal=True N= 64 q=  16: max|Δ|=1.901e-02 nan=False
+  [FAIL] fwd causal=True N= 96 q=   2: max|Δ|=5.048e-03 nan=False
+  [FAIL] fwd causal=True N= 96 q=   4: max|Δ|=6.044e-03 nan=False
+  [FAIL] fwd causal=True N= 96 q=   8: max|Δ|=9.210e-03 nan=False
+  [FAIL] fwd causal=True N= 96 q=  16: max|Δ|=1.901e-02 nan=False
+  [FAIL] fwd causal=True N=128 q=   2: max|Δ|=5.048e-03 nan=False
+  [FAIL] fwd causal=True N=128 q=   4: max|Δ|=6.044e-03 nan=False
+  [FAIL] fwd causal=True N=128 q=   8: max|Δ|=1.003e-02 nan=False
+  [FAIL] fwd causal=True N=128 q=  16: max|Δ|=1.901e-02 nan=False
+  [FAIL] fwd causal=True N=256 q=   2: max|Δ|=2.825e-03 nan=False
+  [FAIL] fwd causal=True N=256 q=   4: max|Δ|=4.404e-03 nan=False
+  [FAIL] fwd causal=True N=256 q=   8: max|Δ|=9.782e-03 nan=False
+  [FAIL] fwd causal=True N=256 q=  16: max|Δ|=2.452e-02 nan=False
+  [PASS] fwd fp16 N= 64 q=   2: max|Δ|=1.817e-04 nan=False
+  [PASS] fwd fp16 N= 64 q=   4: max|Δ|=1.102e-03 nan=False
+  [PASS] fwd fp16 N=128 q=   2: max|Δ|=1.530e-04 nan=False
+  [PASS] fwd fp16 N=128 q=   4: max|Δ|=1.314e-03 nan=False
+
+==============================================================================
+PART B — BACKWARD: Triton(normalize=True) vs PyTorch autograd (fp32)
+==============================================================================
+  [PASS] bwd D= 64 N= 16 q=   2: rel dQ=2.17e-03 dK=2.09e-03 dV=1.65e-03 nan=False
+  [PASS] bwd D= 64 N= 16 q=   4: rel dQ=1.52e-03 dK=1.40e-03 dV=1.30e-03 nan=False
+  [PASS] bwd D= 64 N= 16 q=  16: rel dQ=4.75e-03 dK=2.87e-03 dV=1.17e-03 nan=False
+  [PASS] bwd D= 64 N= 64 q=   2: rel dQ=2.14e-03 dK=2.06e-03 dV=1.03e-03 nan=False
+  [PASS] bwd D= 64 N= 64 q=   4: rel dQ=2.46e-03 dK=2.32e-03 dV=1.55e-03 nan=False
+  [PASS] bwd D= 64 N= 64 q=  16: rel dQ=3.79e-03 dK=5.46e-03 dV=1.89e-03 nan=False
+  [PASS] bwd D= 64 N=128 q=   2: rel dQ=1.88e-03 dK=1.67e-03 dV=8.99e-04 nan=False
+  [PASS] bwd D= 64 N=128 q=   4: rel dQ=2.08e-03 dK=2.69e-03 dV=1.73e-03 nan=False
+  [PASS] bwd D= 64 N=128 q=  16: rel dQ=2.85e-03 dK=2.86e-03 dV=2.11e-03 nan=False
+  [PASS] bwd D=128 N= 16 q=   2: rel dQ=1.66e-03 dK=1.76e-03 dV=1.83e-03 nan=False
+  [PASS] bwd D=128 N= 16 q=   4: rel dQ=1.42e-03 dK=1.61e-03 dV=1.18e-03 nan=False
+  [PASS] bwd D=128 N= 16 q=  16: rel dQ=1.80e-03 dK=3.47e-03 dV=1.28e-03 nan=False
+  [PASS] bwd D=128 N= 64 q=   2: rel dQ=1.74e-03 dK=1.57e-03 dV=1.02e-03 nan=False
+  [PASS] bwd D=128 N= 64 q=   4: rel dQ=4.87e-03 dK=4.04e-03 dV=1.72e-03 nan=False
+  [PASS] bwd D=128 N= 64 q=  16: rel dQ=6.85e-03 dK=6.57e-03 dV=2.98e-03 nan=False
+  [FAIL] bwd D=128 N=128 q=   2: rel dQ=3.14e-02 dK=1.48e-02 dV=9.45e-04 nan=False
+  [FAIL] bwd D=128 N=128 q=   4: rel dQ=1.13e-01 dK=6.90e-02 dV=2.04e-03 nan=False
+  [PASS] bwd D=128 N=128 q=  16: rel dQ=2.69e-03 dK=2.62e-03 dV=2.40e-03 nan=False
+
+==============================================================================
+PART C — NaN sweep (normalize mode, padding shapes)
+==============================================================================
+  [PASS] nan-sweep N= 32 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp16 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp32 q=  16: nan=False
+
+==============================================================================
+RESULT: 46 FAILURES: ['fwd causal=False N= 16 q=   2', 'fwd causal=False N= 16 q=   4', 'fwd causal=False N= 16 q=   8', 'fwd causal=False N= 16 q=  16', 'fwd causal=False N= 32 q=   2', 'fwd causal=False N= 32 q=   4', 'fwd causal=False N= 32 q=   8', 'fwd causal=False N= 32 q=  16', 'fwd causal=False N= 64 q=   4', 'fwd causal=False N= 64 q=   8', 'fwd causal=False N= 64 q=  16', 'fwd causal=False N= 96 q=   4', 'fwd causal=False N= 96 q=   8', 'fwd causal=False N= 96 q=  16', 'fwd causal=False N=128 q=   4', 'fwd causal=False N=128 q=   8', 'fwd causal=False N=128 q=  16', 'fwd causal=False N=256 q=   4', 'fwd causal=False N=256 q=   8', 'fwd causal=False N=256 q=  16', 'fwd causal=True N= 16 q=   2', 'fwd causal=True N= 16 q=   4', 'fwd causal=True N= 16 q=   8', 'fwd causal=True N= 16 q=  16', 'fwd causal=True N= 32 q=   2', 'fwd causal=True N= 32 q=   4', 'fwd causal=True N= 32 q=   8', 'fwd causal=True N= 32 q=  16', 'fwd causal=True N= 64 q=   2', 'fwd causal=True N= 64 q=   4', 'fwd causal=True N= 64 q=   8', 'fwd causal=True N= 64 q=  16', 'fwd causal=True N= 96 q=   2', 'fwd causal=True N= 96 q=   4', 'fwd causal=True N= 96 q=   8', 'fwd causal=True N= 96 q=  16', 'fwd causal=True N=128 q=   2', 'fwd causal=True N=128 q=   4', 'fwd causal=True N=128 q=   8', 'fwd causal=True N=128 q=  16', 'fwd causal=True N=256 q=   2', 'fwd causal=True N=256 q=   4', 'fwd causal=True N=256 q=   8', 'fwd causal=True N=256 q=  16', 'bwd D=128 N=128 q=   2', 'bwd D=128 N=128 q=   4']

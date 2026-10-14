@@ -1,0 +1,6 @@
+lambda:  max|d| 19.811630  mean 12.962286
+sum_w:   kernel [1.1604,1.4959]  ref [1.0000,1.0000]  max|d| 0.495946
+output:  max row err 0.1279
+worst row 9: lam_k 42.827438 lam_r 62.639069  ws_k 1.4959 ws_r 1.0000
+ref@5-vs-ref@10 lambda max|d|: 21.214138  <- test compares kernel@5 to ref@10; if large, the TEST is at fault
+ALL DONE

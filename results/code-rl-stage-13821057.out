@@ -1,0 +1,10 @@
+[PASS] probe='What is my name?' -> 'My name is Alex.'
+[FAIL] probe='What color should I paint my room?' -> "I'm Stilt, a small research language model built with a custom attenti"
+[FAIL] probe='Suggest a snack for me.' -> "I'm Stilt, a small research language model built with a custom attenti"
+[FAIL] probe='How many apples do I have now?' -> 'You can say "Stilt" has been used here before, but it\'s more commonly '
+[PASS] probe='What city do I live in?' -> 'I live in Paris, the capital of France.'
+[PASS] probe='What was the code word?' -> 'The code word is "banana".'
+[PASS] probe="What is my dog's name?" -> 'My dog is Rex.'
+[FAIL] probe='Suggest a dinner.' -> "I'm Stilt, an experimental AI assistant from a research project on att"
+SUMMARY multiturn back-ref recall: 4/8 = 50%  (ckpt_gpt2-sdpa-nope-nope-mix-lr0.0002_s0-it-dr-it2.pt)
+ALL DONE

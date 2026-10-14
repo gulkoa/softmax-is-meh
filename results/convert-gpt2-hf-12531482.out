@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.159 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the ancient Greeks and the ancient Romans. The ancient Greeks and the ancient Romans were the first civilizations to develop a systematic approach to understanding the structure and properties'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_it_staging
+VERIFIED
+ALL DONE

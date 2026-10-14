@@ -1,0 +1,123 @@
+########## MQMTAR v9 stability: arm=asstjd extra=[--nape --lr 1e-4 --scale-lr-mult 0.1] ##########
+loading data...
+train=50000000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asstjd-q4-nape-slr0.1 params=8.56M
+scale params at lr*0.1
+step      0 loss 5.6725
+step    500 loss 3.4175
+step   1000 loss 2.9273
+step   1500 loss 1.7530
+step   2000 loss 1.0609
+step   2500 loss 0.8842
+step   3000 loss 0.8523
+step   3500 loss 0.8036
+step   4000 loss 0.7554
+step   4500 loss 0.7563
+step   5000 loss 0.7565
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 0.6760
+step   6000 loss 0.7027
+step   6500 loss 0.6779
+step   7000 loss 0.6899
+step   7500 loss 0.6771
+step   8000 loss 0.6528
+step   8500 loss 0.6926
+step   9000 loss 0.6507
+step   9500 loss 0.6383
+step  10000 loss 0.6579
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 0.6440
+step  11000 loss 0.6104
+step  11500 loss 0.6345
+step  12000 loss 0.6273
+step  12500 loss 0.6363
+step  13000 loss 0.6146
+step  13500 loss 0.6158
+step  14000 loss 0.5991
+step  14500 loss 0.6331
+step  15000 loss 0.6029
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 0.6180
+step  16000 loss 0.6187
+step  16500 loss 0.6171
+step  17000 loss 0.6028
+step  17500 loss 0.6043
+step  18000 loss 0.5723
+step  18500 loss 0.5115
+step  19000 loss 0.0683
+step  19500 loss 0.0573
+step  20000 loss 0.0884
+  [val] step 20000 acc@64 = 0.780
+step  20500 loss 0.3322
+step  21000 loss 0.0485
+step  21500 loss 0.9231
+step  22000 loss 0.2360
+step  22500 loss 0.4352
+step  23000 loss 0.4770
+step  23500 loss 0.2182
+step  24000 loss 0.2500
+step  24500 loss 0.1733
+step  25000 loss 0.3998
+  [val] step 25000 acc@64 = 0.180
+step  25500 loss 0.3399
+step  26000 loss 0.2753
+step  26500 loss 1.2498
+step  27000 loss 1.7217
+step  27500 loss 1.2505
+step  28000 loss 1.2440
+step  28500 loss 1.7968
+step  29000 loss 2.1917
+step  29500 loss 3.2230
+step  30000 loss 2.7493
+  [val] step 30000 acc@64 = 0.000
+step  30500 loss 2.9466
+step  31000 loss 2.9597
+step  31500 loss 3.2215
+step  32000 loss 3.3420
+step  32500 loss 2.9770
+step  33000 loss 2.6028
+step  33500 loss 2.9596
+step  34000 loss 2.5855
+step  34500 loss 2.5829
+step  35000 loss 2.7835
+  [val] step 35000 acc@64 = 0.000
+step  35500 loss 2.8266
+step  36000 loss 2.5562
+step  36500 loss 2.7229
+step  37000 loss 2.7650
+step  37500 loss 2.6116
+step  38000 loss 2.4468
+step  38500 loss 2.4996
+step  39000 loss 2.6969
+step  39500 loss 2.9110
+step  40000 loss 2.7453
+  [val] step 40000 acc@64 = 0.000
+step  40500 loss 2.8752
+step  41000 loss 2.8611
+step  41500 loss 2.9153
+step  42000 loss 2.8519
+step  42500 loss 2.8436
+step  43000 loss 3.1679
+step  43500 loss 3.1115
+step  44000 loss 3.0203
+step  44500 loss 2.7860
+step  45000 loss 2.9846
+  [val] step 45000 acc@64 = 0.000
+step  45500 loss 2.9391
+step  46000 loss 3.0123
+step  46500 loss 3.0199
+step  47000 loss 2.8196
+step  47500 loss 2.9589
+step  48000 loss 2.9674
+step  48500 loss 2.8229
+step  49000 loss 2.9390
+step  49500 loss 2.7370
+step  50000 loss 2.8068
+  [val] step 50000 acc@64 = 0.000
+step  50500 loss 2.7635
+step  51000 loss 2.6286
+step  51500 loss 2.6754
+step  52000 loss 2.5932
+step  52500 loss 2.6963
+step  53000 loss 2.6912
+step  53500 loss 2.5487

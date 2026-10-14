@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/binary_search_1head_stieltjes_q2.0_seq128_d64_nope_seed1_ascend/model.pt",
+  "task": "binary_search",
+  "attn": "stieltjes",
+  "q": 2.0,
+  "seq_len": 128,
+  "val_samples": 2000,
+  "seed": 42,
+  "accuracy_fixed": 0.0395,
+  "accuracy_all": 0.8478599676608677,
+  "accuracy_input_echo": 0.8639208440126364,
+  "output_token_count": 2000,
+  "input_token_count": 100662,
+  "all_token_count": 102662,
+  "output_start_stats": {
+    "n": 2000,
+    "min": 6,
+    "max": 66,
+    "mean": 50.33100128173828
+  }
+}

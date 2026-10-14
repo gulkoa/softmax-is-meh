@@ -212,3 +212,9 @@ results/**/checkpoint.pt
 results/**/model.pt
 results/**/sample_attn.pt
 results/deeprecall_convos.json
+*.safetensors
+results/mqmtar_data/
+results/nl_data/
+
+# wandb offline run dirs (synced to wandb cloud from the login node)
+wandb/

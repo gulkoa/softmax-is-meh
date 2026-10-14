@@ -1,0 +1,8 @@
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.0380952380952381, 10: 0.1410511573050273}
+[humaneval] 40/100 {1: 0.09634146341463415, 10: 0.2701511657563912}
+[humaneval] 60/100 {1: 0.10655737704918031, 10: 0.29919869502674157}
+[humaneval] 80/100 {1: 0.08024691358024691, 10: 0.2253224740324844}
+HumanEval (100 problems): {'pass@1': 0.065, 'pass@10': 0.18251120396631237} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.065, "pass@10": 0.18251120396631237}}
+ALL DONE

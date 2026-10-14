@@ -1,0 +1,38 @@
+Device: cuda
+GPU: NVIDIA H100
+[fixed] q=1.0  weights_max|Δ|=3.378e-02  argmax_match=100.0%
+[fixed] q=4.0  weights_max|Δ|=2.980e-07  argmax_match=100.0%
+[fixed] q=16.0  weights_max|Δ|=1.323e+00  argmax_match=100.0%
+
+=== Training: Stieltjes-BinarySearch (psm) (q=4.0) ===
+  L=   16  acc=99.37%
+  L=   32  acc=97.17%
+  L=   64  acc=92.77%
+  L=  128  acc=74.22%
+  L=  256  acc=50.10%
+  L=  512  acc=33.20%
+
+=== Training: Stieltjes-NewtonRaphson (triton-ref) (q=4.0) ===
+  L=   16  acc=99.37%
+  L=   32  acc=97.17%
+  L=   64  acc=92.58%
+  L=  128  acc=74.32%
+  L=  256  acc=49.90%
+  L=  512  acc=33.01%
+
+Results saved to softmax-is-meh/results/maxretr_bs_vs_nr_q4.0_9442534.json
+
+========================================================================
+SUMMARY
+========================================================================
+q=4.0, steps=5000, ID_LEN=16
+
+     L |   BS acc |   NR acc |        Δ
+----------------------------------------
+    16 |   99.37% |   99.37% |   +0.00
+    32 |   97.17% |   97.17% |   +0.00
+    64 |   92.77% |   92.58% |   -0.20
+   128 |   74.22% |   74.32% |   +0.10
+   256 |   50.10% |   49.90% |   -0.20
+   512 |   33.20% |   33.01% |   -0.20
+DONE

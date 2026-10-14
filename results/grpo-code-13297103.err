@@ -1,0 +1,42 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260805_052944-28iwv28r
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-sdpa-medium-mix_s0-it-code-r-s1rl.pt-13297103
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/28iwv28r
+wandb: uploading artifact run-28iwv28r-traces; updating run metadata
+wandb: uploading history steps 399-399, summary, console lines 87-87
+wandb: 
+wandb: Run history:
+wandb:    adv_abs_mean ▁▂▃▂▂▄▅▄▃▃▃▂▂▄▅▃▄▃▂▅▅▆▃█▄▂▄▅▄▃▃▃▄▂▃▆▆▃▂▄
+wandb:  attn_H_l0_mean █▆▅▇▇▂▁▂▅▃▅▇▅▅█▇
+wandb:   attn_H_l0_p10 ▅▅▅▇▄▅▃▆▅▁▆█▄▅▇▅
+wandb: attn_H_l12_mean ▂▁▁▂▂▁▃▃▃▃▃▄▄▅▇█
+wandb:  attn_H_l12_p10 ▄▄▄▆▃▂▄▃▂▂▁▂▂▃▇█
+wandb: attn_H_l23_mean ▁▂▂▇▆▇██▆▅▄▃▄▃▂▃
+wandb:  attn_H_l23_p10 ▁▃▂▄▆▇██▆▆▇▆██▇█
+wandb:    attn_maxp_l0 ▁▂▂▁▂██▇▅▇▆▄▇▆▄▄
+wandb:   attn_maxp_l12 ▇██▇▇▇▆▇▆▆▆▅▆▄▂▁
+wandb:   attn_maxp_l23 ▅▅▅▁▂▂▁▁▄▄▅▆▆▆█▇
+wandb:             +15 ...
+wandb: 
+wandb: Run summary:
+wandb:    adv_abs_mean 0.0289
+wandb:  attn_H_l0_mean 3.0288
+wandb:   attn_H_l0_p10 1.76179
+wandb: attn_H_l12_mean 1.7738
+wandb:  attn_H_l12_p10 0.62356
+wandb: attn_H_l23_mean 1.70815
+wandb:  attn_H_l23_p10 0.38063
+wandb:    attn_maxp_l0 0.14679
+wandb:   attn_maxp_l12 0.49859
+wandb:   attn_maxp_l23 0.53341
+wandb:             +15 ...
+wandb: 
+wandb: 🚀 View run grpo-code-ckpt_gpt2-sdpa-medium-mix_s0-it-code-r-s1rl.pt-13297103 at: https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/28iwv28r
+wandb: ⭐️ View project at: https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: Synced 5 W&B file(s), 400 media file(s), 800 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260805_052944-28iwv28r/logs

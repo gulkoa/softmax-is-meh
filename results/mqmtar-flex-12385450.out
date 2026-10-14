@@ -1,0 +1,6 @@
+equivalence gate @64 (n=50): dense 1.000 flex 1.000
+  len  16384: acc 0.5900  (n=100, 11s)
+  len  32768: acc 0.3300  (n=100, 34s)
+  len  65536: acc 0.0800  (n=100, 122s)
+DONE
+ALL DONE

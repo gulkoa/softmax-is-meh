@@ -1,0 +1,7 @@
+multiturn SFT: 298983 convos (>=1 asst turns; 2160 tail-truncated to a complete-context prefix, kept not dropped), identity 0
+multiturn SFT: 23657 steps (avg len 881)
+step 0/23657 loss 1.7779
+step 50/23657 loss 1.5134
+step 100/23657 loss 1.3435
+step 150/23657 loss 1.3973
+step 200/23657 loss 1.0896

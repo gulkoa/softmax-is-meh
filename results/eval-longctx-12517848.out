@@ -1,0 +1,11 @@
+building PG-19 token stream...
+
+===== ckpt_gpt2-stj-q4-medium-mix_s0.pt =====
+  pg19 NLL by available context: [0-64):4.0716  [64-128):3.5855  [128-256):3.4613  [256-512):3.4016  [512-1023):3.3535
+  pg19 context gain (bucket0 - bucket4): 0.7181 nats
+  pg19 ppl @1024/2048/4096 (pos-saturated): 31.31 / 189.42 / 1110.50
+  fineweb-val NLL by available context: [0-64):3.3919  [64-128):2.9578  [128-256):2.8714  [256-512):2.7913  [512-1023):2.7749
+  fineweb-val context gain (bucket0 - bucket4): 0.6170 nats
+  fineweb-val ppl @1024/2048/4096 (pos-saturated): 17.21 / 168.23 / 1611.09
+DONE
+ALL DONE

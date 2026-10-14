@@ -1,0 +1,7 @@
+DATAGEN DONE
+total 828
+drwxr-xr-x   4 alexg PAS2402   4096 Jul 14 11:35 .
+drwxr-xr-x 396 alexg PAS2402 102400 Jul 14 11:36 ..
+drwxr-xr-x   2 alexg PAS2402   4096 Jul 14 01:59 3M_abc-256_vocab-10K_kv-len-2_num_kv-80_num_q-4
+drwxr-xr-x   2 alexg PAS2402   4096 Jul 14 11:36 50M_abc-256_vocab-10K_kv-len-2_num_kv-80_num_q-4
+-rw-r--r--   1 alexg PAS2402 724983 Jul 14 02:15 gen.log

@@ -1,0 +1,12 @@
+GPU: NVIDIA H100
+BH=  64 D= 32 N=  4096: sdpa     0.39ms | flashn i1      6.29ms (  16.1x) | i8     27.45ms (  70.1x, excess  7.0x)
+BH=  64 D= 32 N= 16384: sdpa     4.99ms | flashn i1     92.15ms (  18.5x) | i8    609.42ms ( 122.1x, excess 12.2x)
+BH=  64 D= 32 N= 65536: sdpa    75.94ms | flashn i1   1460.20ms (  19.2x) | i8  12116.40ms ( 159.6x, excess 16.0x)
+BH=  64 D= 64 N=  4096: sdpa     0.52ms | flashn i1      7.48ms (  14.5x) | i8     29.43ms (  56.9x, excess  5.7x)
+BH=  64 D= 64 N= 16384: sdpa     6.83ms | flashn i1    111.44ms (  16.3x) | i8    650.68ms (  95.2x, excess  9.5x)
+BH=  64 D= 64 N= 65536: sdpa   107.60ms | flashn i1   1775.82ms (  16.5x) | i8  12100.67ms ( 112.5x, excess 11.2x)
+BH=1024 D= 32 N=  4096: sdpa     5.10ms | flashn i1     91.07ms (  17.8x) | i8    662.66ms ( 129.9x, excess 13.0x)
+BH=1024 D= 32 N= 16384: sdpa    76.71ms | flashn i1   1460.26ms (  19.0x) | i8  12090.96ms ( 157.6x, excess 15.8x)
+BH=1024 D= 32 N= 65536: sdpa  1226.01ms | flashn i1  23883.65ms (  19.5x) | i8 219804.60ms ( 179.3x, excess 17.9x)
+BH=1024 D= 64 N=  4096: sdpa     7.08ms | flashn i1    109.98ms (  15.5x) | i8    742.45ms ( 104.8x, excess 10.5x)
+BH=1024 D= 64 N= 16384: sdpa   109.15ms | flashn i1   1820.72ms (  16.7x) | i8  12800.26ms ( 117.3x, excess 11.7x)

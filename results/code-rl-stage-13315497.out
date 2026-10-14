@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.294 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the ancient Greeks. The first known mathematician was Archimedes of Syracuse, who lived in the 6th century BC. He was the first to use'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_nope_staging
+VERIFIED
+ALL DONE

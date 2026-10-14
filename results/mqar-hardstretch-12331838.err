@@ -1,0 +1,5 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260713_083509-mznzedc1
+wandb: View this run in the terminal with `wandb leet`
+[2026-07-13T08:36:24.422] error: Detected 6 oom_kill events in StepId=12331838.batch. Some of the step tasks have been OOM Killed.

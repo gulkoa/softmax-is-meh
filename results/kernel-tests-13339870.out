@@ -1,0 +1,101 @@
+Device: cuda
+
+Forward correctness tests
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000022
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000036
+  [PASS] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000016
+  [PASS] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0001  mean_err=0.000011
+  [PASS] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000020
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.0001  mean_err=0.000016
+  [PASS] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000009
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000014
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000007
+  [PASS] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000010
+----------------------------------------------------------------------
+All forward tests passed.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0003  dK_err=0.0002  dV_err=0.0012
+  [PASS] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0004  dK_err=0.0005  dV_err=0.0013
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0019  dK_err=0.0018  dV_err=0.0001
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0019  dK_err=0.0014  dV_err=0.0016
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0110  dK_err=0.0114  dV_err=0.0001
+----------------------------------------------------------------------
+All backward tests passed.
+
+Non-contiguous layout tests (fused-qkv views vs contiguous, B=3)
+----------------------------------------------------------------------
+  [PASS] causal=False q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=True   fwd_err=0.000000  bwd_err=0.000000
+----------------------------------------------------------------------
+All non-contiguous layout tests passed.
+
+Long-N backward NaN diagnostic (causal, q=4, normalize+ift, N % BLOCK_N != 0)
+----------------------------------------------------------------------
+  N= 1000 bfloat16 : clean
+  N= 1000 float16  : clean
+  N= 2000 bfloat16 : clean
+  N= 2000 float16  : clean
+  N= 3800 bfloat16 : clean
+  N= 3800 float16  : clean
+  N= 4100 bfloat16 : clean
+  N= 4100 float16  : clean
+----------------------------------------------------------------------
+DIAGNOSTIC: no NaN at these shapes — SFT trigger is elsewhere (padded batch rows / data-dependent scores)
+
+Padded-row variant (EOS-style repeated tail, do=0 on tail)
+----------------------------------------------------------------------
+  N= 1000 pad=30%: no NaN
+  N= 1000 pad=70%: no NaN
+  N= 2000 pad=30%: no NaN
+  N= 2000 pad=70%: no NaN
+  N= 4100 pad=30%: no NaN
+  N= 4100 pad=70%: no NaN
+----------------------------------------------------------------------
+
+
+Running benchmarks...
+
+stieltjes-flash-attention-fwd-B4-H8-D64:
+    N_CTX  Stieltjes (Triton) (TFLOPS)  Stieltjes (PyTorch) (TFLOPS)  Softmax (PyTorch) (TFLOPS)
+0   128.0                     1.377274                      0.486021                    5.063707
+1   256.0                     4.352888                      1.880479                   12.000924
+2   512.0                    12.002229                      2.173059                   16.192670
+3  1024.0                    20.162524                      1.956317                   16.408626
+4  2048.0                    21.564776                      2.066449                   17.410065
+5  4096.0                    21.297605                      2.108825                   17.754292
+stieltjes-flash-attention-bwd-B4-H8-D64:
+    N_CTX  Stieltjes (Triton) (TFLOPS)  Stieltjes (PyTorch) (TFLOPS)  Softmax (PyTorch) (TFLOPS)
+0   128.0                     9.121883                      0.496193                    5.586886
+1   256.0                    28.515363                      1.934302                   14.144467
+2   512.0                    65.896150                      2.010285                   18.212938
+3  1024.0                   105.906222                      2.114906                   21.278406
+4  2048.0                   120.465228                      2.209161                   22.563085
+5  4096.0                   131.934033                      2.241576                   23.514448
+stieltjes-flash-attention-fwd-B4-H8-D128:
+    N_CTX  Stieltjes (Triton) (TFLOPS)  Stieltjes (PyTorch) (TFLOPS)  Softmax (PyTorch) (TFLOPS)
+0   128.0                     7.078386                      0.968722                    8.760272
+1   256.0                    19.845409                      3.619812                   20.070255
+2   512.0                    40.483053                      4.152106                   24.479587
+3  1024.0                    45.198017                      3.776826                   25.411555
+4  2048.0                    47.613060                      3.956667                   25.445299
+5  4096.0                    48.978280                      4.078005                   27.550847
+stieltjes-flash-attention-bwd-B4-H8-D128:
+    N_CTX  Stieltjes (Triton) (TFLOPS)  Stieltjes (PyTorch) (TFLOPS)  Softmax (PyTorch) (TFLOPS)
+0   128.0                    17.936332                      0.992466                    9.668111
+1   256.0                    53.731810                      3.706946                   21.694407
+2   512.0                   103.336948                      3.903569                   28.098928
+3  1024.0                   140.210913                      4.095997                   32.016262
+4  2048.0                   165.027910                      4.274918                   33.513301
+5  4096.0                   182.771783                      4.352430                   35.803448
+ALL DONE

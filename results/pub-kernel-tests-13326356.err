@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/stieltjes-triton/tests/test_kernel.py", line 23, in <module>
+    from stieltjes_attention import stieltjes_attention, stieltjes_attention_ref
+ModuleNotFoundError: No module named 'stieltjes_attention'

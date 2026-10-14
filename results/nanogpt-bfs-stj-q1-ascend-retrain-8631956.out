@@ -1,0 +1,60 @@
+Using device: cuda
+Generating training data...
+Generating validation data...
+Model parameters: 10,795,776
+Epoch   1/50 | train_loss=1.5811 | val_loss=1.2284 | val_acc=0.6817 | time=27.8s
+Epoch   2/50 | train_loss=1.0761 | val_loss=0.8973 | val_acc=0.7903 | time=25.8s
+Epoch   3/50 | train_loss=0.8216 | val_loss=0.6884 | val_acc=0.8311 | time=25.8s
+Epoch   4/50 | train_loss=0.6999 | val_loss=0.6265 | val_acc=0.8539 | time=25.8s
+Epoch   5/50 | train_loss=0.6444 | val_loss=0.5976 | val_acc=0.8721 | time=25.8s
+Epoch   6/50 | train_loss=0.6080 | val_loss=0.5756 | val_acc=0.8771 | time=25.8s
+Epoch   7/50 | train_loss=0.5865 | val_loss=0.5635 | val_acc=0.8945 | time=25.8s
+Epoch   8/50 | train_loss=0.5696 | val_loss=0.5497 | val_acc=0.9062 | time=25.8s
+Epoch   9/50 | train_loss=0.5543 | val_loss=0.5391 | val_acc=0.9128 | time=25.8s
+Epoch  10/50 | train_loss=0.5443 | val_loss=0.5296 | val_acc=0.9223 | time=25.8s
+Epoch  11/50 | train_loss=0.5345 | val_loss=0.5201 | val_acc=0.9350 | time=25.8s
+Epoch  12/50 | train_loss=0.5244 | val_loss=0.5176 | val_acc=0.9445 | time=25.8s
+Epoch  13/50 | train_loss=0.5157 | val_loss=0.5025 | val_acc=0.9550 | time=25.8s
+Epoch  14/50 | train_loss=0.5091 | val_loss=0.5100 | val_acc=0.9616 | time=25.8s
+Epoch  15/50 | train_loss=0.5025 | val_loss=0.5035 | val_acc=0.9660 | time=25.8s
+Epoch  16/50 | train_loss=0.4985 | val_loss=0.4998 | val_acc=0.9690 | time=25.8s
+Epoch  17/50 | train_loss=0.4941 | val_loss=0.4987 | val_acc=0.9711 | time=25.8s
+Epoch  18/50 | train_loss=0.4913 | val_loss=0.4977 | val_acc=0.9731 | time=25.8s
+Epoch  19/50 | train_loss=0.4888 | val_loss=0.4941 | val_acc=0.9724 | time=25.8s
+Epoch  20/50 | train_loss=0.4861 | val_loss=0.4917 | val_acc=0.9764 | time=25.8s
+Epoch  21/50 | train_loss=0.4825 | val_loss=0.4892 | val_acc=0.9782 | time=25.8s
+Epoch  22/50 | train_loss=0.4834 | val_loss=0.4924 | val_acc=0.9764 | time=25.8s
+Epoch  23/50 | train_loss=0.4792 | val_loss=0.4916 | val_acc=0.9794 | time=25.8s
+Epoch  24/50 | train_loss=0.4779 | val_loss=0.4901 | val_acc=0.9785 | time=25.8s
+Epoch  25/50 | train_loss=0.4739 | val_loss=0.4885 | val_acc=0.9801 | time=25.8s
+Epoch  26/50 | train_loss=0.4724 | val_loss=0.4866 | val_acc=0.9825 | time=25.8s
+Epoch  27/50 | train_loss=0.4709 | val_loss=0.4875 | val_acc=0.9826 | time=25.8s
+Epoch  28/50 | train_loss=0.4688 | val_loss=0.4895 | val_acc=0.9821 | time=25.8s
+Epoch  29/50 | train_loss=0.4668 | val_loss=0.4919 | val_acc=0.9828 | time=25.8s
+Epoch  30/50 | train_loss=0.4649 | val_loss=0.4930 | val_acc=0.9844 | time=25.8s
+Epoch  31/50 | train_loss=0.4619 | val_loss=0.4938 | val_acc=0.9816 | time=25.8s
+Epoch  32/50 | train_loss=0.4592 | val_loss=0.5422 | val_acc=0.9838 | time=25.8s
+Epoch  33/50 | train_loss=0.4577 | val_loss=0.4946 | val_acc=0.9835 | time=25.8s
+Epoch  34/50 | train_loss=0.4536 | val_loss=0.5003 | val_acc=0.9848 | time=25.8s
+Epoch  35/50 | train_loss=0.4510 | val_loss=0.5011 | val_acc=0.9846 | time=25.8s
+Epoch  36/50 | train_loss=0.4477 | val_loss=0.5000 | val_acc=0.9851 | time=25.8s
+Epoch  37/50 | train_loss=0.4434 | val_loss=0.5059 | val_acc=0.9850 | time=25.8s
+Epoch  38/50 | train_loss=0.4398 | val_loss=0.5079 | val_acc=0.9847 | time=25.8s
+Epoch  39/50 | train_loss=0.4354 | val_loss=0.5124 | val_acc=0.9849 | time=25.8s
+Epoch  40/50 | train_loss=0.4318 | val_loss=0.5158 | val_acc=0.9862 | time=25.8s
+Epoch  41/50 | train_loss=0.4277 | val_loss=0.5228 | val_acc=0.9829 | time=25.8s
+Epoch  42/50 | train_loss=0.4230 | val_loss=0.5253 | val_acc=0.9843 | time=25.8s
+Epoch  43/50 | train_loss=0.4177 | val_loss=0.5293 | val_acc=0.9839 | time=25.8s
+Epoch  44/50 | train_loss=0.4121 | val_loss=0.5324 | val_acc=0.9859 | time=25.8s
+Epoch  45/50 | train_loss=0.4065 | val_loss=0.5464 | val_acc=0.9846 | time=25.8s
+Epoch  46/50 | train_loss=0.4012 | val_loss=0.5522 | val_acc=0.9855 | time=25.8s
+Epoch  47/50 | train_loss=0.3962 | val_loss=0.5585 | val_acc=0.9849 | time=25.8s
+Epoch  48/50 | train_loss=0.3899 | val_loss=0.5654 | val_acc=0.9860 | time=25.8s
+Epoch  49/50 | train_loss=0.3855 | val_loss=0.5736 | val_acc=0.9858 | time=25.8s
+Epoch  50/50 | train_loss=0.3794 | val_loss=0.5838 | val_acc=0.9872 | time=25.8s
+Model saved to results/bfs_stieltjes_q1.0_ascend_retrain/model.pt
+Metrics saved to results/bfs_stieltjes_q1.0_ascend_retrain/metrics.csv
+{"checkpoint": "results/bfs_stieltjes_q1.0_ascend_retrain/model.pt", "task": "bfs", "attn": "stieltjes", "q": 1.0, "seq_len": 128, "val_samples": 5000, "seed": 42, "accuracy_fixed": 0.98722, "accuracy_all": 0.7903286686231399, "accuracy_input_echo": 0.7295394761216701, "output_token_count": 50000, "input_token_count": 161946, "all_token_count": 211946, "output_start_stats": {"n": 5000, "min": 11, "max": 63, "mean": 32.389198303222656}}
+Saved entropy    -> results/bfs_stieltjes_q1.0_ascend_retrain/analysis_ascend/entropy.csv
+Saved concentration -> results/bfs_stieltjes_q1.0_ascend_retrain/analysis_ascend/concentration.csv
+Saved sample_attn   -> results/bfs_stieltjes_q1.0_ascend_retrain/analysis_ascend/sample_attn.pt

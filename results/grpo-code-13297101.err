@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  18%|█▊        | 61/339 [00:00<00:00, 578.91it/s]Loading weights:  51%|█████▏    | 174/339 [00:00<00:00, 893.24it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 1146.15it/s]
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260804_223117-xoqb0i3j
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-stj-r3judge_s0.pt-13297101
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/xoqb0i3j
+wandb: uploading artifact run-xoqb0i3j-traces; updating run metadata
+wandb: uploading history steps 399-399, summary, console lines 87-87
+wandb: 
+wandb: Run history:
+wandb:    adv_abs_mean ▃▂▃▃▃▃▁▃▂▂▂▂▃▄▂▄▂▆▅▄▄▂▂▅▂▃▅█▂▃▆▃▄▃▁▄▂▁▃▁
+wandb:  attn_H_l0_mean ▃▁▆▄▆▇▆▇█▇▆▄▄▄▆▅
+wandb:   attn_H_l0_p10 ▇▃████▇▇▇▆▆▂▁▁▂▂
+wandb: attn_H_l12_mean ▂▂▁▃▄▅▄▆▄▇▅▇█▆▆▇
+wandb:  attn_H_l12_p10 ▃▁▃▅▄▆▅▆▆▇▇▆█▆▆▆
+wandb: attn_H_l23_mean ▁▂▂▃▄▅▄▅▅▇▆▆▇███
+wandb:  attn_H_l23_p10 ▁▂▅▅▆▇▆█▄▇▇▅▅▇█▅
+wandb:    attn_maxp_l0 ▅█▃▅▂▂▂▁▁▂▃▇▆▇▃▄
+wandb:   attn_maxp_l12 ▆▇█▆▅▅▅▃▅▂▃▂▁▃▃▂
+wandb:   attn_maxp_l23 █▇▇▆▆▄▅▄▄▂▃▄▃▁▁▂
+wandb:             +15 ...
+wandb: 
+wandb: Run summary:
+wandb:    adv_abs_mean 0.02795
+wandb:  attn_H_l0_mean 2.96609
+wandb:   attn_H_l0_p10 1.707
+wandb: attn_H_l12_mean 1.8418
+wandb:  attn_H_l12_p10 0.606
+wandb: attn_H_l23_mean 1.68557
+wandb:  attn_H_l23_p10 0.58128
+wandb:    attn_maxp_l0 0.17107
+wandb:   attn_maxp_l12 0.51744
+wandb:   attn_maxp_l23 0.55814
+wandb:             +15 ...
+wandb: 
+wandb: 🚀 View run grpo-code-ckpt_gpt2-stj-r3judge_s0.pt-13297101 at: https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/xoqb0i3j
+wandb: ⭐️ View project at: https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: Synced 5 W&B file(s), 400 media file(s), 800 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260804_223117-xoqb0i3j/logs

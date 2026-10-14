@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_code_stilt.py", line 27, in <module>
+    from grpo_code_stilt import build_prompt  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_code_stilt.py", line 47, in <module>
+    from modeling_stieltjes_gpt2 import stieltjes_probs  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/../../results/hf_gpt2_staging/modeling_stieltjes_gpt2.py", line 11, in <module>
+    from .configuration_stieltjes_gpt2 import StieltjesGPT2Config
+ImportError: attempted relative import with no known parent package

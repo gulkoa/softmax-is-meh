@@ -1,0 +1,52 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: Tracking run with wandb version 0.28.0
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_multiturn_stilt.py", line 293, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/sft_multiturn_stilt.py", line 209, in main
+    run = wandb.init(project="stieltjes-flash-attn",
+                     name=f"sftmt-{os.path.basename(args.base_ckpt)}"
+                          f"-{os.environ.get('SLURM_JOB_ID', 'local')}",
+                     config={**vars(args), "base_args": blob["args"]})
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_init.py", line 1530, in init
+    get_sentry().reraise(e)
+    ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/analytics/sentry.py", line 191, in reraise
+    raise exc.with_traceback(tb)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_init.py", line 1513, in init
+    run = wi.init(run_settings, run_config, run_printer)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_init.py", line 1011, in init
+    run._on_start()
+    ~~~~~~~~~~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_run.py", line 2561, in _on_start
+    self._header()
+    ~~~~~~~~~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_run.py", line 3744, in _header
+    self._header_wandb_version_info()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/wandb_run.py", line 3753, in _header_wandb_version_info
+    self._printer.display(f"Tracking run with wandb version {wandb.__version__}")
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/lib/printer.py", line 314, in display
+    self._display_fn_mapping(level)(text)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/errors/term.py", line 217, in termlog
+    _log(
+    ~~~~^
+        string,
+        ^^^^^^^
+    ...<3 lines>...
+        silent=not _show_info,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/errors/term.py", line 520, in _log
+    click.echo(string, file=sys.stderr, nl=newline)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/click/utils.py", line 345, in echo
+    file.write(out)  # type: ignore
+    ~~~~~~~~~~^^^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/wandb/sdk/lib/console_capture.py", line 184, in write_with_callbacks
+    n = orig_write(s)
+OSError: [Errno 122] Disk quota exceeded

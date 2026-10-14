@@ -1,0 +1,3 @@
+/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/probe_realized_scale.py:74: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  out[ctx] = {"p50": float(st[:, 0].median()),

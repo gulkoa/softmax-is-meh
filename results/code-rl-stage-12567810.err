@@ -1,0 +1,18 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:  34%|███▎      | 114/339 [00:00<00:00, 1109.08it/s]Loading weights:  66%|██████▋   | 225/339 [00:00<00:00, 1060.79it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 1149.61it/s]
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260724_161807-8pm1dh3y
+wandb: View this run in the terminal with `wandb leet`
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_reason_stilt.py", line 335, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_reason_stilt.py", line 231, in main
+    c = is_correct(extract_answer(o), task)
+                   ~~~~~~~~~~~~~~^^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts/grpo_reason_stilt.py", line 60, in extract_answer
+    return m.group(1).strip().splitlines()[0].strip() if m else None
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range

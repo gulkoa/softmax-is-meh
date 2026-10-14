@@ -1,0 +1,35 @@
+########## MQMTAR v7 diag: arm=asstjd extra=[--nape --lr 1e-3] ##########
+loading data...
+train=50000000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asstjd-q4-nape params=8.56M
+step      0 loss 5.6725
+step    500 loss 2.1593
+step   1000 loss 0.8939
+step   1500 loss 0.8022
+step   2000 loss 0.8804
+step   2500 loss 0.7687
+step   3000 loss 1.9839
+step   3500 loss 1.2676
+step   4000 loss 3.9528
+step   4500 loss 3.9953
+step   5000 loss 4.0787
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 4.0647
+step   6000 loss 4.0511
+step   6500 loss 4.1089
+step   7000 loss 4.2196
+step   7500 loss 4.2176
+step   8000 loss 4.1808
+step   8500 loss 4.2371
+step   9000 loss 4.2735
+step   9500 loss 4.2530
+step  10000 loss 4.2881
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 4.2304
+step  11000 loss 4.2444
+step  11500 loss 4.1801
+step  12000 loss 4.1462
+step  12500 loss 4.2249
+step  13000 loss 4.2274
+step  13500 loss 4.1710
+step  14000 loss 4.2155

@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 98, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/lib/python3.14/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 66, in main
+    ms_sdpa = time_fn(lambda: F.scaled_dot_product_attention(
+        q, k, v, is_causal=True))
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 36, in time_fn
+    fn()
+    ~~^^
+  File "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/bench_flashn_bh_scaling.py", line 66, in <lambda>
+    ms_sdpa = time_fn(lambda: F.scaled_dot_product_attention(
+                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        q, k, v, is_causal=True))
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: cuDNN Frontend error: [cudnn_frontend] Error: No valid execution plans built.

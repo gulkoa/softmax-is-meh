@@ -1,0 +1,31 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo250.pt (step 250)
+step  250 R 0.093 best 0.10 pass@1(batch) 0.000 KL 0.8346 ent 6.016 gnorm 14.61
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo250.pt
+step  255 R 0.186 best 1.09 pass@1(batch) 0.109 KL 0.6760 ent 6.379 gnorm 7.77
+step  260 R 0.143 best 1.09 pass@1(batch) 0.062 KL -0.1893 ent 9.110 gnorm 40.85
+step  265 R 0.151 best 1.09 pass@1(batch) 0.062 KL 1.0387 ent 8.549 gnorm 5.19
+step  270 R 0.135 best 1.09 pass@1(batch) 0.055 KL 0.3182 ent 6.875 gnorm 9.98
+step  275 R 0.188 best 1.09 pass@1(batch) 0.102 KL 0.2006 ent 3.671 gnorm 5.54
+step  280 R 0.061 best 0.10 pass@1(batch) 0.000 KL 0.2999 ent 9.023 gnorm 30.23
+step  285 R 0.081 best 0.10 pass@1(batch) 0.000 KL 0.6947 ent 8.986 gnorm 4.88
+step  290 R 0.084 best 0.10 pass@1(batch) 0.000 KL -0.2864 ent 6.881 gnorm 6.79
+step  295 R 0.071 best 0.10 pass@1(batch) 0.000 KL -0.3799 ent 6.796 gnorm 6.26
+step  300 R 0.088 best 0.10 pass@1(batch) 0.000 KL 0.0077 ent 8.008 gnorm 8.12
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300.pt
+step  305 R 0.089 best 0.10 pass@1(batch) 0.000 KL 0.3358 ent 7.755 gnorm 7.53
+step  310 R 0.083 best 0.10 pass@1(batch) 0.000 KL -0.0224 ent 7.233 gnorm 11.47
+step  315 R 0.044 best 0.10 pass@1(batch) 0.000 KL -0.4971 ent 7.055 gnorm 21.75
+step  320 R 0.090 best 0.10 pass@1(batch) 0.000 KL 0.4020 ent 6.788 gnorm 6.00
+step  325 R 0.092 best 0.10 pass@1(batch) 0.000 KL 0.0889 ent 4.966 gnorm 7.50
+step  330 R 0.079 best 0.10 pass@1(batch) 0.000 KL -0.2153 ent 7.183 gnorm 15.39
+step  335 R 0.089 best 0.10 pass@1(batch) 0.000 KL 0.6907 ent 7.092 gnorm 8.01
+step  340 R 0.091 best 0.10 pass@1(batch) 0.000 KL 0.5260 ent 4.595 gnorm 5.73
+step  345 R 0.066 best 0.10 pass@1(batch) 0.000 KL 0.0469 ent 9.092 gnorm 19.42
+step  350 R 0.065 best 0.10 pass@1(batch) 0.000 KL 0.1318 ent 7.895 gnorm 5.94
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo350.pt
+step  355 R 0.093 best 0.10 pass@1(batch) 0.000 KL 0.5140 ent 2.767 gnorm 4.00
+step  360 R 0.085 best 0.10 pass@1(batch) 0.000 KL 0.2725 ent 7.519 gnorm 51.89
+step  365 R 0.090 best 0.10 pass@1(batch) 0.000 KL 0.6642 ent 6.640 gnorm 4.36

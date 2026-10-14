@@ -1,0 +1,12 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1243 > 1024). Running this sequence through the model will result in indexing errors
+HTTP Error 503 thrown while requesting GET https://huggingface.co/datasets/HuggingFaceTB/finemath/resolve/e92b25a616738fe95dc186b64dfb19f9c8525594/finemath-4plus/train-00004-of-00064.parquet
+Retrying in 1s [Retry 1/5].
+HTTP Error 503 thrown while requesting GET https://huggingface.co/datasets/HuggingFaceTB/finemath/resolve/e92b25a616738fe95dc186b64dfb19f9c8525594/finemath-4plus/train-00004-of-00064.parquet
+Retrying in 1s [Retry 1/5].
+HTTP Error 503 thrown while requesting GET https://huggingface.co/datasets/HuggingFaceTB/finemath/resolve/e92b25a616738fe95dc186b64dfb19f9c8525594/finemath-4plus/train-00004-of-00064.parquet
+Retrying in 2s [Retry 2/5].
+HTTP Error 503 thrown while requesting GET https://huggingface.co/datasets/HuggingFaceTB/finemath/resolve/e92b25a616738fe95dc186b64dfb19f9c8525594/finemath-4plus/train-00004-of-00064.parquet
+Retrying in 4s [Retry 3/5].
+HTTP Error 503 thrown while requesting GET https://huggingface.co/datasets/HuggingFaceTB/finemath/resolve/e92b25a616738fe95dc186b64dfb19f9c8525594/finemath-4plus/train-00004-of-00064.parquet
+Retrying in 8s [Retry 4/5].

@@ -1,0 +1,12 @@
+gpt2-stj-q4-nope-qk-nocap-rmsbench-lr0.0006: 123.6M params, 114 steps x 524288 tokens
+step      0/114 loss 10.9493 gnorm 20.58 (47k tok/s)
+step     20/114 loss 7.1733 gnorm 0.45 (116k tok/s)
+step     40/114 loss 7.1049 gnorm 0.39 (154k tok/s)
+  [val] step 50 loss 6.5360 ppl 689.53 (wall 0.06h, 0.03B tok, 473M tok/GPU-h)
+step     60/114 loss 6.5161 gnorm 0.31 (163k tok/s)
+step     80/114 loss 6.0068 gnorm 0.23 (176k tok/s)
+step    100/114 loss 5.9210 gnorm 0.18 (177k tok/s)
+  [val] step 100 loss 6.1491 ppl 468.31 (wall 0.10h, 0.05B tok, 539M tok/GPU-h)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-nocap-rmsbench-lr0.0006_s0.pt
+DONE
+ALL DONE

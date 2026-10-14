@@ -1,0 +1,5 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260823_101115-9r3bhg0z
+wandb: View this run in the terminal with `wandb leet`
+[2026-08-23T12:11:19.005] error: *** JOB 13815625 ON c0803 CANCELLED AT 2026-08-23T12:11:19 DUE TO TIME LIMIT ***

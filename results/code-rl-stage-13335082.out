@@ -1,0 +1,38 @@
+ckpt_gpt2-stj-q4-medium-mix_s0-it.pt: position-free=False window=1024
+  d=600 (644 tok) 'What is my name?': HIT  'my name is alex.'
+  d=600 (646 tok) 'What is my favorite colo': MISS 'i love red.'
+  d=600 (647 tok) 'What was the code word?': MISS 'the code word is "yes".'
+  d=600 (647 tok) "What is my dog's name?": HIT  'my dog is named rex.'
+  d=600 (646 tok) 'What city do I live in?': MISS 'the capital of italy is rome.'
+  d=600 (646 tok) 'What is my lucky number?': HIT  'my lucky number is 17.'
+DEPTH 600: recall 3/6
+  d=1200 (1249 tok) 'What is my name?': MISS ''
+  d=1200 (1251 tok) 'What is my favorite colo': MISS ''
+  d=1200 (1252 tok) 'What was the code word?': MISS ''
+  d=1200 (1252 tok) "What is my dog's name?": MISS ''
+  d=1200 (1251 tok) 'What city do I live in?': MISS ''
+  d=1200 (1251 tok) 'What is my lucky number?': MISS ''
+DEPTH 1200: recall 0/6
+  d=1800 (1828 tok) 'What is my name?': MISS ''
+  d=1800 (1830 tok) 'What is my favorite colo': MISS ''
+  d=1800 (1831 tok) 'What was the code word?': MISS ''
+  d=1800 (1831 tok) "What is my dog's name?": MISS ''
+  d=1800 (1830 tok) 'What city do I live in?': MISS ''
+  d=1800 (1830 tok) 'What is my lucky number?': MISS ''
+DEPTH 1800: recall 0/6
+  d=2400 (2433 tok) 'What is my name?': MISS ''
+  d=2400 (2435 tok) 'What is my favorite colo': MISS ''
+  d=2400 (2436 tok) 'What was the code word?': MISS ''
+  d=2400 (2436 tok) "What is my dog's name?": MISS ''
+  d=2400 (2435 tok) 'What city do I live in?': MISS ''
+  d=2400 (2435 tok) 'What is my lucky number?': MISS ''
+DEPTH 2400: recall 0/6
+  d=3000 (3038 tok) 'What is my name?': MISS ''
+  d=3000 (3040 tok) 'What is my favorite colo': MISS ''
+  d=3000 (3041 tok) 'What was the code word?': MISS ''
+  d=3000 (3041 tok) "What is my dog's name?": MISS ''
+  d=3000 (3040 tok) 'What city do I live in?': MISS ''
+  d=3000 (3040 tok) 'What is my lucky number?': MISS ''
+DEPTH 3000: recall 0/6
+WROTE /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it_deepctx_recall.json
+ALL DONE

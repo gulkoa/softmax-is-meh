@@ -1,0 +1,20 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Generating train split:   0%|          | 0/460341 [00:00<?, ? examples/s]Generating train split:   0%|          | 1000/460341 [00:00<00:52, 8684.49 examples/s]Generating train split:   5%|▍         | 21000/460341 [00:00<00:03, 114146.85 examples/s]Generating train split:   8%|▊         | 37000/460341 [00:00<00:03, 133773.12 examples/s]Generating train split:  12%|█▏        | 54000/460341 [00:00<00:02, 145897.67 examples/s]Generating train split:  15%|█▌        | 71000/460341 [00:00<00:02, 149854.27 examples/s]Generating train split:  19%|█▉        | 89000/460341 [00:00<00:02, 153531.84 examples/s]Generating train split:  23%|██▎       | 107000/460341 [00:00<00:02, 156673.69 examples/s]Generating train split:  27%|██▋       | 125086/460341 [00:00<00:02, 155386.31 examples/s]Generating train split:  31%|███       | 143086/460341 [00:00<00:02, 156759.25 examples/s]Generating train split:  35%|███▍      | 160086/460341 [00:01<00:01, 157440.25 examples/s]Generating train split:  38%|███▊      | 176086/460341 [00:01<00:01, 157597.64 examples/s]Generating train split:  42%|████▏     | 193086/460341 [00:01<00:01, 157498.80 examples/s]Generating train split:  46%|████▌     | 210086/460341 [00:01<00:01, 158048.56 examples/s]Generating train split:  49%|████▉     | 226086/460341 [00:01<00:01, 157549.49 examples/s]Generating train split:  53%|█████▎    | 242171/460341 [00:01<00:01, 157036.92 examples/s]Generating train split:  56%|█████▋    | 259171/460341 [00:01<00:01, 159292.00 examples/s]Generating train split:  60%|█████▉    | 276171/460341 [00:01<00:01, 159305.42 examples/s]Generating train split:  64%|██████▎   | 293171/460341 [00:01<00:01, 161270.03 examples/s]Generating train split:  67%|██████▋   | 310171/460341 [00:02<00:00, 156958.49 examples/s]Generating train split:  71%|███████   | 326171/460341 [00:02<00:00, 156167.18 examples/s]Generating train split:  75%|███████▌  | 346256/460341 [00:02<00:00, 156678.74 examples/s]Generating train split:  79%|███████▉  | 363256/460341 [00:02<00:00, 158425.76 examples/s]Generating train split:  83%|████████▎ | 380256/460341 [00:02<00:00, 158408.76 examples/s]Generating train split:  86%|████████▋ | 397256/460341 [00:02<00:00, 158249.83 examples/s]Generating train split:  90%|████████▉ | 413256/460341 [00:02<00:00, 158655.44 examples/s]Generating train split:  93%|█████████▎| 429256/460341 [00:02<00:00, 157342.89 examples/s]Generating train split:  97%|█████████▋| 447256/460341 [00:02<00:00, 159739.13 examples/s]Generating train split: 100%|██████████| 460341/460341 [00:02<00:00, 154681.19 examples/s]
+Generating test split:   0%|          | 0/24229 [00:00<?, ? examples/s]Generating test split:  66%|██████▌   | 16000/24229 [00:00<00:00, 142124.69 examples/s]Generating test split: 100%|██████████| 24229/24229 [00:00<00:00, 153908.75 examples/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1046 > 1024). Running this sequence through the model will result in indexing errors
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260719_052217-42ipiaij
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb: sft_loss █▇▅▇▄▆▄▇▆▅▅▅▃▅▅▄▅▃▅▅▃▄▄▄▃▃▄▂▂▄▃▄▄▃▁▅▄▃▃▃
+wandb:     step ▁▁▁▁▁▂▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb: 
+wandb: Run summary:
+wandb: sft_loss 1.41002
+wandb:     step 16250
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260719_052217-42ipiaij
+wandb: Find logs at: ./wandb/offline-run-20260719_052217-42ipiaij/logs

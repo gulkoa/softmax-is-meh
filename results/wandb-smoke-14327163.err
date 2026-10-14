@@ -1,0 +1,40 @@
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0.
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260908_182014-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0
+wandb: View this run in the terminal with `wandb leet`
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0.
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260908_182213-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:          progress/frac ▁▁▁▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇▇██
+wandb: progress/tok_per_gpu_h ▁▂▂▃▃▄▄▄▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇▇▇▇██████
+wandb:        progress/tokens ▁▁▁▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇████
+wandb:        progress/wall_h ▁▁▁▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▆▇▇▇▇███
+wandb:                   step ▁▁▁▁▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▅▅▅▅▅▅▆▆▆▇▇▇▇▇▇▇▇███
+wandb:        train/grad_norm ▂▁▂▅▃▃▇▆▃▂▃▅▃▂▅▃▅▂▄▁█▆▄▂▂▅▃▅▅▅▆▃▃▄▂▃▄▃▄▆
+wandb:             train/loss ██▇█▇▅▄▆▆▅▆▅▅▄▅▄▅▃▄▄▃▃▄▃▃▃▃▄▂▂▃▂▃▃▂▃▃▁▄▂
+wandb:               train/lr ███▇▇▇▇▇▆▆▆▆▅▅▅▅▄▄▄▄▃▃▃▃▃▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁
+wandb:        train/tok_per_s █▁▁▃▁▁▁▁▃▁▁▁▁▃▁▁▁▁▃▁▁▁▁▃▁▁▁▁▃▁▁▁▁▃▁▁▁▁▃▁
+wandb:               val/loss █▇▇▆▆▅▅▅▄▄▄▃▃▃▃▃▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:        chunks/14327163b/gpu NVIDIA H100
+wandb:  chunks/14327163b/last_step 1143
+wandb:       chunks/14327163b/node c0809
+wandb: chunks/14327163b/start_step 326
+wandb:     chunks/14327163b/tokens 214433792
+wandb:     chunks/14327163b/wall_s 256.15893
+wandb:               progress/frac 0.99738
+wandb:             progress/status final
+wandb:      progress/tok_per_gpu_h 2930272311.97472
+wandb:             progress/tokens 299106304
+wandb:                          +8 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260908_182213-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0
+wandb: Find logs at: ./wandb/offline-run-20260908_182213-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0/logs

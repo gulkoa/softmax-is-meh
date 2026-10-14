@@ -1,0 +1,42 @@
+Device: cuda
+
+Forward correctness tests
+----------------------------------------------------------------------
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.1555  mean_err=0.031342
+  [FAIL] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.1301  mean_err=0.012825
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.3572  mean_err=0.056976
+  [FAIL] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.3254  mean_err=0.028061
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0636  mean_err=0.006607
+  [FAIL] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0504  mean_err=0.002645
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.3044  mean_err=0.062195
+  [FAIL] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.2451  mean_err=0.027008
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.6641  mean_err=0.130737
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.5923  mean_err=0.079834
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=1.0439  mean_err=0.204468
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.1115  mean_err=0.011597
+----------------------------------------------------------------------
+Some tests FAILED.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0068  dK_err=0.0053  dV_err=0.0988
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0044  dK_err=0.0048  dV_err=0.0469
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0084  dK_err=0.0076  dV_err=0.2441
+  [FAIL] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0106  dK_err=0.0076  dV_err=0.1906
+  [FAIL] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0077  dK_err=0.0068  dV_err=0.1893
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0105  dK_err=0.0054  dV_err=0.0132
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0150  dK_err=0.0094  dV_err=0.6044
+  [FAIL] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0112  dK_err=0.0102  dV_err=0.4362
+  [FAIL] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0195  dK_err=0.0127  dV_err=0.6079
+----------------------------------------------------------------------
+Some backward tests FAILED.
+
+Non-contiguous layout tests (fused-qkv views vs contiguous, B=3)
+----------------------------------------------------------------------
+  [PASS] causal=False q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=True   fwd_err=0.000000  bwd_err=0.000000
+----------------------------------------------------------------------
+All non-contiguous layout tests passed.
+ALL DONE

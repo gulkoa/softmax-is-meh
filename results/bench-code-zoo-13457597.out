@@ -1,0 +1,81 @@
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason250.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.0071428571428571435, 10: 0.042606516290726815}
+[humaneval] 40/100 {1: 0.08048780487804878, 10: 0.1559227225994575}
+[humaneval] 60/100 {1: 0.07868852459016393, 10: 0.20175178321145942}
+[humaneval] 80/100 {1: 0.05925925925925927, 10: 0.1519365280975188}
+HumanEval (100 problems): {'pass@1': 0.04800000000000001, 'pass@10': 0.12306858775899024} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason250_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.04800000000000001, "pass@10": 0.12306858775899024}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason350.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.009523809523809521, 10: 0.04555506413091553}
+[humaneval] 40/100 {1: 0.06341463414634146, 10: 0.1864294053752636}
+[humaneval] 60/100 {1: 0.06557377049180328, 10: 0.19836397424835733}
+[humaneval] 80/100 {1: 0.04938271604938271, 10: 0.14938521517468886}
+HumanEval (100 problems): {'pass@1': 0.04, 'pass@10': 0.12100202429149798} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason350_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.04, "pass@10": 0.12100202429149798}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo50.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.009523809523809526, 10: 0.06641604010025064}
+[humaneval] 40/100 {1: 0.07195121951219513, 10: 0.1745360657616189}
+[humaneval] 60/100 {1: 0.07131147540983608, 10: 0.21790396833537476}
+[humaneval] 80/100 {1: 0.0537037037037037, 10: 0.16410051936367723}
+HumanEval (100 problems): {'pass@1': 0.0435, 'pass@10': 0.13292142068457857} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo50_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.0435, "pass@10": 0.13292142068457857}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo100.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.016666666666666666, 10: 0.0831859059413239}
+[humaneval] 40/100 {1: 0.0951219512195122, 10: 0.2225702825453637}
+[humaneval] 60/100 {1: 0.08278688524590164, 10: 0.22955886168341125}
+[humaneval] 80/100 {1: 0.062345679012345674, 10: 0.17287766126775414}
+HumanEval (100 problems): {'pass@1': 0.050499999999999996, 'pass@10': 0.14003090562688084} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo100_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.050499999999999996, "pass@10": 0.14003090562688084}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo150.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.011904761904761904, 10: 0.06936458794043933}
+[humaneval] 40/100 {1: 0.0902439024390244, 10: 0.20467258332545654}
+[humaneval] 60/100 {1: 0.08606557377049179, 10: 0.23002735730492926}
+[humaneval] 80/100 {1: 0.06481481481481481, 10: 0.17323047895803315}
+HumanEval (100 problems): {'pass@1': 0.0525, 'pass@10': 0.14031668795600682} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo150_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.0525, "pass@10": 0.14031668795600682}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo200.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.002380952380952383, 10: 0.023809523809523808}
+[humaneval] 40/100 {1: 0.07682926829268294, 10: 0.17956643145422121}
+[humaneval] 60/100 {1: 0.07377049180327869, 10: 0.21246755579090756}
+[humaneval] 80/100 {1: 0.05555555555555555, 10: 0.1600064309042637}
+HumanEval (100 problems): {'pass@1': 0.045, 'pass@10': 0.1296052090324536} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo200_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.045, "pass@10": 0.1296052090324536}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo250.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.0071428571428571435, 10: 0.042606516290726815}
+[humaneval] 40/100 {1: 0.08414634146341463, 10: 0.19109792269197237}
+[humaneval] 60/100 {1: 0.08524590163934426, 10: 0.20943209457648884}
+[humaneval] 80/100 {1: 0.06419753086419752, 10: 0.15772046628599776}
+HumanEval (100 problems): {'pass@1': 0.05199999999999999, 'pass@10': 0.12775357769165818} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo250_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.05199999999999999, "pass@10": 0.12775357769165818}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo300.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.011904761904761904, 10: 0.06936458794043933}
+[humaneval] 40/100 {1: 0.07804878048780488, 10: 0.19043996854915832}
+[humaneval] 60/100 {1: 0.07868852459016394, 10: 0.21617151056830294}
+[humaneval] 80/100 {1: 0.05925925925925927, 10: 0.16279582894649974}
+HumanEval (100 problems): {'pass@1': 0.04800000000000001, 'pass@10': 0.1318646214466648} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo300_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.04800000000000001, "pass@10": 0.1318646214466648}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo350.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.0, 10: 0.0}
+[humaneval] 40/100 {1: 0.07439024390243903, 10: 0.16794794347086123}
+[humaneval] 60/100 {1: 0.07459016393442623, 10: 0.1940449415072569}
+[humaneval] 80/100 {1: 0.05617283950617285, 10: 0.14613261027089716}
+HumanEval (100 problems): {'pass@1': 0.045500000000000006, 'pass@10': 0.1183674143194267} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo350_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.045500000000000006, "pass@10": 0.1183674143194267}}
+=== EVAL humaneval :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo_final.pt ===
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.009523809523809526, 10: 0.06641604010025064}
+[humaneval] 40/100 {1: 0.0926829268292683, 10: 0.22857332201891592}
+[humaneval] 60/100 {1: 0.08770491803278688, 10: 0.25853913127424777}
+[humaneval] 80/100 {1: 0.06604938271604938, 10: 0.1947023087373965}
+HumanEval (100 problems): {'pass@1': 0.0535, 'pass@10': 0.15770887007729115} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r-s1rl_grpo_final_codeeval_humaneval.json
+SUMMARY {"humaneval": {"pass@1": 0.0535, "pass@10": 0.15770887007729115}}
+ALL DONE

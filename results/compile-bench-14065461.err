@@ -1,0 +1,68 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260830_105212-kivito9t
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:    cum_tokens ▁█
+wandb:    cum_wall_h ▁█
+wandb:     grad_norm █▁▁▁▁▁
+wandb:            lr ▁█▇▅▃▂
+wandb:          step ▁▂▄▅▅▇██
+wandb: tok_per_gpu_h ▁█
+wandb:     tok_per_s ▁█████
+wandb:    train_loss █▃▃▂▁▁
+wandb:      val_loss █▁
+wandb: 
+wandb: Run summary:
+wandb:    cum_tokens 52953088
+wandb:    cum_wall_h 0.09037
+wandb:     grad_norm 0.20668
+wandb:            lr 9e-05
+wandb:          step 100
+wandb: tok_per_gpu_h 585988698.60768
+wandb:     tok_per_s 170161.67669
+wandb:    train_loss 5.81477
+wandb:      val_loss 6.04314
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260830_105212-kivito9t
+wandb: Find logs at: ./wandb/offline-run-20260830_105212-kivito9t/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260830_105833-ls3ld5qj
+wandb: View this run in the terminal with `wandb leet`
+icc: remark #10441: The Intel(R) C++ Compiler Classic (ICC) is deprecated and will be removed from product release in the second half of 2023. The Intel(R) oneAPI DPC++/C++ Compiler (ICX) is the recommended compiler moving forward. Please transition to use this compiler. Use '-diag-disable=10441' to disable this message.
+icc: command line warning #10148: option '-Wno-psabi' not supported
+icc: remark #10441: The Intel(R) C++ Compiler Classic (ICC) is deprecated and will be removed from product release in the second half of 2023. The Intel(R) oneAPI DPC++/C++ Compiler (ICX) is the recommended compiler moving forward. Please transition to use this compiler. Use '-diag-disable=10441' to disable this message.
+icc: command line warning #10148: option '-Wno-psabi' not supported
+icc: remark #10441: The Intel(R) C++ Compiler Classic (ICC) is deprecated and will be removed from product release in the second half of 2023. The Intel(R) oneAPI DPC++/C++ Compiler (ICX) is the recommended compiler moving forward. Please transition to use this compiler. Use '-diag-disable=10441' to disable this message.
+icc: command line warning #10148: option '-Wno-psabi' not supported
+icc: remark #10441: The Intel(R) C++ Compiler Classic (ICC) is deprecated and will be removed from product release in the second half of 2023. The Intel(R) oneAPI DPC++/C++ Compiler (ICX) is the recommended compiler moving forward. Please transition to use this compiler. Use '-diag-disable=10441' to disable this message.
+icc: command line warning #10148: option '-Wno-psabi' not supported
+wandb: 
+wandb: Run history:
+wandb:    cum_tokens ▁█
+wandb:    cum_wall_h ▁█
+wandb:     grad_norm █▁▁▁▁▁
+wandb:            lr ▁█▇▅▃▂
+wandb:          step ▁▂▄▅▅▇██
+wandb: tok_per_gpu_h ▁█
+wandb:     tok_per_s ▁█████
+wandb:    train_loss █▃▃▂▁▁
+wandb:      val_loss █▁
+wandb: 
+wandb: Run summary:
+wandb:    cum_tokens 52953088
+wandb:    cum_wall_h 0.08984
+wandb:     grad_norm 0.1915
+wandb:            lr 9e-05
+wandb:          step 100
+wandb: tok_per_gpu_h 589407379.1291
+wandb:     tok_per_s 181335.94763
+wandb:    train_loss 5.87375
+wandb:      val_loss 6.09886
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260830_105833-ls3ld5qj
+wandb: Find logs at: ./wandb/offline-run-20260830_105833-ls3ld5qj/logs

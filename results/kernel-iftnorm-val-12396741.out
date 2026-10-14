@@ -1,0 +1,145 @@
+########## 1. normalized-IFT backward vs dense-IFT autograd ##########
+Normalized-IFT backward validation
+----------------------------------------------------------------------------------------------------
+  [PASS] N=  16 D= 64 causal=False q= 2.0 float32  fwd_same=True rel dQ/dK/dV=1.91e-07/2.08e-07/1.49e-07 det_vs_nograd_info=5.42e-02
+  [PASS] N=  16 D= 64 causal=True  q= 2.0 float32  fwd_same=True rel dQ/dK/dV=1.93e-07/2.19e-07/1.48e-07 det_vs_nograd_info=1.28e-01
+  [PASS] N=  16 D= 64 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.75e-07/2.90e-07/2.35e-07 det_vs_nograd_info=1.13e-01
+  [PASS] N=  16 D= 64 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.24e-07/2.57e-07/2.18e-07 det_vs_nograd_info=1.34e-01
+  [PASS] N=  16 D= 64 causal=False q=16.0 float32  fwd_same=True rel dQ/dK/dV=8.44e-07/8.49e-07/8.67e-07 det_vs_nograd_info=7.42e-02
+  [PASS] N=  16 D= 64 causal=True  q=16.0 float32  fwd_same=True rel dQ/dK/dV=7.79e-07/8.09e-07/7.42e-07 det_vs_nograd_info=5.87e-02
+  [PASS] N=  64 D= 64 causal=False q= 2.0 float32  fwd_same=True rel dQ/dK/dV=2.16e-07/2.20e-07/1.92e-07 det_vs_nograd_info=3.02e-02
+  [PASS] N=  64 D= 64 causal=True  q= 2.0 float32  fwd_same=True rel dQ/dK/dV=1.98e-07/2.35e-07/1.57e-07 det_vs_nograd_info=9.94e-02
+  [PASS] N=  64 D= 64 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.66e-07/2.58e-07/2.34e-07 det_vs_nograd_info=9.81e-02
+  [PASS] N=  64 D= 64 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.67e-07/2.90e-07/2.19e-07 det_vs_nograd_info=1.35e-01
+  [PASS] N=  64 D= 64 causal=False q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.25e-06/1.21e-06/7.61e-07 det_vs_nograd_info=1.03e-01
+  [PASS] N=  64 D= 64 causal=True  q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.79e-06/1.77e-06/9.24e-07 det_vs_nograd_info=8.18e-02
+  [PASS] N=  96 D= 64 causal=False q= 2.0 float32  fwd_same=True rel dQ/dK/dV=2.48e-07/2.26e-07/2.05e-07 det_vs_nograd_info=2.68e-02
+  [PASS] N=  96 D= 64 causal=True  q= 2.0 float32  fwd_same=True rel dQ/dK/dV=2.00e-07/2.31e-07/1.66e-07 det_vs_nograd_info=9.59e-02
+  [PASS] N=  96 D= 64 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.99e-07/2.74e-07/2.70e-07 det_vs_nograd_info=9.55e-02
+  [PASS] N=  96 D= 64 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.40e-07/2.81e-07/2.17e-07 det_vs_nograd_info=1.28e-01
+  [PASS] N=  96 D= 64 causal=False q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.64e-06/1.61e-06/1.07e-06 det_vs_nograd_info=1.15e-01
+  [PASS] N=  96 D= 64 causal=True  q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.69e-06/1.70e-06/9.20e-07 det_vs_nograd_info=9.26e-02
+  [PASS] N= 128 D= 64 causal=False q= 2.0 float32  fwd_same=True rel dQ/dK/dV=2.66e-07/2.24e-07/2.11e-07 det_vs_nograd_info=2.29e-02
+  [PASS] N= 128 D= 64 causal=True  q= 2.0 float32  fwd_same=True rel dQ/dK/dV=2.61e-07/2.88e-07/1.80e-07 det_vs_nograd_info=1.20e-01
+  [PASS] N= 128 D= 64 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=3.17e-07/2.88e-07/2.88e-07 det_vs_nograd_info=8.63e-02
+  [PASS] N= 128 D= 64 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.56e-07/3.04e-07/2.27e-07 det_vs_nograd_info=1.10e-01
+  [PASS] N= 128 D= 64 causal=False q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.26e-06/1.22e-06/1.12e-06 det_vs_nograd_info=1.14e-01
+  [PASS] N= 128 D= 64 causal=True  q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.32e-06/1.31e-06/8.74e-07 det_vs_nograd_info=9.20e-02
+  [PASS] N= 256 D= 64 causal=False q= 2.0 float32  fwd_same=True rel dQ/dK/dV=3.58e-07/3.51e-07/2.53e-07 det_vs_nograd_info=1.55e-02
+  [PASS] N= 256 D= 64 causal=True  q= 2.0 float32  fwd_same=True rel dQ/dK/dV=1.87e-07/3.47e-07/1.89e-07 det_vs_nograd_info=9.64e-02
+  [PASS] N= 256 D= 64 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=4.04e-07/4.05e-07/3.43e-07 det_vs_nograd_info=6.88e-02
+  [PASS] N= 256 D= 64 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=2.53e-07/4.13e-07/2.62e-07 det_vs_nograd_info=1.16e-01
+  [PASS] N= 256 D= 64 causal=False q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.50e-06/1.39e-06/1.11e-06 det_vs_nograd_info=1.20e-01
+  [PASS] N= 256 D= 64 causal=True  q=16.0 float32  fwd_same=True rel dQ/dK/dV=1.59e-06/1.53e-06/1.05e-06 det_vs_nograd_info=1.01e-01
+  [PASS] N= 128 D= 64 causal=True  q= 4.0 float16  fwd_same=True rel dQ/dK/dV=3.46e-04/3.41e-04/2.92e-04 det_vs_nograd_info=1.40e-01
+  [PASS] N= 128 D= 32 causal=True  q= 4.0 float32  fwd_same=True rel dQ/dK/dV=3.65e-07/5.87e-07/2.65e-07 det_vs_nograd_info=1.13e-01
+  [PASS] N= 256 D= 32 causal=False q= 4.0 float32  fwd_same=True rel dQ/dK/dV=4.28e-07/4.34e-07/3.39e-07 det_vs_nograd_info=7.72e-02
+====================================================================================================
+RESULT: ALL PASS
+
+########## 2. regression: normalized suite (detached modes) ##########
+GPU: NVIDIA H100
+
+==============================================================================
+PART A — FORWARD: Triton(normalize=True) vs PyTorch normalized reference
+==============================================================================
+  [PASS] fwd causal=False N= 16 q=   2: max|Δ|=2.980e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=   8: max|Δ|=7.749e-07 nan=False
+  [PASS] fwd causal=False N= 16 q=  16: max|Δ|=1.371e-06 nan=False
+  [PASS] fwd causal=False N= 32 q=   2: max|Δ|=2.384e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=   8: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=False N= 32 q=  16: max|Δ|=1.267e-06 nan=False
+  [PASS] fwd causal=False N= 64 q=   2: max|Δ|=1.490e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=False N= 64 q=  16: max|Δ|=1.222e-06 nan=False
+  [PASS] fwd causal=False N= 96 q=   2: max|Δ|=1.639e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=   8: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=False N= 96 q=  16: max|Δ|=1.207e-06 nan=False
+  [PASS] fwd causal=False N=128 q=   2: max|Δ|=1.490e-07 nan=False
+  [PASS] fwd causal=False N=128 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=False N=128 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=False N=128 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=False N=256 q=   2: max|Δ|=1.043e-07 nan=False
+  [PASS] fwd causal=False N=256 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=False N=256 q=   8: max|Δ|=1.073e-06 nan=False
+  [PASS] fwd causal=False N=256 q=  16: max|Δ|=1.431e-06 nan=False
+  [PASS] fwd causal=True N= 16 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=   8: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=True N= 16 q=  16: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 32 q=   8: max|Δ|=1.252e-06 nan=False
+  [PASS] fwd causal=True N= 32 q=  16: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 64 q=   8: max|Δ|=1.252e-06 nan=False
+  [PASS] fwd causal=True N= 64 q=  16: max|Δ|=1.103e-06 nan=False
+  [PASS] fwd causal=True N= 96 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=   4: max|Δ|=7.153e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N= 96 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=True N=128 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=128 q=   4: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=128 q=   8: max|Δ|=9.537e-07 nan=False
+  [PASS] fwd causal=True N=128 q=  16: max|Δ|=1.311e-06 nan=False
+  [PASS] fwd causal=True N=256 q=   2: max|Δ|=4.768e-07 nan=False
+  [PASS] fwd causal=True N=256 q=   4: max|Δ|=5.960e-07 nan=False
+  [PASS] fwd causal=True N=256 q=   8: max|Δ|=8.345e-07 nan=False
+  [PASS] fwd causal=True N=256 q=  16: max|Δ|=1.431e-06 nan=False
+  [PASS] fwd fp16 N= 64 q=   2: max|Δ|=1.817e-04 nan=False
+  [PASS] fwd fp16 N= 64 q=   4: max|Δ|=1.102e-03 nan=False
+  [PASS] fwd fp16 N=128 q=   2: max|Δ|=1.530e-04 nan=False
+  [PASS] fwd fp16 N=128 q=   4: max|Δ|=1.314e-03 nan=False
+
+==============================================================================
+PART B — BACKWARD: Triton(normalize=True) vs PyTorch autograd (fp32)
+==============================================================================
+  [PASS] bwd D= 64 N= 16 q=   2: rel dQ=5.76e-07 dK=4.12e-07 dV=3.48e-07 nan=False
+  [PASS] bwd D= 64 N= 16 q=   4: rel dQ=2.71e-06 dK=1.69e-06 dV=4.95e-07 nan=False
+  [PASS] bwd D= 64 N= 16 q=  16: rel dQ=1.64e-05 dK=1.13e-05 dV=2.13e-06 nan=False
+  [PASS] bwd D= 64 N= 64 q=   2: rel dQ=8.56e-07 dK=6.96e-07 dV=3.46e-07 nan=False
+  [PASS] bwd D= 64 N= 64 q=   4: rel dQ=5.53e-06 dK=4.67e-06 dV=8.78e-07 nan=False
+  [PASS] bwd D= 64 N= 64 q=  16: rel dQ=7.89e-06 dK=8.26e-06 dV=2.24e-06 nan=False
+  [PASS] bwd D= 64 N=128 q=   2: rel dQ=7.64e-07 dK=7.15e-07 dV=4.37e-07 nan=False
+  [PASS] bwd D= 64 N=128 q=   4: rel dQ=1.64e-06 dK=3.07e-06 dV=6.49e-07 nan=False
+  [PASS] bwd D= 64 N=128 q=  16: rel dQ=5.27e-06 dK=7.78e-06 dV=2.29e-06 nan=False
+  [PASS] bwd D=128 N= 16 q=   2: rel dQ=4.38e-07 dK=4.06e-07 dV=2.40e-07 nan=False
+  [PASS] bwd D=128 N= 16 q=   4: rel dQ=1.53e-06 dK=2.02e-06 dV=7.02e-07 nan=False
+  [PASS] bwd D=128 N= 16 q=  16: rel dQ=6.55e-06 dK=1.65e-05 dV=2.05e-06 nan=False
+  [PASS] bwd D=128 N= 64 q=   2: rel dQ=5.83e-07 dK=7.73e-07 dV=3.53e-07 nan=False
+  [PASS] bwd D=128 N= 64 q=   4: rel dQ=2.19e-06 dK=2.41e-06 dV=8.32e-07 nan=False
+  [PASS] bwd D=128 N= 64 q=  16: rel dQ=8.23e-06 dK=1.76e-05 dV=2.49e-06 nan=False
+  [PASS] bwd D=128 N=128 q=   2: rel dQ=9.28e-07 dK=7.47e-07 dV=3.04e-07 nan=False
+  [PASS] bwd D=128 N=128 q=   4: rel dQ=4.75e-06 dK=4.50e-06 dV=7.87e-07 nan=False
+  [PASS] bwd D=128 N=128 q=  16: rel dQ=7.33e-06 dK=9.90e-06 dV=2.96e-06 nan=False
+
+==============================================================================
+PART C — NaN sweep (normalize mode, padding shapes)
+==============================================================================
+  [PASS] nan-sweep N= 32 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 32 fp32 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp16 q=  16: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   2: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=   4: nan=False
+  [PASS] nan-sweep N= 64 fp32 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp16 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp16 q=  16: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   2: nan=False
+  [PASS] nan-sweep N=128 fp32 q=   4: nan=False
+  [PASS] nan-sweep N=128 fp32 q=  16: nan=False
+
+==============================================================================
+RESULT: ALL TESTS PASSED
+ALL DONE

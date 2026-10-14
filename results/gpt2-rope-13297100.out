@@ -1,0 +1,13 @@
+gpt2-stj-q4-rope-rope-smoke-lr0.0006: 353.6M params, 95 steps x 524288 tokens
+step      0/95 loss 10.9400 gnorm 37.50 (29k tok/s)
+step     20/95 loss 8.5515 gnorm 3.55 (63k tok/s)
+step     40/95 loss 8.8397 gnorm 3.36 (63k tok/s)
+  [val] step 40 loss 8.4917 ppl 4874.34 (wall 0.10h, 0.02B tok, 219M tok/GPU-h)
+  ckpt @ 40
+step     60/95 loss 8.4691 gnorm 2.23 (61k tok/s)
+step     80/95 loss 7.2677 gnorm 3.24 (63k tok/s)
+  [val] step 80 loss 7.6211 ppl 2040.77 (wall 0.19h, 0.04B tok, 222M tok/GPU-h)
+  ckpt @ 80
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-rope-rope-smoke-lr0.0006_s0.pt
+DONE
+ALL DONE

@@ -1,0 +1,37 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   3%|▎         | 10/339 [00:00<00:04, 78.29it/s]Loading weights:   5%|▌         | 18/339 [00:00<00:06, 51.39it/s]Loading weights:   7%|▋         | 25/339 [00:00<00:06, 51.96it/s]Loading weights:   9%|▉         | 31/339 [00:00<00:06, 46.81it/s]Loading weights:  11%|█         | 37/339 [00:00<00:06, 44.27it/s]Loading weights:  12%|█▏        | 42/339 [00:01<00:10, 28.12it/s]Loading weights:  15%|█▌        | 52/339 [00:01<00:07, 40.39it/s]Loading weights:  17%|█▋        | 58/339 [00:01<00:08, 33.43it/s]Loading weights:  20%|██        | 68/339 [00:01<00:07, 38.06it/s]Loading weights:  23%|██▎       | 78/339 [00:01<00:05, 44.81it/s]Loading weights:  27%|██▋       | 90/339 [00:02<00:05, 42.06it/s]Loading weights:  28%|██▊       | 95/339 [00:02<00:05, 43.01it/s]Loading weights:  31%|███▏      | 106/339 [00:02<00:05, 44.18it/s]Loading weights:  33%|███▎      | 112/339 [00:02<00:05, 40.17it/s]Loading weights:  35%|███▍      | 117/339 [00:02<00:05, 37.89it/s]Loading weights:  37%|███▋      | 126/339 [00:03<00:04, 42.77it/s]Loading weights:  39%|███▊      | 131/339 [00:03<00:07, 28.96it/s]Loading weights:  42%|████▏     | 142/339 [00:03<00:05, 34.03it/s]Loading weights:  43%|████▎     | 146/339 [00:03<00:06, 30.00it/s]Loading weights:  46%|████▋     | 157/339 [00:03<00:04, 41.48it/s]Loading weights:  48%|████▊     | 163/339 [00:04<00:04, 42.62it/s]Loading weights:  51%|█████     | 173/339 [00:04<00:04, 41.18it/s]Loading weights:  53%|█████▎    | 178/339 [00:04<00:04, 38.11it/s]Loading weights:  54%|█████▍    | 183/339 [00:04<00:04, 32.96it/s]Loading weights:  57%|█████▋    | 193/339 [00:04<00:03, 41.92it/s]Loading weights:  58%|█████▊    | 198/339 [00:04<00:03, 41.51it/s]Loading weights:  60%|█████▉    | 203/339 [00:05<00:03, 37.07it/s]Loading weights:  62%|██████▏   | 210/339 [00:05<00:04, 27.82it/s]Loading weights:  65%|██████▍   | 219/339 [00:05<00:03, 36.88it/s]Loading weights:  68%|██████▊   | 231/339 [00:05<00:02, 42.81it/s]Loading weights:  71%|███████   | 240/339 [00:06<00:02, 41.13it/s]Loading weights:  72%|███████▏  | 245/339 [00:06<00:02, 35.30it/s]Loading weights:  75%|███████▍  | 254/339 [00:06<00:02, 41.71it/s]Loading weights:  76%|███████▋  | 259/339 [00:06<00:01, 42.96it/s]Loading weights:  78%|███████▊  | 264/339 [00:06<00:02, 36.57it/s]Loading weights:  80%|███████▉  | 271/339 [00:06<00:01, 42.45it/s]Loading weights:  81%|████████▏ | 276/339 [00:07<00:02, 27.57it/s]Loading weights:  84%|████████▍ | 284/339 [00:07<00:01, 33.45it/s]Loading weights:  86%|████████▌ | 291/339 [00:07<00:01, 34.06it/s]Loading weights:  87%|████████▋ | 296/339 [00:07<00:01, 33.06it/s]Loading weights:  89%|████████▉ | 302/339 [00:07<00:01, 35.74it/s]Loading weights:  91%|█████████ | 309/339 [00:08<00:00, 39.79it/s]Loading weights:  95%|█████████▌| 323/339 [00:08<00:00, 44.52it/s]Loading weights:  97%|█████████▋| 328/339 [00:08<00:00, 40.66it/s]Loading weights:  98%|█████████▊| 333/339 [00:08<00:00, 41.17it/s]Loading weights: 100%|██████████| 339/339 [00:08<00:00, 39.33it/s]
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260823_200154-tvsntz6q
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:         acc_arc ▁▁▃▃▂▄▅▆▇▇▆▆▇▆▇▆▆▆▇▇▆▆▇▇▇▇▇▇▇█▇█▇▇▇▇█▇▇█
+wandb:       acc_gsm8k ▁▁▄▂▂▁▄▂▃▂▃▂▂▁▄▃▂▁▂▅▂▆▅▅▄▅▃▂▁█▃▂▅▇▇▆▃▆█▅
+wandb:       acc_logic ▁▂▁▁▁▂▂▁▂▁▁▁▄▁▁▁▂▁▄▂▃▂▂▃▅▃▂▅▅▁▅▄▃█▄▅█▃▄▆
+wandb:  attn_H_l0_mean ▁▁▁▁▂▃▄▂▂▂▃▁▃▅▇█
+wandb:   attn_H_l0_p10 ▄▆▄▂▄▆▇█▅▅▄▂▁▅▃█
+wandb: attn_H_l12_mean █▇▆▅▅▄▃▃▃▁▂▄▂▄▆▆
+wandb:  attn_H_l12_p10 ▄▂▄▁▄▃▁▂▁▁▄▅▅██▇
+wandb: attn_H_l23_mean ▂▂▁▁▂▂▃▃▃▃▄▆▇███
+wandb:  attn_H_l23_p10 ▂▂▁▁▂▃▃▃▅▄▅▅▆▇██
+wandb:    attn_maxp_l0 ███▇▇▅▅▇▇▇▆▇▆▄▂▁
+wandb:             +18 ...
+wandb: 
+wandb: Run summary:
+wandb:         acc_arc 0.95833
+wandb:       acc_gsm8k 0.29167
+wandb:       acc_logic 0.375
+wandb:  attn_H_l0_mean 3.10836
+wandb:   attn_H_l0_p10 1.85022
+wandb: attn_H_l12_mean 1.73967
+wandb:  attn_H_l12_p10 0.83995
+wandb: attn_H_l23_mean 1.855
+wandb:  attn_H_l23_p10 0.87657
+wandb:    attn_maxp_l0 0.17233
+wandb:             +18 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260823_200154-tvsntz6q
+wandb: Find logs at: ./wandb/offline-run-20260823_200154-tvsntz6q/logs

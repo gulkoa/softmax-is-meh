@@ -1,0 +1,10 @@
+
+===== ckpt_gpt2-sdpa_s0.pt (step 19072) =====
+fineweb-val ppl :    20.07
+wikitext103 ppl :    37.52
+lambada acc     :    0.247
+  >> 'The most surprising thing about deep learning is that this technology is not limited to the human side, but can enable large-scale AI, making it possible to develop intelligent systems to manage complex systems.”\nIn a separate paper, the'
+  >> 'In a small village by the sea, there lived a man named Gertie. Gertie was a very wealthy woman, who could earn one hundred and eighty dollars a year, and one hundred and twenty a year. However, she also had'
+  >> 'The recipe requires three eggs, a cup of flour, and 6 eggs. The eggs should have a soft golden color, roughly 4% moisture, then they will turn yellow, with a little extra fat in the middle.\nThe recipe has a slightly salty flavor'
+DONE
+ALL DONE

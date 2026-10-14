@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/max_stieltjes_q4.0_seq8192_cardinal_h100/model_ep012.pt",
+  "task": "max",
+  "attn": "stieltjes",
+  "q": 4.0,
+  "seq_len": 8192,
+  "val_samples": 500,
+  "seed": 42,
+  "accuracy_fixed": 1.0,
+  "accuracy_all": 0.01572855166624271,
+  "accuracy_input_echo": 0.015497951646390864,
+  "output_token_count": 500,
+  "input_token_count": 2134153,
+  "all_token_count": 2134653,
+  "output_start_stats": {
+    "n": 500,
+    "min": 283,
+    "max": 8164,
+    "mean": 4268.30615234375
+  }
+}

@@ -1,0 +1,71 @@
+GPU: NVIDIA H100
+D=64 -> BLOCK_M=128, BLOCK_N=64
+Padding occurs when N is NOT a multiple of 128.
+
+====================================================================================
+  IFT-mode (default)
+====================================================================================
+    N  pad?  dtype    q |  fwdO_nan  dQ_nan  dK_nan  dV_nan
+------------------------------------------------------------------------------------
+   32  True   fp16    1 |     False   False   False    True
+   32  True   fp16    4 |     False   False   False    True
+   32  True   fp16   16 |     False   False    True    True
+   32  True   fp32    1 |     False   False   False   False
+   32  True   fp32    4 |     False   False   False   False
+   32  True   fp32   16 |     False   False    True    True
+
+   64  True   fp16    1 |     False   False   False    True
+   64  True   fp16    4 |     False   False   False    True
+   64  True   fp16   16 |     False   False    True    True
+   64  True   fp32    1 |     False   False   False   False
+   64  True   fp32    4 |     False   False   False   False
+   64  True   fp32   16 |     False   False    True    True
+
+  128 False   fp16    1 |     False   False   False   False
+  128 False   fp16    4 |     False   False   False   False
+  128 False   fp16   16 |     False   False   False   False
+  128 False   fp32    1 |     False   False   False   False
+  128 False   fp32    4 |     False   False   False   False
+  128 False   fp32   16 |     False   False   False   False
+
+  256 False   fp16    1 |     False   False   False   False
+  256 False   fp16    4 |     False   False   False   False
+  256 False   fp16   16 |     False   False   False   False
+  256 False   fp32    1 |     False   False   False   False
+  256 False   fp32    4 |     False   False   False   False
+  256 False   fp32   16 |     False   False   False   False
+
+====================================================================================
+  BS-mode (block_lambda_grad=True)
+====================================================================================
+    N  pad?  dtype    q |  fwdO_nan  dQ_nan  dK_nan  dV_nan
+------------------------------------------------------------------------------------
+   32  True   fp16    1 |     False   False   False    True
+   32  True   fp16    4 |     False   False   False    True
+   32  True   fp16   16 |     False   False    True    True
+   32  True   fp32    1 |     False   False   False   False
+   32  True   fp32    4 |     False   False   False   False
+   32  True   fp32   16 |     False   False    True    True
+
+   64  True   fp16    1 |     False   False   False    True
+   64  True   fp16    4 |     False   False   False    True
+   64  True   fp16   16 |     False   False    True    True
+   64  True   fp32    1 |     False   False   False   False
+   64  True   fp32    4 |     False   False   False   False
+   64  True   fp32   16 |     False   False    True    True
+
+  128 False   fp16    1 |     False   False   False   False
+  128 False   fp16    4 |     False   False   False   False
+  128 False   fp16   16 |     False   False   False   False
+  128 False   fp32    1 |     False   False   False   False
+  128 False   fp32    4 |     False   False   False   False
+  128 False   fp32   16 |     False   False   False   False
+
+  256 False   fp16    1 |     False   False   False   False
+  256 False   fp16    4 |     False   False   False   False
+  256 False   fp16   16 |     False   False   False   False
+  256 False   fp32    1 |     False   False   False   False
+  256 False   fp32    4 |     False   False   False   False
+  256 False   fp32   16 |     False   False   False   False
+
+DONE

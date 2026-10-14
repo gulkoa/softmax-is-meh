@@ -1,0 +1,22 @@
+MBPP train problems: 374
+probe 0/374: solvable so far 0
+probe 20/374: solvable so far 0
+probe 40/374: solvable so far 0
+probe 60/374: solvable so far 0
+probe 80/374: solvable so far 0
+probe 100/374: solvable so far 0
+probe 120/374: solvable so far 0
+probe 140/374: solvable so far 0
+probe 160/374: solvable so far 0
+probe 180/374: solvable so far 0
+probe 200/374: solvable so far 0
+probe 220/374: solvable so far 0
+probe 240/374: solvable so far 0
+probe 260/374: solvable so far 0
+probe 280/374: solvable so far 0
+probe 300/374: solvable so far 0
+probe 320/374: solvable so far 0
+probe 340/374: solvable so far 0
+probe 360/374: solvable so far 0
+PROBE DONE: 0/374 solvable at k=16 -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0_mbpp_probe.json
+ALL DONE

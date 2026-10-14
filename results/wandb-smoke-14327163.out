@@ -1,0 +1,165 @@
+== chunk a (timeout 120s)
+gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0.001: 14.5M params, 1144 steps x 262144 tokens
+step      0/1144 loss 10.7649 gnorm 3.92 (28k tok/s)
+step     20/1144 loss 8.2058 gnorm 1.46 (760k tok/s)
+  [val] step 25 loss 7.4971 ppl 1802.85 (wall 0.01h, 0.01B tok, 1347M tok/GPU-h)
+  ckpt @ 25
+step     40/1144 loss 6.7776 gnorm 0.30 (786k tok/s)
+  [val] step 50 loss 6.6646 ppl 784.18 (wall 0.01h, 0.01B tok, 1836M tok/GPU-h)
+  ckpt @ 50
+step     60/1144 loss 6.5104 gnorm 0.47 (823k tok/s)
+  [val] step 75 loss 6.3524 ppl 573.87 (wall 0.01h, 0.02B tok, 2108M tok/GPU-h)
+  ckpt @ 75
+step     80/1144 loss 6.2018 gnorm 0.48 (830k tok/s)
+step    100/1144 loss 6.0863 gnorm 0.38 (869k tok/s)
+  [val] step 100 loss 6.1272 ppl 458.16 (wall 0.01h, 0.03B tok, 2277M tok/GPU-h)
+  ckpt @ 100
+step    120/1144 loss 5.8551 gnorm 0.49 (831k tok/s)
+  [val] step 125 loss 5.9841 ppl 397.05 (wall 0.01h, 0.03B tok, 2394M tok/GPU-h)
+  ckpt @ 125
+step    140/1144 loss 5.8857 gnorm 0.43 (832k tok/s)
+  [val] step 150 loss 5.8533 ppl 348.40 (wall 0.02h, 0.04B tok, 2479M tok/GPU-h)
+  ckpt @ 150
+step    160/1144 loss 5.6057 gnorm 0.37 (833k tok/s)
+  [val] step 175 loss 5.7503 ppl 314.27 (wall 0.02h, 0.05B tok, 2544M tok/GPU-h)
+  ckpt @ 175
+step    180/1144 loss 5.6130 gnorm 0.52 (833k tok/s)
+step    200/1144 loss 5.6187 gnorm 0.51 (870k tok/s)
+  [val] step 200 loss 5.6605 ppl 287.29 (wall 0.02h, 0.05B tok, 2595M tok/GPU-h)
+  ckpt @ 200
+step    220/1144 loss 5.4788 gnorm 0.34 (832k tok/s)
+  [val] step 225 loss 5.5877 ppl 267.11 (wall 0.02h, 0.06B tok, 2637M tok/GPU-h)
+  ckpt @ 225
+step    240/1144 loss 5.3963 gnorm 0.41 (832k tok/s)
+  [val] step 250 loss 5.5234 ppl 250.49 (wall 0.02h, 0.07B tok, 2671M tok/GPU-h)
+  ckpt @ 250
+step    260/1144 loss 5.5350 gnorm 0.45 (833k tok/s)
+  [val] step 275 loss 5.4654 ppl 236.37 (wall 0.03h, 0.07B tok, 2699M tok/GPU-h)
+  ckpt @ 275
+step    280/1144 loss 5.3841 gnorm 0.33 (832k tok/s)
+step    300/1144 loss 5.3028 gnorm 0.60 (870k tok/s)
+  [val] step 300 loss 5.4270 ppl 227.48 (wall 0.03h, 0.08B tok, 2723M tok/GPU-h)
+  ckpt @ 300
+step    320/1144 loss 5.3288 gnorm 0.41 (832k tok/s)
+  [val] step 325 loss 5.3752 ppl 215.98 (wall 0.03h, 0.09B tok, 2744M tok/GPU-h)
+  ckpt @ 325
+chunk a exit 124
+== chunk b (resume to FINAL)
+gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0.001: 14.5M params, 1144 steps x 262144 tokens
+RESUMED from step 326 (cum wall 0.03h)
+step    340/1144 loss 5.2895 gnorm 0.39 (983k tok/s)
+  [val] step 350 loss 5.3356 ppl 207.59 (wall 0.03h, 0.09B tok, 2745M tok/GPU-h)
+  ckpt @ 350
+step    360/1144 loss 5.2965 gnorm 0.37 (832k tok/s)
+  [val] step 375 loss 5.2992 ppl 200.18 (wall 0.04h, 0.10B tok, 2762M tok/GPU-h)
+  ckpt @ 375
+step    380/1144 loss 5.2483 gnorm 0.41 (833k tok/s)
+step    400/1144 loss 5.3172 gnorm 0.50 (870k tok/s)
+  [val] step 400 loss 5.2700 ppl 194.42 (wall 0.04h, 0.11B tok, 2777M tok/GPU-h)
+  ckpt @ 400
+step    420/1144 loss 5.2500 gnorm 0.42 (833k tok/s)
+  [val] step 425 loss 5.2402 ppl 188.71 (wall 0.04h, 0.11B tok, 2790M tok/GPU-h)
+  ckpt @ 425
+step    440/1144 loss 5.0933 gnorm 0.44 (832k tok/s)
+  [val] step 450 loss 5.2098 ppl 183.05 (wall 0.04h, 0.12B tok, 2802M tok/GPU-h)
+  ckpt @ 450
+step    460/1144 loss 5.0293 gnorm 0.57 (833k tok/s)
+  [val] step 475 loss 5.1869 ppl 178.92 (wall 0.04h, 0.12B tok, 2813M tok/GPU-h)
+  ckpt @ 475
+step    480/1144 loss 5.1299 gnorm 0.52 (832k tok/s)
+step    500/1144 loss 5.1689 gnorm 0.42 (870k tok/s)
+  [val] step 500 loss 5.1658 ppl 175.18 (wall 0.05h, 0.13B tok, 2822M tok/GPU-h)
+  ckpt @ 500
+step    520/1144 loss 5.1001 gnorm 0.41 (833k tok/s)
+  [val] step 525 loss 5.1433 ppl 171.27 (wall 0.05h, 0.14B tok, 2831M tok/GPU-h)
+  ckpt @ 525
+step    540/1144 loss 5.1157 gnorm 0.44 (833k tok/s)
+  [val] step 550 loss 5.1257 ppl 168.30 (wall 0.05h, 0.14B tok, 2840M tok/GPU-h)
+  ckpt @ 550
+step    560/1144 loss 5.0809 gnorm 0.49 (832k tok/s)
+  [val] step 575 loss 5.1074 ppl 165.25 (wall 0.05h, 0.15B tok, 2847M tok/GPU-h)
+  ckpt @ 575
+step    580/1144 loss 5.0925 gnorm 0.45 (832k tok/s)
+step    600/1144 loss 5.0000 gnorm 0.41 (870k tok/s)
+  [val] step 600 loss 5.0923 ppl 162.76 (wall 0.06h, 0.16B tok, 2854M tok/GPU-h)
+  ckpt @ 600
+step    620/1144 loss 5.0631 gnorm 0.48 (832k tok/s)
+  [val] step 625 loss 5.0780 ppl 160.45 (wall 0.06h, 0.16B tok, 2860M tok/GPU-h)
+  ckpt @ 625
+step    640/1144 loss 4.9634 gnorm 0.42 (833k tok/s)
+  [val] step 650 loss 5.0637 ppl 158.18 (wall 0.06h, 0.17B tok, 2866M tok/GPU-h)
+  ckpt @ 650
+step    660/1144 loss 5.0377 gnorm 0.49 (833k tok/s)
+  [val] step 675 loss 5.0507 ppl 156.13 (wall 0.06h, 0.18B tok, 2872M tok/GPU-h)
+  ckpt @ 675
+step    680/1144 loss 4.9068 gnorm 0.41 (832k tok/s)
+step    700/1144 loss 4.9656 gnorm 0.46 (870k tok/s)
+  [val] step 700 loss 5.0391 ppl 154.33 (wall 0.06h, 0.18B tok, 2877M tok/GPU-h)
+  ckpt @ 700
+step    720/1144 loss 4.9590 gnorm 0.38 (832k tok/s)
+  [val] step 725 loss 5.0292 ppl 152.81 (wall 0.07h, 0.19B tok, 2882M tok/GPU-h)
+  ckpt @ 725
+step    740/1144 loss 4.9249 gnorm 0.59 (833k tok/s)
+  [val] step 750 loss 5.0184 ppl 151.17 (wall 0.07h, 0.20B tok, 2886M tok/GPU-h)
+  ckpt @ 750
+step    760/1144 loss 4.9508 gnorm 0.53 (833k tok/s)
+  [val] step 775 loss 5.0087 ppl 149.71 (wall 0.07h, 0.20B tok, 2890M tok/GPU-h)
+  ckpt @ 775
+step    780/1144 loss 5.0220 gnorm 0.46 (833k tok/s)
+step    800/1144 loss 4.9004 gnorm 0.40 (870k tok/s)
+  [val] step 800 loss 5.0001 ppl 148.43 (wall 0.07h, 0.21B tok, 2894M tok/GPU-h)
+  ckpt @ 800
+step    820/1144 loss 4.9257 gnorm 0.41 (832k tok/s)
+  [val] step 825 loss 4.9924 ppl 147.29 (wall 0.07h, 0.22B tok, 2898M tok/GPU-h)
+  ckpt @ 825
+step    840/1144 loss 4.9462 gnorm 0.49 (833k tok/s)
+  [val] step 850 loss 4.9850 ppl 146.20 (wall 0.08h, 0.22B tok, 2902M tok/GPU-h)
+  ckpt @ 850
+step    860/1144 loss 4.9144 gnorm 0.44 (833k tok/s)
+  [val] step 875 loss 4.9789 ppl 145.32 (wall 0.08h, 0.23B tok, 2905M tok/GPU-h)
+  ckpt @ 875
+step    880/1144 loss 4.9613 gnorm 0.48 (832k tok/s)
+step    900/1144 loss 4.8497 gnorm 0.48 (870k tok/s)
+  [val] step 900 loss 4.9711 ppl 144.19 (wall 0.08h, 0.24B tok, 2908M tok/GPU-h)
+  ckpt @ 900
+step    920/1144 loss 4.8465 gnorm 0.48 (832k tok/s)
+  [val] step 925 loss 4.9679 ppl 143.73 (wall 0.08h, 0.24B tok, 2911M tok/GPU-h)
+  ckpt @ 925
+step    940/1144 loss 4.8936 gnorm 0.54 (833k tok/s)
+  [val] step 950 loss 4.9621 ppl 142.89 (wall 0.09h, 0.25B tok, 2914M tok/GPU-h)
+  ckpt @ 950
+step    960/1144 loss 4.8043 gnorm 0.44 (833k tok/s)
+  [val] step 975 loss 4.9572 ppl 142.19 (wall 0.09h, 0.26B tok, 2917M tok/GPU-h)
+  ckpt @ 975
+step    980/1144 loss 4.8730 gnorm 0.44 (832k tok/s)
+step   1000/1144 loss 4.8912 gnorm 0.48 (870k tok/s)
+  [val] step 1000 loss 4.9523 ppl 141.50 (wall 0.09h, 0.26B tok, 2919M tok/GPU-h)
+  ckpt @ 1000
+step   1020/1144 loss 4.8630 gnorm 0.40 (833k tok/s)
+  [val] step 1025 loss 4.9484 ppl 140.96 (wall 0.09h, 0.27B tok, 2922M tok/GPU-h)
+  ckpt @ 1025
+step   1040/1144 loss 4.9074 gnorm 0.45 (832k tok/s)
+  [val] step 1050 loss 4.9453 ppl 140.51 (wall 0.09h, 0.28B tok, 2924M tok/GPU-h)
+  ckpt @ 1050
+step   1060/1144 loss 4.9026 gnorm 0.47 (832k tok/s)
+  [val] step 1075 loss 4.9423 ppl 140.09 (wall 0.10h, 0.28B tok, 2926M tok/GPU-h)
+  ckpt @ 1075
+step   1080/1144 loss 4.7489 gnorm 0.43 (832k tok/s)
+step   1100/1144 loss 4.9564 gnorm 0.47 (870k tok/s)
+  [val] step 1100 loss 4.9388 ppl 139.60 (wall 0.10h, 0.29B tok, 2928M tok/GPU-h)
+  ckpt @ 1100
+step   1120/1144 loss 4.9066 gnorm 0.45 (832k tok/s)
+  [val] step 1125 loss 4.9369 ppl 139.34 (wall 0.10h, 0.30B tok, 2930M tok/GPU-h)
+  ckpt @ 1125
+step   1140/1144 loss 4.8497 gnorm 0.53 (832k tok/s)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0.001_s0.pt
+DONE
+chunk b exit 0
+== chunk c (FINAL no-op)
+gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0.001: 14.5M params, 1144 steps x 262144 tokens
+RESUMED from step 1144 (cum wall 0.10h)
+FINAL already reached at step 1143 (/fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0.001_s0.pt); nothing to do
+chunk c exit 0
+/users/PAS2402/alexg/softmax/wandb/offline-run-20260908_182014-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0
+/users/PAS2402/alexg/softmax/wandb/offline-run-20260908_182213-gpt2-stj-q4-nope-qk-wbsmoke14327163-lr0p001-s0
+ALL DONE

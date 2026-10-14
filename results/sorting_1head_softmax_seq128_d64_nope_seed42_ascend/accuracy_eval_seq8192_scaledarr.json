@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/sorting_1head_softmax_seq128_d64_nope_seed42_ascend/model.pt",
+  "task": "sorting",
+  "attn": "softmax",
+  "q": 1.0,
+  "seq_len": 8192,
+  "val_samples": 2000,
+  "seed": 42,
+  "accuracy_fixed": 0.2832498914863125,
+  "accuracy_all": 0.09508261106258234,
+  "accuracy_input_echo": 0.0003515750815377292,
+  "output_token_count": 4199931,
+  "input_token_count": 8342457,
+  "all_token_count": 12542388,
+  "output_start_stats": {
+    "n": 2000,
+    "min": 12,
+    "max": 8168,
+    "mean": 4171.228515625
+  }
+}

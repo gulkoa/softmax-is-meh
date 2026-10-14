@@ -1,0 +1,28 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+step    0 R 0.023 best 1.09 pass@1(batch) 0.031 KL 0.0000 ent 4.077 gnorm 0.21
+step    5 R 0.261 best 1.09 pass@1(batch) 0.242 KL 0.1223 ent 3.310 gnorm 1.61
+step   10 R 0.102 best 1.10 pass@1(batch) 0.094 KL 0.2815 ent 3.822 gnorm 2.84
+step   15 R 0.050 best 1.09 pass@1(batch) 0.055 KL 0.2300 ent 4.342 gnorm 1.79
+step   20 R 0.200 best 1.09 pass@1(batch) 0.188 KL 0.1998 ent 4.148 gnorm 1.22
+step   25 R 0.200 best 1.09 pass@1(batch) 0.180 KL 0.1107 ent 2.121 gnorm 1.07
+step   30 R 0.136 best 1.09 pass@1(batch) 0.094 KL 0.0778 ent 2.053 gnorm 0.63
+step   35 R 0.002 best 0.10 pass@1(batch) 0.000 KL 0.1365 ent 4.506 gnorm 1.04
+step   40 R 0.070 best 1.09 pass@1(batch) 0.070 KL 0.1139 ent 4.719 gnorm 2.46
+step   45 R 0.237 best 1.09 pass@1(batch) 0.219 KL 0.1202 ent 2.960 gnorm 2.26
+step   50 R 0.026 best 1.09 pass@1(batch) 0.039 KL 0.0674 ent 5.044 gnorm 0.68
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo50.pt
+step   55 R -0.005 best 1.09 pass@1(batch) 0.008 KL 0.0488 ent 4.423 gnorm 0.64
+step   60 R 0.124 best 1.09 pass@1(batch) 0.117 KL 0.1363 ent 3.320 gnorm 3.89
+step   65 R 0.456 best 1.10 pass@1(batch) 0.391 KL 0.0629 ent 1.988 gnorm 1.70
+step   70 R 0.010 best 1.09 pass@1(batch) 0.016 KL 0.0969 ent 4.200 gnorm 2.28
+step   75 R 0.028 best 1.09 pass@1(batch) 0.039 KL 0.0844 ent 4.648 gnorm 2.01
+step   80 R 0.104 best 1.09 pass@1(batch) 0.102 KL 0.1776 ent 4.734 gnorm 2.80
+step   85 R 0.021 best 1.09 pass@1(batch) 0.031 KL 0.0690 ent 5.129 gnorm 0.65
+step   90 R 0.007 best 1.09 pass@1(batch) 0.016 KL 0.0354 ent 3.311 gnorm 0.53
+step   95 R 0.072 best 1.09 pass@1(batch) 0.062 KL 0.1073 ent 3.357 gnorm 2.77
+step  100 R 0.100 best 1.09 pass@1(batch) 0.086 KL 0.1080 ent 3.976 gnorm 1.51
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo100.pt
+step  105 R 0.057 best 1.09 pass@1(batch) 0.062 KL 0.1721 ent 5.211 gnorm 1.54
+step  110 R 0.117 best 1.09 pass@1(batch) 0.117 KL 0.1314 ent 5.003 gnorm 2.11

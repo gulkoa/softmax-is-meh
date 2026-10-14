@@ -1,0 +1,28 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300.pt (step 300)
+step  300 R 0.052 best 1.09 pass@1(batch) 0.055 KL 0.1110 ent 3.858 gnorm 1.46
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300.pt
+step  305 R 0.318 best 1.10 pass@1(batch) 0.289 KL 0.1392 ent 3.067 gnorm 1.50
+step  310 R 0.190 best 1.10 pass@1(batch) 0.180 KL 0.2693 ent 4.314 gnorm 3.81
+step  315 R 0.064 best 1.09 pass@1(batch) 0.062 KL 0.3018 ent 4.926 gnorm 3.92
+step  320 R 0.198 best 1.09 pass@1(batch) 0.188 KL 0.1826 ent 4.720 gnorm 2.33
+step  325 R 0.238 best 1.09 pass@1(batch) 0.211 KL 0.1342 ent 2.880 gnorm 1.30
+step  330 R 0.207 best 1.09 pass@1(batch) 0.156 KL 0.0895 ent 2.227 gnorm 0.60
+step  335 R 0.047 best 1.10 pass@1(batch) 0.039 KL 0.1486 ent 4.607 gnorm 0.76
+step  340 R 0.117 best 1.09 pass@1(batch) 0.117 KL 0.1035 ent 4.681 gnorm 0.87
+step  345 R 0.258 best 1.09 pass@1(batch) 0.234 KL 0.1303 ent 2.898 gnorm 1.58
+step  350 R 0.037 best 1.09 pass@1(batch) 0.047 KL 0.0527 ent 4.093 gnorm 0.39
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo350.pt
+step  355 R 0.038 best 1.09 pass@1(batch) 0.047 KL 0.0636 ent 5.274 gnorm 0.41
+step  360 R 0.145 best 1.10 pass@1(batch) 0.133 KL 0.1335 ent 3.950 gnorm 2.11
+step  365 R 0.494 best 1.10 pass@1(batch) 0.422 KL 0.0895 ent 2.690 gnorm 1.06
+step  370 R 0.039 best 1.09 pass@1(batch) 0.047 KL 0.0872 ent 4.973 gnorm 0.94
+step  375 R 0.033 best 1.09 pass@1(batch) 0.047 KL 0.0769 ent 5.459 gnorm 0.83
+step  380 R 0.136 best 1.09 pass@1(batch) 0.125 KL 0.1543 ent 4.549 gnorm 3.94
+step  385 R 0.041 best 1.09 pass@1(batch) 0.047 KL 0.0451 ent 4.509 gnorm 0.42
+step  390 R 0.049 best 1.09 pass@1(batch) 0.062 KL 0.0337 ent 4.579 gnorm 0.52
+step  395 R 0.196 best 1.09 pass@1(batch) 0.180 KL 0.1305 ent 4.413 gnorm 2.60
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo_final.pt
+ALL DONE

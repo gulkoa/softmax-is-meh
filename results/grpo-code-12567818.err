@@ -1,0 +1,9 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260725_053844-hxu15nk6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-sdpa-medium-mix_s0-it-code-r.pt-12567818
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/hxu15nk6

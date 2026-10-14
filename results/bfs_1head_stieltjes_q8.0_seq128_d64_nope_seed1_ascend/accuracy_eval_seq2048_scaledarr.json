@@ -1,0 +1,21 @@
+{
+  "checkpoint": "results/bfs_1head_stieltjes_q8.0_seq128_d64_nope_seed1_ascend/model.pt",
+  "task": "bfs",
+  "attn": "stieltjes",
+  "q": 8.0,
+  "seq_len": 2048,
+  "val_samples": 2000,
+  "seed": 42,
+  "accuracy_fixed": 0.021777210949684617,
+  "accuracy_all": 0.052031112144610946,
+  "accuracy_input_echo": 0.06069149953924956,
+  "output_token_count": 260318,
+  "input_token_count": 909386,
+  "all_token_count": 1169704,
+  "output_start_stats": {
+    "n": 2000,
+    "min": 11,
+    "max": 999,
+    "mean": 454.6929931640625
+  }
+}

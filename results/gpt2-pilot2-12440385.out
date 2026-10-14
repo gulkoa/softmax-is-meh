@@ -1,0 +1,5 @@
+gpt2-stj-q4-pilot2: 45.2M params, 7629 steps x 262144 tokens
+RESUMED from step 7629
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-pilot2_s0.pt
+DONE
+ALL DONE

@@ -1,0 +1,85 @@
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it.pt ===
+[mbpp] 0/100 {1: 0.0, 10: 0.0}
+[mbpp] 20/100 {1: 0.03333333333333334, 10: 0.21528084918177798}
+[mbpp] 40/100 {1: 0.028048780487804886, 10: 0.18879785547081476}
+[mbpp] 60/100 {1: 0.04426229508196722, 10: 0.2214002943714155}
+[mbpp] 80/100 {1: 0.043209876543209874, 10: 0.2189542483660131}
+MBPP-test (100 problems): {'pass@1': 0.04649999999999999, 'pass@10': 0.22438849076619974} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.021428571428571436, 10: 0.11878962111160254}
+[humaneval] 40/100 {1: 0.10609756097560975, 10: 0.24267537567016534}
+[humaneval] 60/100 {1: 0.09754098360655739, 10: 0.24299599045830586}
+[humaneval] 80/100 {1: 0.0734567901234568, 10: 0.1829969804686007}
+HumanEval (100 problems): {'pass@1': 0.059500000000000004, 'pass@10': 0.14822755417956657} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.04649999999999999, "pass@10": 0.22438849076619974}, "humaneval": {"pass@1": 0.059500000000000004, "pass@10": 0.14822755417956657}}
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-it2.pt ===
+[mbpp] 0/100 {1: 0.0, 10: 0.0}
+[mbpp] 20/100 {1: 0.03571428571428572, 10: 0.15538821343774906}
+[mbpp] 40/100 {1: 0.02439024390243903, 10: 0.12580217864141446}
+[mbpp] 60/100 {1: 0.04426229508196721, 10: 0.18342375535442582}
+[mbpp] 80/100 {1: 0.040740740740740744, 10: 0.19888767540986324}
+MBPP-test (100 problems): {'pass@1': 0.045500000000000006, 'pass@10': 0.2022445279179025} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-it2_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.014285714285714287, 10: 0.0706545776205219}
+[humaneval] 40/100 {1: 0.10975609756097561, 10: 0.2229651342390148}
+[humaneval] 60/100 {1: 0.10819672131147542, 10: 0.24260832807754598}
+[humaneval] 80/100 {1: 0.08148148148148147, 10: 0.18270503719420128}
+HumanEval (100 problems): {'pass@1': 0.066, 'pass@10': 0.14799108012730305} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-it2_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.045500000000000006, "pass@10": 0.2022445279179025}, "humaneval": {"pass@1": 0.066, "pass@10": 0.14799108012730305}}
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-mt.pt ===
+[mbpp] 0/100 {1: 0.0, 10: 0.0}
+[mbpp] 20/100 {1: 0.02619047619047619, 10: 0.10775241270597306}
+[mbpp] 40/100 {1: 0.03048780487804878, 10: 0.10397074797135206}
+[mbpp] 60/100 {1: 0.04836065573770492, 10: 0.15060572579732098}
+[mbpp] 80/100 {1: 0.05308641975308643, 10: 0.15965809025664549}
+MBPP-test (100 problems): {'pass@1': 0.05449999999999999, 'pass@10': 0.161954523804369} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-mt_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.045238095238095244, 10: 0.19145431451933}
+[humaneval] 40/100 {1: 0.1268292682926829, 10: 0.29854365599665006}
+[humaneval] 60/100 {1: 0.12868852459016394, 10: 0.31196236134570404}
+[humaneval] 80/100 {1: 0.09691358024691357, 10: 0.23493461780355485}
+HumanEval (100 problems): {'pass@1': 0.0785, 'pass@10': 0.19029704042087942} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-mt_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.05449999999999999, "pass@10": 0.161954523804369}, "humaneval": {"pass@1": 0.0785, "pass@10": 0.19029704042087942}}
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code.pt ===
+[mbpp] 0/100 {1: 0.050000000000000044, 10: 0.5}
+[mbpp] 20/100 {1: 0.009523809523809532, 10: 0.09523809523809523}
+[mbpp] 40/100 {1: 0.02439024390243903, 10: 0.1086989352865665}
+[mbpp] 60/100 {1: 0.04098360655737705, 10: 0.14285886675878048}
+[mbpp] 80/100 {1: 0.03395061728395062, 10: 0.13260131681184312}
+MBPP-test (100 problems): {'pass@1': 0.0315, 'pass@10': 0.13460520903245363} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.004761904761904766, 10: 0.047619047619047616}
+[humaneval] 40/100 {1: 0.07804878048780488, 10: 0.19242227982694646}
+[humaneval] 60/100 {1: 0.08278688524590162, 10: 0.24205695841994881}
+[humaneval] 80/100 {1: 0.06234567901234569, 10: 0.18228980819280097}
+HumanEval (100 problems): {'pass@1': 0.051000000000000004, 'pass@10': 0.1526547446361688} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.0315, "pass@10": 0.13460520903245363}, "humaneval": {"pass@1": 0.051000000000000004, "pass@10": 0.1526547446361688}}
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r.pt ===
+[mbpp] 0/100 {1: 0.0, 10: 0.0}
+[mbpp] 20/100 {1: 0.004761904761904766, 10: 0.047619047619047616}
+[mbpp] 40/100 {1: 0.020731707317073175, 10: 0.09715582688096469}
+[mbpp] 60/100 {1: 0.045081967213114756, 10: 0.17017127419096661}
+[mbpp] 80/100 {1: 0.037654320987654324, 10: 0.1564187828377715}
+MBPP-test (100 problems): {'pass@1': 0.038500000000000006, 'pass@10': 0.16064652839420637} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.009523809523809526, 10: 0.08395989974937343}
+[humaneval] 40/100 {1: 0.07560975609756097, 10: 0.2207203805784188}
+[humaneval] 60/100 {1: 0.08032786885245902, 10: 0.24728467746028526}
+[humaneval] 80/100 {1: 0.060493827160493834, 10: 0.18622673240836296}
+HumanEval (100 problems): {'pass@1': 0.049, 'pass@10': 0.150843653250774} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.038500000000000006, "pass@10": 0.16064652839420637}, "humaneval": {"pass@1": 0.049, "pass@10": 0.150843653250774}}
+=== EVAL both :: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300.pt ===
+[mbpp] 0/100 {1: 0.0, 10: 0.0}
+[mbpp] 20/100 {1: 0.009523809523809526, 10: 0.08395989974937343}
+[mbpp] 40/100 {1: 0.029268292682926834, 10: 0.12002567394094993}
+[mbpp] 60/100 {1: 0.05491803278688525, 10: 0.1622849312287469}
+[mbpp] 80/100 {1: 0.04506172839506173, 10: 0.1488552536024156}
+MBPP-test (100 problems): {'pass@1': 0.04200000000000001, 'pass@10': 0.14946594427244583} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300_codeeval_mbpp.json
+[humaneval] 0/100 {1: 0.0, 10: 0.0}
+[humaneval] 20/100 {1: 0.004761904761904766, 10: 0.047619047619047616}
+[humaneval] 40/100 {1: 0.07804878048780488, 10: 0.198896078624992}
+[humaneval] 60/100 {1: 0.08770491803278688, 10: 0.2436665248166035}
+[humaneval] 80/100 {1: 0.06604938271604938, 10: 0.1835019507878125}
+HumanEval (100 problems): {'pass@1': 0.0535, 'pass@10': 0.14863658013812814} -> /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_grpo300_codeeval_humaneval.json
+SUMMARY {"mbpp": {"pass@1": 0.04200000000000001, "pass@10": 0.14946594427244583}, "humaneval": {"pass@1": 0.0535, "pass@10": 0.14863658013812814}}
+ALL DONE

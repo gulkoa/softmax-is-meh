@@ -1,0 +1,10 @@
+
+===== ckpt_gpt2-stj-q4-medium-mix_s0.pt (step 28609) =====
+fineweb-val ppl :    16.54
+wikitext103 ppl :    26.09
+lambada acc     :    0.302
+  >> 'The most surprising thing about deep learning is that this technology is not at all similar to the traditional software programming paradigm. Instead of building artificial neural networks from deep sources, it learns by observing real-world data from human participants.\nThe authors'
+  >> 'In a small village by the sea, there lived a poor man in whose soul he loved.\nIf ever the poor man was hungry, he knew that he had come to eat his last meal. He ate a few pieces of fruit and a little'
+  >> 'The recipe requires three eggs, a cup of flour, and two eggs of other foods not required in the course of the lesson. It is not necessary to include beans or corn in the bread preparation.\nIt is easy to prepare the sandwich without eggs and flour'
+DONE
+ALL DONE

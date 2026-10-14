@@ -1,0 +1,42 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /users/PAS2402/alexg/.netrc.
+wandb: Currently logged in as: gulko (gulkoa) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/run-20260823_103008-1e0b5rl4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grpo-code-ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr-code-r.pt-13816625
+wandb: ⭐️ View project at https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: 🚀 View run at https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/1e0b5rl4
+wandb: uploading artifact run-1e0b5rl4-traces; updating run metadata
+wandb: uploading media/table/traces_399_dd90f2cc16adfc0e7472.table.json; uploading output.log; uploading wandb-summary.json; uploading config.yaml
+wandb: 
+wandb: Run history:
+wandb:    adv_abs_mean ▁▂▃▁▂▁▂▁▂▂▄▄▂▁▂▄▃▂█▆▁▄▆▁▃▄▅▅▅▄▂▂▂█▂▃▂▆▄▇
+wandb:  attn_H_l0_mean ▄▆█▇▅█▇▇▇▆▇▇▅▃▂▁
+wandb:   attn_H_l0_p10 ▇▃▃▄▄▃▃▄▂▄▁▅▄▆▆█
+wandb: attn_H_l12_mean ▃▃▂▂▂▁▂▂▂▁▁▂▃▄▆█
+wandb:  attn_H_l12_p10 ▁▂▂▂▂▂▁▁▃▅▄▅▄▄█▇
+wandb: attn_H_l23_mean ▇▇▇▇▇▇▇█▇▆▅▃▂▂▁▄
+wandb:  attn_H_l23_p10 ▆▇▇█▇███▇▆▅▄▂▂▁▃
+wandb:    attn_maxp_l0 ▄▃▁▁▃▁▃▂▁▂▁▁▂▇██
+wandb:   attn_maxp_l12 ▅▅▆▆▅█▅▅▄▇▆▆▄▄▃▁
+wandb:   attn_maxp_l23 ▂▂▂▁▂▁▁▁▂▃▄▆▇▇█▅
+wandb:             +15 ...
+wandb: 
+wandb: Run summary:
+wandb:    adv_abs_mean 0.10281
+wandb:  attn_H_l0_mean 2.83199
+wandb:   attn_H_l0_p10 1.30618
+wandb: attn_H_l12_mean 1.59883
+wandb:  attn_H_l12_p10 0.6235
+wandb: attn_H_l23_mean 1.53205
+wandb:  attn_H_l23_p10 0.47876
+wandb:    attn_maxp_l0 0.20845
+wandb:   attn_maxp_l12 0.52799
+wandb:   attn_maxp_l23 0.56006
+wandb:             +15 ...
+wandb: 
+wandb: 🚀 View run grpo-code-ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr-code-r.pt-13816625 at: https://wandb.ai/gulkoa/stieltjes-flash-attn/runs/1e0b5rl4
+wandb: ⭐️ View project at: https://wandb.ai/gulkoa/stieltjes-flash-attn
+wandb: Synced 5 W&B file(s), 400 media file(s), 800 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260823_103008-1e0b5rl4/logs

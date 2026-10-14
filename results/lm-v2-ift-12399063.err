@@ -1,0 +1,68 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_173917-mjc2490i
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:       final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx16384 ▁
+wandb:       final/bpc_ctx2048 ▁
+wandb:       final/bpc_ctx4096 ▁
+wandb:        final/bpc_ctx512 ▁
+wandb:       final/bpc_ctx8192 ▁
+wandb:  final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx16384 ▁
+wandb:  final/val_loss_ctx2048 ▁
+wandb:  final/val_loss_ctx4096 ▁
+wandb:                      +5 ...
+wandb: 
+wandb: Run summary:
+wandb:       final/bpc_ctx1024 3.21281
+wandb:      final/bpc_ctx16384 7.06833
+wandb:       final/bpc_ctx2048 3.36983
+wandb:       final/bpc_ctx4096 4.80317
+wandb:        final/bpc_ctx512 3.10541
+wandb:       final/bpc_ctx8192 9.05615
+wandb:  final/val_loss_ctx1024 2.22695
+wandb: final/val_loss_ctx16384 4.89939
+wandb:  final/val_loss_ctx2048 2.33579
+wandb:  final/val_loss_ctx4096 3.3293
+wandb:                     +11 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_173917-mjc2490i
+wandb: Find logs at: ./wandb/offline-run-20260716_173917-mjc2490i/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_174050-4pk8l4va
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:       final/bpc_ctx1024 ▁
+wandb:      final/bpc_ctx16384 ▁
+wandb:       final/bpc_ctx2048 ▁
+wandb:       final/bpc_ctx4096 ▁
+wandb:        final/bpc_ctx512 ▁
+wandb:       final/bpc_ctx8192 ▁
+wandb:  final/val_loss_ctx1024 ▁
+wandb: final/val_loss_ctx16384 ▁
+wandb:  final/val_loss_ctx2048 ▁
+wandb:  final/val_loss_ctx4096 ▁
+wandb:                      +5 ...
+wandb: 
+wandb: Run summary:
+wandb:       final/bpc_ctx1024 3.18618
+wandb:      final/bpc_ctx16384 3.90164
+wandb:       final/bpc_ctx2048 3.27073
+wandb:       final/bpc_ctx4096 3.69654
+wandb:        final/bpc_ctx512 3.08535
+wandb:       final/bpc_ctx8192 3.91018
+wandb:  final/val_loss_ctx1024 2.20849
+wandb: final/val_loss_ctx16384 2.70441
+wandb:  final/val_loss_ctx2048 2.2671
+wandb:  final/val_loss_ctx4096 2.56224
+wandb:                     +11 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260716_174050-4pk8l4va
+wandb: Find logs at: ./wandb/offline-run-20260716_174050-4pk8l4va/logs

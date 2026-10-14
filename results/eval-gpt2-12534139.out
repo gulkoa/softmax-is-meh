@@ -1,0 +1,10 @@
+
+===== ckpt_gpt2-sdpa-medium-mix_s0.pt (step 28609) =====
+fineweb-val ppl :    17.05
+wikitext103 ppl :    27.14
+lambada acc     :    0.289
+  >> 'The most surprising thing about deep learning is that it works even when training is not required to become proficient.\nDeep Learning Makes AI Faster\nIn a deep learning-driven application that works effectively, you can achieve a significant increase in the number'
+  >> 'In a small village by the sea, there lived a rich man and woman who had two kids. One of the boys went to work and wanted to start a family. He said his father had just built a boat and he wanted to be a mechanic'
+  >> "The recipe requires three eggs, a cup of flour, and a cup of water. In order to make three cookies, you may want to use a smaller bowl. Here's a simple recipe that requires three eggs for easy counting and measuring.\nTo make more"
+DONE
+ALL DONE

@@ -1,0 +1,136 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_053800-ro6nqnca
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:   diag/ctx1024_L0_beta_max ▁
+wandb:  diag/ctx1024_L0_scale_max ▁
+wandb: diag/ctx1024_L0_scale_mean ▁
+wandb:  diag/ctx1024_L0_scale_p99 ▁
+wandb:   diag/ctx1024_L1_beta_max ▁
+wandb:  diag/ctx1024_L1_scale_max ▁
+wandb: diag/ctx1024_L1_scale_mean ▁
+wandb:  diag/ctx1024_L1_scale_p99 ▁
+wandb:   diag/ctx1024_L2_beta_max ▁
+wandb:  diag/ctx1024_L2_scale_max ▁
+wandb:                       +149 ...
+wandb: 
+wandb: Run summary:
+wandb:   diag/ctx1024_L0_beta_max 1.01095
+wandb:  diag/ctx1024_L0_scale_max 8.43384
+wandb: diag/ctx1024_L0_scale_mean 1.77286
+wandb:  diag/ctx1024_L0_scale_p99 8.02637
+wandb:   diag/ctx1024_L1_beta_max 1.2456
+wandb:  diag/ctx1024_L1_scale_max 10.85101
+wandb: diag/ctx1024_L1_scale_mean 1.3339
+wandb:  diag/ctx1024_L1_scale_p99 8.16762
+wandb:   diag/ctx1024_L2_beta_max 1.48376
+wandb:  diag/ctx1024_L2_scale_max 15.21734
+wandb:                       +155 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_053800-ro6nqnca
+wandb: Find logs at: ./wandb/offline-run-20260718_053800-ro6nqnca/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_053936-y3j8gqry
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:   diag/ctx1024_L0_beta_max ▁
+wandb:  diag/ctx1024_L0_scale_max ▁
+wandb: diag/ctx1024_L0_scale_mean ▁
+wandb:  diag/ctx1024_L0_scale_p99 ▁
+wandb:   diag/ctx1024_L1_beta_max ▁
+wandb:  diag/ctx1024_L1_scale_max ▁
+wandb: diag/ctx1024_L1_scale_mean ▁
+wandb:  diag/ctx1024_L1_scale_p99 ▁
+wandb:   diag/ctx1024_L2_beta_max ▁
+wandb:  diag/ctx1024_L2_scale_max ▁
+wandb:                       +149 ...
+wandb: 
+wandb: Run summary:
+wandb:   diag/ctx1024_L0_beta_max 1.2456
+wandb:  diag/ctx1024_L0_scale_max 14.79241
+wandb: diag/ctx1024_L0_scale_mean 1.97346
+wandb:  diag/ctx1024_L0_scale_p99 14.41089
+wandb:   diag/ctx1024_L1_beta_max 0.98139
+wandb:  diag/ctx1024_L1_scale_max 5.84443
+wandb: diag/ctx1024_L1_scale_mean 1.18076
+wandb:  diag/ctx1024_L1_scale_p99 2.35408
+wandb:   diag/ctx1024_L2_beta_max 1.50801
+wandb:  diag/ctx1024_L2_scale_max 15.63153
+wandb:                       +155 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_053936-y3j8gqry
+wandb: Find logs at: ./wandb/offline-run-20260718_053936-y3j8gqry/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_054105-s6j0j1vb
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:   diag/ctx1024_L0_beta_max ▁
+wandb:  diag/ctx1024_L0_scale_max ▁
+wandb: diag/ctx1024_L0_scale_mean ▁
+wandb:  diag/ctx1024_L0_scale_p99 ▁
+wandb:   diag/ctx1024_L1_beta_max ▁
+wandb:  diag/ctx1024_L1_scale_max ▁
+wandb: diag/ctx1024_L1_scale_mean ▁
+wandb:  diag/ctx1024_L1_scale_p99 ▁
+wandb:   diag/ctx1024_L2_beta_max ▁
+wandb:  diag/ctx1024_L2_scale_max ▁
+wandb:                       +149 ...
+wandb: 
+wandb: Run summary:
+wandb:   diag/ctx1024_L0_beta_max 0.93326
+wandb:  diag/ctx1024_L0_scale_max 6.73688
+wandb: diag/ctx1024_L0_scale_mean 1.78967
+wandb:  diag/ctx1024_L0_scale_p99 6.31074
+wandb:   diag/ctx1024_L1_beta_max 2.12005
+wandb:  diag/ctx1024_L1_scale_max 15.99974
+wandb: diag/ctx1024_L1_scale_mean 2.28224
+wandb:  diag/ctx1024_L1_scale_p99 15.99809
+wandb:   diag/ctx1024_L2_beta_max 1.22344
+wandb:  diag/ctx1024_L2_scale_max 12.99209
+wandb:                       +155 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_054105-s6j0j1vb
+wandb: Find logs at: ./wandb/offline-run-20260718_054105-s6j0j1vb/logs
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_054235-jqbxc3pp
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:   diag/ctx1024_L0_beta_max ▁
+wandb:  diag/ctx1024_L0_scale_max ▁
+wandb: diag/ctx1024_L0_scale_mean ▁
+wandb:  diag/ctx1024_L0_scale_p99 ▁
+wandb:   diag/ctx1024_L1_beta_max ▁
+wandb:  diag/ctx1024_L1_scale_max ▁
+wandb: diag/ctx1024_L1_scale_mean ▁
+wandb:  diag/ctx1024_L1_scale_p99 ▁
+wandb:   diag/ctx1024_L2_beta_max ▁
+wandb:  diag/ctx1024_L2_scale_max ▁
+wandb:                       +149 ...
+wandb: 
+wandb: Run summary:
+wandb:   diag/ctx1024_L0_beta_max 0.98628
+wandb:  diag/ctx1024_L0_scale_max 6.9574
+wandb: diag/ctx1024_L0_scale_mean 1.78135
+wandb:  diag/ctx1024_L0_scale_p99 5.2137
+wandb:   diag/ctx1024_L1_beta_max 0.83697
+wandb:  diag/ctx1024_L1_scale_max 2.9103
+wandb: diag/ctx1024_L1_scale_mean 1.16967
+wandb:  diag/ctx1024_L1_scale_p99 1.79388
+wandb:   diag/ctx1024_L2_beta_max 1.29902
+wandb:  diag/ctx1024_L2_scale_max 15.10707
+wandb:                       +155 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260718_054235-jqbxc3pp
+wandb: Find logs at: ./wandb/offline-run-20260718_054235-jqbxc3pp/logs

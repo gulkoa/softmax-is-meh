@@ -1,0 +1,7 @@
+MBPP train problems: 374
+curriculum: 122 solvable problems
+curriculum: +500 synthetic -> 622 total
+step    0 R 0.062 best 1.27 pass@1(batch) 0.031 KL 0.0000 ent 4.077 gnorm 0.21
+step    5 R 0.334 best 1.27 pass@1(batch) 0.242 KL 0.1367 ent 3.224 gnorm 1.63
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_judgesmoke_grpo_final.pt
+ALL DONE

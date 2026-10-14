@@ -1,0 +1,27 @@
+tasks: {'logic': 600, 'gsm8k': 400, 'arc': 300}
+curriculum: 464 solvable tasks
+RESUMED from /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason300.pt (step 300)
+step  300 R 0.198 acc 0.172 judge 0.13 KL 0.2772 ent 3.505
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason300.pt
+step  305 R 0.271 acc 0.234 judge 0.16 KL 0.3026 ent 2.488
+step  310 R 0.328 acc 0.289 judge 0.15 KL 0.2190 ent 1.651
+step  315 R 0.145 acc 0.109 judge 0.18 KL 0.2572 ent 3.597
+step  320 R 0.206 acc 0.172 judge 0.16 KL 0.3529 ent 4.067
+step  325 R 0.344 acc 0.305 judge 0.18 KL 0.2230 ent 3.132
+step  330 R 0.133 acc 0.102 judge 0.15 KL 0.2269 ent 3.909
+step  335 R 0.345 acc 0.312 judge 0.15 KL 0.3535 ent 3.746
+step  340 R 0.214 acc 0.180 judge 0.17 KL 0.3382 ent 3.578
+step  345 R 0.192 acc 0.148 judge 0.19 KL 0.2071 ent 3.484
+step  350 R 0.181 acc 0.141 judge 0.18 KL 0.5043 ent 3.665
+  ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason350.pt
+step  355 R 0.164 acc 0.141 judge 0.13 KL 0.5534 ent 4.272
+step  360 R 0.200 acc 0.164 judge 0.15 KL 0.3284 ent 3.306
+step  365 R 0.210 acc 0.172 judge 0.17 KL 0.4395 ent 3.050
+step  370 R 0.286 acc 0.266 judge 0.12 KL 0.4714 ent 3.926
+step  375 R 0.314 acc 0.281 judge 0.17 KL 0.3947 ent 3.644
+step  380 R 0.265 acc 0.227 judge 0.16 KL 0.2733 ent 2.258
+step  385 R 0.207 acc 0.172 judge 0.15 KL 0.3140 ent 1.894
+step  390 R 0.212 acc 0.180 judge 0.16 KL 0.4019 ent 3.318
+step  395 R 0.241 acc 0.211 judge 0.16 KL 0.4092 ent 4.038
+FINAL /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code-r_reason_final.pt
+ALL DONE

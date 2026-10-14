@@ -1,0 +1,2 @@
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (14055 > 1024). Running this sequence through the model will result in indexing errors
+[2026-07-25T15:05:05.017] error: *** JOB 12588603 ON c0808 CANCELLED AT 2026-07-25T15:05:05 DUE TO TIME LIMIT ***

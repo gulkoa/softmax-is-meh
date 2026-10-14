@@ -1,0 +1,43 @@
+########## 1. Halley solver: convergence + parity + speed ##########
+A/B: convergence + gradient parity
+----------------------------------------------------------------------------------------
+  [PASS] N=   64 q= 2.0 causal=False | fwd err nr8=1.34e-07 hal3=1.34e-07 hal2=1.19e-07 | dq rel(hal3,nr8)=1.50e-07
+  [PASS] N=   64 q= 2.0 causal=True  | fwd err nr8=2.38e-07 hal3=2.38e-07 hal2=2.38e-07 | dq rel(hal3,nr8)=1.16e-07
+  [PASS] N=   64 q= 4.0 causal=False | fwd err nr8=1.79e-07 hal3=1.79e-07 hal2=2.26e-06 | dq rel(hal3,nr8)=8.34e-08
+  [PASS] N=   64 q= 4.0 causal=True  | fwd err nr8=4.77e-07 hal3=4.77e-07 hal2=2.23e-05 | dq rel(hal3,nr8)=2.10e-07
+  [FAIL] N=   64 q= 8.0 causal=False | fwd err nr8=8.34e-07 hal3=1.06e-05 hal2=2.28e-02 | dq rel(hal3,nr8)=7.34e-07
+  [PASS] N=   64 q= 8.0 causal=True  | fwd err nr8=8.79e-07 hal3=9.78e-06 hal2=2.08e-02 | dq rel(hal3,nr8)=3.28e-07
+  [PASS] N=   64 q=16.0 causal=False | fwd err nr8=2.15e-06 hal3=2.15e-06 hal2=3.79e-05 | dq rel(hal3,nr8)=7.35e-07
+  [PASS] N=   64 q=16.0 causal=True  | fwd err nr8=2.09e-06 hal3=1.97e-06 hal2=3.34e-05 | dq rel(hal3,nr8)=1.23e-06
+  [PASS] N=  128 q= 2.0 causal=False | fwd err nr8=6.33e-07 hal3=1.04e-07 hal2=1.04e-07 | dq rel(hal3,nr8)=1.73e-05
+  [PASS] N=  128 q= 2.0 causal=True  | fwd err nr8=3.20e-07 hal3=2.38e-07 hal2=2.38e-07 | dq rel(hal3,nr8)=6.47e-07
+  [PASS] N=  128 q= 4.0 causal=False | fwd err nr8=1.64e-07 hal3=1.64e-07 hal2=1.39e-06 | dq rel(hal3,nr8)=1.39e-07
+  [PASS] N=  128 q= 4.0 causal=True  | fwd err nr8=4.77e-07 hal3=4.77e-07 hal2=6.15e-06 | dq rel(hal3,nr8)=1.60e-07
+  [FAIL] N=  128 q= 8.0 causal=False | fwd err nr8=5.96e-07 hal3=7.26e-05 hal2=4.39e-02 | dq rel(hal3,nr8)=4.10e-06
+  [FAIL] N=  128 q= 8.0 causal=True  | fwd err nr8=7.15e-07 hal3=8.18e-05 hal2=4.30e-02 | dq rel(hal3,nr8)=1.87e-06
+  [PASS] N=  128 q=16.0 causal=False | fwd err nr8=1.85e-06 hal3=1.85e-06 hal2=4.48e-05 | dq rel(hal3,nr8)=7.08e-07
+  [PASS] N=  128 q=16.0 causal=True  | fwd err nr8=2.09e-06 hal3=1.97e-06 hal2=4.17e-05 | dq rel(hal3,nr8)=7.41e-07
+  [PASS] N=  256 q= 2.0 causal=False | fwd err nr8=1.67e-05 hal3=1.19e-07 hal2=1.19e-07 | dq rel(hal3,nr8)=1.15e-03
+  [PASS] N=  256 q= 2.0 causal=True  | fwd err nr8=1.10e-05 hal3=2.38e-07 hal2=2.38e-07 | dq rel(hal3,nr8)=3.45e-05
+  [PASS] N=  256 q= 4.0 causal=False | fwd err nr8=1.19e-07 hal3=1.34e-07 hal2=3.73e-07 | dq rel(hal3,nr8)=1.86e-07
+  [PASS] N=  256 q= 4.0 causal=True  | fwd err nr8=4.77e-07 hal3=4.77e-07 hal2=1.13e-05 | dq rel(hal3,nr8)=1.77e-07
+  [FAIL] N=  256 q= 8.0 causal=False | fwd err nr8=5.36e-07 hal3=1.64e-04 hal2=5.63e-02 | dq rel(hal3,nr8)=1.29e-05
+  [FAIL] N=  256 q= 8.0 causal=True  | fwd err nr8=8.34e-07 hal3=4.14e-05 hal2=3.59e-02 | dq rel(hal3,nr8)=2.50e-06
+  [PASS] N=  256 q=16.0 causal=False | fwd err nr8=1.73e-06 hal3=1.79e-06 hal2=4.32e-05 | dq rel(hal3,nr8)=9.11e-07
+  [PASS] N=  256 q=16.0 causal=True  | fwd err nr8=2.09e-06 hal3=1.91e-06 hal2=4.27e-05 | dq rel(hal3,nr8)=4.42e-07
+  [PASS] N= 1024 q= 2.0 causal=False | fwd err nr8=1.80e-04 hal3=7.45e-08 hal2=7.08e-08 | dq rel(hal3,nr8)=7.02e-02
+  [PASS] N= 1024 q= 2.0 causal=True  | fwd err nr8=1.52e-04 hal3=2.38e-07 hal2=2.68e-07 | dq rel(hal3,nr8)=1.96e-03
+  [PASS] N= 1024 q= 4.0 causal=False | fwd err nr8=9.51e-06 hal3=8.20e-08 hal2=1.79e-07 | dq rel(hal3,nr8)=1.17e-04
+  [PASS] N= 1024 q= 4.0 causal=True  | fwd err nr8=6.49e-06 hal3=4.77e-07 hal2=4.53e-06 | dq rel(hal3,nr8)=6.32e-06
+  [FAIL] N= 1024 q= 8.0 causal=False | fwd err nr8=4.17e-07 hal3=5.48e-04 hal2=9.02e-02 | dq rel(hal3,nr8)=1.03e-04
+  [FAIL] N= 1024 q= 8.0 causal=True  | fwd err nr8=7.45e-07 hal3=8.28e-04 hal2=1.11e-01 | dq rel(hal3,nr8)=3.18e-05
+  [PASS] N= 1024 q=16.0 causal=False | fwd err nr8=2.15e-06 hal3=2.15e-06 hal2=5.03e-05 | dq rel(hal3,nr8)=6.85e-07
+  [PASS] N= 1024 q=16.0 causal=True  | fwd err nr8=2.26e-06 hal3=2.60e-06 hal2=5.27e-05 | dq rel(hal3,nr8)=8.06e-07
+
+C: forward latency (bf16, causal, D=32)
+  BH=  64 N=16384: nr8    365.1 ms
+  BH=  64 N=16384: hal3    107.2 ms
+  BH=1024 N=16384: nr8   7175.2 ms
+  BH=1024 N=16384: hal3   2130.5 ms
+========================================================================================
+RESULT: FAILURES PRESENT

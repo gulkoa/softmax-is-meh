@@ -1,0 +1,10 @@
+== /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qkpilot-lr0.0006_s0.pt
+  ctx 512: p50 2.02 p99mean 20.98 p99max 63.06
+  ctx 1024: p50 2.52 p99mean 26.46 p99max 74.30
+  ctx 2048: p50 2.82 p99mean 34.97 p99max 92.24
+== /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-nope-qk-nocap-qkpilot-lr0.0006_s0.pt
+  ctx 512: p50 3.69 p99mean 17.81 p99max 75.51
+  ctx 1024: p50 3.69 p99mean 17.42 p99max 72.13
+  ctx 2048: p50 3.12 p99mean 18.44 p99max 86.06
+WROTE results/qknorm_realized_scale.json
+ALL DONE

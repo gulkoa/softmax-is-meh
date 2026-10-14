@@ -1,0 +1,180 @@
+Running sweep default2026-07-13-07-45-45 with 6 configs
+TrainConfig(
+    data=DataConfig(
+        train_configs=[
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=100000,
+                input_seq_len=64,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=20000,
+                input_seq_len=128,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=8,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=16,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=32,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=20000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        test_configs=[
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=1000,
+                input_seq_len=256,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=64,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=1000,
+                input_seq_len=1024,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=500,
+                input_seq_len=4096,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=256,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=250,
+                input_seq_len=16384,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=1024,
+                random_non_queries=True,
+                include_slices=True
+            ),
+            MQARConfig(
+                vocab_size=8192,
+                num_examples=100,
+                input_seq_len=65536,
+                name='multiquery_ar',
+                power_a=0.01,
+                num_kv_pairs=4096,
+                random_non_queries=True,
+                include_slices=True
+            )
+        ],
+        batch_size=(256, 4),
+        seed=123,
+        cache_dir='/users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_c
+ache',
+        force_cache=False,
+        num_passes=1
+    ),
+    model=ModelConfig(
+        sequence_mixer=ModuleConfig(
+            name='zoology.mixers.hybrid.Hybrid',
+            kwargs={
+                'configs': [
+                    {
+                        'name': 'zoology.mixers.base_conv.BaseConv',
+                        'kwargs': {
+                            'l_max': 65536,
+                            'kernel_size': 3,
+                            'implicit_long_conv': True
+                        }
+                    },
+                    {
+                        'name': 'stieltjes_mixer.SdpaMHA',
+                        'kwargs': {'dropout': 0.0, 'num_heads': 2}
+                    }
+                ]
+            }
+        ),
+        state_mixer=ModuleConfig(name='torch.nn.Identity', kwargs={}),
+        d_model=64,
+        n_layers=2,
+        multiplier=1,
+        max_position_embeddings=0,
+        learnable_word_embeddings=True,
+        embedding_init_type='default',
+        vocab_size=8192,
+        resid_dropout=0.0,
+        embed_dropout=0.1,
+        drop_path=0.0,
+        layer_norm_epsilon=1e-05,
+        pad_vocab_size_multiple=1,
+        block_type='TransformerBlock',
+        name='sdpa-d64'
+    ),
+    logger=LoggerConfig(project_name='stieltjes-flash-attn', entity='gulkoa'),
+    max_epochs=24,
+    loss_type='ce',
+    input_type='discrete',
+    early_stopping_metric='valid/accuracy',
+    early_stopping_threshold=1.01,
+    slice_keys=['num_kv_pairs', 'input_seq_len'],
+    learning_rate=0.001,
+    weight_decay=0.1,
+    seed=123,
+    launch_id='default-2026-07-13-07-45-45',
+    sweep_id='mqar-hardstretch-1d7308',
+    run_id='hs-sdpa-d64-lr1.0e-03'
+)
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20260713_074545-3voqndyk[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260713_074545-3voqndyk/logs[0m
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_5b0265b0978cc6b711cd76fcf34e8969.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_0192c761df278911bb68046d8d1bd4bb.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_d3faf35348337347822d1f5a2bc43c96.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_3a37505bc239830ae7a7070040e09f6a.pt...
+Loading data from on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_8ef4855e77aa9e88588d018d5b0461f7.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_d1558a41c1918a639cc92c197a535072.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_a4b8fdb67ac9123f9278e13b3bf2ea87.pt...
+Generating dataset...
+Saving dataset to on-disk cache at /users/PAS2402/alexg/softmax/softmax-is-meh/results/zoology_cache/data_fa57e674998bf5d03c0bb820b03717e0.pt...
+Generating dataset...

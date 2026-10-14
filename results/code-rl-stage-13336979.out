@@ -1,0 +1,10 @@
+[PASS] probe='What is my name?' -> 'My name is Alex.'
+[FAIL] probe='What color should I paint my room?' -> "I'm sorry for the confusion, but as an AI, I don't have the ability to"
+[FAIL] probe='Suggest a snack for me.' -> "I'm sorry for the confusion, but as an AI, I don't have the ability to"
+[FAIL] probe='How many apples do I have now?' -> "I'm sorry for the misunderstanding, but as an AI, I don't have the abi"
+[FAIL] probe='What city do I live in?' -> "I'm sorry for any confusion, but as an AI, I don't have the ability to"
+[PASS] probe='What was the code word?' -> 'The code word is banana.'
+[FAIL] probe="What is my dog's name?" -> "As an AI, I don't have access to personal data unless it's shared with"
+[PASS] probe='Suggest a dinner.' -> "I'm sorry for the confusion, but as an AI, I don't have the ability to"
+SUMMARY multiturn back-ref recall: 3/8 = 38%  (ckpt_gpt2-stj-q4-nope-nope-mix-lr0.0006_s0-it-dr.pt)
+ALL DONE

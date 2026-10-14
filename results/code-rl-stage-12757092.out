@@ -1,0 +1,9 @@
+nope=True  alpha sweep=[0.5, 1.0, 1.5, 2.0]
+per-position (length-agnostic) alpha=0.35
+      L        off     perpos
+   1024       32.6       32.6
+   2048      324.5      134.0
+   4096    13662.7      648.2
+   8192    32885.5     1404.7
+DONE
+ALL DONE

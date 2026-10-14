@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.166 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the study of the ancient Greeks, who were the first to develop the concept of a universal variable, and the development of the modern era of calculus,'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_it_staging
+VERIFIED
+ALL DONE

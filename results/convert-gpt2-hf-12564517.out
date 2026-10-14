@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.392 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the ancient Greeks and Romans, who first developed the concept of a set and a set difference. The concept of a set was first introduced by Euclid'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_rl_staging
+VERIFIED
+ALL DONE

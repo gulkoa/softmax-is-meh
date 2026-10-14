@@ -1,0 +1,145 @@
+########## MQMTAR v9 stability: arm=asstjd extra=[--nape --lr 1e-4 --steps 60000 --warmup 5000] ##########
+loading data...
+train=50000000  eval splits=[64, 128, 256, 512, 1024, 2048, 4096, 8192]
+arm=asstjd-q4-nape params=8.56M
+step      0 loss 5.6725
+step    500 loss 3.4176
+step   1000 loss 2.9253
+step   1500 loss 1.7425
+step   2000 loss 1.0504
+step   2500 loss 0.8681
+step   3000 loss 0.8113
+step   3500 loss 0.7806
+step   4000 loss 0.7341
+step   4500 loss 0.7467
+step   5000 loss 0.6817
+  [val] step 5000 acc@64 = 0.000
+step   5500 loss 0.6747
+step   6000 loss 0.6768
+step   6500 loss 0.6619
+step   7000 loss 0.6576
+step   7500 loss 0.6662
+step   8000 loss 0.6517
+step   8500 loss 0.6694
+step   9000 loss 0.6257
+step   9500 loss 0.6221
+step  10000 loss 0.6279
+  [val] step 10000 acc@64 = 0.000
+step  10500 loss 0.6371
+step  11000 loss 0.6116
+step  11500 loss 0.6211
+step  12000 loss 0.6050
+step  12500 loss 0.6130
+step  13000 loss 0.6214
+step  13500 loss 0.6136
+step  14000 loss 0.5815
+step  14500 loss 0.6228
+step  15000 loss 0.6062
+  [val] step 15000 acc@64 = 0.000
+step  15500 loss 0.6126
+step  16000 loss 0.5997
+step  16500 loss 0.5894
+step  17000 loss 0.5883
+step  17500 loss 0.5395
+step  18000 loss 0.4495
+step  18500 loss 0.1882
+step  19000 loss 0.0389
+step  19500 loss 0.7653
+step  20000 loss 0.1068
+  [val] step 20000 acc@64 = 0.685
+step  20500 loss 0.2578
+step  21000 loss 0.3835
+step  21500 loss 0.2719
+step  22000 loss 0.0613
+step  22500 loss 0.0884
+step  23000 loss 0.0695
+step  23500 loss 0.0097
+step  24000 loss 0.1680
+step  24500 loss 0.0261
+step  25000 loss 0.0490
+  [val] step 25000 acc@64 = 0.770
+step  25500 loss 0.0309
+step  26000 loss 0.0377
+step  26500 loss 0.2378
+step  27000 loss 0.0421
+step  27500 loss 0.4287
+step  28000 loss 0.7230
+step  28500 loss 1.1955
+step  29000 loss 1.8058
+step  29500 loss 1.1785
+step  30000 loss 1.2164
+  [val] step 30000 acc@64 = 0.000
+step  30500 loss 0.9041
+step  31000 loss 1.0069
+step  31500 loss 0.9249
+step  32000 loss 0.9051
+step  32500 loss 0.9623
+step  33000 loss 1.0437
+step  33500 loss 0.8652
+step  34000 loss 0.8794
+step  34500 loss 1.0547
+step  35000 loss 0.9141
+  [val] step 35000 acc@64 = 0.000
+step  35500 loss 0.9019
+step  36000 loss 0.8477
+step  36500 loss 0.9182
+step  37000 loss 1.1226
+step  37500 loss 1.1034
+step  38000 loss 1.2139
+step  38500 loss 1.1480
+step  39000 loss 1.0822
+step  39500 loss 1.0626
+step  40000 loss 1.1220
+  [val] step 40000 acc@64 = 0.000
+step  40500 loss 1.0519
+step  41000 loss 1.0104
+step  41500 loss 1.0070
+step  42000 loss 1.0145
+step  42500 loss 0.9584
+step  43000 loss 0.9825
+step  43500 loss 0.9601
+step  44000 loss 0.9518
+step  44500 loss 0.8856
+step  45000 loss 0.8645
+  [val] step 45000 acc@64 = 0.000
+step  45500 loss 0.8378
+step  46000 loss 0.8817
+step  46500 loss 0.9092
+step  47000 loss 0.8396
+step  47500 loss 0.8130
+step  48000 loss 0.8673
+step  48500 loss 0.7918
+step  49000 loss 0.8049
+step  49500 loss 0.8309
+step  50000 loss 0.7792
+  [val] step 50000 acc@64 = 0.000
+step  50500 loss 0.7655
+step  51000 loss 0.7977
+step  51500 loss 0.8226
+step  52000 loss 0.7692
+step  52500 loss 0.7771
+step  53000 loss 0.7565
+step  53500 loss 0.7478
+step  54000 loss 0.7386
+step  54500 loss 0.7566
+step  55000 loss 0.7514
+  [val] step 55000 acc@64 = 0.000
+step  55500 loss 0.7538
+step  56000 loss 0.7229
+step  56500 loss 0.7222
+step  57000 loss 0.7413
+step  57500 loss 0.7860
+step  58000 loss 0.7371
+step  58500 loss 0.7473
+step  59000 loss 0.7074
+step  59500 loss 0.6868
+checkpoint saved: /users/PAS2402/alexg/softmax/softmax-is-meh/results/mqmtar_ckpt_asstjd-q4-nape_12390120.pt
+
+final eval (exact match via greedy generation):
+  len     64: acc 0.0050  (n=1000, 5s)
+  len    128: acc 0.0000  (n=1000, 13s)
+  len    256: acc 0.0000  (n=1000, 38s)
+  len    512: acc 0.0000  (n=1000, 137s)
+  len   1024: acc 0.0000  (n=1000, 526s)
+  len   2048: acc 0.0000  (n=1000, 2077s)
+  len   4096: acc 0.0000  (n=500, 4046s)

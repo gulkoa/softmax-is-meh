@@ -1,0 +1,88 @@
+GPU: NVIDIA H100
+
+====================================================================================
+PART 1 — NaN fix retest (every cell should now be NaN-free)
+====================================================================================
+  IFT-mode N=  32 fp16 q=   1: nan=False
+  IFT-mode N=  32 fp16 q=   4: nan=False
+  IFT-mode N=  32 fp16 q=  16: nan=False
+  IFT-mode N=  32 fp32 q=   1: nan=False
+  IFT-mode N=  32 fp32 q=   4: nan=False
+  IFT-mode N=  32 fp32 q=  16: nan=False
+  IFT-mode N=  64 fp16 q=   1: nan=False
+  IFT-mode N=  64 fp16 q=   4: nan=False
+  IFT-mode N=  64 fp16 q=  16: nan=False
+  IFT-mode N=  64 fp32 q=   1: nan=False
+  IFT-mode N=  64 fp32 q=   4: nan=False
+  IFT-mode N=  64 fp32 q=  16: nan=False
+  IFT-mode N= 128 fp16 q=   1: nan=False
+  IFT-mode N= 128 fp16 q=   4: nan=False
+  IFT-mode N= 128 fp16 q=  16: nan=False
+  IFT-mode N= 128 fp32 q=   1: nan=False
+  IFT-mode N= 128 fp32 q=   4: nan=False
+  IFT-mode N= 128 fp32 q=  16: nan=False
+  IFT-mode N= 256 fp16 q=   1: nan=False
+  IFT-mode N= 256 fp16 q=   4: nan=False
+  IFT-mode N= 256 fp16 q=  16: nan=False
+  IFT-mode N= 256 fp32 q=   1: nan=False
+  IFT-mode N= 256 fp32 q=   4: nan=False
+  IFT-mode N= 256 fp32 q=  16: nan=False
+  BS-mode  N=  32 fp16 q=   1: nan=False
+  BS-mode  N=  32 fp16 q=   4: nan=False
+  BS-mode  N=  32 fp16 q=  16: nan=False
+  BS-mode  N=  32 fp32 q=   1: nan=False
+  BS-mode  N=  32 fp32 q=   4: nan=False
+  BS-mode  N=  32 fp32 q=  16: nan=False
+  BS-mode  N=  64 fp16 q=   1: nan=False
+  BS-mode  N=  64 fp16 q=   4: nan=False
+  BS-mode  N=  64 fp16 q=  16: nan=False
+  BS-mode  N=  64 fp32 q=   1: nan=False
+  BS-mode  N=  64 fp32 q=   4: nan=False
+  BS-mode  N=  64 fp32 q=  16: nan=False
+  BS-mode  N= 128 fp16 q=   1: nan=False
+  BS-mode  N= 128 fp16 q=   4: nan=False
+  BS-mode  N= 128 fp16 q=  16: nan=False
+  BS-mode  N= 128 fp32 q=   1: nan=False
+  BS-mode  N= 128 fp32 q=   4: nan=False
+  BS-mode  N= 128 fp32 q=  16: nan=False
+  BS-mode  N= 256 fp16 q=   1: nan=False
+  BS-mode  N= 256 fp16 q=   4: nan=False
+  BS-mode  N= 256 fp16 q=  16: nan=False
+  BS-mode  N= 256 fp32 q=   1: nan=False
+  BS-mode  N= 256 fp32 q=   4: nan=False
+  BS-mode  N= 256 fp32 q=  16: nan=False
+
+  >>> PART 1 RESULT: ALL CLEAN — NaN FIXED
+
+====================================================================================
+PART 2 — Localize the original 25% q=4 BS-mode error
+  (reproducing check_triton_block_lambda_grad.py EXACT inputs: seed 42,
+   q=1 then q=4, so q=4 uses the 2nd RNG draw)
+====================================================================================
+
+  Reproduced dQ error: max=1.774e+00  rel=2.515e-01
+  (original check reported rel ~0.25 here)
+
+  argmax mismatches (Triton fp16 vs torch fp32): 1/512
+  max dQ error at (b=1, h=2, query_row=0, dim=47)
+  is that row an argmax-mismatch row? True
+  that row's top-2 score gap = 4.456e-04  (triton_argmax=60, ref_argmax=15)
+
+  All 1 mismatch rows — top-2 score gaps (near-tie if tiny):
+    (b1,h2,row0): gap=4.456e-04 tri_am=60 ref_am=15 rowmax_dQ_err=1.774e+00
+
+  max dQ error EXCLUDING argmax-mismatch rows: 1.928e-02  (rel 2.734e-03)
+  -> if this is small, the 25% is ENTIRELY the near-tie argmax flips.
+
+====================================================================================
+PART 3 — BS-mode vs PyTorch BS on no-padding configs (N multiple of 128)
+====================================================================================
+  N= 128 fp16 q=   1: dQ_rel=1.240e-01  dK_rel=8.368e-02
+  N= 128 fp16 q=   4: dQ_rel=1.292e-01  dK_rel=8.782e-02
+  N= 128 fp32 q=   1: dQ_rel=1.536e-03  dK_rel=1.312e-03
+  N= 128 fp32 q=   4: dQ_rel=3.329e-03  dK_rel=2.805e-03
+  N= 256 fp16 q=   1: dQ_rel=3.327e-01  dK_rel=2.150e-01
+  N= 256 fp16 q=   4: dQ_rel=3.096e-01  dK_rel=2.075e-01
+  N= 256 fp32 q=   1: dQ_rel=1.529e-03  dK_rel=1.507e-03
+  N= 256 fp32 q=   4: dQ_rel=3.867e-03  dK_rel=3.724e-03
+DONE

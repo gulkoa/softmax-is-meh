@@ -1,0 +1,23 @@
+code-SFT examples: 874 (skipped 0 over-ctx)
+code-SFT: 164 steps (avg len 152)
+step    0/164 loss 1.1449
+step   10/164 loss 0.4306
+step   20/164 loss 0.2803
+step   30/164 loss 0.2025
+step   40/164 loss 0.3496
+step   50/164 loss 0.2377
+step   60/164 loss 0.4198
+step   70/164 loss 0.3633
+step   80/164 loss 0.1368
+step   90/164 loss 0.3788
+step  100/164 loss 0.1010
+step  110/164 loss 0.0344
+step  120/164 loss 0.2992
+step  130/164 loss 0.0952
+step  140/164 loss 0.0581
+step  150/164 loss 0.0935
+step  160/164 loss 0.1111
+saved /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-medium-mix_s0-it-code.pt
+DEMO: '```python\ndef sum_sq(n): \r\n    sum_sq = 0\r\n    for i in range(1,n + 1): \r\n        sum_sq = sum(i * i) \r\n    return sum_sq\n```'
+DONE
+ALL DONE

@@ -1,0 +1,66 @@
+Device: cuda
+GPU: NVIDIA H100
+========================================================================
+Verifying StieltjesBSFwdIFTBwd
+========================================================================
+
+q=1.0
+  forward max|HYB - BS|  = 0.000e+00
+  forward max|NR  - BS|  = 2.776e-17
+  jacobian max|HYB - BS|  = 4.358e-03
+  jacobian max|HYB - NR|  = 1.735e-18
+  --> HYB backward should match NR (both = IFT)
+
+q=4.0
+  forward max|HYB - BS|  = 0.000e+00
+  forward max|NR  - BS|  = 1.388e-16
+  jacobian max|HYB - BS|  = 6.380e-01
+  jacobian max|HYB - NR|  = 1.110e-16
+  --> HYB backward should match NR (both = IFT)
+
+q=16.0
+  forward max|HYB - BS|  = 0.000e+00
+  forward max|NR  - BS|  = 0.000e+00
+  jacobian max|HYB - BS|  = 9.688e-02
+  jacobian max|HYB - NR|  = 9.853e-16
+  --> HYB backward should match NR (both = IFT)
+
+=== Training: BS (BS-fwd + BS-bwd) (q=4.0) ===
+  L=   16  acc=99.37%
+  L=   32  acc=97.56%
+  L=   64  acc=93.75%
+  L=  128  acc=77.73%
+  L=  256  acc=53.03%
+  L=  512  acc=35.55%
+
+=== Training: HYB (BS-fwd + IFT-bwd) (q=4.0) ===
+  L=   16  acc=99.22%
+  L=   32  acc=96.78%
+  L=   64  acc=92.09%
+  L=  128  acc=73.05%
+  L=  256  acc=48.54%
+  L=  512  acc=33.11%
+
+=== Training: NR (NR-fwd + IFT-bwd) (q=4.0) ===
+  L=   16  acc=99.22%
+  L=   32  acc=96.78%
+  L=   64  acc=92.09%
+  L=  128  acc=73.05%
+  L=  256  acc=48.54%
+  L=  512  acc=33.11%
+
+Results saved to softmax-is-meh/results/bs_fwd_ift_bwd_seed1_q4.0_10439551.json
+
+========================================================================
+SUMMARY  q=4.0  seed=1
+========================================================================
+
+     L |       BS |      HYB |       NR |   HYB-BS |   HYB-NR
+----------------------------------------------------------------------
+    16 |   99.37% |   99.22% |   99.22% |   -0.15 |   +0.00
+    32 |   97.56% |   96.78% |   96.78% |   -0.78 |   +0.00
+    64 |   93.75% |   92.09% |   92.09% |   -1.66 |   +0.00
+   128 |   77.73% |   73.05% |   73.05% |   -4.69 |   +0.00
+   256 |   53.03% |   48.54% |   48.54% |   -4.49 |   +0.00
+   512 |   35.55% |   33.11% |   33.11% |   -2.44 |   +0.00
+DONE seed=1 q=4.0
