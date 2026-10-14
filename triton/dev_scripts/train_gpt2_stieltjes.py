@@ -144,6 +144,26 @@ class Attn(nn.Module):
             self.k_gain = nn.Parameter(torch.ones(cfg.n_head))
         self.rope = getattr(cfg, "rope", False)
         self._rope_cache = None       # (S, cos, sin) — rebuilt on S change
+        # ALiBi (Press et al. 2022): per-head linear distance penalty added to
+        # the softmax scores, slopes 2^(-8h/H); replaces wpe. Softmax arm only
+        # (the fused Stieltjes kernel has no additive-bias path).
+        self.alibi = getattr(cfg, "alibi", False)
+        if self.alibi:
+            assert cfg.attn == "sdpa", "--alibi needs --attn sdpa"
+            h = torch.arange(1, cfg.n_head + 1, dtype=torch.float32)
+            self.register_buffer("alibi_slopes", 2.0 ** (-8.0 * h / cfg.n_head),
+                                 persistent=False)
+            self._alibi_cache = None  # (S, bias (1,H,S,S) fp32)
+
+    def _alibi_bias(self, S, device):
+        if self._alibi_cache is not None and self._alibi_cache[0] == S:
+            return self._alibi_cache[1]
+        i = torch.arange(S, device=device)
+        dist = (i[:, None] - i[None, :]).to(torch.float32)      # query - key
+        bias = -self.alibi_slopes.to(device)[:, None, None] * dist.clamp(min=0)
+        bias = bias.masked_fill(dist[None] < 0, float("-inf"))[None]  # causal
+        self._alibi_cache = (S, bias)
+        return bias
 
     def _rope_cos_sin(self, S, device):
         if self._rope_cache is not None and self._rope_cache[0] == S:
@@ -197,7 +217,10 @@ class Attn(nn.Module):
             q = q * eff[None, :, None, None].to(q.dtype)
         k = k.contiguous()
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
-        if self.cfg.attn == "sdpa":
+        if self.cfg.attn == "sdpa" and getattr(self, "alibi", False):
+            o = F.scaled_dot_product_attention(
+                q, k, v, attn_mask=self._alibi_bias(S, q.device).to(q.dtype))
+        elif self.cfg.attn == "sdpa":
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
         else:
             o = stieltjes_attention(
@@ -256,7 +279,8 @@ class GPT(nn.Module):
         # positional mode: learned wpe (default) | --nope (none) | --rope
         # (rotary in attention). rope and nope both skip wpe — both are
         # architecturally context-unbounded.
-        self.nope = getattr(cfg, "nope", False) or getattr(cfg, "rope", False)
+        self.nope = (getattr(cfg, "nope", False) or getattr(cfg, "rope", False)
+                     or getattr(cfg, "alibi", False))
         if not self.nope:
             self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg.n_layer))
@@ -313,6 +337,9 @@ def main():
     ap.add_argument("--val-every", type=int, default=250)
     ap.add_argument("--tag", default="")
     ap.add_argument("--nope", action="store_true")
+    ap.add_argument("--alibi", action="store_true",
+                    help="ALiBi linear position bias in softmax attention "
+                         "(no wpe); --attn sdpa only")
     ap.add_argument("--rope", action="store_true",
                     help="rotary positions on q/k (no wpe; pre-kernel, "
                          "zero kernel changes; context-unbounded)")
@@ -346,6 +373,7 @@ def main():
              + (f"-q{args.stj_q:g}" if args.attn == "stj" else "")
              + ("-nope" if args.nope else "")
              + ("-rope" if args.rope else "")
+             + ("-alibi" if getattr(args, "alibi", False) else "")
              + ("-qk" if args.qk_norm else "")
              + ("-modern" if args.modern else "")
              + ("-nocap" if (args.scale_learnable and args.scale_cap == 0)
@@ -431,7 +459,8 @@ def main():
         tags=[args.attn,
               "nope" if args.nope else ("rope" if args.rope else "learned-pos")]
              + (["qk-norm"] if args.qk_norm else [])
-             + (["modern"] if args.modern else []),
+             + (["modern"] if args.modern else [])
+             + (["alibi"] if getattr(args, "alibi", False) else []),
         config={**vars(args), "label": label, "params": nparam,
                 "total_steps": total_steps, "tokens_per_step": tokens_per_step,
                 "total_tokens_planned": total_steps * tokens_per_step,
