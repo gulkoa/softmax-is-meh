@@ -11,6 +11,7 @@ Checkpoint/resume across SLURM chunks; wandb incremental (offline).
 """
 import argparse
 import glob
+import json
 import math
 import os
 import sys
@@ -70,6 +71,7 @@ class Shards:
     def __init__(self, split, spec=None):
         spec = spec or FW_DIR
         self.sources, self.weights = [], []
+        self.tokenizer, self.vocab_size = None, None   # from meta.json (None = GPT-2 shards)
         for part in spec.split(","):
             if "=" in part:
                 _, rest = part.split("=", 1)
@@ -79,6 +81,15 @@ class Shards:
                 d, weight = part, 1.0
             paths = sorted(glob.glob(os.path.join(d, "shard_*.bin")))
             assert len(paths) >= 2, f"need >=2 shards in {d}"
+            mp = os.path.join(d, "meta.json")
+            meta = json.load(open(mp)) if os.path.exists(mp) else {}
+            tok = meta.get("tokenizer", "gpt2") if "tokenizer_sha256" in meta else "gpt2"
+            vs = int(meta.get("vocab_size", 50257)) if tok != "gpt2" else 50257
+            if self.tokenizer is None:
+                self.tokenizer, self.vocab_size = tok, vs
+                self.tokenizer_path = meta.get("tokenizer_path")
+            assert (tok, vs) == (self.tokenizer, self.vocab_size), \
+                f"mixed tokenizers in --data-mix: {d} has {tok}/{vs}, expected {self.tokenizer}/{self.vocab_size}"
             use = paths[:-1] if split == "train" else paths[-1:]
             self.paths_used = getattr(self, "paths_used", [])
             self.paths_used += use
@@ -240,7 +251,8 @@ class GPT(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.cfg = cfg
-        self.wte = nn.Embedding(VOCAB, cfg.n_embd)
+        self.vocab = int(getattr(cfg, "vocab", VOCAB))
+        self.wte = nn.Embedding(self.vocab, cfg.n_embd)
         # positional mode: learned wpe (default) | --nope (none) | --rope
         # (rotary in attention). rope and nope both skip wpe — both are
         # architecturally context-unbounded.
@@ -249,7 +261,7 @@ class GPT(nn.Module):
             self.wpe = nn.Embedding(cfg.ctx, cfg.n_embd)
         self.blocks = nn.ModuleList(Block(cfg) for _ in range(cfg.n_layer))
         self.ln_f = _norm(cfg, cfg.n_embd)
-        self.head = nn.Linear(cfg.n_embd, VOCAB, bias=False)
+        self.head = nn.Linear(cfg.n_embd, self.vocab, bias=False)
         # head stays TIED under --modern too: untying costs +vocab*d
         # (+31% at 124M) and breaks the param-parity gate; deferred to
         # the tokenizer boundary (roadmap item 6).
@@ -275,7 +287,7 @@ class GPT(nn.Module):
         logits = self.head(self.ln_f(x))
         loss = None
         if targets is not None:
-            loss = F.cross_entropy(logits.view(-1, VOCAB), targets.reshape(-1))
+            loss = F.cross_entropy(logits.view(-1, self.vocab), targets.reshape(-1))
         return logits, loss
 
 
@@ -344,6 +356,13 @@ def main():
 
     train_d = Shards("train", args.data_mix)
     val_d = Shards("val", args.data_mix)
+    args.tokenizer = train_d.tokenizer                       # "gpt2" or the shard dirs' tokenizer name
+    args.tokenizer_path = getattr(train_d, "tokenizer_path", None)
+    args.vocab = VOCAB if args.tokenizer == "gpt2" else ((train_d.vocab_size + 63) // 64) * 64
+    if args.tokenizer != "gpt2":
+        label += f"-{args.tokenizer}"
+        ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
+    print(f"tokenizer {args.tokenizer}: vocab {args.vocab} (padded), ckpt {ckpt_path}", flush=True)
     model = GPT(args).to(device)
     if getattr(args, "compile_", False):
         # compile the per-block MLP+norm paths; the stieltjes autograd

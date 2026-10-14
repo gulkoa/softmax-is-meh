@@ -108,7 +108,10 @@ def main():
     args = ap.parse_args()
     alphas = [float(a) for a in str(args.alpha).split(",")]
 
-    tok = AutoTokenizer.from_pretrained("gpt2")
+    _args = torch.load(args.ckpt, map_location="cpu", weights_only=False)["args"]
+    _tp = _args.get("tokenizer_path") if _args.get("tokenizer", "gpt2") != "gpt2" else None
+    tok = AutoTokenizer.from_pretrained(_tp or "gpt2")
+    print(f"tokenizer: {_args.get('tokenizer', 'gpt2')} ({_tp or 'hub gpt2'})", flush=True)
     pg = long_token_stream(tok)
     blob = torch.load(args.ckpt, map_location="cpu", weights_only=False)
     cfg = SimpleNamespace(**blob["args"])
