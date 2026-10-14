@@ -46,6 +46,7 @@ cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           rope_theta=getattr(targs, "rope_theta", 10000.0),
                           scale_learnable=getattr(targs, "scale_learnable",
                                                   False),
+                          qk_norm=getattr(targs, "qk_norm", False),
                           attn=("sdpa" if targs.attn == "sdpa"
                                 else "stieltjes"))
 hf = StieltjesGPT2ForCausalLM(cfg)
