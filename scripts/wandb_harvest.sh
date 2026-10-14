@@ -14,11 +14,11 @@ for d in "${dirs[@]}"; do
   [ -d "$d" ] || continue
   ls "$d"/*.synced >/dev/null 2>&1 && continue
   echo "== $(basename "$d")"
+  # quiet = nothing written for 2 h BEFORE we sync (the sync itself touches
+  # the dir); a chunk still writing its offline run is re-synced next time
+  quiet=0; [ -z "$(find "$d" -newermt '-2 hours' -print -quit)" ] && quiet=1
   out=$("$W" sync --entity gulkoa --append "$d" 2>&1); echo "$out" | grep -E "Syncing|ERROR|Error" | tail -2
-  # mark as synced only when the sync succeeded AND the dir has been quiet for
-  # 2 h (a chunk still writing its offline run must be re-synced at the next
-  # harvest to pick up the tail)
-  if echo "$out" | grep -q "done\." && [ -z "$(find "$d" -newermt '-2 hours' -print -quit)" ]; then
+  if echo "$out" | grep -q "done\." && [ "$quiet" = 1 ]; then
     touch "$d/harvest.synced"
   fi
   n=$((n+1))
