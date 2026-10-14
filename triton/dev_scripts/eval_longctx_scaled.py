@@ -75,12 +75,26 @@ T.stieltjes_attention = _stj_boosted
 F.scaled_dot_product_attention = _sdpa_boosted
 
 
+_TOK = None            # the model's tokenizer (for bytes of the scored tail)
+_TAILB = {}            # (L, lo) -> utf-8 bytes of the tail targets
+_MAXTOK = 500_000      # tokens of the stream to score (all of it in --text-chars mode)
+
+
+def _tail_bytes(ids, key):
+    if key not in _TAILB:
+        _TAILB[key] = len(_TOK.decode(ids, skip_special_tokens=False).encode("utf-8"))
+    return _TAILB[key]
+
+
 def deep_tail_ppl(model, ids, L, boost, train_len=1024, tail=512,
-                  max_tokens=500_000):
+                  max_tokens=None, want_bpb=False):
+    """Deep-tail token perplexity (and, with want_bpb, bits per byte of the
+    same tail — the tokenizer-independent number)."""
     global _BOOST
     _BOOST = boost
+    max_tokens = max_tokens or _MAXTOK
     d0 = max(0, L - tail)
-    dn = dc = 0.0
+    dn = dc = db = 0.0
     for lo in range(0, min(len(ids), max_tokens) - L - 1, L):
         x = ids[lo:lo + L][None].to(DEVICE)
         y = ids[lo + 1:lo + L + 1][None].to(DEVICE)
@@ -89,8 +103,28 @@ def deep_tail_ppl(model, ids, L, boost, train_len=1024, tail=512,
         nll = F.cross_entropy(logits[0].float(), y[0], reduction="none")
         dn += nll[d0:].sum().item()
         dc += (L - d0)
+        if want_bpb:
+            db += _tail_bytes(y[0][d0:].tolist(), (L, lo))
     _BOOST = 1.0
-    return math.exp(dn / dc)
+    ppl = math.exp(dn / dc)
+    return (ppl, dn / (math.log(2) * db)) if want_bpb else ppl
+
+
+def pg_text_stream(tok, n_chars):
+    """The first n_chars characters of the PG-19 test books, tokenized with
+    the model's tokenizer — the SAME TEXT under every tokenizer."""
+    from datasets import load_dataset
+    ds = load_dataset("emozilla/pg19", split="test", streaming=True)
+    text = ""
+    for ex in ds:
+        text += ex["text"] + "\n\n"
+        if len(text) >= n_chars:
+            break
+    text = text[:n_chars]
+    ids = tok(text, add_special_tokens=False).input_ids
+    print(f"text stream: {n_chars} chars, {len(text.encode('utf-8'))} bytes -> {len(ids)} tokens "
+          f"({len(text.encode('utf-8'))/len(ids):.3f} B/tok)", flush=True)
+    return torch.tensor(ids, dtype=torch.long)
 
 
 def main():
@@ -101,6 +135,9 @@ def main():
     ap.add_argument("--per-position", default=None, dest="perpos",
                     help="alpha for length-agnostic per-position boost "
                          "(one setting, all lengths)")
+    ap.add_argument("--text-chars", type=int, default=0, dest="text_chars",
+                    help="build the PG-19 stream from the first N characters (same text "
+                         "under every tokenizer) and report bits per byte beside ppl")
     ap.add_argument("--theta-mult", default=None, dest="theta_mult",
                     help="RoPE models: comma-separated rope_theta "
                          "multipliers to sweep (NTK-style context "
@@ -112,7 +149,13 @@ def main():
     _tp = _args.get("tokenizer_path") if _args.get("tokenizer", "gpt2") != "gpt2" else None
     tok = AutoTokenizer.from_pretrained(_tp or "gpt2")
     print(f"tokenizer: {_args.get('tokenizer', 'gpt2')} ({_tp or 'hub gpt2'})", flush=True)
-    pg = long_token_stream(tok)
+    global _TOK, _MAXTOK
+    _TOK = tok
+    if args.text_chars:
+        pg = pg_text_stream(tok, args.text_chars)
+        _MAXTOK = len(pg)
+    else:
+        pg = long_token_stream(tok)
     blob = torch.load(args.ckpt, map_location="cpu", weights_only=False)
     cfg = SimpleNamespace(**blob["args"])
     model = GPT(cfg).to(DEVICE)
@@ -169,14 +212,24 @@ def main():
     hdr = f"{'L':>7} {'off':>10} " + " ".join(
         f"a={a:g}".rjust(10) for a in alphas)
     print(hdr, flush=True)
+    bpb_rows = []
     for L in lens:
-        off = deep_tail_ppl(model, pg, L, 1.0, train_len)
+        wb = bool(args.text_chars)
+        off = deep_tail_ppl(model, pg, L, 1.0, train_len, want_bpb=wb)
         cells = []
         for a in alphas:
             boost = 1.0 + a * math.log(max(L, train_len) / train_len)
-            cells.append(deep_tail_ppl(model, pg, L, boost, train_len))
+            cells.append(deep_tail_ppl(model, pg, L, boost, train_len, want_bpb=wb))
+        if wb:
+            bpb_rows.append((L, off[1], [c[1] for c in cells]))
+            off, cells = off[0], [c[0] for c in cells]
         print(f"{L:>7} {off:>10.1f} "
               + " ".join(f"{c:>10.1f}" for c in cells), flush=True)
+    if bpb_rows:
+        print("deep-tail bits per byte (same text under every tokenizer):", flush=True)
+        print(hdr, flush=True)
+        for L, off, cells in bpb_rows:
+            print(f"{L:>7} {off:>10.4f} " + " ".join(f"{c:>10.4f}" for c in cells), flush=True)
     print("DONE", flush=True)
 
 
