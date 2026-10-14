@@ -25,7 +25,10 @@ import torch.nn.functional as F
 if torch.cuda.is_available():
     torch.backends.cuda.enable_cudnn_sdp(False)   # broken on this torch/H100
 
-sys.path.insert(0, "/users/PAS2402/alexg/softmax/softmax-is-meh/triton")
+# stjalibi worktree: import THIS worktree's kernel (it carries the ALiBi bias
+# path), never main's — main's kernel is frozen under queued chains.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+import stieltjes_flash_attn as _KERNEL  # noqa: E402
 from stieltjes_flash_attn import stieltjes_attention  # noqa: E402
 
 os.environ.setdefault("WANDB_MODE", "offline")
@@ -152,7 +155,8 @@ class Attn(nn.Module):
         # (the fused Stieltjes kernel has no additive-bias path).
         self.alibi = getattr(cfg, "alibi", False)
         if self.alibi:
-            assert cfg.attn == "sdpa", "--alibi needs --attn sdpa"
+            # sdpa: dense causal bias passed as attn_mask; stj: the slopes go
+            # to the fused kernel, which adds -slope_h*(i-j) in-kernel
             h = torch.arange(1, cfg.n_head + 1, dtype=torch.float32)
             self.register_buffer("alibi_slopes", 2.0 ** (-8.0 * h / cfg.n_head),
                                  persistent=False)
@@ -234,8 +238,9 @@ class Attn(nn.Module):
         else:
             o = stieltjes_attention(
                 q, k, v, causal=True, sm_scale=1.0 / math.sqrt(self.hd),
-                stieltjes_q=self.cfg.stj_q, num_iter=3, solver="halley",
-                normalize=True, ift_grad=True)
+                stieltjes_q=self.cfg.stj_q, num_iter=int(getattr(self.cfg, "stj_iters", 3)), solver="halley",
+                normalize=True, ift_grad=True,
+                alibi_slopes=(self.alibi_slopes if getattr(self, "alibi", False) else None))
         return self.proj(o.transpose(1, 2).reshape(B, S, E))
 
 
@@ -332,6 +337,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--attn", choices=["sdpa", "stj"], required=True)
     ap.add_argument("--stj-q", type=float, default=4.0)
+    ap.add_argument("--stj-iters", type=int, default=3, dest="stj_iters",
+                    help="Halley iterations for the Stieltjes λ solve (3 = the "
+                         "validated default; the ALiBi bias needs 5 — its init "
+                         "ignores the bias, see test_alibi_kernel.py (d))")
     ap.add_argument("--n-layer", type=int, default=12)
     ap.add_argument("--n-head", type=int, default=12)
     ap.add_argument("--n-embd", type=int, default=768)
@@ -400,6 +409,7 @@ def main():
         label += f"-{args.tokenizer}"
         ckpt_path = os.path.join(FW_DIR, f"ckpt_{label}_s{args.seed}.pt")
     print(f"tokenizer {args.tokenizer}: vocab {args.vocab} (padded), ckpt {ckpt_path}", flush=True)
+    print(f"stieltjes kernel: {_KERNEL.__file__}", flush=True)
     model = GPT(args).to(device)
     if getattr(args, "compile_", False):
         # compile the per-block MLP+norm paths; the stieltjes autograd

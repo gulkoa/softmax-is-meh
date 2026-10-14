@@ -171,6 +171,7 @@ def _stieltjes_attn_fwd(
     sm_scale,
     N_CTX,
     H,                       # true number of heads (see off_z/off_h below)
+    Slopes,                  # (H,) fp32 ALiBi slopes — read only when ALIBI
     sq: tl.constexpr,        # Stieltjes q parameter
     NUM_ITER: tl.constexpr,  # solver iterations (NR or Halley)
     HALLEY: tl.constexpr,    # cubic-convergence solver (fewer sweeps)
@@ -181,6 +182,7 @@ def _stieltjes_attn_fwd(
     CAUSAL: tl.constexpr,
     NORMALIZE: tl.constexpr,  # if True: O = (Σ w v) / Σ w  (matches the
                               # normalized `stieltjes` PyTorch reference)
+    ALIBI: tl.constexpr,      # add -slope_h * (i - j) to every score (causal only)
 ):
     start_m = tl.program_id(0)
     off_hz = tl.program_id(1)
@@ -192,6 +194,10 @@ def _stieltjes_attn_fwd(
     # off_z collapses to 0 for every program — 2026-08-04 audit).
     off_z = off_hz // H
     off_h = off_hz % H
+    if ALIBI:
+        slope = tl.load(Slopes + off_h).to(tl.float32)
+    else:
+        slope = 0.0
 
     q_offset = off_z * stride_qz + off_h * stride_qh
     k_offset = off_z * stride_kz + off_h * stride_kh
@@ -214,6 +220,10 @@ def _stieltjes_attn_fwd(
 
         # QK^T: [BLOCK_M, BLOCK_N]
         qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
+        if ALIBI:
+            # ALiBi: linear distance penalty, added after the scale (as in SDPA
+            # attn_mask); causal-masked entries are overwritten below
+            qk = qk - slope * (offs_m[:, None] - offs_n[None, :]).to(tl.float32)
 
         # Mask PADDED key columns (offs_n >= N_CTX, present when N_CTX is not a
         # multiple of BLOCK_N). Their k=0 gives qk=0, which is NOT a valid score;
@@ -258,6 +268,14 @@ def _stieltjes_attn_fwd(
             k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
 
             qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
+
+            if ALIBI:
+
+                # ALiBi: linear distance penalty, added after the scale (as in SDPA
+
+                # attn_mask); causal-masked entries are overwritten below
+
+                qk = qk - slope * (offs_m[:, None] - offs_n[None, :]).to(tl.float32)
 
             # Mask padded key columns (see PASS 1). Keeps spurious mass out of the
             # Newton normalization sum. No-op when N_CTX is a multiple of BLOCK_N.
@@ -312,6 +330,14 @@ def _stieltjes_attn_fwd(
         v_block = tl.load(v_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
 
         qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
+
+        if ALIBI:
+
+            # ALiBi: linear distance penalty, added after the scale (as in SDPA
+
+            # attn_mask); causal-masked entries are overwritten below
+
+            qk = qk - slope * (offs_m[:, None] - offs_n[None, :]).to(tl.float32)
 
         # Mask padded key columns (see PASS 1). Keeps spurious mass out of d_sum
         # and the P@V accumulation. No-op when N_CTX is a multiple of BLOCK_N.
@@ -374,6 +400,7 @@ def _stieltjes_attn_fwd(
 def _stieltjes_score_helpers(
     q_block, k_block, lam_row, sm_scale, offs_m, offs_n, N_CTX,
     sq: tl.constexpr, EPS: tl.constexpr, CAUSAL: tl.constexpr,
+    slope, ALIBI: tl.constexpr,
 ):
     """Recompute scores and Stieltjes weight helpers (P, r) for a Q×K tile.
 
@@ -383,6 +410,10 @@ def _stieltjes_score_helpers(
       qk      = Q @ K^T * scale   — raw scores (for debugging / optional use)
     """
     qk = tl.dot(q_block, tl.trans(k_block), input_precision="ieee") * sm_scale
+    if ALIBI:
+        # ALiBi: linear distance penalty, added after the scale (as in SDPA
+        # attn_mask); causal-masked entries are overwritten below
+        qk = qk - slope * (offs_m[:, None] - offs_n[None, :]).to(tl.float32)
 
     if CAUSAL:
         causal_mask = offs_m[:, None] >= offs_n[None, :]
@@ -415,13 +446,14 @@ def _stieltjes_bwd_delta(
     stride_kz, stride_kh, stride_kn, stride_kk,
     stride_vz, stride_vh, stride_vn, stride_vk,
     stride_doz, stride_doh, stride_dom, stride_dok,
-    sm_scale, N_CTX, H,
+    sm_scale, N_CTX, H, Slopes,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
     CAUSAL: tl.constexpr,
+    ALIBI: tl.constexpr,
 ):
     """Compute δ_i = (Σ_j dP_ij · r_ij) / D_i for each query row."""
     start_m = tl.program_id(0)
@@ -431,6 +463,10 @@ def _stieltjes_bwd_delta(
     # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
     off_z = off_hz // H
     off_h = off_hz % H
+    if ALIBI:
+        slope = tl.load(Slopes + off_h).to(tl.float32)
+    else:
+        slope = 0.0
 
     q_off = off_z * stride_qz + off_h * stride_qh
     k_off = off_z * stride_kz + off_h * stride_kh
@@ -467,6 +503,7 @@ def _stieltjes_bwd_delta(
         _weights, r, _qk = _stieltjes_score_helpers(
             q_block, k_block, lam_row, sm_scale, offs_m, offs_n, N_CTX,
             sq, EPS, CAUSAL,
+            slope, ALIBI,
         )
 
         # dP tile = dO @ V^T : [BLOCK_M, BLOCK_N]
@@ -494,7 +531,7 @@ def _stieltjes_bwd_dkdv(
     stride_doz, stride_doh, stride_dom, stride_dok,
     stride_dkz, stride_dkh, stride_dkn, stride_dkk,
     stride_dvz, stride_dvh, stride_dvn, stride_dvk,
-    sm_scale, N_CTX, H,
+    sm_scale, N_CTX, H, Slopes,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
@@ -504,6 +541,7 @@ def _stieltjes_bwd_dkdv(
     BLOCK_LAMBDA_GRAD: tl.constexpr,
     NORMALIZE: tl.constexpr,
     IFT_NORM: tl.constexpr,
+    ALIBI: tl.constexpr,
 ):
     """Compute dK and dV by iterating over Q blocks for a fixed K/V block.
 
@@ -528,6 +566,10 @@ def _stieltjes_bwd_dkdv(
     # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
     off_z = off_hz // H
     off_h = off_hz % H
+    if ALIBI:
+        slope = tl.load(Slopes + off_h).to(tl.float32)
+    else:
+        slope = 0.0
 
     k_off = off_z * stride_kz + off_h * stride_kh
     v_off = off_z * stride_vz + off_h * stride_vh
@@ -567,6 +609,7 @@ def _stieltjes_bwd_dkdv(
         weights, r, _qk = _stieltjes_score_helpers(
             q_block, k_block, lam_row, sm_scale, offs_m, offs_n, N_CTX,
             sq, EPS, CAUSAL,
+            slope, ALIBI,
         )
 
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
@@ -635,7 +678,7 @@ def _stieltjes_bwd_dq(
     stride_vz, stride_vh, stride_vn, stride_vk,
     stride_doz, stride_doh, stride_dom, stride_dok,
     stride_dqz, stride_dqh, stride_dqm, stride_dqk,
-    sm_scale, N_CTX, H,
+    sm_scale, N_CTX, H, Slopes,
     sq: tl.constexpr,
     EPS: tl.constexpr,
     HEAD_DIM: tl.constexpr,
@@ -645,6 +688,7 @@ def _stieltjes_bwd_dq(
     BLOCK_LAMBDA_GRAD: tl.constexpr,
     NORMALIZE: tl.constexpr,
     IFT_NORM: tl.constexpr,
+    ALIBI: tl.constexpr,
 ):
     """Compute dQ by iterating over K/V blocks for a fixed Q block.
 
@@ -658,6 +702,10 @@ def _stieltjes_bwd_dq(
     # views at B > 1 (2026-08-04 audit; see _stieltjes_attn_fwd).
     off_z = off_hz // H
     off_h = off_hz % H
+    if ALIBI:
+        slope = tl.load(Slopes + off_h).to(tl.float32)
+    else:
+        slope = 0.0
 
     q_off = off_z * stride_qz + off_h * stride_qh
     k_off = off_z * stride_kz + off_h * stride_kh
@@ -706,6 +754,7 @@ def _stieltjes_bwd_dq(
         _weights, r, _qk = _stieltjes_score_helpers(
             q_block, k_block, lam_row, sm_scale, offs_m, offs_n, N_CTX,
             sq, EPS, CAUSAL,
+            slope, ALIBI,
         )
 
         # dP = dO @ V^T : [BLOCK_M, BLOCK_N]
@@ -749,7 +798,7 @@ class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
                 block_lambda_grad=False, normalize=False, ift_grad=False,
-                solver="nr"):
+                solver="nr", alibi_slopes=None):
         """
         normalize: if True, output is O = (Σ w v) / Σ w and the backward is the
           normalized-Stieltjes gradient — matches the normalized `stieltjes`
@@ -765,6 +814,13 @@ class StieltjesAttention(torch.autograd.Function):
         B, H, N, D = q.shape
         assert k.shape == v.shape == (B, H, N, D)
         assert D in {16, 32, 64, 128, 256}
+        alibi = alibi_slopes is not None
+        if alibi:
+            assert causal, "ALiBi is defined for causal attention only"
+            slopes = alibi_slopes.detach().to(device=q.device, dtype=torch.float32).contiguous()
+            assert slopes.numel() == H, (slopes.shape, H)
+        else:
+            slopes = torch.zeros(1, device=q.device, dtype=torch.float32)  # never read
 
         o = torch.empty_like(q)
         lam = torch.empty((B * H, N), device=q.device, dtype=torch.float32)
@@ -834,6 +890,7 @@ class StieltjesAttention(torch.autograd.Function):
             sm_scale,
             N,
             H,
+            slopes,
             sq=stieltjes_q,
             NUM_ITER=num_iter,
             HALLEY=(solver == "halley"),
@@ -843,9 +900,12 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_N=BLOCK_N,
             CAUSAL=causal,
             NORMALIZE=normalize,
+            ALIBI=alibi,
         )
 
         ctx.save_for_backward(q, k, v, o, lam, d_sum, argmax, wsum)
+        ctx.alibi = alibi
+        ctx.alibi_slopes = slopes
         ctx.sm_scale = sm_scale
         ctx.causal = causal
         ctx.stieltjes_q = stieltjes_q
@@ -911,7 +971,8 @@ class StieltjesAttention(torch.autograd.Function):
         do_strides = (do.stride(0), do.stride(1), do.stride(2), do.stride(3))
 
         common_args = dict(
-            sm_scale=sm_scale, N_CTX=N, H=H,
+            sm_scale=sm_scale, N_CTX=N, H=H, Slopes=ctx.alibi_slopes,
+            ALIBI=ctx.alibi,
             sq=sq, EPS=1e-6,
             HEAD_DIM=D, BLOCK_M=BLOCK_M, BLOCK_N=BLOCK_N,
             CAUSAL=causal,
@@ -980,12 +1041,12 @@ class StieltjesAttention(torch.autograd.Function):
             IFT_NORM=ift_norm,
         )
 
-        return dq, dk, dv, None, None, None, None, None, None, None, None
+        return dq, dk, dv, None, None, None, None, None, None, None, None, None
 
 
 def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
                         num_iter=8, block_lambda_grad=False, normalize=False,
-                        ift_grad=False, solver="nr"):
+                        ift_grad=False, solver="nr", alibi_slopes=None):
     """
     Stieltjes flash attention.
 
@@ -1018,12 +1079,16 @@ def stieltjes_attention(q, k, v, causal=False, sm_scale=None, stieltjes_q=1.0,
             convergence: one extra multiply chain per element buys ~8→3
             iterations at equal tolerance — sweeps dominate the forward
             cost, so this is ~1.8× when paired with num_iter=3).
+        alibi_slopes: optional (H,) tensor; adds the ALiBi bias
+            -slope_h * (i - j) to every score after the scale, in the forward
+            AND in every backward recompute (causal only). None = off, and
+            the compiled kernels are then identical to the bias-free ones.
     """
     if sm_scale is None:
         sm_scale = 1.0 / (q.shape[-1] ** 0.5)
     return StieltjesAttention.apply(
         q, k, v, causal, sm_scale, stieltjes_q, num_iter, block_lambda_grad,
-        normalize, ift_grad, solver,
+        normalize, ift_grad, solver, alibi_slopes,
     )
 
 

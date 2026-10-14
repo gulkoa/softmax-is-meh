@@ -39,10 +39,10 @@ T.stieltjes_attention = _stj_boosted
 F.scaled_dot_product_attention = _sdpa_boosted
 
 
-def build(tok, L, depth, key):
+def build(tok, L, depth, key, template="standard"):
     """Token ids of length <= L: filler, the key sentence at `depth`, filler, question."""
     key_s = f"The pass key is {key}. Remember it. {key} is the pass key. "
-    q = "What is the pass key? The pass key is"
+    q = "What is the pass key? The pass key is" if template == "standard" else "The pass key is"
     f_ids = tok(FILLER, add_special_tokens=False).input_ids
     k_ids = tok(key_s, add_special_tokens=False).input_ids
     q_ids = tok(q, add_special_tokens=False).input_ids
@@ -81,11 +81,17 @@ def main():
     ap.add_argument("--alpha", default="0,0.35")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--train-len", type=int, default=1024)
+    ap.add_argument("--stj-iters", type=int, default=0, dest="stj_iters",
+                    help="override the Stieltjes Halley iterations (0 = the checkpoint's)")
+    ap.add_argument("--template", default="standard", choices=["standard", "noquestion"],
+                    help="noquestion: the context ends with the cue, no question repeating 'is the pass key'")
     ap.add_argument("--show-fails", type=int, default=0, dest="show_fails",
                     help="print up to N failed completions per (L, alpha, depth) cell")
     a = ap.parse_args()
     blob = torch.load(a.ckpt, map_location="cpu", weights_only=False)
     cfg = SimpleNamespace(**blob["args"])
+    if a.stj_iters:
+        cfg.stj_iters = a.stj_iters      # longer contexts may need more λ-solve iterations
     model = GPT(cfg).to(DEVICE).eval()
     model.load_state_dict(blob["model"])
     tname = getattr(cfg, "tokenizer", "gpt2") or "gpt2"
@@ -95,7 +101,7 @@ def main():
     alphas = [float(x) for x in a.alpha.split(",")]
     rng = random.Random(a.seed)
     keys = [rng.randint(10000, 99999) for _ in range(a.trials)]
-    print(f"ckpt {os.path.basename(a.ckpt)} | tokenizer {tname} | positions {'nope' if getattr(cfg,'nope',False) else ('rope' if getattr(cfg,'rope',False) else ('alibi' if getattr(cfg,'alibi',False) else 'learned'))} | {a.trials} trials", flush=True)
+    print(f"ckpt {os.path.basename(a.ckpt)} | tokenizer {tname} | positions {'nope' if getattr(cfg,'nope',False) else ('rope' if getattr(cfg,'rope',False) else ('alibi' if getattr(cfg,'alibi',False) else 'learned'))} | template {a.template} | {a.trials} trials", flush=True)
     print(f"{'L':>6} {'alpha':>6} " + " ".join(f"d={d:g}".rjust(8) for d in depths) + "   mean", flush=True)
     for L in lens:
         for al in alphas:
@@ -104,7 +110,7 @@ def main():
             for d in depths:
                 hit = 0
                 for key in keys:
-                    ids = build(tok, L, d, key)
+                    ids = build(tok, L, d, key, a.template)
                     gen = tok.decode(greedy(model, ids, 6))
                     ok = str(key) in gen
                     hit += ok

@@ -135,6 +135,8 @@ def main():
     ap.add_argument("--per-position", default=None, dest="perpos",
                     help="alpha for length-agnostic per-position boost "
                          "(one setting, all lengths)")
+    ap.add_argument("--stj-iters", type=int, default=0, dest="stj_iters",
+                    help="override the Stieltjes Halley iterations (0 = the checkpoint's)")
     ap.add_argument("--text-chars", type=int, default=0, dest="text_chars",
                     help="build the PG-19 stream from the first N characters (same text "
                          "under every tokenizer) and report bits per byte beside ppl")
@@ -158,6 +160,8 @@ def main():
         pg = long_token_stream(tok)
     blob = torch.load(args.ckpt, map_location="cpu", weights_only=False)
     cfg = SimpleNamespace(**blob["args"])
+    if args.stj_iters:
+        cfg.stj_iters = args.stj_iters   # longer contexts may need more λ-solve iterations
     model = GPT(cfg).to(DEVICE)
     model.load_state_dict(blob["model"])
     model.eval()
