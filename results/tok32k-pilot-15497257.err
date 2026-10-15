@@ -1,0 +1,35 @@
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0p001-stilt-to-c112f17b.
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20261014_053529-gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0p001-stilt-to-c112f17b
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:          progress/frac ▁▁▁▁▁▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▅▅▅▅▆▆▆▆▆▆▆▆▇▇▇█
+wandb: progress/tok_per_gpu_h ▁█▆█▆▇▅▆▅▆▅▆▅▆▅▆▅▅▅▆▅▆▆▇▆▆▆▆▆▆▆▆▆▆▆
+wandb:        progress/tokens ▁▁▁▁▁▂▂▂▂▂▂▂▂▂▂▃▃▃▃▄▄▄▄▄▅▅▅▅▆▆▆▆▆▆▆▇▇▇▇█
+wandb:        progress/wall_h ▁▁▁▂▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇███
+wandb:                   step ▁▁▁▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇█
+wandb:        train/grad_norm █▇▄█▄▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁
+wandb:             train/loss █▄▄▃▃▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:               train/lr ▂▃▄▅▅▆██████▇▇▇▇▇▆▆▆▅▅▅▅▅▄▃▃▃▃▃▂▂▂▂▁▁▁▁▁
+wandb:        train/tok_per_s ▁█████████▇██▇███▇█████████▇█████▇██████
+wandb:               val/loss █▆▅▃▃▃▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                     +1 ...
+wandb: 
+wandb: Run summary:
+wandb:        chunks/15497257/gpu NVIDIA H100
+wandb:  chunks/15497257/last_step 8913
+wandb:       chunks/15497257/node c0814
+wandb: chunks/15497257/start_step 0
+wandb:     chunks/15497257/tokens 4673503232
+wandb:     chunks/15497257/wall_s 19090.58325
+wandb:              progress/frac 0.99854
+wandb:            progress/status final
+wandb:     progress/tok_per_gpu_h 881309609.01467
+wandb:            progress/tokens 4666687488
+wandb:                         +8 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20261014_053529-gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0p001-stilt-to-c112f17b
+wandb: Find logs at: ./wandb/offline-run-20261014_053529-gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0p001-stilt-to-c112f17b/logs

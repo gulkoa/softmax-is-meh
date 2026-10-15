@@ -1,0 +1,30 @@
+=== BPB ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 (EOT 50256) | ctx 1024 | 1500 docs per source
+source    tokens      bytes  B/tok  token ppl     BPB
+web      1482752    6804695  4.589     23.550  0.9931
+math     2227200    7462920  3.351      8.394  0.9160
+code     6922240   15206039  2.197      2.701  0.6526
+mix-weighted BPB (70/15/15): 0.9305
+=== BPB ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 (EOT 50256) | ctx 1024 | 1500 docs per source
+source    tokens      bytes  B/tok  token ppl     BPB
+web      1482752    6804695  4.589     23.557  0.9932
+math     2227200    7462920  3.351      8.385  0.9155
+code     6922240   15206039  2.197      2.699  0.6522
+mix-weighted BPB (70/15/15): 0.9304
+=== BPB ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+ckpt ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt | tokenizer stilt-tok-32k-v1 (EOT 0) | ctx 1024 | 1500 docs per source
+source    tokens      bytes  B/tok  token ppl     BPB
+web      1498112    6806592  4.543     23.572  1.0034
+math     2117632    7466426  3.526      9.381  0.9160
+code     3998720   15204417  3.802      4.718  0.5887
+mix-weighted BPB (70/15/15): 0.9281
+=== BPB ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt | tokenizer stilt-tok-32k-v1 (EOT 0) | ctx 1024 | 1500 docs per source
+source    tokens      bytes  B/tok  token ppl     BPB
+web      1498112    6806592  4.543     23.662  1.0046
+math     2117632    7466426  3.526      9.386  0.9162
+code     3998720   15204417  3.802      4.725  0.5892
+mix-weighted BPB (70/15/15): 0.9291
+=== LENGTH ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+tokenizer: stilt-tok-32k-v1 (/fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1)

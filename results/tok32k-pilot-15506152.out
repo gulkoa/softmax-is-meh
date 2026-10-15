@@ -1,0 +1,5 @@
+token budget (same bytes as 5e9 GPT-2 tokens): 4673617812
+tokenizer stilt-tok-32k-v1: vocab 32768 (padded), ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-qk-modern-nocap-tok32ksmoke-lr0.001-stilt-tok-32k-v1_s0.pt
+gpt2-sdpa-nope-qk-modern-nocap-tok32ksmoke-lr0.001-stilt-tok-32k-v1: 110.1M params, 28 steps x 524288 tokens
+step      0/28 loss 10.5574 gnorm 5.98 (209k tok/s)
+  [val] step 10 loss 10.1241 ppl 24937.22 (wall 0.01h, 0.01B tok, 831M tok/GPU-h)

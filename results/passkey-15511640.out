@@ -1,0 +1,6 @@
+model hf_355m_staging | positions learned | attn stieltjes | ntk off | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     0.95     0.95     0.95   0.95
+  1024   0.35     0.95     0.95     0.95   0.95
+DONE
+ALL DONE

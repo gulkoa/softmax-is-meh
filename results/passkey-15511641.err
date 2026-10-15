@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/196 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 62/196 [00:00<00:00, 610.14it/s]Loading weights:  67%|██████▋   | 131/196 [00:00<00:00, 565.20it/s]Loading weights: 100%|██████████| 196/196 [00:00<00:00, 661.45it/s]
+[transformers] This is a friendly reminder - the current text generation call has exceeded the model's predefined maximum length (1024). Depending on the model, you may observe exceptions, performance degradation, or nothing at all.

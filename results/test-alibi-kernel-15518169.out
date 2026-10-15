@@ -1,0 +1,16 @@
+[PASS] (a) ALIBI off == main kernel, bit-identical, torch.bfloat16 B2 H12 N1024 
+[PASS] (a) ALIBI off == main kernel, bit-identical, torch.float32 B2 H4 N200 
+[PASS] (b) ALIBI on vs fp64 ref, nr-8: rel err o/dq/dk/dv 6.4e-07 1.7e-06 2.3e-06 9.2e-07 (tol 2e-04)
+[PASS] (b) ALIBI on vs fp64 ref, halley-3: rel err o/dq/dk/dv 9.4e-04 5.3e-04 5.9e-04 7.4e-04 (tol 2e-03)
+[PASS] (b) per-head slopes are indexed by head (flipped slopes change heads 0 and 3) 
+[PASS] (b) batch 1 of a B=2 call == the same rows run alone (slope uses off_h, not off_hz) 
+[PASS] (c) strided fused-qkv views == contiguous (fwd + grads) 
+(d) λ residual |Σw − 1| (bf16, H=12, q=4, scores ~ N(0, 4))
+    N= 1024 halley-3: no bias max 5.0e-02 mean 5.4e-05 | ALiBi max 5.6e-01 mean 4.0e-02
+    N= 1024 halley-4: no bias max 1.1e-05 mean 9.5e-08 | ALiBi max 4.1e-02 mean 3.0e-04
+    N= 1024 halley-5: no bias max 4.8e-07 mean 7.9e-08 | ALiBi max 5.4e-06 mean 1.1e-07
+    N= 8192 halley-3: no bias max 2.3e-02 mean 1.9e-05 | ALiBi max 8.9e-01 mean 1.9e-01
+    N= 8192 halley-4: no bias max 9.5e-07 mean 7.8e-08 | ALiBi max 4.6e-01 mean 1.5e-02
+    N= 8192 halley-5: no bias max 7.2e-07 mean 6.3e-08 | ALiBi max 1.7e-02 mean 3.4e-05
+FAILED: none
+ALL DONE

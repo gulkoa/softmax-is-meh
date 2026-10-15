@@ -1,0 +1,9 @@
+web: 676412 docs, 700M GPT-2 tokens from ['shard_0000.bin', 'shard_0001.bin', 'shard_0002.bin']
+math: 98788 docs, 150M GPT-2 tokens from ['shard_0000.bin']
+code: 33156 docs, 150M GPT-2 tokens from ['shard_0000.bin']
+sample: 808356 docs, 4.04G chars, decoded in 455s
+held-out web: 4.643 B/tok (GPT-2 4.636) → 0.998× tokens; round-trip 200/200
+held-out math: 3.545 B/tok (GPT-2 3.347) → 0.944× tokens; round-trip 200/200
+held-out code: 3.710 B/tok (GPT-2 2.205) → 0.594× tokens; round-trip 200/200
+DONE /fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1
+ALL DONE

@@ -1,0 +1,6 @@
+model hf_355m_sdpa_staging | positions learned | attn sdpa | ntk off | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+DONE
+ALL DONE

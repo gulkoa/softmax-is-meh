@@ -1,0 +1,5 @@
+gpt2-sdpa-nope-qkpilot-lr0.001: 123.6M params, 9536 steps x 524288 tokens
+RESUMED from step 9536 (cum wall 4.79h)
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-qkpilot-lr0.001_s1.pt
+DONE
+ALL DONE

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/fs/scratch/PAS2836/alexg/fineweb_edu_10bt_tok32k/meta.json'
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/train_gpt2_stieltjes.py", line 539, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/train_gpt2_stieltjes.py", line 357, in main
+    train_d = Shards("train", args.data_mix)
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/train_gpt2_stieltjes.py", line 83, in __init__
+    assert len(paths) >= 2, f"need >=2 shards in {d}"
+           ^^^^^^^^^^^^^^^
+AssertionError: need >=2 shards in /tmp/claude-41244/-users-PAS2402-alexg-softmax/f28713af-12fc-4b38-bef2-97f187aa0fa7/scratchpad/codeparrot_py_dry

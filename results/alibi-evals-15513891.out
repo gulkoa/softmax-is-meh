@@ -1,0 +1,110 @@
+=== (1) PG-19 ppl + BPB (identical text)
+tokenizer: gpt2 (hub gpt2)
+text stream: 2400000 chars, 2400000 bytes -> 623187 tokens (3.851 B/tok)
+nope=False  alpha sweep=[0.25, 0.3, 0.35, 0.5]
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024       36.3       36.3       36.3       36.3       36.3
+   2048       38.6       39.4       40.5       41.9       48.0
+   4096       40.8       53.0       58.7       65.0       86.3
+   8192       40.2       68.1       78.8       90.2      125.1
+deep-tail bits per byte (same text under every tokenizer):
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024     1.3494     1.3494     1.3494     1.3494     1.3494
+   2048     1.3662     1.3742     1.3843     1.3971     1.4481
+   4096     1.3864     1.4838     1.5220     1.5602     1.6660
+   8192     1.3877     1.5855     1.6405     1.6911     1.8139
+DONE
+=== (2) passkey
+ckpt ckpt_gpt2-sdpa-alibi-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions alibi | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.1 key=15306 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=15306 -> ' the pass key. The pass'
+  2048   0.35     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' the key to the pass key'
+         fail d=0.1 key=65125 -> ' the key to the pass key'
+         fail d=0.1 key=15306 -> ' the key to the pass key'
+         fail d=0.5 key=60494 -> ' the key to the pass key'
+         fail d=0.5 key=65125 -> ' the key to the pass key'
+         fail d=0.5 key=15306 -> ' the key to the pass key'
+  4096      0     0.00     0.00     0.05   0.02
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.1 key=15306 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=15306 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=15306 -> ' the pass key. The pass'
+  4096   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.1 key=15306 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass keyThe pass key'
+         fail d=0.5 key=65125 -> ' the pass keyThe pass key'
+         fail d=0.5 key=15306 -> ' the pass keyThe pass key'
+         fail d=0.9 key=60494 -> ' the pass key. What is'
+         fail d=0.9 key=65125 -> ' the pass key. What is'
+         fail d=0.9 key=15306 -> ' the pass key. What is'
+  8192      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.1 key=15306 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=15306 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=15306 -> ' the pass key. The pass'
+  8192   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key to the pass'
+         fail d=0.1 key=65125 -> ' the pass key to the pass'
+         fail d=0.1 key=15306 -> ' the pass key to the pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=15306 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=15306 -> ' the pass key. The pass'
+DONE
+=== (3) context utilization: ALiBi, E, F
+building PG-19 token stream...
+
+===== ckpt_gpt2-sdpa-alibi-qk-modern-nocap-qkpilot-lr0.001_s0.pt (nope=True) =====
+  pg19 NLL by available context: [0-64):4.3174  [64-128):3.8544  [128-256):3.7355  [256-512):3.6699  [512-1023):3.6208
+  pg19 context gain (bucket0 - bucket4): 0.6966 nats
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, window-avg): 40.54 / 39.22 / 40.46 / 41.12
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 37.05 / 39.19 / 41.64 / 41.42
+  fineweb-val NLL by available context: [0-64):3.6394  [64-128):3.2278  [128-256):3.1361  [256-512):3.0613  [512-1023):3.0458
+  fineweb-val context gain (bucket0 - bucket4): 0.5935 nats
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, window-avg): 22.54 / 21.83 / 21.73 / 21.68
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 21.13 / 21.36 / 21.10 / 20.01
+
+===== ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt (nope=True) =====
+  pg19 NLL by available context: [0-64):4.3826  [64-128):3.9359  [128-256):3.8179  [256-512):3.7503  [512-1023):3.7029
+  pg19 context gain (bucket0 - bucket4): 0.6798 nats
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, window-avg): 43.97 / 85.23 / 274.97 / 802.17
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 40.25 / 323.36 / 1353.15 / 3248.32
+  fineweb-val NLL by available context: [0-64):3.7062  [64-128):3.3047  [128-256):3.2219  [256-512):3.1372  [512-1023):3.1238
+  fineweb-val context gain (bucket0 - bucket4): 0.5824 nats
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, window-avg): 24.35 / 62.00 / 317.86 / 1136.08
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 22.82 / 430.62 / 2550.01 / 5060.96
+
+===== ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt (nope=True) =====
+  pg19 NLL by available context: [0-64):4.3899  [64-128):3.9434  [128-256):3.8179  [256-512):3.7482  [512-1023):3.7039
+  pg19 context gain (bucket0 - bucket4): 0.6860 nats
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, window-avg): 43.96 / 77.99 / 395.27 / 2687.52
+  pg19 ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 40.22 / 303.60 / 4448.16 / 36983.96
+  fineweb-val NLL by available context: [0-64):3.7183  [64-128):3.3081  [128-256):3.2180  [256-512):3.1376  [512-1023):3.1270
+  fineweb-val context gain (bucket0 - bucket4): 0.5914 nats
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, window-avg): 24.39 / 55.12 / 485.71 / 4364.12
+  fineweb-val ppl @1024/2048/4096/8192 (extrapolation, deep-tail): 22.85 / 354.71 / 11564.72 / 63145.75
+DONE
+ALL DONE

@@ -1,0 +1,87 @@
+model hf_355m_nope_qk_staging | positions nope | attn stieltjes | ntk off | template noquestion | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     0.90     0.95     0.95   0.93
+         fail d=0.1 key=43936 -> ' 43937. The'
+         fail d=0.1 key=46941 -> ' 46942. The'
+         fail d=0.5 key=46941 -> ' 46942. Remember it'
+         fail d=0.9 key=46941 -> ' 46942. Remember it'
+  1024   0.35     0.90     0.95     0.95   0.93
+         fail d=0.1 key=43936 -> ' 43937. The'
+         fail d=0.1 key=46941 -> ' 46942. The'
+         fail d=0.5 key=46941 -> ' 46942. Remember it'
+         fail d=0.9 key=46941 -> ' 46942. Remember it'
+  2048      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the sky is the sky is'
+         fail d=0.1 key=65125 -> ' the sky is the sky is'
+         fail d=0.5 key=60494 -> ' the sky is the sky is'
+         fail d=0.5 key=65125 -> ' the sky is the sky is'
+         fail d=0.9 key=60494 -> ' the sky is the sky is'
+         fail d=0.9 key=65125 -> ' the sky is the sky is'
+  2048   0.35     0.75     0.70     0.60   0.68
+         fail d=0.1 key=43936 -> ' 439. The grass'
+         fail d=0.1 key=86465 -> ' 865. The grass'
+         fail d=0.5 key=43936 -> ' 439. The grass'
+         fail d=0.5 key=73691 -> ' 736. The grass'
+         fail d=0.9 key=43936 -> ' 437. The grass'
+         fail d=0.9 key=73691 -> ' 736. The grass'
+  4096      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> '......'
+         fail d=0.1 key=65125 -> '......'
+         fail d=0.5 key=60494 -> '.\n.\n..'
+         fail d=0.5 key=65125 -> '.\n.\n..'
+         fail d=0.9 key=60494 -> '.\n.\n..'
+         fail d=0.9 key=65125 -> '.\n.\n..'
+  4096   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' blue. The sky is blue'
+         fail d=0.1 key=65125 -> ' green. The sky is green'
+         fail d=0.5 key=60494 -> ' green. The sky is green'
+         fail d=0.5 key=65125 -> ' green. The sky is green'
+         fail d=0.9 key=60494 -> ' green. The grass is green'
+         fail d=0.9 key=65125 -> ' green. The grass is green'
+DONE
+model hf_355m_nope_qk_softmax_staging | positions nope | attn sdpa | ntk off | template noquestion | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     0.85     0.55     0.85   0.75
+         fail d=0.1 key=15306 -> ' 15307. Remember it.'
+         fail d=0.1 key=38631 -> ' 38632. Remember it.'
+         fail d=0.5 key=15306 -> ' 15307. Remember it.'
+         fail d=0.5 key=43936 -> ' 43937. Remember it'
+         fail d=0.9 key=15306 -> ' 15307. Remember it.'
+         fail d=0.9 key=38631 -> ' 38632. Remember it.'
+  1024   0.35     0.85     0.55     0.85   0.75
+         fail d=0.1 key=15306 -> ' 15307. Remember it.'
+         fail d=0.1 key=38631 -> ' 38632. Remember it.'
+         fail d=0.5 key=15306 -> ' 15307. Remember it.'
+         fail d=0.5 key=43936 -> ' 43937. Remember it'
+         fail d=0.9 key=15306 -> ' 15307. Remember it.'
+         fail d=0.9 key=38631 -> ' 38632. Remember it.'
+  2048      0     0.00     0.60     0.30   0.30
+         fail d=0.1 key=60494 -> ' key.  is key.'
+         fail d=0.1 key=65125 -> ' key.  is key.'
+         fail d=0.5 key=60494 -> ' key. \n\n\n'
+         fail d=0.5 key=15306 -> ' key. The grass is'
+         fail d=0.9 key=15306 -> ' green. 15307. 15'
+         fail d=0.9 key=43936 -> ' the key. The grass'
+  2048   0.35     0.65     0.50     0.55   0.57
+         fail d=0.1 key=15306 -> ' 15307. Remember it.'
+         fail d=0.1 key=77013 -> ' 77014. \n\n'
+         fail d=0.5 key=15306 -> ' 15307. Remember it.'
+         fail d=0.5 key=77013 -> ' 77014. The key is'
+         fail d=0.9 key=15306 -> ' 15307. 15307 is'
+         fail d=0.9 key=43936 -> ' 439. \n\n'
+  4096      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> '  The sky is  The'
+         fail d=0.1 key=65125 -> '  The sky is  The'
+         fail d=0.5 key=60494 -> ' The sky is The'
+         fail d=0.5 key=65125 -> ' The sky is The'
+         fail d=0.9 key=60494 -> ' blue.  The sky is'
+         fail d=0.9 key=65125 -> ' blue.  The sky is'
+  4096   0.35     0.15     0.10     0.00   0.08
+         fail d=0.1 key=60494 -> '. There is. There is'
+         fail d=0.1 key=65125 -> '. There is yellow. There'
+         fail d=0.5 key=60494 -> '. The sky. The sky'
+         fail d=0.5 key=65125 -> ' yellow. The sky. The'
+         fail d=0.9 key=60494 -> ' 6049. The sky.'
+         fail d=0.9 key=65125 -> ' 65. The sky. The'
+DONE
+ALL DONE

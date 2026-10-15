@@ -1,0 +1,49 @@
+=== ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     0.00   0.00
+  2048   0.35     0.80     0.80     0.70   0.77
+  4096      0     0.00     0.00     0.00   0.00
+  4096   0.35     0.30     0.25     0.10   0.22
+  8192      0     0.00     0.00     0.00   0.00
+  8192   0.35     0.00     0.00     0.00   0.00
+DONE
+=== ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     0.60     0.00     0.05   0.22
+  1024   0.35     0.60     0.00     0.05   0.22
+  2048      0     0.00     0.00     0.10   0.03
+  2048   0.35     0.60     0.00     0.05   0.22
+  4096      0     0.00     0.00     0.00   0.00
+  4096   0.35     0.00     0.05     0.00   0.02
+  8192      0     0.00     0.00     0.00   0.00
+  8192   0.35     0.00     0.00     0.00   0.00
+DONE
+=== ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+ckpt ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt | tokenizer stilt-tok-32k-v1 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     0.00   0.00
+  2048   0.35     0.90     0.75     0.45   0.70
+  4096      0     0.00     0.00     0.00   0.00
+  4096   0.35     0.10     0.00     0.00   0.03
+  8192      0     0.00     0.00     0.00   0.00
+  8192   0.35     0.00     0.00     0.00   0.00
+DONE
+=== ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt | tokenizer stilt-tok-32k-v1 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     0.70     0.50     0.45   0.55
+  1024   0.35     0.70     0.50     0.45   0.55
+  2048      0     0.35     0.35     0.00   0.23
+  2048   0.35     0.75     0.15     0.15   0.35
+  4096      0     0.00     0.00     0.00   0.00
+  4096   0.35     0.35     0.35     0.05   0.25
+  8192      0     0.00     0.00     0.00   0.00
+  8192   0.35     0.10     0.00     0.00   0.03
+DONE
+ALL DONE

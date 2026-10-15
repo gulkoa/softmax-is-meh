@@ -1,0 +1,55 @@
+=== ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.3    d=0.5    d=0.7    d=0.9   mean
+  1024      0     0.60     0.60     0.00     0.00     0.05   0.25
+         fail d=0.1 key=43936 -> ' 439.\n\n\n'
+         fail d=0.1 key=77013 -> ' the pass key.  key'
+         fail d=0.1 key=73691 -> ' 736.\n\n\n'
+         fail d=0.1 key=63075 -> ' 630.  The pass key'
+         fail d=0.3 key=60494 -> ' the pass key.  The'
+         fail d=0.3 key=77013 -> ' the pass key.  The'
+         fail d=0.3 key=63075 -> ' the pass key.  The'
+         fail d=0.3 key=38631 -> ' the pass key.  The'
+         fail d=0.5 key=60494 -> ' the pass key.  The'
+         fail d=0.5 key=65125 -> ' the pass key.  The'
+         fail d=0.5 key=15306 -> ' the pass key.  The'
+         fail d=0.5 key=43936 -> ' the pass key.  The'
+         fail d=0.7 key=60494 -> ' the pass key.  The'
+         fail d=0.7 key=65125 -> ' the pass key.  The'
+         fail d=0.7 key=15306 -> ' the pass key.  The'
+         fail d=0.7 key=43936 -> ' the pass key.  The'
+         fail d=0.9 key=60494 -> ' the pass key. The'
+         fail d=0.9 key=65125 -> ' the pass key. The'
+         fail d=0.9 key=43936 -> ' the pass key.  The'
+         fail d=0.9 key=77013 -> ' the pass key.  The'
+DONE
+=== ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+ckpt ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt | tokenizer stilt-tok-32k-v1 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.3    d=0.5    d=0.7    d=0.9   mean
+  1024      0     0.70     0.85     0.50     0.50     0.45   0.60
+         fail d=0.1 key=60494 -> ' 604. 60'
+         fail d=0.1 key=65125 -> ' 651. 65'
+         fail d=0.1 key=43936 -> ' 439. 4'
+         fail d=0.1 key=49755 -> ' 49765. The'
+         fail d=0.3 key=60494 -> ' 6044. '
+         fail d=0.3 key=65125 -> ' 6511. '
+         fail d=0.3 key=76150 -> ' 7616161.'
+         fail d=0.5 key=60494 -> ' 604444'
+         fail d=0.5 key=65125 -> ' 65111.'
+         fail d=0.5 key=73691 -> ' 736363636'
+         fail d=0.5 key=49755 -> ' 497777'
+         fail d=0.7 key=60494 -> ' 60444 is'
+         fail d=0.7 key=65125 -> ' 651. 65'
+         fail d=0.7 key=43936 -> ' 4393939 is'
+         fail d=0.7 key=73691 -> ' 736363636'
+         fail d=0.9 key=60494 -> ' the key. 604'
+         fail d=0.9 key=65125 -> ' 651. 65'
+         fail d=0.9 key=43936 -> ' 439 is the pass'
+         fail d=0.9 key=73691 -> ' 736. 7'
+DONE
+=== ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt
+ckpt ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions nope | 20 trials
+     L  alpha    d=0.1    d=0.3    d=0.5    d=0.7    d=0.9   mean
+  1024      0     1.00     1.00     1.00     1.00     1.00   1.00
+DONE
+ALL DONE

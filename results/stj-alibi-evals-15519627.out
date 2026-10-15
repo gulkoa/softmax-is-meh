@@ -1,0 +1,148 @@
+ckpt step 9535 final step 9535
+=== (2) PG-19 ppl + BPB, identical text (Stieltjes + ALiBi, 8 lambda iterations)
+tokenizer: gpt2 (hub gpt2)
+text stream: 2400000 chars, 2400000 bytes -> 623187 tokens (3.851 B/tok)
+nope=False  alpha sweep=[0.25, 0.3, 0.35, 0.5]
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024       36.8       36.8       36.8       36.8       36.8
+   2048       42.6       38.3       38.3       38.5       39.7
+   4096       61.6       49.3       50.7       52.7       61.0
+   8192       63.0       54.9       59.1       63.5       73.2
+deep-tail bits per byte (same text under every tokenizer):
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024     1.3548     1.3548     1.3548     1.3548     1.3548
+   2048     1.4038     1.3638     1.3639     1.3656     1.3774
+   4096     1.5405     1.4573     1.4674     1.4819     1.5366
+   8192     1.5566     1.5047     1.5325     1.5593     1.6125
+DONE
+=== (3) passkey, template noquestion: Stieltjes + ALiBi
+ckpt ckpt_gpt2-stj-q4-alibi-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions alibi | template noquestion | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+  2048   0.35     1.00     0.80     1.00   0.93
+         fail d=0.5 key=60494 -> ' 6060. The grass is'
+         fail d=0.5 key=15306 -> ' 1530. The passkey'
+  4096      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' yellow. The grass is green'
+         fail d=0.1 key=65125 -> ' yellow. The grass is green'
+         fail d=0.5 key=60494 -> ' yellow. The grass is green'
+         fail d=0.5 key=65125 -> ' yellow. The grass is green'
+         fail d=0.9 key=60494 -> ' yellow. The grass is green'
+         fail d=0.9 key=65125 -> ' yellow. The grass is green'
+  4096   0.35     0.00     0.00     0.60   0.20
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' 606060.\n\n'
+         fail d=0.9 key=15306 -> ' 1530. Remember it.'
+  8192      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' yellow. The pass key is'
+         fail d=0.5 key=65125 -> ' yellow. The pass key is'
+         fail d=0.9 key=60494 -> ' yellow. The grass is green'
+         fail d=0.9 key=65125 -> ' yellow. The grass is green'
+  8192   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' key. The pass key.'
+         fail d=0.5 key=65125 -> ' key. The pass key.'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' keykeykeykeykeykey'
+DONE
+=== (3) passkey, template standard: Stieltjes + ALiBi
+ckpt ckpt_gpt2-stj-q4-alibi-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions alibi | template standard | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+  2048   0.35     0.60     0.30     1.00   0.63
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=77013 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+  4096      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+  4096   0.35     0.00     0.00     0.10   0.03
+         fail d=0.1 key=60494 -> ' a key that is a key'
+         fail d=0.1 key=65125 -> ' a key that is a key'
+         fail d=0.5 key=60494 -> ' a pass key. The pass'
+         fail d=0.5 key=65125 -> ' a pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+  8192      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' a pass key. The pass'
+         fail d=0.1 key=65125 -> ' a pass key. The pass'
+         fail d=0.5 key=60494 -> ' the pass key. The pass'
+         fail d=0.5 key=65125 -> ' the pass key. The pass'
+         fail d=0.9 key=60494 -> ' the pass key. The pass'
+         fail d=0.9 key=65125 -> ' the pass key. The pass'
+  8192   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' a key that is a key'
+         fail d=0.1 key=65125 -> ' a key that is a key'
+         fail d=0.5 key=60494 -> ' a key that is a key'
+         fail d=0.5 key=65125 -> ' a key that is a key'
+         fail d=0.9 key=60494 -> ' a pass key. The pass'
+         fail d=0.9 key=65125 -> ' a pass key. The pass'
+DONE
+=== (3) passkey, template noquestion: softmax + ALiBi (re-run for the primary comparison)
+ckpt ckpt_gpt2-sdpa-alibi-qk-modern-nocap-qkpilot-lr0.001_s0.pt | tokenizer gpt2 | positions alibi | template noquestion | 20 trials
+     L  alpha    d=0.1    d=0.5    d=0.9   mean
+  1024      0     1.00     1.00     1.00   1.00
+  1024   0.35     1.00     1.00     1.00   1.00
+  2048      0     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' yellow. The pass key is'
+         fail d=0.1 key=65125 -> ' yellow. The pass key is'
+         fail d=0.5 key=60494 -> ' key. The pass key'
+         fail d=0.5 key=65125 -> ' key. The pass key'
+  2048   0.35     0.00     0.00     1.00   0.33
+         fail d=0.1 key=60494 -> ' key. The pass key'
+         fail d=0.1 key=65125 -> ' key. The pass key'
+         fail d=0.5 key=60494 -> ' key. The pass key.'
+         fail d=0.5 key=65125 -> ' key. The pass key.'
+  4096      0     0.00     0.00     0.75   0.25
+         fail d=0.1 key=60494 -> ' yellow. The pass key is'
+         fail d=0.1 key=65125 -> ' yellow. The pass key is'
+         fail d=0.5 key=60494 -> ' blue. The pass key is'
+         fail d=0.5 key=65125 -> ' blue. The pass key is'
+         fail d=0.9 key=60494 -> ' blue. The pass key is'
+         fail d=0.9 key=77013 -> ' key. The pass key'
+  4096   0.35     0.00     0.00     0.80   0.27
+         fail d=0.1 key=60494 -> ' the pass key. The pass'
+         fail d=0.1 key=65125 -> ' the pass key. The pass'
+         fail d=0.5 key=60494 -> ' green. The pass key'
+         fail d=0.5 key=65125 -> ' green. The pass key'
+         fail d=0.9 key=38631 -> ' the pass key. The pass'
+         fail d=0.9 key=28316 -> ' 2828. The pass key'
+  8192      0     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' key. The pass key'
+         fail d=0.1 key=65125 -> ' key. The pass key'
+         fail d=0.5 key=60494 -> ' blue. The pass key is'
+         fail d=0.5 key=65125 -> ' blue. The pass key is'
+         fail d=0.9 key=60494 -> ' blue. The pass key is'
+         fail d=0.9 key=65125 -> ' blue. The pass key is'
+  8192   0.35     0.00     0.00     0.00   0.00
+         fail d=0.1 key=60494 -> ' pass key.\n\n###'
+         fail d=0.1 key=65125 -> ' pass key.\n\n###'
+         fail d=0.5 key=60494 -> ' green. The pass key is'
+         fail d=0.5 key=65125 -> ' green. The pass key is'
+         fail d=0.9 key=60494 -> ' yellow. The pass key is'
+         fail d=0.9 key=65125 -> ' green. The pass key is'
+DONE
+ALL DONE

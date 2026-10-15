@@ -1,0 +1,7 @@
+missing: [] | unexpected: []
+A: max|logit diff| 0.114 (bf16 kernel vs fp32 dense), next-token argmax agree: True
+B: cached == uncached greedy: True
+C: 'The history of mathematics begins with the ancient Greeks. The Greeks were the first to use the concept of numbers. They used the concept of numbers to count things. They used numbers to'
+SAVED to /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_355m_nope_qk_staging
+VERIFIED
+ALL DONE

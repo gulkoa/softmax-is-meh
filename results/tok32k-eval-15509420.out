@@ -1,0 +1,19 @@
+=== LENGTH ckpt_gpt2-stj-q4-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+tokenizer: stilt-tok-32k-v1 (/fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1)
+nope=True  alpha sweep=[0.25, 0.3, 0.35, 0.5]
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024       42.4       42.4       42.4       42.4       42.4
+   2048      385.1       45.0       45.7       47.6       56.6
+   4096     1595.2      819.2       96.7       79.0      155.5
+   8192     3075.0      461.2      756.8      418.1      365.3
+DONE
+=== LENGTH ckpt_gpt2-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1_s0.pt
+tokenizer: stilt-tok-32k-v1 (/fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1)
+nope=True  alpha sweep=[0.25, 0.3, 0.35, 0.5]
+      L        off     a=0.25      a=0.3     a=0.35      a=0.5
+   1024       42.6       42.6       42.6       42.6       42.6
+   2048      258.3       49.4       54.2       61.3       93.0
+   4096     1916.2      123.7      166.7      219.8      377.2
+   8192     5296.3      351.2      462.9      576.6      953.8
+DONE
+ALL DONE

@@ -1,0 +1,11 @@
+tokenizer gpt2: vocab 50304 (padded), ckpt /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-alibi-qk-modern-nocap-stjalibismoke-lr0.001_s0.pt
+stieltjes kernel: /users/PAS2402/alexg/softmax/.worktrees/stjalibi/triton/dev_scripts/../stieltjes_flash_attn.py
+gpt2-stj-q4-alibi-qk-modern-nocap-stjalibismoke-lr0.001: 123.6M params, 28 steps x 524288 tokens
+step      0/28 loss 10.9638 gnorm 14.47 (23k tok/s)
+  [val] step 10 loss 10.3381 ppl 30886.29 (wall 0.04h, 0.01B tok, 136M tok/GPU-h)
+step     20/28 loss 9.4660 gnorm 3.52 (45k tok/s)
+  [val] step 20 loss 9.5191 ppl 13616.82 (wall 0.07h, 0.01B tok, 154M tok/GPU-h)
+  ckpt @ 20
+FINAL ckpt: /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4-alibi-qk-modern-nocap-stjalibismoke-lr0.001_s0.pt
+DONE
+ALL DONE
