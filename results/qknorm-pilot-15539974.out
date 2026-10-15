@@ -1,0 +1,9 @@
+gpt2-sdpa-nope-logitprobesmoke2-lr0.001: 123.6M params, 9536 steps x 524288 tokens
+step      0/9536 loss 10.9703 gnorm 19.44 (263k tok/s)
+step     20/9536 loss 9.2496 gnorm 2.90 (291k tok/s)
+step     40/9536 loss 8.5773 gnorm 1.77 (290k tok/s)
+step     60/9536 loss 8.3213 gnorm 1.70 (290k tok/s)
+step     80/9536 loss 7.4814 gnorm 1.67 (290k tok/s)
+step    100/9536 loss 7.3150 gnorm 1.22 (290k tok/s)
+STOPPED at step 100 (--stop-step): /fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-sdpa-nope-logitprobesmoke2-lr0.001_s1.pt
+ALL DONE
