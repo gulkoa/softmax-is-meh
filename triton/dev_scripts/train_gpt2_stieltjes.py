@@ -87,6 +87,41 @@ class Shards:
 # Model
 # ---------------------------------------------------------------------------
 
+@torch.no_grad()
+def attn_probe_stats(q, k, attn, stj_q, hd):
+    """Logit-growth probe (thesis/experiments/2026-10-15-logit-growth-probe.md).
+
+    q, k: (B, H, S, D) exactly as fed to the attention mapping (after any
+    QK-norm, RoPE and learnable scale); both mappings apply 1/sqrt(hd).
+    Returns max |score| over heads and causal positions, and per-head
+    attention entropy (nats, mean over query positions >= S//2) for the
+    arm's own mapping: softmax, or normalized Stieltjes weights (lambda by
+    Newton iteration from 1.1, as in stieltjes_attention_ref).
+    """
+    s = (q.float() @ k.float().transpose(-2, -1)) / math.sqrt(hd)
+    S = s.shape[-1]
+    causal = torch.ones(S, S, dtype=torch.bool, device=s.device).tril()
+    max_abs = s.masked_fill(~causal, 0.0).abs().amax().item()
+    s = s.masked_fill(~causal, float("-inf"))
+    if attn == "sdpa":
+        p = torch.softmax(s, dim=-1)
+    else:
+        x = s - s.amax(dim=-1, keepdim=True)
+        lam = torch.full_like(x[..., :1], 1.1)
+        for _ in range(30):
+            d = (lam - x).clamp_min(1e-6)
+            f = d.pow(-stj_q).sum(-1, keepdim=True) - 1.0
+            fp = -stj_q * d.pow(-stj_q - 1.0).sum(-1, keepdim=True)
+            lam = lam - f / fp
+        p = (lam - x).clamp_min(1e-6).pow(-stj_q)
+        p = p / p.sum(-1, keepdim=True)
+    ent = -(p * p.clamp_min(1e-30).log()).sum(-1)        # (B, H, S)
+    ent_head = ent[..., S // 2:].mean(dim=(0, 2))         # (H,)
+    return {"max_abs_score": max_abs,
+            "min_head_entropy": ent_head.min().item(),
+            "mean_head_entropy": ent_head.mean().item()}
+
+
 class Attn(nn.Module):
     def __init__(self, cfg):
         super().__init__()
@@ -111,6 +146,7 @@ class Attn(nn.Module):
             self.k_gain = nn.Parameter(torch.ones(cfg.n_head))
         self.rope = getattr(cfg, "rope", False)
         self._rope_cache = None       # (S, cos, sin) — rebuilt on S change
+        self._probe = None            # dict while a --probe-every pass runs
 
     def _rope_cos_sin(self, S, device):
         if self._rope_cache is not None and self._rope_cache[0] == S:
@@ -162,6 +198,9 @@ class Attn(nn.Module):
                 eff = 1.0 + self.scale_mult
             q = q * eff[None, :, None, None].to(q.dtype)
         k = k.contiguous()
+        if self._probe is not None:   # --probe-every: stats only, no grad
+            self._probe.update(attn_probe_stats(q, k, self.cfg.attn,
+                                                self.cfg.stj_q, self.hd))
         v = v.view(B, S, self.h, self.hd).transpose(1, 2).contiguous()
         if self.cfg.attn == "sdpa":
             o = F.scaled_dot_product_attention(q, k, v, is_causal=True)
@@ -266,6 +305,14 @@ def main():
     ap.add_argument("--data-mix", default=None, dest="data_mix",
                     help="'name=dir:weight,...' shard-source mix "
                          "(default: pure FW_DIR web)")
+    ap.add_argument("--probe-every", type=int, default=0, dest="probe_every",
+                    help="every N steps, log per-layer max |score| and "
+                         "attention entropy on one fixed val sequence "
+                         "(0 = off; experiments/2026-10-15-logit-growth-probe)")
+    ap.add_argument("--stop-step", type=int, default=0, dest="stop_step",
+                    help="exit after this step, saving a checkpoint with the "
+                         "true step; the lr schedule still follows "
+                         "--total-tokens (0 = off)")
     args = ap.parse_args()
     assert not (args.nope and args.rope), "--nope and --rope are exclusive"
 
@@ -287,6 +334,11 @@ def main():
     train_d = Shards("train", args.data_mix)
     val_d = Shards("val", args.data_mix)
     model = GPT(args).to(device)
+    probe_x = None
+    if args.probe_every:
+        # own rng over the val shards: never touches the training rng
+        probe_x, _ = val_d.batch(1, args.ctx, np.random.default_rng(777),
+                                 device)
     nparam = sum(p.numel() for p in model.parameters())
     print(f"{label}: {nparam/1e6:.1f}M params, {total_steps} steps x "
           f"{tokens_per_step} tokens", flush=True)
@@ -363,6 +415,25 @@ def main():
             run.log({"step": step, "train_loss": loss.item(),
                      "grad_norm": float(gnorm),
                      "tok_per_s": tps, "lr": sched.get_last_lr()[0]})
+        if args.probe_every and step % args.probe_every == 0:
+            blocks = list(model.blocks)
+            for b in blocks:
+                b.attn._probe = {}
+            with torch.no_grad(), torch.autocast("cuda", dtype=torch.bfloat16):
+                model(probe_x)
+            st = [b.attn._probe for b in blocks]
+            for b in blocks:
+                b.attn._probe = None
+            mx = [d["max_abs_score"] for d in st]
+            me = [d["min_head_entropy"] for d in st]
+            print(f"probe step {step} M {max(mx):.3f} maxabs "
+                  + " ".join(f"{v:.2f}" for v in mx) + " | minent "
+                  + " ".join(f"{v:.3f}" for v in me), flush=True)
+            logd = {"step": step, "probe/max_score": max(mx)}
+            for i, (a, e) in enumerate(zip(mx, me)):
+                logd[f"probe/max_score_L{i}"] = a
+                logd[f"probe/min_entropy_L{i}"] = e
+            run.log(logd)
         if step % args.val_every == 0 and step > start_step:
             model.eval()
             vrng = np.random.default_rng(vrng_seed)
@@ -393,6 +464,17 @@ def main():
                         "cum_wall": cum_wall + time.time() - chunk_t0,
                         "val_fp": val_fp}, ckpt_path)
             print(f"  ckpt @ {step}", flush=True)
+        if args.stop_step and step >= args.stop_step:
+            torch.save({"model": model.state_dict(),
+                        "opt": opt.state_dict(),
+                        "sched": sched.state_dict(),
+                        "step": step, "args": vars(args),
+                        "cum_wall": cum_wall + time.time() - chunk_t0,
+                        "val_fp": val_fp}, ckpt_path)
+            print(f"STOPPED at step {step} (--stop-step): {ckpt_path}",
+                  flush=True)
+            run.finish()
+            return
 
     torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
                 "sched": sched.state_dict(), "step": total_steps - 1,
