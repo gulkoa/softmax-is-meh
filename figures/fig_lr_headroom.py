@@ -5,11 +5,15 @@ scripts/score_lr_headroom.py, not read off this figure). One column per arm
 (A: Stieltjes, no norm; D: softmax + QK-norm; LS: softmax with A's learnable
 capped scale, no norm), one line per learning rate, three rows sharing the
 step axis:
-(a) validation perplexity (every 250 steps);
+(a) validation perplexity (every 250 steps), y-range fitted to steps
+    >= 1,000 so post-warmup bumps stay visible (earlier points run off the top);
 (b) the probe's M, max |score| over layers on one fixed validation sequence
     (every 20 steps; runs without probe lines are absent). Compared only
     within a column: a score means different sharpness under each mapping;
 (c) gradient norm before clipping (clip 1.0), with the failure threshold 5.
+A cross marks each run's first failure event after step 2,000 under the
+pre-registered rule (stability_flags.flags): in (a) the first validation above
+1.05x the previous one, in (c) the first gradient norm above 5.
 Entropy is not plotted: the probe computes it in bf16, which inflates it
 wherever |score| reaches the thousands (see the logit-growth probe record).
 
@@ -27,14 +31,16 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from stability_flags import parse  # noqa: E402
+from stability_flags import flags, parse  # noqa: E402
 
 JOBS = ROOT / "results" / "lr_headroom_jobs.txt"
 OUT = Path("/users/PAS2402/alexg/softmax/thesis/figures")
 T0 = 2000
+YFIT = 1000      # panel (a) y-range is fitted to validations from this step on
 ARMS = {"A": "A: Stieltjes, no norm", "D": "D: softmax + QK-norm",
         "LS": "LS: softmax, A's scale, no norm", "C": "C: softmax, no norm",
         "B": "B: Stieltjes + QK-norm"}
@@ -80,13 +86,25 @@ def main():
                              sharex=True, squeeze=False,
                              gridspec_kw={"hspace": 0.3, "wspace": 0.28})
     last, probed = 0, set()
+    vrange = {}
     for name, logs in runs:
         arm, lr = name.split("@")
         col = arms.index(arm)
-        gn, _, val, probe = parse(logs)
+        gn, loss, val, probe = parse(logs)
+        f = flags(gn, loss, val, probe, T0, 9500)
         c = LR_C.get(lr, INK)
         vs = sorted(val)
         axes[0, col].plot(vs, [val[s] for s in vs], color=c, lw=1.3, label=f"lr {lr}")
+        late = [val[s] for s in vs if s >= YFIT]
+        if late:
+            lo, hi = vrange.get(col, (late[0], late[0]))
+            vrange[col] = (min(lo, *late), max(hi, *late))
+        if f["first_mono"] is not None:
+            s = f["first_mono"]
+            axes[0, col].plot([s], [val[s]], marker="x", ms=7, mew=1.8, color=c, zorder=5)
+        if f["first_gn5"] is not None:
+            s = f["first_gn5"]
+            axes[2, col].plot([s], [gn[s]], marker="x", ms=7, mew=1.8, color=c, zorder=5)
         ps = sorted(probe)
         if ps:
             axes[1, col].plot(ps, [probe[s] for s in ps], color=c, lw=1.0)
@@ -103,6 +121,13 @@ def main():
             ax.grid(True, axis="y")
             ax.axvspan(0, T0, color=GRID, alpha=0.45, lw=0)
             ax.set_xlim(0, last + 50)
+        if col in vrange:
+            lo, hi = vrange[col]
+            top.set_ylim(lo * 0.95, hi * 1.08)
+        plain = FuncFormatter(lambda v, _: f"{v:g}")
+        top.yaxis.set_major_formatter(plain)
+        top.yaxis.set_minor_formatter(FuncFormatter(
+            lambda v, _: f"{v:g}" if f"{v:g}"[0] in "2346" else ""))
         if col not in probed:
             mid.text(0.5, 0.5, "no probe data", transform=mid.transAxes,
                      color=MUTED, fontsize=8, ha="center", va="center")
@@ -114,6 +139,9 @@ def main():
     axes[2, 0].annotate("5: failure threshold", (last + 50, 5), xytext=(-2, 2),
                         textcoords="offset points", color=MUTED, fontsize=7,
                         ha="right", va="bottom")
+    axes[0, 0].text(0.02, 0.04, "\u00d7 first failure event (rule: after step 2,000)",
+                    transform=axes[0, 0].transAxes, color=MUTED, fontsize=7,
+                    ha="left", va="bottom")
     axes[2, 0].text(T0 / 2, 0.04, "warmup", transform=axes[2, 0].get_xaxis_transform(),
                     color=MUTED, fontsize=7, ha="center", va="bottom")
     OUT.mkdir(parents=True, exist_ok=True)
