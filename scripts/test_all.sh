@@ -287,6 +287,12 @@ print(f'OK — max_abs={max_abs:.5f}, argmax_agree={argmax_agree:.4f}')
 "
 
 echo ""
+echo "--- Analysis scorers (synthetic logs) ---"
+run_test "stability_flags" python scripts/test_stability_flags.py
+run_test "score_lr_headroom" python scripts/test_score_lr_headroom.py
+run_test "score_logit_probe" python scripts/test_score_logit_probe.py
+
+echo ""
 if [ "$FAILED" -eq 0 ]; then
     echo "=== ALL TESTS PASSED ==="
     exit 0
