@@ -88,6 +88,14 @@ def test_q4_branches():
     assert has(readings(R, {"LS@6e-4"}), "Q4 pending: LS@6e-4 failed but is still training")
 
 
+def test_non_monotone_flag():
+    out = readings(grid(**{"A_2e-3": F}))
+    assert has(out, "NOTE non-monotone A: failed at 0.002, clean at 0.004")
+    assert has(out, "CONDITIONAL STAGE TRIGGERED")
+    assert not has(readings(grid()), "non-monotone")
+    assert not has(readings(grid(**{"A_4e-3": F})), "non-monotone")
+
+
 def test_q2_undefined():
     out = readings(grid(**{"LS_3e-4": F, "LS_6e-4": F}))
     assert has(out, "ratio undefined")

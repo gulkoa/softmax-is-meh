@@ -147,6 +147,12 @@ def readings(R, running=frozenset()):
         out.append(f"Q4 {v}: LS@6e-4 {ppl('LS@6e-4'):.2f} / A@6e-4 "
                    f"{A_6E4} = {r:.3f} (LS@6e-4 {l6})")
 
+    fails = [LR[n.split("@")[1]] for n in ("A@2e-3", "A@4e-3", "A@8e-3") if st(n) == "failed"]
+    cleans = [LR[n.split("@")[1]] for n in ("A@2e-3", "A@4e-3", "A@8e-3") if st(n) == "clean"]
+    if fails and cleans and min(fails) < max(cleans):
+        out.append(f"NOTE non-monotone A: failed at {min(fails):g}, clean at "
+                   f"{max(cleans):g}; Q1, Q2 and the 8e-3 trigger are read "
+                   "literally and reported with this flag")
     for n in ("A@2e-3", "A@4e-3", "A@8e-3"):
         if st(n) == "failed":
             out.append(f"attribution {n}: {R[n][2]}")
