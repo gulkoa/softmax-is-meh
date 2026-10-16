@@ -1,0 +1,16 @@
+15540142  TIMEOUT 02:55:15  | 
+15556343  COMPLETED 00:54:51  | RESUMED from step 3001 (cum wall 2.75h) replayed the batch sampler to step 3001 (11s) STOPPED at step 4600 (--stop-step): /fs/scratch/PAS2836/alex 
+15539976  COMPLETED 03:44:34  | STOPPED at step 4600 (--stop-step): /fs/scratch/PAS2836/alex 
+15556344 CANCELLED+ 00:00:00  | 
+softmax: 231 probes (last 4600), stopped=True; Stieltjes: 231 probes (last 4600), stopped=True
+softmax first logged grad norm > 5 after 2000: 3740; Stieltjes: None
+M_soft(2000) 132.000 -> M_soft(3720) 1277952.000: G_soft = 9681.455
+M_stj(2000) 79.000, max over [2000, 3720] 115.500: G_stj = 1.462
+PRE-REGISTERED READING 1: Stieltjes does not grow (G_soft >= 2, G_stj <= 1.5)
+descriptive, per layer: max|score| at 2000 -> 3720 | min-head entropy at 2000 -> 3720 (entropy from bf16 scores: unreliable where |score| is in the thousands)
+  softmax   max|s| 18.5>22.8 126.0>250.0 37.5>1277952.0 132.0>260.0 59.2>159.0 72.0>93.5 32.0>39.8 22.9>32.2 50.0>70.5 23.6>30.5 24.6>35.0 15.1>19.6
+  softmax   ent    6.19>6.04 0.02>0.05 3.25>1.60 2.00>1.61 0.93>1.03 0.06>0.12 1.49>1.13 2.34>2.59 2.40>1.86 2.71>2.46 3.06>2.88 3.60>2.97
+  Stieltjes max|s| 5.7>16.1 28.2>59.8 79.0>106.5 49.2>70.0 37.5>72.0 29.6>43.8 24.6>30.4 21.1>35.0 28.4>40.2 20.1>27.1 16.9>28.2 19.4>23.0
+  Stieltjes ent    6.46>6.46 2.38>2.30 2.27>2.35 1.66>1.45 0.14>0.07 2.40>2.62 1.97>2.27 3.50>3.09 3.24>2.52 3.38>3.56 3.83>3.07 2.15>2.31
+
+[exited with code 0]
