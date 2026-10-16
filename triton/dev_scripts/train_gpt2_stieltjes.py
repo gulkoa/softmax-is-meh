@@ -82,6 +82,14 @@ class Shards:
         t = torch.from_numpy(xs).to(device, non_blocking=True)
         return t[:, :-1], t[:, 1:]
 
+    def skip(self, bs, ctx, rng):
+        """Advance rng exactly as batch() would, without reading data."""
+        for _ in range(bs):
+            maps = self.sources[rng.choice(len(self.sources),
+                                           p=self.weights)]
+            m = maps[rng.integers(len(maps))]
+            rng.integers(0, len(m) - ctx - 1)
+
 
 # ---------------------------------------------------------------------------
 # Model
@@ -309,6 +317,11 @@ def main():
                     help="every N steps, log per-layer max |score| and "
                          "attention entropy on one fixed val sequence "
                          "(0 = off; experiments/2026-10-15-logit-growth-probe)")
+    ap.add_argument("--replay-rng", action="store_true", dest="replay_rng",
+                    help="on resume, seed the batch sampler as at step 0 and "
+                         "fast-forward it, so a resumed run draws the same "
+                         "batches as an uninterrupted one (default: reseed "
+                         "by the resume step)")
     ap.add_argument("--stop-step", type=int, default=0, dest="stop_step",
                     help="exit after this step, saving a checkpoint with the "
                          "true step; the lr schedule still follows "
@@ -376,6 +389,10 @@ def main():
                   flush=True)
         print(f"RESUMED from step {start_step} "
               f"(cum wall {cum_wall/3600:.2f}h)", flush=True)
+        if args.stop_step and start_step > args.stop_step:
+            print(f"already stopped at step {start_step - 1} (--stop-step "
+                  f"{args.stop_step}); nothing to do", flush=True)
+            return
 
     run = wandb.init(
         project="stieltjes-flash-attn",
@@ -389,7 +406,15 @@ def main():
                 "val_shards": [p for p, _ in val_fp]},
     )
     chunk_t0 = time.time()
-    rng = np.random.default_rng(args.seed * 100003 + start_step)
+    if args.replay_rng and start_step > 0:
+        rng = np.random.default_rng(args.seed * 100003)
+        t_ff = time.time()
+        for _ in range(start_step * args.grad_accum):
+            train_d.skip(args.micro_bs, args.ctx, rng)
+        print(f"replayed the batch sampler to step {start_step} "
+              f"({time.time() - t_ff:.0f}s)", flush=True)
+    else:
+        rng = np.random.default_rng(args.seed * 100003 + start_step)
     vrng_seed = 424242
 
     model.train()
