@@ -1,0 +1,34 @@
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20261015_192651-o4vceldl
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:          cum_tokens ▁▁▂▂▃▃▃▄▄▅▅▆▆▆▇▇██
+wandb:          cum_wall_h ▁▂▂▂▃▃▄▄▄▅▅▆▆▆▇▇██
+wandb:           grad_norm ▄▄▅▄▄▄▃▅▆█▄▆▄▃▂▂▃▁▂▃▁▁▂▁▁▁▁▂▁▁▁▁▂▁▁▁▁▁▁▁
+wandb:                  lr ▁▁▂▂▂▃▃▃▃▄▄▅▅▅▅▇▇▇▇███████████▇▇▇▇▇▇▇▇▆▆
+wandb:     probe/max_score ▁▁▁▁▁▃▃▄▄▄▄▅▄▅▅▅▆▅▆▆▇▇▆▇▇▇▇▇▇▇▇█▇██▇██▇▇
+wandb:  probe/max_score_L0 ▁▁▂▂▃▃▃▃▃▃▃▂▂▂▂▂▂▂▃▄▃▄▃▄▄▅▄▄▅▅▅▇███▇▇▇▄▄
+wandb:  probe/max_score_L1 ▁▁▁▁▁▂▂▂▂▂▂▂▂▂▃▃▄▃▄▅▆▆▇▇▇▇████▇▇▇█▇▆███▇
+wandb: probe/max_score_L10 ▁▂▃▃▃▄▄▄▅▄▄▄▄▄▄▄▄▄▄▄▄▅▅▅▆▆▆▇▇▇▇▇▇▆▇█▇▇▇█
+wandb: probe/max_score_L11 ▁▂▃▃▂▃▃▄▄▄▄▄▄▅▅▄▆▅▇▆▆▆▆▆▆▆▆▆▅▆▇▇▇█▇▇████
+wandb:  probe/max_score_L2 ▁▁▁▁▁▄▄▅▅▅▄▅▅▅▅▅▆▅▅▅▆▆▆▆▇▆▇▆▆▇▇▇████████
+wandb:                 +24 ...
+wandb: 
+wandb: Run summary:
+wandb:          cum_tokens 2359820288
+wandb:          cum_wall_h 3.66121
+wandb:           grad_norm 0.28833
+wandb:                  lr 0.00076
+wandb:     probe/max_score 109.5
+wandb:  probe/max_score_L0 7.34375
+wandb:  probe/max_score_L1 51
+wandb: probe/max_score_L10 35
+wandb: probe/max_score_L11 25.5
+wandb:  probe/max_score_L2 109.5
+wandb:                 +24 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /users/PAS2402/alexg/softmax/wandb/offline-run-20261015_192651-o4vceldl
+wandb: Find logs at: ./wandb/offline-run-20261015_192651-o4vceldl/logs
