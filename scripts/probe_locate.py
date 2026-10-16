@@ -26,7 +26,9 @@ top-1 weight over query positions 512-1,023 from fp32 scores.
 thesis/experiments/2026-10-16-qk-collapse-survey.md):
     shared_q >= 0.99 and shared_k >= 0.99 and cos(qbar, kbar) >= 0.95
     and median|q| * median|k| / sqrt(hd) >= 1,000
-and prints one SIGNATURE line per checkpoint.
+and prints one SIGNATURE line per checkpoint, with a post hoc robustness
+count (added after the survey) of the heads that meet the shape conditions
+alone, without the size condition ("shape-only").
 
 --entropy also prints each layer's min-head entropy two ways, with the
 trainer's own probe function: from bf16 scores, as the training probe logs
@@ -85,10 +87,13 @@ def head_stats(qf, kf):
             "cos": (qb * kb).sum(-1) / (qb.norm(dim=-1) * kb.norm(dim=-1))}
 
 
-def collapsed(st, hd):
+def shape(st):
     return ((st["shq"] >= SIG["shared"]) & (st["shk"] >= SIG["shared"])
-            & (st["cos"] >= SIG["cos"])
-            & (st["mq"] * st["mk"] / math.sqrt(hd) >= SIG["scale"]))
+            & (st["cos"] >= SIG["cos"]))
+
+
+def collapsed(st, hd):
+    return shape(st) & (st["mq"] * st["mk"] / math.sqrt(hd) >= SIG["scale"])
 
 
 def heads(qf, kf, L, args):
@@ -134,7 +139,7 @@ def analyse(T, path, a, probe_stats):
     print("layer   max|s|  head  row   col  sign | max|s| rows>0 | "
           "max row spread (head,row) | |q| |k| at max vs median"
           + (" | collapsed heads, max med|q||k|/sqrt(hd)" if a.signature else ""))
-    sig = []
+    sig, shp = [], []
     for i, (q, k) in enumerate(cap):
         qf, kf = q.float()[0], k.float()[0]               # (H, S, D)
         s = qf @ kf.transpose(-2, -1) / math.sqrt(hd)     # (H, S, S)
@@ -153,6 +158,7 @@ def analyse(T, path, a, probe_stats):
             st = head_stats(qf, kf)
             n = int(collapsed(st, hd).sum())
             sig.append(n)
+            shp.append(int(shape(st).sum()))
             extra = f" | {n:2d} {(st['mq'] * st['mk']).max().item() / math.sqrt(hd):10.1f}"
         print(f"L{i + 1:<3} {sa.max().item():10.1f} {h:4d} {r:5d} {c:5d} "
               f"{'+' if s[h, r, c] > 0 else '-':>4} | {m_rows:10.1f} | "
@@ -161,7 +167,7 @@ def analyse(T, path, a, probe_stats):
               f"{qn[h].median().item():.1f} {kn[h].median().item():.1f}{extra}")
     if a.signature:
         print(f"SIGNATURE {name} step {ck['step']}: collapsed heads per layer "
-              f"{sig}, total {sum(sig)}")
+              f"{sig}, total {sum(sig)}; shape-only {sum(shp)} {shp}")
     for L in a.heads:
         heads(cap[L - 1][0].float()[0], cap[L - 1][1].float()[0], L, args)
     if a.entropy:

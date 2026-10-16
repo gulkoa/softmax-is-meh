@@ -10,6 +10,10 @@ exists, verify the copy loads, and atomically put it in place. Exits after
 a last pass once the job has ended. Login node.
 
     python scripts/snapshot_ckpts.py CKPT JOB [--every 60] [--settle 60]
+                                     [--keep-every N]
+
+--keep-every N keeps only steps divisible by N (default 1: every save).
+JOB is the last job of the chain (it stays pending while earlier chunks run).
 """
 import argparse
 import os
@@ -34,14 +38,14 @@ def ended(job):
     return bool(out) and out.split()[0].startswith(TERMINAL)
 
 
-def snap(ckpt):
+def snap(ckpt, keep_every=1):
     try:
         step = step_of(ckpt)
     except Exception as e:                 # mid-write: try again next poll
         print(f"{time.strftime('%H:%M')} unreadable ({type(e).__name__}); retry", flush=True)
         return False
     dst = ckpt[:-3] + f".step{step}.pt"
-    if os.path.exists(dst):
+    if step % keep_every or os.path.exists(dst):
         return True
     tmp = dst + ".tmp"
     shutil.copyfile(ckpt, tmp)
@@ -63,6 +67,7 @@ def main():
     ap.add_argument("job")
     ap.add_argument("--every", type=int, default=60)
     ap.add_argument("--settle", type=int, default=60)
+    ap.add_argument("--keep-every", type=int, default=1, dest="keep_every")
     a = ap.parse_args()
     seen = None
     while True:
@@ -70,7 +75,7 @@ def main():
         if os.path.exists(a.ckpt):
             mt = os.path.getmtime(a.ckpt)
             if mt != seen and (done or time.time() - mt >= a.settle):
-                if snap(a.ckpt):
+                if snap(a.ckpt, a.keep_every):
                     seen = mt
         if done:
             print(f"{time.strftime('%H:%M')} job {a.job} ended", flush=True)
