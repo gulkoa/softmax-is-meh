@@ -101,6 +101,21 @@ def test_onset_first_probe_above_1000():
     assert run(log())["M_onset"] is None                      # no probe lines
 
 
+def test_no_gnorm_lines_warns():
+    import subprocess
+    path = log()
+    with open(path) as fh:                       # strip gnorm: old trainer format
+        lines = [ln.replace(" gnorm 0.50", "") for ln in fh]
+    with open(path, "w") as fh:
+        fh.writelines(lines)
+    f = run(path)
+    assert f["logged"] == 0 and f["verdict"] == "CLEAN"
+    out = subprocess.run([sys.executable, os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), "stability_flags.py"), f"x={path}"],
+        capture_output=True, text=True).stdout
+    assert "gradient-norm rule was not applied" in out
+
+
 def test_no_overwrite_single_chunk():
     assert overwritten(log(gn=lambda s: 9.0 if s == 4000 else 0.5), 2000) == []
 

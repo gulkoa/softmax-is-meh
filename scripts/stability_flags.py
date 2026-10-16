@@ -130,6 +130,9 @@ def main():
         if f["missing"]:
             print(f"  WARNING {name}: {f['missing']} of the 20-step log lines "
                   f"after step {a.start} are missing")
+        if f["logged"] == 0:
+            print(f"  WARNING {name}: no gradient-norm lines after step "
+                  f"{a.start}; the gradient-norm rule was not applied")
         lost = overwritten(paths, a.start)
         if lost:
             print(f"  NOTE {name}: {len(lost)} event(s) overwritten by a later "
