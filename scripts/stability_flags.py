@@ -19,7 +19,9 @@ after a resume the later chunk wins. Prints one row per run: final val ppl
 (the last validation), steps logged, count / first step / max of gradient
 norms > 5, monotonicity violations, the first nan/inf step, the verdict,
 and the probe's M (max |score| over layers) at step 2,000 and at the last
-probe when present. Warns when 20-step log lines are missing, and lists
+probe when present, with the first probe step at which M exceeds 1,000
+(the descriptive collapse-timing onset pinned in
+thesis/experiments/2026-10-16-qk-collapse-survey.md). Warns when 20-step log lines are missing, and lists
 every event (gradient norm > 5, nan/inf, validation jump) that an earlier
 chunk logged but a later chunk's re-run of the same steps overwrote: shown,
 not counted (the verdict follows the merged log).
@@ -98,6 +100,7 @@ def flags(gn, loss, val, probe, start, final):
         "M_start": probe.get(start),
         "M_last": probe[max(probe)] if probe else None,
         "probe_last": max(probe) if probe else None,
+        "M_onset": min((s for s, m in probe.items() if m > 1000), default=None),
     }
 
 
@@ -118,6 +121,8 @@ def main():
         if f["M_last"] is not None:
             m0 = "-" if f["M_start"] is None else f"{f['M_start']:.1f}"
             pm = f"{m0} @{a.start} -> {f['M_last']:.1f} @{f['probe_last']}"
+            pm += (f", M>1000 first @{f['M_onset']}" if f["M_onset"] is not None
+                   else ", M never >1000")
         print(f"{name:<22} {fin:>12} {f['logged']:>6} {f['n_gn5']:>5} "
               f"{str(f['first_gn5'] or '-'):>6} {f['max_gn']:>8.2f} "
               f"{f['n_mono']:>4} {str(f['first_mono'] or '-'):>6} "

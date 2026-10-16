@@ -12,13 +12,16 @@ from stability_flags import flags, overwritten, parse  # noqa: E402
 
 
 def log(last=9535, gn=lambda s: 0.5, ppl=lambda s: 30.0 - s / 1000,
-        skip=()):
+        skip=(), probe=None):
     lines = []
     for s in range(0, last + 1):
         if s % 20 == 0 and s not in skip:
             g = gn(s)
             loss = "nan" if g != g else "3.1"
             lines.append(f"step {s:6d}/9536 loss {loss} gnorm {g:.2f} (200k tok/s)")
+            if probe is not None:
+                lines.append(f"probe step {s} M {probe(s):.3f} maxabs 1.0 1.0 | "
+                             "minent 6.5 6.5")
         if s % 250 == 0 and s > 0:
             lines.append(f"  [val] step {s} loss 3.0000 ppl {ppl(s):.2f} (wall 1h)")
     f = tempfile.NamedTemporaryFile("w", suffix=".out", delete=False)
@@ -88,6 +91,14 @@ def test_overwritten_nan_and_kept_events():
     b = log(gn=lambda s: 8.0 if s == 3000 else 0.5)   # re-runs keep 3,000
     assert run(f"{a},{b}")["first_gn5"] == 3000
     assert overwritten(f"{a},{b}", 2000) == [(4800, "nan/inf")]
+
+
+def test_onset_first_probe_above_1000():
+    f = run(log(probe=lambda s: 5.0 + s if s < 3000 else 2000.0))
+    assert f["M_onset"] == 1000      # probes every 20 steps; 5 + 1000 > 1000 first
+    assert f["M_start"] == 2005.0
+    assert run(log(probe=lambda s: 50.0))["M_onset"] is None
+    assert run(log())["M_onset"] is None                      # no probe lines
 
 
 def test_no_overwrite_single_chunk():
