@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Stability flags for 124M pilot runs, from the training logs.
 
-A run is CLEAN when, after step --from (default 2,000, the end of warmup):
-  - no logged gradient norm exceeds 5 (logged every 20 steps, clip 1.0), and
-  - no validation perplexity exceeds 1.05 x the previous validation.
+A run is CLEAN when it has a validation at --final (default 9,500) and,
+after step --from (default 2,000, the end of warmup):
+  - no logged gradient norm exceeds 5 (logged every 20 steps, clip 1.0),
+  - no validation perplexity exceeds 1.05 x the previous validation, and
+  - no logged loss, gradient norm or validation is nan/inf.
+It FAILED on any of those events, and is INCOMPLETE (scored as failed once
+the run has ended) when it has no events but never reached --final.
 These are the rules of the grad-norm table and the monotonicity check in
 thesis/experiments/2026-10-14-stability-seed1-124m.md, reused as the failure
 definition of thesis/experiments/2026-10-15-lr-headroom-124m.md.
@@ -13,43 +17,58 @@ definition of thesis/experiments/2026-10-15-lr-headroom-124m.md.
 LOGS is one log or a comma-separated list in chunk order; on steps re-run
 after a resume the later chunk wins. Prints one row per run: final val ppl
 (the last validation), steps logged, count / first step / max of gradient
-norms > 5, monotonicity violations, CLEAN or not, and the probe's M (max
-|score| over layers) at step 2,000 and at the last probe when present.
+norms > 5, monotonicity violations, the first nan/inf step, the verdict,
+and the probe's M (max |score| over layers) at step 2,000 and at the last
+probe when present. Warns when 20-step log lines are missing.
 """
 import argparse
+import math
 import re
 
-STEP = re.compile(r"^step +(\d+)/\d+ loss ([\d.]+) gnorm ([\d.]+)", re.M)
-VAL = re.compile(r"^\s*\[val\] step (\d+) loss ([\d.]+) ppl ([\d.]+)", re.M)
+# loss / gnorm / ppl may print as nan or inf: match any token, parse with float()
+STEP = re.compile(r"^step +(\d+)/\d+ loss (\S+) gnorm (\S+)", re.M)
+VAL = re.compile(r"^\s*\[val\] step (\d+) loss (\S+) ppl (\S+)", re.M)
 PROBE = re.compile(r"^probe step (\d+) M ([\d.]+)", re.M)
 
 
 def parse(paths):
-    gn, val, probe = {}, {}, {}
+    gn, loss, val, probe = {}, {}, {}, {}
     for path in paths.split(","):
         t = open(path, errors="ignore").read()
-        gn.update({int(s): float(g) for s, _, g in STEP.findall(t)})
+        for s, l, g in STEP.findall(t):
+            gn[int(s)], loss[int(s)] = float(g), float(l)
         val.update({int(s): float(p) for s, _, p in VAL.findall(t)})
         probe.update({int(s): float(m) for s, m in PROBE.findall(t)})
-    return gn, val, probe
+    return gn, loss, val, probe
 
 
-def flags(gn, val, probe, start):
+def flags(gn, loss, val, probe, start, final):
     after = {s: g for s, g in gn.items() if s > start}
     big = sorted(s for s, g in after.items() if g > 5)
     vs = sorted(val)
     mono = [b for a, b in zip(vs, vs[1:]) if b > start and val[b] > 1.05 * val[a]]
+    bad = sorted([s for s in gn if s > start
+                  and not (math.isfinite(gn[s]) and math.isfinite(loss[s]))]
+                 + [s for s in val if s > start and not math.isfinite(val[s])])
     last = vs[-1] if vs else None
+    top = max(gn) if gn else start
+    missing = [s for s in range(start + 20, top + 1, 20) if s not in gn]
+    events = big or mono or bad
+    verdict = ("FAILED" if events else
+               "CLEAN" if final in val else "INCOMPLETE")
     return {
         "final_step": last,
         "final_ppl": val[last] if vs else float("nan"),
         "logged": len(after),
         "n_gn5": len(big),
         "first_gn5": big[0] if big else None,
-        "max_gn": max(after.values()) if after else float("nan"),
+        "max_gn": max((g for g in after.values() if math.isfinite(g)),
+                      default=float("nan")),
         "n_mono": len(mono),
         "first_mono": mono[0] if mono else None,
-        "clean": not big and not mono,
+        "first_bad": bad[0] if bad else None,
+        "missing": len(missing),
+        "verdict": verdict,
         "M_start": probe.get(start),
         "M_last": probe[max(probe)] if probe else None,
         "probe_last": max(probe) if probe else None,
@@ -60,12 +79,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+", help="NAME=LOG[,LOG...]")
     ap.add_argument("--from", dest="start", type=int, default=2000)
+    ap.add_argument("--final", type=int, default=9500,
+                    help="validation step a complete run must reach")
     a = ap.parse_args()
     print(f"{'run':<22} {'final':>12} {'logged':>6} {'gn>5':>5} {'first':>6} "
-          f"{'max gn':>8} {'mono':>4} {'first':>6}  verdict  probe M")
+          f"{'max gn':>8} {'mono':>4} {'first':>6} {'nan':>6}  verdict     probe M")
     for r in a.runs:
         name, paths = r.split("=", 1)
-        f = flags(*parse(paths), a.start)
+        f = flags(*parse(paths), a.start, a.final)
         fin = f"{f['final_ppl']:.2f}@{f['final_step']}"
         pm = ""
         if f["M_last"] is not None:
@@ -73,8 +94,11 @@ def main():
             pm = f"{m0} @{a.start} -> {f['M_last']:.1f} @{f['probe_last']}"
         print(f"{name:<22} {fin:>12} {f['logged']:>6} {f['n_gn5']:>5} "
               f"{str(f['first_gn5'] or '-'):>6} {f['max_gn']:>8.2f} "
-              f"{f['n_mono']:>4} {str(f['first_mono'] or '-'):>6}  "
-              f"{'CLEAN' if f['clean'] else 'FAILED':<7}  {pm}")
+              f"{f['n_mono']:>4} {str(f['first_mono'] or '-'):>6} "
+              f"{str(f['first_bad'] or '-'):>6}  {f['verdict']:<10}  {pm}")
+        if f["missing"]:
+            print(f"  WARNING {name}: {f['missing']} of the 20-step log lines "
+                  f"after step {a.start} are missing")
 
 
 if __name__ == "__main__":
