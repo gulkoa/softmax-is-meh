@@ -1,0 +1,123 @@
+{
+ "args": {
+  "layers": 24,
+  "heads": 16,
+  "embd": 1024,
+  "ctx": 1024,
+  "micro_bs": 8,
+  "grad_accum": 64,
+  "iters": 8,
+  "warmup": 4,
+  "json": "/users/PAS2402/alexg/softmax/softmax-is-meh/results/profile_step_split_355m_causalskip_15581782.json",
+  "kernel": "/users/PAS2402/alexg/softmax/.worktrees/kernel-speed/triton/stieltjes_flash_attn.py",
+  "dry": false
+ },
+ "steps": {
+  "sdpa": {
+   "attn": "sdpa",
+   "micro_ms": 85.46514129638672,
+   "opt_ms": 17.990922292073567,
+   "kernel_ms": {
+    "attn_fwd": 2.2374727500000824,
+    "attn_bwd": 6.467180374999929,
+    "rest": 74.09416387499955
+   },
+   "top_rest": [
+    [
+     7.755,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN"
+    ],
+    [
+     6.826,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN"
+    ],
+    [
+     6.636,
+     "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:"
+    ],
+    [
+     5.089,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN"
+    ],
+    [
+     4.331,
+     "void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa"
+    ],
+    [
+     4.128,
+     "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso"
+    ],
+    [
+     3.98,
+     "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at"
+    ],
+    [
+     3.884,
+     "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,"
+    ]
+   ],
+   "tok_per_s_gpu_only": 95537.70633535381
+  },
+  "stj": {
+   "attn": "stj",
+   "micro_ms": 129.18260192871094,
+   "opt_ms": 18.038495381673176,
+   "kernel_ms": {
+    "attn_fwd": 36.59961574999996,
+    "attn_bwd": 15.699462000000134,
+    "rest": 74.08659474999925
+   },
+   "top_rest": [
+    [
+     7.743,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN"
+    ],
+    [
+     6.815,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN"
+    ],
+    [
+     6.505,
+     "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:"
+    ],
+    [
+     5.079,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN"
+    ],
+    [
+     4.33,
+     "void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa"
+    ],
+    [
+     4.105,
+     "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso"
+    ],
+    [
+     3.986,
+     "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at"
+    ],
+    [
+     3.887,
+     "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,"
+    ]
+   ],
+   "tok_per_s_gpu_only": 63276.05596483071
+  }
+ },
+ "attention": {
+  "stj_fwd_iter1_ms": 0.5814470052719116,
+  "stj_fwd_iter2_ms": 0.9465230107307434,
+  "stj_fwd_iter3_ms": 1.509706974029541,
+  "sdpa_fwd_ms": 0.09340199828147888,
+  "stj_fwdbwd_iter3_ms": 2.1767899990081787,
+  "sdpa_fwdbwd_ms": 0.41937801241874695,
+  "stj_bwd_iter3_ms": 0.6670830249786377,
+  "sdpa_bwd_ms": 0.32597601413726807,
+  "shape": [
+   8,
+   16,
+   1024,
+   64
+  ]
+ }
+}
