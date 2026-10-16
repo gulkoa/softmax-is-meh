@@ -1,0 +1,234 @@
+11:REPO_DIR=/users/PAS2402/alexg/softmax/.worktrees/kernel-speed
+14:source /users/PAS2402/alexg/softmax/softmax-is-meh/triton/.venv/bin/activate
+NVIDIA H100
+== 1. test suite (worktree, GPU)
+=== nanogpt test suite (CPU) ===
+
+--- Import checks ---
+  [import data] OK
+PASS
+  [import model] OK
+PASS
+  [import train] OK
+PASS
+  [import analyze] OK
+PASS
+
+--- Data correctness ---
+  [sorting output is sorted] OK — 100 samples verified
+PASS
+  [max output correct] OK — 100 samples verified
+PASS
+  [binary_search output correct] OK — 100 samples verified
+PASS
+  [needle task correctness] OK — 100 needle samples verified
+PASS
+  [bfs no vocab collision at max scale] OK — 50 large BFS samples, no vocab collisions
+PASS
+  [bfs output correct] OK — 50 samples verified
+PASS
+
+--- Model tests ---
+  [model forward+backward] OK — loss=5.5558
+PASS
+  [ignore_index=257 matches PAD] OK
+PASS
+
+--- Accuracy metric ---
+  [output-only accuracy] OK — 6 output tokens, first=3
+PASS
+  [binary_search accuracy finds target_idx] OK — target_idx=1
+PASS
+
+--- Triton correctness (skipped if no CUDA) ---
+  [triton matches ref on causal q=4 random] OK — max_abs=0.00000, argmax_agree=1.0000
+PASS
+  [causal tile skip is bit-identical to dc8dd3d] note 1,1,2048,64 torch.float16 causal=True {'stieltjes_q': 2.0, 'num_iter': 3, 'solver': 'halley', 'normalize': True, 'ift_grad': True}: the reference itself is non-finite here (identical bits: True)
+bit-identity: 56/56 cases identical
+PASS
+PASS
+
+--- Analysis scorers (synthetic logs) ---
+  [stability_flags]   test_clean: PASS
+  test_spike_fails: PASS
+  test_spike_in_warmup_ignored: PASS
+  test_nan_gnorm_fails: PASS
+  test_inf_val_fails: PASS
+  test_val_jump_fails: PASS
+  test_incomplete: PASS
+  test_missing_lines_counted: PASS
+  test_chunks_later_wins: PASS
+  test_overwritten_listed_not_counted: PASS
+  test_overwritten_nan_and_kept_events: PASS
+  test_onset_first_probe_above_1000: PASS
+  test_no_gnorm_lines_warns: PASS
+  test_no_overwrite_single_chunk: PASS
+PASS
+  [score_lr_headroom]   test_h1_and_trigger: PASS
+  test_h1_lower_bound_at_8e3: PASS
+  test_h2_no_trigger: PASS
+  test_h3: PASS
+  test_pending_withheld: PASS
+  test_q3_ratio_branches: PASS
+  test_q4_branches: PASS
+  test_q2_undefined: PASS
+  test_attribution: PASS
+  test_end_to_end: PASS
+PASS
+  [score_logit_probe]   test_reading1: PASS
+  test_timeout_without_spike_is_incomplete: PASS
+  test_stopped_without_spike_is_reading4: PASS
+  test_inf_gnorm_is_tstar: PASS
+  test_nan_gnorm_is_tstar: PASS
+  test_chunks_later_wins: PASS
+  test_at_the_bar_flag: PASS
+  test_missing_pre_probe_uses_last_before: PASS
+PASS
+
+=== ALL TESTS PASSED ===
+suite exit 0
+== 2. kernel self-tests
+kernel: /users/PAS2402/alexg/softmax/.worktrees/kernel-speed/triton/stieltjes_flash_attn.py
+Forward correctness tests
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000022
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000036
+  [PASS] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000016
+  [PASS] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0001  mean_err=0.000011
+  [PASS] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000020
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.0001  mean_err=0.000016
+  [PASS] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000009
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000014
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000007
+  [PASS] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000010
+----------------------------------------------------------------------
+All forward tests passed.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0003  dK_err=0.0002  dV_err=0.0012
+  [PASS] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0004  dK_err=0.0005  dV_err=0.0013
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0019  dK_err=0.0018  dV_err=0.0001
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0019  dK_err=0.0014  dV_err=0.0016
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0110  dK_err=0.0114  dV_err=0.0001
+----------------------------------------------------------------------
+All backward tests passed.
+
+Non-contiguous layout tests (fused-qkv views vs contiguous, B=3)
+----------------------------------------------------------------------
+  [PASS] causal=False q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=True   fwd_err=0.000000  bwd_err=0.000000
+----------------------------------------------------------------------
+All non-contiguous layout tests passed.
+
+Long-N backward NaN diagnostic (causal, q=4, normalize+ift, N % BLOCK_N != 0)
+----------------------------------------------------------------------
+  N= 1000 bfloat16 : clean
+  N= 1000 float16  : clean
+  N= 2000 bfloat16 : clean
+  N= 2000 float16  : clean
+  N= 3800 bfloat16 : clean
+  N= 3800 float16  : clean
+  N= 4100 bfloat16 : clean
+  N= 4100 float16  : clean
+----------------------------------------------------------------------
+DIAGNOSTIC: no NaN at these shapes — SFT trigger is elsewhere (padded batch rows / data-dependent scores)
+
+Padded-row variant (EOS-style repeated tail, do=0 on tail)
+----------------------------------------------------------------------
+  N= 1000 pad=30%: no NaN
+  N= 1000 pad=70%: no NaN
+  N= 2000 pad=30%: no NaN
+  N= 2000 pad=70%: no NaN
+  N= 4100 pad=30%: no NaN
+  N= 4100 pad=70%: no NaN
+----------------------------------------------------------------------
+self-tests fwd/bwd/noncontig: [True, True, True] PASS
+self-tests exit 0
+== 3. bit-identity vs dc8dd3d + timings
+note 1,1,2048,64 torch.float16 causal=True {'stieltjes_q': 2.0, 'num_iter': 3, 'solver': 'halley', 'normalize': True, 'ift_grad': True}: the reference itself is non-finite here (identical bits: True)
+bit-identity: 56/56 cases identical
+shape 8,16,1024,64: fwd 0.996 -> 0.570 ms (1.75x); bwd 0.644 -> 0.531 ms (1.21x); fwd+bwd 1.639 -> 1.101 ms (1.49x)
+shape 16,12,1024,64: fwd 1.470 -> 0.800 ms (1.84x); bwd 0.945 -> 0.748 ms (1.26x); fwd+bwd 2.415 -> 1.547 ms (1.56x)
+PASS
+identity exit 0
+== 4. step split with the branch kernel
+kernel override: /users/PAS2402/alexg/softmax/.worktrees/kernel-speed/triton/stieltjes_flash_attn.py
+torch 2.10.0+cu128, NVIDIA H100; shape 24x16x1024, ctx 1024, micro-batch 8
+
+[sdpa] micro-step 85.16 ms wall, optimizer step 17.91 ms; kernel time 82.76 ms = attn fwd 2.24 (2.7%) + attn bwd 6.48 (7.8%) + rest 74.04 (89.5%); GPU-only 96k tok/s
+       7.739 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       6.815 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       6.629 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       5.092 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN
+       4.328 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       4.122 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       3.982 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.877 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+
+[stj] micro-step 102.71 ms wall, optimizer step 17.98 ms; kernel time 100.35 ms = attn fwd 13.81 (13.8%) + attn bwd 12.48 (12.4%) + rest 74.06 (73.8%); GPU-only 80k tok/s
+       7.742 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       6.814 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       6.504 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       5.085 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN
+       4.329 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       4.104 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       3.980 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.879 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+
+stj / sdpa micro-step wall: 1.206 (gap 17.55 ms); attention kernel gap 17.57 ms, rest-kernel gap 0.02 ms. Bound: Stieltjes attention as fast as SDPA's would give 85.14 ms (1.000x sdpa).
+
+attention alone at shape [8, 16, 1024, 64]
+    stj_fwd_iter1_ms            0.348 ms
+    stj_fwd_iter2_ms            0.457 ms
+    stj_fwd_iter3_ms            0.576 ms
+    sdpa_fwd_ms                 0.095 ms
+    stj_fwdbwd_iter3_ms         1.108 ms
+    sdpa_fwdbwd_ms              0.418 ms
+    stj_bwd_iter3_ms            0.532 ms
+    sdpa_bwd_ms                 0.324 ms
+wrote /users/PAS2402/alexg/softmax/softmax-is-meh/results/profile_step_split_355m_causalskip_15582362.json
+kernel override: /users/PAS2402/alexg/softmax/.worktrees/kernel-speed/triton/stieltjes_flash_attn.py
+torch 2.10.0+cu128, NVIDIA H100; shape 12x12x768, ctx 1024, micro-batch 16
+
+[sdpa] micro-step 69.12 ms wall, optimizer step 6.63 ms; kernel time 67.98 ms = attn fwd 1.56 (2.3%) + attn bwd 4.78 (7.0%) + rest 61.63 (90.7%); GPU-only 236k tok/s
+       5.444 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       4.737 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       4.425 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       4.270 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.305 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       3.050 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+       2.974 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       2.944 ms  void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:
+
+[stj] micro-step 81.23 ms wall, optimizer step 6.52 ms; kernel time 80.09 ms = attn fwd 9.59 (12.0%) + attn bwd 8.82 (11.0%) + rest 61.68 (77.0%); GPU-only 201k tok/s
+       5.439 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       4.713 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       4.426 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       4.269 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.305 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       3.050 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+       2.974 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       2.945 ms  void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:
+
+stj / sdpa micro-step wall: 1.175 (gap 12.11 ms); attention kernel gap 12.06 ms, rest-kernel gap 0.06 ms. Bound: Stieltjes attention as fast as SDPA's would give 69.17 ms (1.001x sdpa).
+
+attention alone at shape [16, 12, 1024, 64]
+    stj_fwd_iter1_ms            0.479 ms
+    stj_fwd_iter2_ms            0.635 ms
+    stj_fwd_iter3_ms            0.794 ms
+    sdpa_fwd_ms                 0.130 ms
+    stj_fwdbwd_iter3_ms         1.538 ms
+    sdpa_fwdbwd_ms              0.606 ms
+    stj_bwd_iter3_ms            0.744 ms
+    sdpa_bwd_ms                 0.477 ms
+wrote /users/PAS2402/alexg/softmax/softmax-is-meh/results/profile_step_split_124m_causalskip_15582362.json
+ALL DONE
