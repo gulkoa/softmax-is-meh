@@ -203,11 +203,21 @@ def _stieltjes_attn_fwd(
     q_ptrs = Q + q_offset + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
     q_block = tl.load(q_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
 
+    # Causal: key tiles past this row block's last row are fully masked.
+    # Every term they add to the sums below is exactly 0 (the inverse power
+    # of ~1e30 underflows to 0), and their -1e30 scores never win the max
+    # (key 0, in the first tile, is valid for every row). So every sweep
+    # stops at the diagonal, as _stieltjes_bwd_dkdv / _stieltjes_bwd_dq
+    # already do; outputs are unchanged bit for bit.
+    hi = N_CTX
+    if CAUSAL:
+        hi = (start_m + 1) * BLOCK_M
+
     # ===== PASS 1: Row-wise max + argmax of QK^T =====
     row_max = tl.full([BLOCK_M], value=-1e30, dtype=tl.float32)
     row_argmax = tl.zeros([BLOCK_M], dtype=tl.int32)
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
@@ -252,7 +262,7 @@ def _stieltjes_attn_fwd(
         f_deriv = tl.zeros([BLOCK_M], dtype=tl.float32)
         f_dd = tl.zeros([BLOCK_M], dtype=tl.float32)   # only used if HALLEY
 
-        for start_n in tl.range(0, N_CTX, BLOCK_N):
+        for start_n in tl.range(0, hi, BLOCK_N):
             offs_n = start_n + tl.arange(0, BLOCK_N)
             k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
             k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
@@ -304,7 +314,7 @@ def _stieltjes_attn_fwd(
     d_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # Σ(λ-s)^{-q-1} for backward
     w_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # S = Σ(λ-s)^{-q}
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         v_ptrs = V + v_offset + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
@@ -452,10 +462,14 @@ def _stieltjes_bwd_delta(
     lam_row = tl.load(lam_ptrs, mask=offs_m < N_CTX, other=0.0)
     d_row = tl.load(d_ptrs, mask=offs_m < N_CTX, other=1.0)
 
-    # Accumulate Σ_j dP_ij · r_ij  (sweep over all K/V tiles)
+    # Accumulate Σ_j dP_ij · r_ij over the K/V tiles; causal stops at the
+    # diagonal (tiles past it have r = 0 exactly, see _stieltjes_attn_fwd)
     acc = tl.zeros([BLOCK_M], dtype=tl.float32)
+    hi = N_CTX
+    if CAUSAL:
+        hi = (start_m + 1) * BLOCK_M
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
 
         k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk

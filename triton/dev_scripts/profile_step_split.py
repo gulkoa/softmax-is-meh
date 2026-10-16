@@ -18,8 +18,11 @@ Measurement only. The data loader and the trainer's logging are not included.
     python triton/dev_scripts/profile_step_split.py [--layers 24 --heads 16
         --embd 1024 --micro-bs 8] [--iters 8] [--json OUT]
     python triton/dev_scripts/profile_step_split.py --dry   # CPU plumbing check
+    --kernel PATH swaps in another stieltjes_flash_attn.py (e.g. a branch's)
+    for the trainer's, in the model and in the attention-only timings.
 """
 import argparse
+import importlib.util
 import json
 import sys
 import types
@@ -177,9 +180,17 @@ def main():
     ap.add_argument("--iters", type=int, default=8)
     ap.add_argument("--warmup", type=int, default=4)
     ap.add_argument("--json", default=None)
+    ap.add_argument("--kernel", default=None,
+                    help="stieltjes_flash_attn.py to use instead of the trainer's")
     ap.add_argument("--dry", action="store_true",
                     help="CPU plumbing check: tiny model, sdpa only, no timing")
     a = ap.parse_args()
+    if a.kernel:
+        spec = importlib.util.spec_from_file_location("stj_kernel_override", a.kernel)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        T.stieltjes_attention = mod.stieltjes_attention   # Attn.forward looks it up here
+        print("kernel override:", a.kernel, flush=True)
     if a.dry:
         a.layers, a.heads, a.embd, a.ctx, a.micro_bs, a.warmup = 2, 2, 64, 32, 2, 1
         assert category("_stieltjes_attn_fwd") == "attn_fwd"
