@@ -59,6 +59,10 @@ MODES = [  # kwargs for stieltjes_attention
 ]
 
 
+def bits(t):
+    return t.contiguous().view({2: torch.int16, 4: torch.int32}[t.element_size()])
+
+
 def run(mod, q, k, v, do, causal, kw):
     q, k, v = (t.detach().clone().requires_grad_() for t in (q, k, v))
     o = mod.stieltjes_attention(q, k, v, causal=causal,
@@ -78,14 +82,20 @@ def identity(ref, new):
             for kw in MODES:
                 a = run(ref, q, k, v, do, causal, kw)
                 b = run(new, q, k, v, do, causal, kw)
-                same = [torch.equal(x, y) for x, y in zip(a, b)]
-                finite = all(torch.isfinite(x).all().item() for x in b)
-                ok = all(same) and finite
+                # bitwise (NaN payloads included); a non-finite value only
+                # fails when the reference had a finite one there
+                same = [torch.equal(bits(x), bits(y)) for x, y in zip(a, b)]
+                new_bad = any((~torch.isfinite(y) & torch.isfinite(x)).any().item()
+                              for x, y in zip(a, b))
+                ok = all(same) and not new_bad
                 n_fail += not ok
+                if not all(torch.isfinite(x).all().item() for x in a):
+                    print(f"note {B},{H},{N},{D} {dt} causal={causal} {kw}: the "
+                          f"reference itself is non-finite here (identical bits: {all(same)})")
                 if not ok:
                     diffs = [(x.float() - y.float()).abs().max().item() for x, y in zip(a, b)]
-                    print(f"FAIL {B},{H},{N},{D} {dt} causal={causal} {kw}: equal "
-                          f"o/dq/dk/dv {same}, finite {finite}, max|diff| {diffs}")
+                    print(f"FAIL {B},{H},{N},{D} {dt} causal={causal} {kw}: bit-equal "
+                          f"o/dq/dk/dv {same}, new non-finite {new_bad}, max|diff| {diffs}")
     total = len(CASES) * 2 * len(MODES)
     print(f"bit-identity: {total - n_fail}/{total} cases identical")
     return n_fail == 0
