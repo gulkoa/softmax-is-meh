@@ -1,0 +1,73 @@
+name, clocks.max.sm [MHz], power.limit [W]
+NVIDIA H100, 1980 MHz, 700.00 W
+== 355M (24 x 16 x 1024, micro-batch 8)
+torch 2.10.0+cu128, NVIDIA H100; shape 24x16x1024, ctx 1024, micro-batch 8
+
+[sdpa] micro-step 85.36 ms wall, optimizer step 17.98 ms; kernel time 82.60 ms = attn fwd 2.23 (2.7%) + attn bwd 6.46 (7.8%) + rest 73.91 (89.5%); GPU-only 96k tok/s
+       7.704 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       6.789 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       6.626 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       5.054 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN
+       4.327 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       4.118 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       3.982 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.879 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+
+[stj] micro-step 116.51 ms wall, optimizer step 18.01 ms; kernel time 113.68 ms = attn fwd 23.11 (20.3%) + attn bwd 16.63 (14.6%) + rest 73.94 (65.0%); GPU-only 70k tok/s
+       7.704 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       6.792 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       6.493 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       5.053 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NTN
+       4.326 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       4.097 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       3.982 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.880 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+
+stj / sdpa micro-step wall: 1.365 (gap 31.16 ms); attention kernel gap 31.05 ms, rest-kernel gap 0.03 ms. Bound: Stieltjes attention as fast as SDPA's would give 85.47 ms (1.001x sdpa).
+
+attention alone at shape [8, 16, 1024, 64]
+    stj_fwd_iter1_ms            0.541 ms
+    stj_fwd_iter2_ms            0.751 ms
+    stj_fwd_iter3_ms            0.998 ms
+    sdpa_fwd_ms                 0.095 ms
+    stj_fwdbwd_iter3_ms         1.678 ms
+    sdpa_fwdbwd_ms              0.414 ms
+    stj_bwd_iter3_ms            0.679 ms
+    sdpa_bwd_ms                 0.319 ms
+wrote results/profile_step_split_355m_15581601.json
+== 124M (12 x 12 x 768, micro-batch 16)
+torch 2.10.0+cu128, NVIDIA H100; shape 12x12x768, ctx 1024, micro-batch 16
+
+[sdpa] micro-step 68.81 ms wall, optimizer step 6.43 ms; kernel time 67.88 ms = attn fwd 1.56 (2.3%) + attn bwd 4.77 (7.0%) + rest 61.54 (90.7%); GPU-only 237k tok/s
+       5.407 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       4.739 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       4.428 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       4.269 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.306 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       3.051 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+       2.962 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       2.944 ms  void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:
+
+[stj] micro-step 92.05 ms wall, optimizer step 6.46 ms; kernel time 91.14 ms = attn fwd 17.54 (19.2%) + attn bwd 12.03 (13.2%) + rest 61.57 (67.6%); GPU-only 178k tok/s
+       5.400 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN
+       4.712 ms  void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:
+       4.425 ms  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso
+       4.269 ms  void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at
+       3.305 ms  void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa
+       3.049 ms  void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,
+       2.959 ms  nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN
+       2.944 ms  void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:
+
+stj / sdpa micro-step wall: 1.338 (gap 23.25 ms); attention kernel gap 23.23 ms, rest-kernel gap 0.03 ms. Bound: Stieltjes attention as fast as SDPA's would give 68.82 ms (1.000x sdpa).
+
+attention alone at shape [16, 12, 1024, 64]
+    stj_fwd_iter1_ms            0.802 ms
+    stj_fwd_iter2_ms            1.128 ms
+    stj_fwd_iter3_ms            1.481 ms
+    sdpa_fwd_ms                 0.129 ms
+    stj_fwdbwd_iter3_ms         2.450 ms
+    sdpa_fwdbwd_ms              0.607 ms
+    stj_bwd_iter3_ms            0.970 ms
+    sdpa_bwd_ms                 0.478 ms
+wrote results/profile_step_split_124m_15581601.json
+ALL DONE

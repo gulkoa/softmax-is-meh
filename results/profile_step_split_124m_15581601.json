@@ -1,0 +1,122 @@
+{
+ "args": {
+  "layers": 12,
+  "heads": 12,
+  "embd": 768,
+  "ctx": 1024,
+  "micro_bs": 16,
+  "grad_accum": 32,
+  "iters": 8,
+  "warmup": 4,
+  "json": "results/profile_step_split_124m_15581601.json",
+  "dry": false
+ },
+ "steps": {
+  "sdpa": {
+   "attn": "sdpa",
+   "micro_ms": 68.8052749633789,
+   "opt_ms": 6.43177604675293,
+   "kernel_ms": {
+    "attn_fwd": 1.5632734999999915,
+    "attn_bwd": 4.773213750000003,
+    "rest": 61.54182550000004
+   },
+   "top_rest": [
+    [
+     5.407,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN"
+    ],
+    [
+     4.739,
+     "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:"
+    ],
+    [
+     4.428,
+     "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso"
+    ],
+    [
+     4.269,
+     "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at"
+    ],
+    [
+     3.306,
+     "void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa"
+    ],
+    [
+     3.051,
+     "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,"
+    ],
+    [
+     2.962,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN"
+    ],
+    [
+     2.944,
+     "void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:"
+    ]
+   ],
+   "tok_per_s_gpu_only": 237427.70741272336
+  },
+  "stj": {
+   "attn": "stj",
+   "micro_ms": 92.05335235595703,
+   "opt_ms": 6.458666483561198,
+   "kernel_ms": {
+    "attn_fwd": 17.53953550000004,
+    "attn_bwd": 12.027060375000072,
+    "rest": 61.5701461250005
+   },
+   "top_rest": [
+    [
+     5.4,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_NNN"
+    ],
+    [
+     4.712,
+     "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native:"
+    ],
+    [
+     4.425,
+     "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso"
+    ],
+    [
+     4.269,
+     "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at"
+    ],
+    [
+     3.305,
+     "void at::native::(anonymous namespace)::layer_norm_grad_input_kernel_vectorized<c10::BFloa"
+    ],
+    [
+     3.049,
+     "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float,"
+    ],
+    [
+     2.959,
+     "nvjet_tst_128x256_64x4_2x1_v_bz_coopA_TNN"
+    ],
+    [
+     2.944,
+     "void at::native::(anonymous namespace)::cunn_SoftMaxBackward<8, c10::BFloat16, float, c10:"
+    ]
+   ],
+   "tok_per_s_gpu_only": 177594.35286593516
+  }
+ },
+ "attention": {
+  "stj_fwd_iter1_ms": 0.8019229769706726,
+  "stj_fwd_iter2_ms": 1.127519965171814,
+  "stj_fwd_iter3_ms": 1.4807660579681396,
+  "sdpa_fwd_ms": 0.12938499450683594,
+  "stj_fwdbwd_iter3_ms": 2.4503419399261475,
+  "sdpa_fwdbwd_ms": 0.6073960065841675,
+  "stj_bwd_iter3_ms": 0.9695758819580078,
+  "sdpa_bwd_ms": 0.47801101207733154,
+  "shape": [
+   16,
+   12,
+   1024,
+   64
+  ]
+ }
+}
