@@ -762,9 +762,18 @@ def _stieltjes_bwd_dq(
 # Launch settings (num_warps / num_stages) per kernel, applied to 16-bit
 # inputs at D <= 64 (the training shapes) and nowhere else; empty = Triton's
 # defaults (4 warps, 3 stages). Tile sizes are not set here: at 128 x 64
-# every warps / stages choice gives bit-identical outputs
+# every warps / stages choice gives bit-identical outputs. Chosen on H100 as
+# the fastest bit-identical setting per kernel at B 8, H 16, N 1,024, D 64,
+# bf16 (also the fastest or within 2 % at the 124M shape and at N 4,096 /
+# 8,192): attention forward + backward 2.18 -> 1.08 ms per call; the
+# forward at 4 warps sat at the 255-register ceiling
 # (thesis/experiments/2026-10-16-kernel-causal-skip.md).
-LAUNCH = {"fwd": {}, "delta": {}, "dkdv": {}, "dq": {}}
+LAUNCH = {
+    "fwd": dict(num_warps=8, num_stages=1),
+    "delta": dict(num_warps=8, num_stages=3),
+    "dkdv": dict(num_warps=4, num_stages=2),
+    "dq": {},
+}
 
 
 def _launch_kw(name, q):
