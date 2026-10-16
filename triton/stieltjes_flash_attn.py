@@ -765,8 +765,10 @@ def _stieltjes_bwd_dq(
 # every warps / stages choice gives bit-identical outputs. Chosen on H100 as
 # the fastest bit-identical setting per kernel at B 8, H 16, N 1,024, D 64,
 # bf16 (also the fastest or within 2 % at the 124M shape and at N 4,096 /
-# 8,192): attention forward + backward 2.18 -> 1.08 ms per call; the
-# forward at 4 warps sat at the 255-register ceiling
+# 8,192). Attention forward + backward per call at that shape: 1.64 ms with
+# main's kernel before the causal skip (dc8dd3d) -> 1.10 ms; against this
+# kernel at Triton's default launch, 2.18 -> 1.08 ms. At 4 warps the forward
+# sat at the 255-register ceiling
 # (thesis/experiments/2026-10-16-kernel-causal-skip.md).
 LAUNCH = {
     "fwd": dict(num_warps=8, num_stages=1),

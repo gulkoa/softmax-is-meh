@@ -5,7 +5,7 @@ change) next to this checkout's kernel and compares, for causal and
 non-causal inputs, shapes with N a multiple of the tile and not, every
 supported dtype path and the solver / normalization / gradient modes:
 the output and dq, dk, dv with torch.equal. Then times both at the 355M
-and 124M training shapes (forward, forward + backward).
+and 124M training shapes and at N = 4,096 / 8,192 (forward, forward + backward).
 
     python triton/test_causal_skip.py [--bench]
 """
@@ -116,8 +116,8 @@ def time_ms(fn, iters=30):
 
 def bench(ref, new):
     kw = MODES[0]
-    for B, H in ((8, 16), (16, 12)):
-        N, D = 1024, 64
+    for B, H, N in ((8, 16, 1024), (16, 12, 1024), (2, 16, 4096), (1, 16, 8192)):
+        D = 64
         g = torch.Generator(device="cuda").manual_seed(0)
         q, k, v, do = (torch.randn(B, H, N, D, device="cuda", dtype=torch.bfloat16,
                                    generator=g) for _ in range(4))
