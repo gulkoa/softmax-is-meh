@@ -15,6 +15,10 @@ while [ $gone -lt 2 ]; do
     if [ -n "$(squeue -j "$NB" -h -o %i 2>/dev/null)" ]; then gone=0; else gone=$((gone + 1)); fi
     [ $gone -lt 2 ] && sleep 300
 done
+# Serialize the read-modify-write of ExcNodeList: two instances lifting
+# different nodes at once overwrote each other on 10-16 18:13.
+exec 9>>"$HOME/.unexclude_when_gone.lock"
+flock 9
 echo "$(date +%T) neighbour job(s) $NB gone from the queue; lifting $NODE"
 for j in $(squeue -u "$USER" -h -t PD -o %i); do
     cur=$(scontrol show job "$j" | grep -o 'ExcNodeList=[^ ]*' | cut -d= -f2)
