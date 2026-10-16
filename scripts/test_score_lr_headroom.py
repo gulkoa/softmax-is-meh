@@ -85,6 +85,7 @@ def test_q4_branches():
     assert has(readings(R), "Q4 partial")
     R["LS@6e-4"] = ("failed", None, "x")       # nan before 9,500
     assert has(readings(R), "outside the pre-registered rule")
+    assert has(readings(R, {"LS@6e-4"}), "Q4 pending: LS@6e-4 failed but is still training")
 
 
 def test_q2_undefined():

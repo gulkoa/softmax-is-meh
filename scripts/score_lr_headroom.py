@@ -71,8 +71,9 @@ def attribute(f, probe):
             f"{probe[p - 1000]:.1f} = {r:.2f} -> {verdict}")
 
 
-def readings(R):
-    """R: name -> (status, final_ppl or None, attribution text or None)."""
+def readings(R, running=frozenset()):
+    """R: name -> (status, final_ppl or None, attribution text or None);
+    running: names whose jobs have not all ended."""
     out = []
     st = lambda n: R[n][0] if n in R else "not run"      # noqa: E731
     ppl = lambda n: R[n][1]                              # noqa: E731
@@ -132,6 +133,9 @@ def readings(R):
 
     if l6 == "pending":
         out.append("Q4 pending")
+    elif ppl("LS@6e-4") is None and "LS@6e-4" in running:
+        out.append("Q4 pending: LS@6e-4 failed but is still training; the "
+                   "reading uses its step-9,500 score")
     elif ppl("LS@6e-4") is None:
         out.append("Q4 LS@6e-4 has no step-9,500 score (failed before it): "
                    "outside the pre-registered rule, reported as such")
@@ -162,7 +166,7 @@ def main():
     ap.add_argument("--assume-ended", action="store_true",
                     help="treat every run as ended (tests; no sacct)")
     a = ap.parse_args()
-    R = {}
+    R, running = {}, set()
     print(f"{'run':<9} {'status':<8} {'final':>12} {'gn>5':>5} {'first':>6} "
           f"{'max gn':>8} {'mono':>4} {'nan':>6}  probe M")
     for line in open(a.jobs):
@@ -172,6 +176,8 @@ def main():
         logs = [os.path.join(a.results, f"qknorm-pilot-{j}.out") for j in jobs]
         logs = [p for p in logs if os.path.exists(p)]
         done = a.assume_ended or ended(jobs)
+        if not done:
+            running.add(name)
         if not logs:
             R[name] = ("failed" if done else "pending", None, None)
             print(f"{name:<9} {R[name][0]:<8} (no log yet)")
@@ -197,7 +203,7 @@ def main():
                   "chunk's re-run (shown, not counted): "
                   + ", ".join(f"{k} @{s}" for s, k in lost))
     print()
-    for r in readings(R):
+    for r in readings(R, running):
         print(r)
 
 
