@@ -18,7 +18,10 @@ step_of() {
 }
 # a transient sacct failure prints nothing and keeps the loop waiting
 until sacct -j "$JOB" -X -n -o State 2>/dev/null | grep -qE "$TERMINAL"; do
-    $PY $ROOT/scripts/backup_ckpts.py "$CKPT" --settle 90 2>&1 | grep -v "backup current"
+    # start python (torch import) only when there is a newer checkpoint to copy
+    if [ -f "$CKPT" ] && { [ ! -f "$CKPT.bak" ] || [ "$CKPT" -nt "$CKPT.bak" ]; }; then
+        $PY $ROOT/scripts/backup_ckpts.py "$CKPT" --settle 90 2>&1 | grep -v "backup current"
+    fi
     sleep 60
 done
 sleep 20
