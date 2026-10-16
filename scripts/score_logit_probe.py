@@ -12,7 +12,10 @@ Readings: 1 G_soft >= 2 and G_stj <= 1.5 -> Stieltjes does not grow;
           4 no softmax spike before the stop step -> no reading;
           5 otherwise                    -> partial.
 
-    python scripts/score_logit_probe.py SOFTMAX_LOG STIELTJES_LOG [--from 2000]
+    python scripts/score_logit_probe.py SOFTMAX_LOGS STIELTJES_LOGS [--from 2000]
+
+Each LOGS argument is one log or a comma-separated list in chunk order; on
+steps re-run after a resume, the later chunk wins (it carries the trajectory).
 """
 import argparse
 import re
@@ -21,12 +24,16 @@ PROBE = re.compile(r"^probe step (\d+) M ([\d.]+) maxabs ([\d. ]+)\| minent ([\d
 STEP = re.compile(r"^step +(\d+)/\d+ loss ([\d.]+) gnorm ([\d.]+)", re.M)
 
 
-def parse(path):
-    t = open(path, errors="ignore").read()
-    probes = {int(s): (float(m), [float(v) for v in a.split()], [float(v) for v in e.split()])
-              for s, m, a, e in PROBE.findall(t)}
-    gn = {int(s): float(g) for s, _, g in STEP.findall(t)}
-    return probes, gn, "STOPPED at step" in t
+def parse(paths):
+    probes, gn, stopped = {}, {}, False
+    for path in paths.split(","):
+        t = open(path, errors="ignore").read()
+        probes.update({int(s): (float(m), [float(v) for v in a.split()],
+                                [float(v) for v in e.split()])
+                       for s, m, a, e in PROBE.findall(t)})
+        gn.update({int(s): float(g) for s, _, g in STEP.findall(t)})
+        stopped = stopped or "STOPPED at step" in t or "already stopped" in t
+    return probes, gn, stopped
 
 
 def main():
