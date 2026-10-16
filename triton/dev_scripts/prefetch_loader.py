@@ -15,6 +15,10 @@ stilt.1.2 mix, timed on the login node, took 2.5-7.0 s serially and
     stall the training thread's kernel launches);
   * runs up to `depth` steps ahead of training in a daemon thread that
     makes no CUDA calls; a producer error is re-raised by get().
+A GPFS stall is waited out, as the synchronous path does, with a log line
+every warn_every seconds. Raising would not free the job (interpreter exit
+joins the pool threads stuck in pread) and would lose up to ckpt_every
+steps plus a requeue.
 Validation keeps the synchronous path (its own rng).
 
 The producer draws ahead of training, so an rng state saved with a
@@ -25,6 +29,7 @@ replay before the producer starts.
 """
 import os
 import queue
+import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
@@ -59,10 +64,12 @@ class Prefetcher:
     owns: nothing else may draw from it)."""
 
     def __init__(self, shards, bs, ctx, grad_accum, n_steps, rng,
-                 threads=32, depth=2, timeout=900.0, poll=1.0):
+                 threads=32, depth=2, timeout=None, warn_every=300.0,
+                 poll=1.0):
         self.shards, self.bs, self.ctx = shards, bs, ctx
         self.grad_accum, self.n_steps, self.rng = grad_accum, n_steps, rng
         self.threads, self.timeout, self.poll = threads, timeout, poll
+        self.warn_every = warn_every
         self.nbytes = 2 * (ctx + 1)                      # uint16 tokens
         self.fds = [[os.open(m.filename, os.O_RDONLY) for m in maps]
                     for maps in shards.sources]
@@ -112,9 +119,10 @@ class Prefetcher:
 
     def get(self):
         """The next micro-batch. Re-raises a producer error; raises
-        TimeoutError if nothing arrives within `timeout` seconds and
-        RuntimeError once all n_steps are consumed or the producer died."""
-        waited = 0.0
+        RuntimeError once all n_steps are consumed or the producer died.
+        A live but stalled producer is waited for (a line every warn_every
+        seconds), or raises TimeoutError after `timeout` seconds if set."""
+        waited, warned = 0.0, 0.0
         while True:
             try:
                 item = self.q.get(timeout=self.poll)
@@ -123,9 +131,13 @@ class Prefetcher:
                 waited += self.poll
                 if not self.thread.is_alive() and self.q.empty():
                     raise RuntimeError("prefetch producer exited without a batch")
-                if waited >= self.timeout:
+                if self.timeout is not None and waited >= self.timeout:
                     raise TimeoutError(f"no batch from the prefetch producer "
                                        f"in {self.timeout:.0f} s")
+                if waited - warned >= self.warn_every:
+                    warned = waited
+                    print(f"loader: waited {waited / 60:.1f} min for a batch "
+                          f"(storage stall?)", file=sys.stdout, flush=True)
         if item is _DONE:
             self.q.put(_DONE)
             raise RuntimeError(f"prefetcher exhausted after {self.n_steps} steps")

@@ -4,6 +4,8 @@ failures must surface in the training thread. CPU only; synthetic shards.
 
     python scripts/test_prefetch_loader.py
 """
+import contextlib
+import io
 import os
 import sys
 import tempfile
@@ -108,6 +110,19 @@ def main():
             assert time.time() - t0 < 5
         release.set()
         assert pf.get().shape == (1, 65)                   # recovers once released
+        pf.close()
+
+        # the default (trainer) mode waits a stall out and logs it
+        release.clear()
+        pf = Stalled(mix, 1, 64, 1, 3, np.random.default_rng(0), threads=1,
+                     warn_every=0.3, poll=0.1)
+        assert pf.timeout is None
+        buf = io.StringIO()
+        threading.Timer(1.2, release.set).start()
+        with contextlib.redirect_stdout(buf):
+            got = pf.get()
+        assert got.shape == (1, 65)
+        assert "loader: waited" in buf.getvalue(), buf.getvalue()
         pf.close()
     print("OK")
 
