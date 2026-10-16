@@ -759,6 +759,20 @@ def _stieltjes_bwd_dq(
 # Autograd wrapper
 # ---------------------------------------------------------------------------
 
+# Launch settings (num_warps / num_stages) per kernel, applied to 16-bit
+# inputs at D <= 64 (the training shapes) and nowhere else; empty = Triton's
+# defaults (4 warps, 3 stages). Tile sizes are not set here: at 128 x 64
+# every warps / stages choice gives bit-identical outputs
+# (thesis/experiments/2026-10-16-kernel-causal-skip.md).
+LAUNCH = {"fwd": {}, "delta": {}, "dkdv": {}, "dq": {}}
+
+
+def _launch_kw(name, q):
+    if q.shape[-1] <= 64 and q.element_size() == 2:
+        return LAUNCH[name]
+    return {}
+
+
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
@@ -857,6 +871,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_N=BLOCK_N,
             CAUSAL=causal,
             NORMALIZE=normalize,
+            **_launch_kw("fwd", q),
         )
 
         ctx.save_for_backward(q, k, v, o, lam, d_sum, argmax, wsum)
@@ -939,7 +954,7 @@ class StieltjesAttention(torch.autograd.Function):
             q, k, v, do,
             lam, d_sum, delta,
             *q_strides, *k_strides, *v_strides, *do_strides,
-            **common_args,
+            **common_args, **_launch_kw("delta", q),
         )
 
         # --- Per-row buffers for the normalized backward ---
@@ -976,6 +991,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
             IFT_NORM=ift_norm,
+            **_launch_kw("dkdv", q),
         )
 
         # --- Kernel 3: Compute dQ ---
@@ -992,6 +1008,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
             IFT_NORM=ift_norm,
+            **_launch_kw("dq", q),
         )
 
         return dq, dk, dv, None, None, None, None, None, None, None, None
