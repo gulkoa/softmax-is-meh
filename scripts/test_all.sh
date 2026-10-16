@@ -286,6 +286,8 @@ assert argmax_agree > 0.99, f'argmax_agree={argmax_agree:.4f} below 0.99'
 print(f'OK — max_abs={max_abs:.5f}, argmax_agree={argmax_agree:.4f}')
 "
 
+run_test "prefetch loader = sync batches" python scripts/test_prefetch_loader.py
+
 echo ""
 if [ "$FAILED" -eq 0 ]; then
     echo "=== ALL TESTS PASSED ==="

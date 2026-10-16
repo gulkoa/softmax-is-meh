@@ -27,6 +27,8 @@ if torch.cuda.is_available():
 
 sys.path.insert(0, "/users/PAS2402/alexg/softmax/softmax-is-meh/triton")
 from stieltjes_flash_attn import stieltjes_attention  # noqa: E402
+sys.path.insert(1, os.path.dirname(os.path.abspath(__file__)))
+from prefetch_loader import Prefetcher  # noqa: E402
 
 os.environ.setdefault("WANDB_MODE", "offline")
 import wandb  # noqa: E402
@@ -371,6 +373,13 @@ def main():
     ap.add_argument("--data-mix", default=None, dest="data_mix",
                     help="'name=dir:weight,...' shard-source mix "
                          "(default: pure FW_DIR web)")
+    ap.add_argument("--sync-loader", action="store_true", dest="sync_loader",
+                    help="read training batches in the training thread "
+                         "(the path before 2026-10-16); default: read-ahead "
+                         "on a thread pool (prefetch_loader.py), "
+                         "byte-identical batches")
+    ap.add_argument("--loader-threads", type=int, default=32,
+                    dest="loader_threads")
     args = ap.parse_args()
     assert not (args.nope and args.rope), "--nope and --rope are exclusive"
 
@@ -493,6 +502,18 @@ def main():
         run.summary[f"chunks/{jobid}/wall_s"] = time.time() - chunk_t0
         run.summary[f"chunks/{jobid}/tokens"] = (step + 1 - start_step) * tokens_per_step
     rng = np.random.default_rng(args.seed * 100003 + start_step)
+    if args.sync_loader:
+        def next_batch():
+            return train_d.batch(args.micro_bs, args.ctx, rng, device)
+    else:                              # same batches, read ahead in parallel
+        loader = Prefetcher(train_d, args.micro_bs, args.ctx, args.grad_accum,
+                            total_steps - start_step, rng,
+                            threads=args.loader_threads)
+
+        def next_batch():
+            t = torch.from_numpy(loader.get()).to(device, non_blocking=True)
+            return t[:, :-1], t[:, 1:]
+        print(f"loader: read-ahead, {args.loader_threads} threads", flush=True)
     vrng_seed = 424242
 
     model.train()
@@ -501,7 +522,7 @@ def main():
         opt.zero_grad(set_to_none=True)
         loss_sum = torch.zeros((), device=device)
         for _ in range(args.grad_accum):
-            x, y = train_d.batch(args.micro_bs, args.ctx, rng, device)
+            x, y = next_batch()
             with torch.autocast("cuda", dtype=torch.bfloat16):
                 _, loss = model(x, y)
             (loss / args.grad_accum).backward()
