@@ -19,7 +19,10 @@ after a resume the later chunk wins. Prints one row per run: final val ppl
 (the last validation), steps logged, count / first step / max of gradient
 norms > 5, monotonicity violations, the first nan/inf step, the verdict,
 and the probe's M (max |score| over layers) at step 2,000 and at the last
-probe when present. Warns when 20-step log lines are missing.
+probe when present. Warns when 20-step log lines are missing, and lists
+every event (gradient norm > 5, nan/inf, validation jump) that an earlier
+chunk logged but a later chunk's re-run of the same steps overwrote: shown,
+not counted (the verdict follows the merged log).
 """
 import argparse
 import math
@@ -40,6 +43,29 @@ def parse(paths):
         val.update({int(s): float(p) for s, _, p in VAL.findall(t)})
         probe.update({int(s): float(m) for s, m in PROBE.findall(t)})
     return gn, loss, val, probe
+
+
+def events(gn, loss, val, start):
+    """Set of (step, kind) failure events after `start` in one merged log."""
+    ev = {(s, "gnorm>5") for s, g in gn.items() if s > start and g > 5}
+    ev |= {(s, "nan/inf") for s in gn if s > start
+           and not (math.isfinite(gn[s]) and math.isfinite(loss[s]))}
+    ev |= {(s, "nan/inf val") for s in val if s > start and not math.isfinite(val[s])}
+    vs = sorted(val)
+    ev |= {(b, "val jump") for a, b in zip(vs, vs[1:])
+           if b > start and val[b] > 1.05 * val[a]}
+    return ev
+
+
+def overwritten(paths, start):
+    """Events present while an earlier chunk was the latest, gone from the
+    final merge because a later chunk re-ran those steps."""
+    chunks = paths.split(",")
+    final = events(*parse(paths)[:3], start)
+    lost = set()
+    for i in range(1, len(chunks)):
+        lost |= events(*parse(",".join(chunks[:i]))[:3], start) - final
+    return sorted(lost)
 
 
 def flags(gn, loss, val, probe, start, final):
@@ -99,6 +125,11 @@ def main():
         if f["missing"]:
             print(f"  WARNING {name}: {f['missing']} of the 20-step log lines "
                   f"after step {a.start} are missing")
+        lost = overwritten(paths, a.start)
+        if lost:
+            print(f"  NOTE {name}: {len(lost)} event(s) overwritten by a later "
+                  "chunk's re-run (shown, not counted): "
+                  + ", ".join(f"{k} @{s}" for s, k in lost))
 
 
 if __name__ == "__main__":

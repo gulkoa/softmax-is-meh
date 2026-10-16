@@ -8,7 +8,7 @@ import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from stability_flags import flags, parse  # noqa: E402
+from stability_flags import flags, overwritten, parse  # noqa: E402
 
 
 def log(last=9535, gn=lambda s: 0.5, ppl=lambda s: 30.0 - s / 1000,
@@ -73,6 +73,25 @@ def test_chunks_later_wins():
     a = log(last=5000, gn=lambda s: 9.0 if s == 4600 else 0.5)
     b = log()                       # the resumed chunk re-ran 4,501+ cleanly
     assert run(f"{a},{b}")["verdict"] == "CLEAN"
+
+
+def test_overwritten_listed_not_counted():
+    a = log(last=5000, gn=lambda s: 9.0 if s == 4600 else 0.5)
+    b = log()                       # re-ran 4,501+ without the spike
+    assert run(f"{a},{b}")["verdict"] == "CLEAN"
+    assert overwritten(f"{a},{b}", 2000) == [(4600, "gnorm>5")]
+
+
+def test_overwritten_nan_and_kept_events():
+    a = log(last=5000, gn=lambda s: float("nan") if s == 4800 else
+            (8.0 if s == 3000 else 0.5))
+    b = log(gn=lambda s: 8.0 if s == 3000 else 0.5)   # re-runs keep 3,000
+    assert run(f"{a},{b}")["first_gn5"] == 3000
+    assert overwritten(f"{a},{b}", 2000) == [(4800, "nan/inf")]
+
+
+def test_no_overwrite_single_chunk():
+    assert overwritten(log(gn=lambda s: 9.0 if s == 4000 else 0.5), 2000) == []
 
 
 if __name__ == "__main__":

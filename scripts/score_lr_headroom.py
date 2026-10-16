@@ -20,7 +20,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from stability_flags import flags, parse  # noqa: E402
+from stability_flags import flags, overwritten, parse  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TERMINAL = ("COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "OUT_OF_MEMORY",
@@ -191,6 +191,11 @@ def main():
                   f"scancel the remaining chunks of {' '.join(jobs)}")
         if f["missing"]:
             print(f"  WARNING {name}: {f['missing']} 20-step log lines missing")
+        lost = overwritten(",".join(logs), 2000)
+        if lost:
+            print(f"  NOTE {name}: {len(lost)} event(s) overwritten by a later "
+                  "chunk's re-run (shown, not counted): "
+                  + ", ".join(f"{k} @{s}" for s, k in lost))
     print()
     for r in readings(R):
         print(r)
