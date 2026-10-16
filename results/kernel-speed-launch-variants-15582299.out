@@ -1,0 +1,32 @@
+NVIDIA H100
+torch 2.10.0+cu128, NVIDIA H100
+
+shape (8, 16, 1024, 64): default launch fwd 1.523, delta 0.108, dkdv 0.360, dq 0.187 ms (sum 2.177)
+  fwd   w4s1 1.369  w4s2 1.515  w4s3 1.508  w8s1 0.561  w8s2 0.675  w8s3 0.638
+  delta w4s1 0.121  w4s2 0.116  w4s3 0.108  w8s1 0.113  w8s2 0.110  w8s3 0.102
+  dkdv  w4s1 0.268  w4s2 0.228  w4s3 0.357  w8s1 0.269  w8s2 0.284  w8s3 0.266
+  dq    w4s1 0.220  w4s2 0.199  w4s3 0.187  w8s1 0.226  w8s2 0.228  w8s3 0.190
+  fastest bit-identical at this shape: {'fwd': {'num_warps': 8, 'num_stages': 1}, 'delta': {'num_warps': 8, 'num_stages': 3}, 'dkdv': {'num_warps': 4, 'num_stages': 2}, 'dq': {'num_warps': 4, 'num_stages': 3}}
+  with those settings: fwd 0.566, delta 0.101, dkdv 0.227, dq 0.188 ms (sum 1.082, 2.01x the default; bit-identical True)
+
+shape (16, 12, 1024, 64): default launch fwd 2.274, delta 0.150, dkdv 0.523, dq 0.259 ms (sum 3.206)
+  fwd   w4s1 2.037  w4s2 2.248  w4s3 2.234  w8s1 0.784  w8s2 0.965  w8s3 0.913
+  delta w4s1 0.163  w4s2 0.163  w4s3 0.150  w8s1 0.156  w8s2 0.152  w8s3 0.142
+  dkdv  w4s1 0.388  w4s2 0.328  w4s3 0.522  w8s1 0.396  w8s2 0.420  w8s3 0.390
+  dq    w4s1 0.308  w4s2 0.275  w4s3 0.261  w8s1 0.323  w8s2 0.324  w8s3 0.274
+  with those settings: fwd 0.797, delta 0.142, dkdv 0.329, dq 0.261 ms (sum 1.529, 2.10x the default; bit-identical True)
+
+shape (2, 16, 4096, 64): default launch fwd 4.699, delta 0.353, dkdv 1.177, dq 0.637 ms (sum 6.865)
+  fwd   w4s1 4.300  w4s2 4.838  w4s3 4.783  w8s1 2.006  w8s2 2.331  w8s3 2.279
+  delta w4s1 0.419  w4s2 0.372  w4s3 0.353  w8s1 0.372  w8s2 0.357  w8s3 0.336
+  dkdv  w4s1 0.872  w4s2 0.769  w4s3 1.200  w8s1 0.862  w8s2 0.926  w8s3 0.848
+  dq    w4s1 0.730  w4s2 0.662  w4s3 0.639  w8s1 0.714  w8s2 0.707  w8s3 0.628
+  with those settings: fwd 2.023, delta 0.329, dkdv 0.746, dq 0.615 ms (sum 3.712, 1.85x the default; bit-identical True)
+
+shape (1, 16, 8192, 64): default launch fwd 8.737, delta 0.680, dkdv 2.235, dq 1.243 ms (sum 12.895)
+  fwd   w4s1 7.859  w4s2 8.797  w4s3 8.679  w8s1 3.960  w8s2 4.550  w8s3 4.372
+  delta w4s1 0.800  w4s2 0.699  w4s3 0.690  w8s1 0.718  w8s2 0.677  w8s3 0.634
+  dkdv  w4s1 1.659  w4s2 1.418  w4s3 2.239  w8s1 1.586  w8s2 1.698  w8s3 1.552
+  dq    w4s1 1.417  w4s2 1.281  w4s3 1.205  w8s1 1.362  w8s2 1.338  w8s3 1.210
+  with those settings: fwd 3.942, delta 0.649, dkdv 1.425, dq 1.214 ms (sum 7.230, 1.78x the default; bit-identical True)
+ALL DONE
