@@ -1,0 +1,2 @@
+gpt2-stj-q4-nope-lrsweep-lr0.002: 123.6M params, 9536 steps x 524288 tokens
+RESUMED from step 9536 (cum wall 7.04h)
