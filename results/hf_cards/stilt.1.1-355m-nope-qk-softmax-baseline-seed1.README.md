@@ -20,7 +20,7 @@ attention weights.
 `stilt.1.1-355m-nope-qk-seed1` — identical data (15B tokens, 70/15/15 FineWeb-Edu / FineMath /
 Python), schedule, seed (1), **NoPE** and **QK-norm**, with standard softmax
 attention in place of Stieltjes. 355M parameters, GPT-2-medium-style (24
-layers, GPT-2 BPE), lr 6e-4, final val ppl {FINAL_PPL} (seed 0: 11.90).
+layers, GPT-2 BPE), lr 6e-4, final val ppl 11.87 (seed 0: 11.90).
 Trained at context 1024; no architectural sequence cap.
 
 This is a base (completion-style) model — no instruction tuning.
