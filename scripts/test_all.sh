@@ -291,6 +291,7 @@ echo "--- Analysis scorers (synthetic logs) ---"
 run_test "stability_flags" python scripts/test_stability_flags.py
 run_test "score_lr_headroom" python scripts/test_score_lr_headroom.py
 run_test "score_logit_probe" python scripts/test_score_logit_probe.py
+run_test "score_length_alpha_grid" python scripts/test_score_length_alpha_grid.py
 
 echo ""
 if [ "$FAILED" -eq 0 ]; then
