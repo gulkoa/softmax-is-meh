@@ -1,0 +1,6 @@
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id gpt2-stj-q4-nope-qk-nope-mix-lr0p0006-s1.
+wandb: Tracking run with wandb version 0.28.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /users/PAS2402/alexg/softmax/wandb/offline-run-20261017_171846-gpt2-stj-q4-nope-qk-nope-mix-lr0p0006-s1
+wandb: View this run in the terminal with `wandb leet`
+[2026-10-17T20:07:04.114] error: *** JOB 15548649 ON c0807 CANCELLED AT 2026-10-17T20:07:04 DUE to SIGNAL Terminated ***
