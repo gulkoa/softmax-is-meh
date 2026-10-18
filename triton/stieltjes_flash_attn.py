@@ -203,11 +203,21 @@ def _stieltjes_attn_fwd(
     q_ptrs = Q + q_offset + offs_m[:, None] * stride_qm + offs_d[None, :] * stride_qk
     q_block = tl.load(q_ptrs, mask=offs_m[:, None] < N_CTX, other=0.0)
 
+    # Causal: key tiles past this row block's last row are fully masked.
+    # Every term they add to the sums below is exactly 0 (the inverse power
+    # of ~1e30 underflows to 0), and their -1e30 scores never win the max
+    # (key 0, in the first tile, is valid for every row). So every sweep
+    # stops at the diagonal, as _stieltjes_bwd_dkdv / _stieltjes_bwd_dq
+    # already do; outputs are unchanged bit for bit.
+    hi = N_CTX
+    if CAUSAL:
+        hi = (start_m + 1) * BLOCK_M
+
     # ===== PASS 1: Row-wise max + argmax of QK^T =====
     row_max = tl.full([BLOCK_M], value=-1e30, dtype=tl.float32)
     row_argmax = tl.zeros([BLOCK_M], dtype=tl.int32)
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
@@ -252,7 +262,7 @@ def _stieltjes_attn_fwd(
         f_deriv = tl.zeros([BLOCK_M], dtype=tl.float32)
         f_dd = tl.zeros([BLOCK_M], dtype=tl.float32)   # only used if HALLEY
 
-        for start_n in tl.range(0, N_CTX, BLOCK_N):
+        for start_n in tl.range(0, hi, BLOCK_N):
             offs_n = start_n + tl.arange(0, BLOCK_N)
             k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
             k_block = tl.load(k_ptrs, mask=offs_n[:, None] < N_CTX, other=0.0)
@@ -304,7 +314,7 @@ def _stieltjes_attn_fwd(
     d_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # Σ(λ-s)^{-q-1} for backward
     w_sum = tl.zeros([BLOCK_M], dtype=tl.float32)  # S = Σ(λ-s)^{-q}
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
         k_ptrs = K + k_offset + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
         v_ptrs = V + v_offset + offs_n[:, None] * stride_vn + offs_d[None, :] * stride_vk
@@ -452,10 +462,14 @@ def _stieltjes_bwd_delta(
     lam_row = tl.load(lam_ptrs, mask=offs_m < N_CTX, other=0.0)
     d_row = tl.load(d_ptrs, mask=offs_m < N_CTX, other=1.0)
 
-    # Accumulate Σ_j dP_ij · r_ij  (sweep over all K/V tiles)
+    # Accumulate Σ_j dP_ij · r_ij over the K/V tiles; causal stops at the
+    # diagonal (tiles past it have r = 0 exactly, see _stieltjes_attn_fwd)
     acc = tl.zeros([BLOCK_M], dtype=tl.float32)
+    hi = N_CTX
+    if CAUSAL:
+        hi = (start_m + 1) * BLOCK_M
 
-    for start_n in tl.range(0, N_CTX, BLOCK_N):
+    for start_n in tl.range(0, hi, BLOCK_N):
         offs_n = start_n + tl.arange(0, BLOCK_N)
 
         k_ptrs = K + k_off + offs_n[:, None] * stride_kn + offs_d[None, :] * stride_kk
@@ -745,6 +759,31 @@ def _stieltjes_bwd_dq(
 # Autograd wrapper
 # ---------------------------------------------------------------------------
 
+# Launch settings (num_warps / num_stages) per kernel, applied to 16-bit
+# inputs at D <= 64 (the training shapes) and nowhere else; empty = Triton's
+# defaults (4 warps, 3 stages). Tile sizes are not set here: at 128 x 64
+# every warps / stages choice gives bit-identical outputs. Chosen on H100 as
+# the fastest bit-identical setting per kernel at B 8, H 16, N 1,024, D 64,
+# bf16 (also the fastest or within 2 % at the 124M shape and at N 4,096 /
+# 8,192). Attention forward + backward per call at that shape: 1.64 ms with
+# main's kernel before the causal skip (dc8dd3d) -> 1.10 ms; against this
+# kernel at Triton's default launch, 2.18 -> 1.08 ms. At 4 warps the forward
+# sat at the 255-register ceiling
+# (thesis/experiments/2026-10-16-kernel-causal-skip.md).
+LAUNCH = {
+    "fwd": dict(num_warps=8, num_stages=1),
+    "delta": dict(num_warps=8, num_stages=3),
+    "dkdv": dict(num_warps=4, num_stages=2),
+    "dq": {},
+}
+
+
+def _launch_kw(name, q):
+    if q.shape[-1] <= 64 and q.element_size() == 2:
+        return LAUNCH[name]
+    return {}
+
+
 class StieltjesAttention(torch.autograd.Function):
     @staticmethod
     def forward(ctx, q, k, v, causal, sm_scale, stieltjes_q=1.0, num_iter=8,
@@ -843,6 +882,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_N=BLOCK_N,
             CAUSAL=causal,
             NORMALIZE=normalize,
+            **_launch_kw("fwd", q),
         )
 
         ctx.save_for_backward(q, k, v, o, lam, d_sum, argmax, wsum)
@@ -925,7 +965,7 @@ class StieltjesAttention(torch.autograd.Function):
             q, k, v, do,
             lam, d_sum, delta,
             *q_strides, *k_strides, *v_strides, *do_strides,
-            **common_args,
+            **common_args, **_launch_kw("delta", q),
         )
 
         # --- Per-row buffers for the normalized backward ---
@@ -962,6 +1002,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
             IFT_NORM=ift_norm,
+            **_launch_kw("dkdv", q),
         )
 
         # --- Kernel 3: Compute dQ ---
@@ -978,6 +1019,7 @@ class StieltjesAttention(torch.autograd.Function):
             BLOCK_LAMBDA_GRAD=block_lambda_grad,
             NORMALIZE=normalize,
             IFT_NORM=ift_norm,
+            **_launch_kw("dq", q),
         )
 
         return dq, dk, dv, None, None, None, None, None, None, None, None

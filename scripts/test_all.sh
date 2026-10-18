@@ -286,6 +286,8 @@ assert argmax_agree > 0.99, f'argmax_agree={argmax_agree:.4f} below 0.99'
 print(f'OK — max_abs={max_abs:.5f}, argmax_agree={argmax_agree:.4f}')
 "
 
+run_test "causal tile skip is bit-identical to dc8dd3d" python triton/test_causal_skip.py
+
 echo ""
 echo "--- Analysis scorers (synthetic logs) ---"
 run_test "stability_flags" python scripts/test_stability_flags.py
