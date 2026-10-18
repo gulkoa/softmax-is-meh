@@ -14,8 +14,9 @@ from early_cancel_nan import nan_runs  # noqa: E402
 from test_stability_flags import log  # noqa: E402
 
 
-def setup(chunks):
-    """chunks: {name: [log path or None (not started), ...]} -> jobs file."""
+def setup(chunks, prefix="qknorm-pilot"):
+    """chunks: {name: [log path or None (not started), ...]} -> jobs file;
+    logs are copied as <prefix>-<job>.out."""
     d = tempfile.mkdtemp()
     lines, j = [], 100
     for name, paths in chunks.items():
@@ -24,7 +25,7 @@ def setup(chunks):
             j += 1
             ids.append(str(j))
             if p is not None:
-                shutil.copy(p, os.path.join(d, f"qknorm-pilot-{j}.out"))
+                shutil.copy(p, os.path.join(d, f"{prefix}-{j}.out"))
         lines.append(f"{name} {' '.join(ids)}")
     jf = os.path.join(d, "jobs.txt")
     open(jf, "w").write("\n".join(lines) + "\n\n")
@@ -56,6 +57,17 @@ def test_spike_is_not_nan():
 def test_no_log_yet():
     jf, d = setup({"x": [None, None]})
     assert nan_runs(jf, d) == [("x", None, ["101", "102"])]
+
+
+def test_prefix_selects_the_log_family():
+    # backbone-trainer chains log as backbone-pilot-<job>.out (--prefix);
+    # the default prefix must not read them, and vice versa.
+    nan = log(last=6000, gn=lambda s: float("nan") if s >= 5000 else 0.5)
+    jf, d = setup({"E-s1": [log(last=3000), nan, None]}, prefix="backbone-pilot")
+    assert nan_runs(jf, d, "backbone-pilot") == [("E-s1", 5000, ["101", "102", "103"])]
+    assert nan_runs(jf, d) == [("E-s1", None, ["101", "102", "103"])]
+    jf, d = setup({"x": [nan]})
+    assert nan_runs(jf, d, "backbone-pilot")[0][1] is None
 
 
 if __name__ == "__main__":

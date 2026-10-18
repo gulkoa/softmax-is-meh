@@ -7,9 +7,10 @@ For runs kept out of results/lr_headroom_jobs.txt (that file belongs to
 the seed-0 sweep and its scorer, score_lr_headroom.py).
 
 JOBSFILE lines: NAME JOB1 ... JOBn (chunk order; logs are
-results/qknorm-pilot-<job>.out). Prints one line per run; with --cancel,
+results/<prefix>-<job>.out, prefix qknorm-pilot unless --prefix gives
+another, e.g. backbone-pilot). Prints one line per run; with --cancel,
 scancels the queued or running jobs of every run that shows a nan/inf.
-    python scripts/early_cancel_nan.py JOBSFILE [--results DIR] [--cancel]
+    python scripts/early_cancel_nan.py JOBSFILE [--results DIR] [--prefix P] [--cancel]
 """
 import argparse
 import os
@@ -23,14 +24,14 @@ from stability_flags import flags, parse  # noqa: E402
 ROOT = os.path.dirname(HERE)
 
 
-def nan_runs(jobsfile, results):
+def nan_runs(jobsfile, results, prefix="qknorm-pilot"):
     """[(name, first nan/inf step or None, jobs)] for every run in JOBSFILE."""
     out = []
     for line in open(jobsfile):
         if not line.strip():
             continue
         name, *jobs = line.split()
-        logs = [os.path.join(results, f"qknorm-pilot-{j}.out") for j in jobs]
+        logs = [os.path.join(results, f"{prefix}-{j}.out") for j in jobs]
         logs = [p for p in logs if os.path.exists(p)]
         bad = flags(*parse(",".join(logs)), 2000, 9500)["first_bad"] if logs else None
         out.append((name, bad, jobs))
@@ -48,9 +49,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("jobsfile")
     ap.add_argument("--results", default=os.path.join(ROOT, "results"))
+    ap.add_argument("--prefix", default="qknorm-pilot")
     ap.add_argument("--cancel", action="store_true")
     a = ap.parse_args()
-    for name, bad, jobs in nan_runs(a.jobsfile, a.results):
+    for name, bad, jobs in nan_runs(a.jobsfile, a.results, a.prefix):
         if bad is None:
             print(f"{name}: no nan/inf")
             continue
