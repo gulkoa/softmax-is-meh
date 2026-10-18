@@ -63,6 +63,23 @@ def test_verdict_boundaries():
     assert "softmax is ahead at 8x" in verdict(0.9999, 8)
 
 
+
+def test_two_table_parser_and_bpb_verdict():
+    from score_len_bpb_alpha_grid import parse_two_tables, verdict as vb
+    bpb = ("deep-tail bits per byte (same text under every tokenizer):\n"
+           "      L        off     a=0.25      a=0.3\n"
+           "   1024     1.3806     1.3806     1.3806\n"
+           "   2048     2.1572     1.3998     1.4001\n"
+           "   4096     2.6963     2.0311     1.6429\n"
+           "   8192     3.0344     2.2795     2.1581\n")
+    t = parse_two_tables(write("=== a.pt\ntokenizer: gpt2\n" + TABLE.replace("DONE\n", "") + bpb + "DONE\n"))
+    assert t["a.pt"]["ppl"][8192][0.3] == 230.0
+    assert t["a.pt"]["bpb"][8192][0.3] == 2.1581
+    assert t["a.pt"]["bpb"][2048]["off"] == 2.1572
+    assert "at least the 1.05 margin" in vb(1.05, 8)
+    assert "less than the 1.05 margin" in vb(1.0499, 8)
+    assert "softmax is ahead" in vb(0.99, 4)
+
 if __name__ == "__main__":
     for n, f in list(globals().items()):
         if n.startswith("test_"):
