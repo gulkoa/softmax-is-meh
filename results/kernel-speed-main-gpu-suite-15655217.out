@@ -1,0 +1,192 @@
+1696ebd Merge kernel-speed into main: causal tile skip and per-kernel launch settings (bit-identical to dc8dd3d; attention ~1.5x faster per call at the 355M shape). All queued readers of main's kernel have drained.
+NVIDIA H100
+== 1. test suite (main, GPU)
+=== nanogpt test suite (CPU) ===
+
+--- Import checks ---
+  [import data] OK
+PASS
+  [import model] OK
+PASS
+  [import train] OK
+PASS
+  [import analyze] OK
+PASS
+
+--- Data correctness ---
+  [sorting output is sorted] OK — 100 samples verified
+PASS
+  [max output correct] OK — 100 samples verified
+PASS
+  [binary_search output correct] OK — 100 samples verified
+PASS
+  [needle task correctness] OK — 100 needle samples verified
+PASS
+  [bfs no vocab collision at max scale] OK — 50 large BFS samples, no vocab collisions
+PASS
+  [bfs output correct] OK — 50 samples verified
+PASS
+
+--- Model tests ---
+  [model forward+backward] OK — loss=5.5651
+PASS
+  [ignore_index=257 matches PAD] OK
+PASS
+
+--- Accuracy metric ---
+  [output-only accuracy] OK — 6 output tokens, first=3
+PASS
+  [binary_search accuracy finds target_idx] OK — target_idx=1
+PASS
+
+--- Triton correctness (skipped if no CUDA) ---
+  [triton matches ref on causal q=4 random] OK — max_abs=0.00000, argmax_agree=1.0000
+PASS
+  [causal tile skip is bit-identical to dc8dd3d] note 1,1,2048,64 torch.float16 causal=True {'stieltjes_q': 2.0, 'num_iter': 3, 'solver': 'halley', 'normalize': True, 'ift_grad': True}: the reference itself is non-finite here (identical bits: True)
+bit-identity: 56/56 cases identical
+PASS
+PASS
+
+--- Analysis scorers (synthetic logs) ---
+  [stability_flags]   test_clean: PASS
+  test_spike_fails: PASS
+  test_spike_in_warmup_ignored: PASS
+  test_nan_gnorm_fails: PASS
+  test_inf_val_fails: PASS
+  test_val_jump_fails: PASS
+  test_incomplete: PASS
+  test_missing_lines_counted: PASS
+  test_chunks_later_wins: PASS
+  test_overwritten_listed_not_counted: PASS
+  test_overwritten_nan_and_kept_events: PASS
+  test_onset_first_probe_above_1000: PASS
+  test_no_gnorm_lines_warns: PASS
+  test_no_overwrite_single_chunk: PASS
+PASS
+  [early_cancel_nan] ok test_detects_nan_and_lists_all_jobs
+ok test_nan_counts_from_step_2000_as_registered
+ok test_no_log_yet
+ok test_prefix_selects_the_log_family
+ok test_spike_is_not_nan
+PASS
+  [score_lr_headroom]   test_h1_and_trigger: PASS
+  test_h1_lower_bound_at_8e3: PASS
+  test_h2_no_trigger: PASS
+  test_h3: PASS
+  test_pending_withheld: PASS
+  test_q3_ratio_branches: PASS
+  test_q4_branches: PASS
+  test_non_monotone_flag: PASS
+  test_q2_undefined: PASS
+  test_attribution: PASS
+  test_end_to_end: PASS
+PASS
+  [score_logit_probe]   test_reading1: PASS
+  test_timeout_without_spike_is_incomplete: PASS
+  test_stopped_without_spike_is_reading4: PASS
+  test_inf_gnorm_is_tstar: PASS
+  test_nan_gnorm_is_tstar: PASS
+  test_chunks_later_wins: PASS
+  test_at_the_bar_flag: PASS
+  test_missing_pre_probe_uses_last_before: PASS
+PASS
+  [score_length_alpha_grid] ok test_parse_named_and_unnamed_blocks
+ok test_gate_detects_any_changed_cell
+ok test_union_drops_off_and_later_rows_win
+ok test_best_flags_only_pure_range_end_minima
+ok test_verdict_boundaries
+ok test_two_table_parser_and_bpb_verdict
+ALL OK
+PASS
+  [score_ef_seed1] ok test_id_reading_bands
+ok test_joint_wording
+ok test_val_losses_later_chunk_wins
+ok test_length_lines_scores_and_gates
+ok test_edge_then_extension
+ok test_seed0_copy_of_the_real_log_reproduces_the_registered_ratios
+ALL OK
+PASS
+
+=== ALL TESTS PASSED ===
+suite exit 0
+== 2. kernel self-tests
+kernel: /users/PAS2402/alexg/softmax/softmax-is-meh/triton/stieltjes_flash_attn.py
+Forward correctness tests
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000022
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000036
+  [PASS] B=2 H=4 N= 128 D= 64 causal=False q=1.0  max_err=0.0002  mean_err=0.000016
+  [PASS] B=2 H=4 N= 128 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 256 D= 64 causal=False q=2.0  max_err=0.0001  mean_err=0.000011
+  [PASS] B=1 H=2 N= 256 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000020
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  max_err=0.0001  mean_err=0.000016
+  [PASS] B=1 H=1 N= 128 D=128 causal=True  q=1.0  max_err=0.0010  mean_err=0.000026
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000009
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  max_err=0.0010  mean_err=0.000014
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  max_err=0.0001  mean_err=0.000007
+  [PASS] B=1 H=1 N=1024 D= 64 causal=True  q=2.0  max_err=0.0010  mean_err=0.000010
+----------------------------------------------------------------------
+All forward tests passed.
+
+Backward correctness tests (Triton bwd vs PyTorch autograd reference)
+----------------------------------------------------------------------
+  [PASS] B=1 H=1 N=  64 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=1 N=  64 D= 64 causal=True  q=1.0  dQ_err=0.0003  dK_err=0.0002  dV_err=0.0012
+  [PASS] B=2 H=2 N= 128 D= 64 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=2 H=2 N= 128 D= 64 causal=True  q=1.0  dQ_err=0.0004  dK_err=0.0005  dV_err=0.0013
+  [PASS] B=1 H=1 N= 128 D=128 causal=False q=1.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 128 D= 64 causal=False q=2.0  dQ_err=0.0000  dK_err=0.0000  dV_err=0.0002
+  [PASS] B=1 H=2 N= 512 D= 64 causal=False q=1.0  dQ_err=0.0019  dK_err=0.0018  dV_err=0.0001
+  [PASS] B=1 H=2 N= 512 D= 64 causal=True  q=1.0  dQ_err=0.0019  dK_err=0.0014  dV_err=0.0016
+  [PASS] B=1 H=1 N=1024 D= 64 causal=False q=1.0  dQ_err=0.0110  dK_err=0.0114  dV_err=0.0001
+----------------------------------------------------------------------
+All backward tests passed.
+
+Non-contiguous layout tests (fused-qkv views vs contiguous, B=3)
+----------------------------------------------------------------------
+  [PASS] causal=False q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=1.0 norm=False ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=False  fwd_err=0.000000  bwd_err=0.000000
+  [PASS] causal=True  q=4.0 norm=True  ift=True   fwd_err=0.000000  bwd_err=0.000000
+----------------------------------------------------------------------
+All non-contiguous layout tests passed.
+
+Long-N backward NaN diagnostic (causal, q=4, normalize+ift, N % BLOCK_N != 0)
+----------------------------------------------------------------------
+  N= 1000 bfloat16 : clean
+  N= 1000 float16  : clean
+  N= 2000 bfloat16 : clean
+  N= 2000 float16  : clean
+  N= 3800 bfloat16 : clean
+  N= 3800 float16  : clean
+  N= 4100 bfloat16 : clean
+  N= 4100 float16  : clean
+----------------------------------------------------------------------
+DIAGNOSTIC: no NaN at these shapes — SFT trigger is elsewhere (padded batch rows / data-dependent scores)
+
+Padded-row variant (EOS-style repeated tail, do=0 on tail)
+----------------------------------------------------------------------
+  N= 1000 pad=30%: no NaN
+  N= 1000 pad=70%: no NaN
+  N= 2000 pad=30%: no NaN
+  N= 2000 pad=70%: no NaN
+  N= 4100 pad=30%: no NaN
+  N= 4100 pad=70%: no NaN
+----------------------------------------------------------------------
+self-tests fwd/bwd/noncontig: [True, True, True] PASS
+self-tests exit 0
+== 3. bit-identity vs dc8dd3d + timings
+note 1,1,2048,64 torch.float16 causal=True {'stieltjes_q': 2.0, 'num_iter': 3, 'solver': 'halley', 'normalize': True, 'ift_grad': True}: the reference itself is non-finite here (identical bits: True)
+bit-identity: 56/56 cases identical
+shape 8,16,1024,64: fwd 0.991 -> 0.575 ms (1.72x); bwd 0.666 -> 0.546 ms (1.22x); fwd+bwd 1.658 -> 1.121 ms (1.48x)
+shape 16,12,1024,64: fwd 1.479 -> 0.788 ms (1.88x); bwd 0.919 -> 0.760 ms (1.21x); fwd+bwd 2.397 -> 1.548 ms (1.55x)
+shape 2,16,4096,64: fwd 3.905 -> 2.058 ms (1.90x); bwd 2.256 -> 1.765 ms (1.28x); fwd+bwd 6.161 -> 3.823 ms (1.61x)
+shape 1,16,8192,64: fwd 7.739 -> 3.976 ms (1.95x); bwd 4.407 -> 3.461 ms (1.27x); fwd+bwd 12.146 -> 7.437 ms (1.63x)
+PASS
+identity exit 0
+== 4. real micro-step identity on high-score snapshots
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.002_s0.step4000.pt (step 4000): loss 3.043491 / 3.043491, loss bit-equal True, 111/111 parameter grads bit-equal, finite True -> PASS
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.004_s0.step3000.pt (step 3000): loss 3.191251 / 3.191251, loss bit-equal True, 111/111 parameter grads bit-equal, finite True -> PASS
+PASS
+real exit 0
+ALL DONE
