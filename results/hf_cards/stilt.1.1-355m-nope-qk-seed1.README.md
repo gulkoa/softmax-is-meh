@@ -21,7 +21,7 @@ identical recipe and a different initialization and data order (seed 1).
 tokens of a 70/15/15 mix of FineWeb-Edu, FineMath, and Python code — **no
 positional embeddings (NoPE)** and **QK-norm** (RMS-normalized queries and
 keys with a per-head learnable gain) on top of Stieltjes attention (q=4),
-lr 6e-4. Final val ppl {FINAL_PPL} (seed 0: 11.93). Its softmax twin at the
+lr 6e-4. Final val ppl 11.92 (seed 0: 11.93). Its softmax twin at the
 same seed, `stilt.1.1-355m-nope-qk-softmax-baseline-seed1`, is trained with the identical recipe. Trained at
 context 1024; NoPE has no architectural sequence cap.
 
