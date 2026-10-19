@@ -144,6 +144,35 @@ def test_end_to_end():
     assert "5 holds, 0 reversed, p = 0.03125" in out, out
 
 
+
+def test_end_to_end_nan_stop():
+    """An LS run stopped by the nan loop: failed, its seed holds, no ratio."""
+    d = tempfile.mkdtemp()
+    spike = {"gn": lambda s: 9.0 if s >= 5000 else 0.5, "ppl": lambda s: 30.0 - s / 1000}
+    ref = {"14010298": {"last": 4000}, "14010299": {}, "15516255": {"last": 4000},
+           "15516256": {}, "15530796": spike, "15530798": spike}
+    for j, kw in ref.items():
+        os.replace(log(**kw), os.path.join(d, f"qknorm-pilot-{j}.out"))
+    high = {"gn": lambda s: 9.0 if s >= 5000 else 0.5, "ppl": lambda s: 30.0}
+    nan = {"gn": lambda s: float("nan") if s >= 6000 else 0.5, "last": 6100}
+    jobs = {"A@1e-3-s2": (1, {}), "A@1e-3-s3": (2, {}), "A@1e-3-s4": (3, {}),
+            "LS@1e-3-s2": (4, nan), "LS@1e-3-s3": (5, high), "LS@1e-3-s4": (6, high)}
+    with open(os.path.join(d, "jobs.txt"), "w") as fh:
+        for n, (j, kw) in jobs.items():
+            fh.write(f"{n} {j} {j + 100}\n")
+            os.replace(log(**kw), os.path.join(d, f"qknorm-pilot-{j}.out"))
+    out = subprocess.run([sys.executable, os.path.join(HERE, "score_contrast_1e3.py"),
+                          "--jobs", os.path.join(d, "jobs.txt"), "--results", d,
+                          "--assume-ended"], capture_output=True, text=True, check=True).stdout
+    assert "LS@1e-3-s2 failed: nan/inf from step 6,000" in out, out
+    assert "LS: 3 of 3 further seeds failed at 1e-3 (5 of 5 with seeds 0 and 1)" in out, out
+    assert "the contrast holds at 3 of 3 further seeds (5 of 5 with seeds 0 and 1)\n" in out, out
+    assert "seeds 2-4: ratio ≥ 1.15 at 2 of 2 seeds (undefined: s2)" in out, out
+    assert "seeds 0-4: ratio ≥ 1.15 at 2 of 4 seeds (undefined: s2)" in out, out
+    assert "5 holds, 0 reversed, p = 0.03125" in out, out
+    assert "LS@1e-3-s2: final no step-9,500 validation (last 24.00 @6,000)" in out, out
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
