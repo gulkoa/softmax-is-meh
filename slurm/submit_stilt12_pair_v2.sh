@@ -1,0 +1,25 @@
+#!/bin/bash
+# Launch the stilt.1.2 355M pair with the 10-20 amendment (FineWeb sample-100BT,
+# fixed 14,020,853,435-token budget): launch copy of submit_stilt12_pair.sh.
+# A 15-minute debug smoke of the 355M Stieltjes config (compile/OOM) gates
+# every chunk of both chains: chunk 1 afterok on the smoke, every later chunk
+# afterok on the smoke AND afterany on the previous chunk. Chunks are 4 h with
+# --time-min 2 h so backfill can start them (the 10-16 queue lesson); the
+# counts include spares (~50 / ~40 GPU-h at 355M; a chunk that starts after
+# FINAL re-saves and exits in minutes; cancel spares once FINAL is logged).
+# USER-GATED (GPU go). Usage: bash slurm/submit_stilt12_pair_v2.sh
+set -euo pipefail
+S=/users/PAS2402/alexg/softmax/softmax-is-meh/slurm/stilt12_pair_v2_h100.sh
+CHUNKS_STJ=${CHUNKS_STJ:-20}
+CHUNKS_SDPA=${CHUNKS_SDPA:-16}
+SM=$(sbatch --parsable -p debug -t 00:15:00 "$S" stj --total-tokens 2e7 --val-every 10 --ckpt-every 20 --tag stilt12smoke)
+echo "smoke (stj, 355M, compile): $SM"
+for ARM in stj sdpa; do
+  n=$CHUNKS_STJ; [ "$ARM" = sdpa ] && n=$CHUNKS_SDPA
+  prev=""
+  for i in $(seq 1 "$n"); do
+    dep="afterok:$SM"; [ -n "$prev" ] && dep="afterok:$SM,afterany:$prev"
+    jid=$(sbatch --parsable -t 4:00:00 --time-min 2:00:00 --dependency="$dep" "$S" "$ARM")
+    echo "$ARM chunk $i: $jid"; prev=$jid
+  done
+done
