@@ -1,0 +1,49 @@
+{
+  "added_tokens_decoder": {
+    "256": {
+      "content": "<pad>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "257": {
+      "content": "<bos>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "258": {
+      "content": "<sep>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "259": {
+      "content": "<eos>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    }
+  },
+  "backend": "custom",
+  "bos_token": "<bos>",
+  "eos_token": "<eos>",
+  "model_max_length": 1000000000000000019884624838656,
+  "pad_token": "<pad>",
+  "sep_token": "<sep>",
+  "tokenizer_class": "StieltjesTokenizer",
+  "auto_map": {
+    "AutoTokenizer": [
+      "tokenization_stieltjes.StieltjesTokenizer",
+      null
+    ]
+  }
+}

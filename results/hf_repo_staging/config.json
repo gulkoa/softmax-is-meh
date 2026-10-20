@@ -1,0 +1,27 @@
+{
+  "adaptive_scale": true,
+  "architectures": [
+    "StieltjesForCausalLM"
+  ],
+  "auto_map": {
+    "AutoConfig": "configuration_stieltjes.StieltjesConfig",
+    "AutoModelForCausalLM": "modeling_stieltjes.StieltjesForCausalLM"
+  },
+  "bisect_iters": 50,
+  "bos_token_id": 257,
+  "d_model": 512,
+  "dtype": "float32",
+  "eos_token_id": 259,
+  "ffn": 1024,
+  "head_dim": 32,
+  "model_type": "stieltjes_lm",
+  "n_head": 16,
+  "n_layer": 4,
+  "nape": true,
+  "pad_token_id": 256,
+  "stj_q": 4.0,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.14.1",
+  "vocab_size": 260,
+  "use_cache": false
+}
