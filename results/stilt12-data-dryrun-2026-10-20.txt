@@ -1,0 +1,23 @@
+MIX web=/fs/scratch/PAS2836/alexg/fineweb_100bt_tok32k:1.0
+TOK 14,020,853,435; micro-bs 8, grad-accum 64, ctx 1024
+ok   launch script runs this trainer
+ok   launch script passes --total-tokens "$TOK"
+ok   launch script passes --data-mix "${MIX}"
+ok   /fs/scratch/PAS2836/alexg/fineweb_100bt_tok32k: train 418 shards (shard_0000.bin..shard_0417.bin)
+ok   /fs/scratch/PAS2836/alexg/fineweb_100bt_tok32k: val ['shard_0418.bin']
+ok   /fs/scratch/PAS2836/alexg/fineweb_100bt_tok32k: file sizes = 2 x meta per_shard_tokens
+ok   train and val disjoint
+ok   tokenizer stilt-tok-32k-v1, vocab 32768 (padded 32768)
+ok   tokenizer file under /fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1
+     EOT 0; other special ids [1, 2, 3]..[13, 14, 15] (15)
+ok   total steps 26,742 at 524,288 tokens/step
+     train tokens 104,424,570,593; the budget is 13.4% of them
+ok   train batches: shape (64, 1024) and next-token shift
+ok   train batches: largest id 32767
+ok   train batches: 0 special ids other than EOT
+     train: 1.35 EOT per 1,024 tokens
+ok   val batches: shape (64, 1024) and next-token shift
+ok   val batches: largest id 32767
+ok   val batches: 0 special ids other than EOT
+     val: 1.43 EOT per 1,024 tokens
+ALL CHECKS PASSED
