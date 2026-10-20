@@ -2,7 +2,15 @@
 repo and verify — (A) logits parity vs the trainer model (dense stieltjes
 vs the fused-kernel trainer path), (B) cached vs uncached generation
 equivalence, (C) a sample completion. Saves safetensors + config +
-GPT-2 tokenizer files into the staging dir on success."""
+tokenizer files into the staging dir on success.
+
+The trainer whose GPT builds the reference model comes from $STILT_TRAINER
+(a dev_scripts dir or a train_gpt2_stieltjes.py path; default main's
+dev_scripts). Checkpoints trained with the tok32k trainer (vocab and
+tokenizer in args) need STILT_TRAINER pointed at that worktree's
+dev_scripts; pass it through sbatch with --export=ALL,STILT_TRAINER=...
+The tokenizer saved is the checkpoint's (args.tokenizer_path when it is not
+gpt2), and bos/eos are its <|endoftext|> id."""
 import json
 import os
 import sys
@@ -17,8 +25,12 @@ STAGING = (sys.argv[2] if len(sys.argv) > 2 else
            "/users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_gpt2_staging")
 CKPT = (sys.argv[1] if len(sys.argv) > 1 else
         "/fs/scratch/PAS2836/alexg/fineweb_edu_10bt/ckpt_gpt2-stj-q4_s0.pt")
+TRAINER = os.environ.get(
+    "STILT_TRAINER", "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts")
+if TRAINER.endswith(".py"):
+    TRAINER = os.path.dirname(TRAINER)
 sys.path.insert(0, STAGING)
-sys.path.insert(0, "/users/PAS2402/alexg/softmax/softmax-is-meh/triton/dev_scripts")
+sys.path.insert(0, TRAINER)
 
 from transformers import AutoTokenizer  # noqa: E402
 import configuration_stieltjes_gpt2 as C  # noqa: E402
@@ -31,6 +43,7 @@ StieltjesGPT2Config = C.StieltjesGPT2Config
 StieltjesGPT2ForCausalLM = ns["StieltjesGPT2ForCausalLM"]
 
 from train_gpt2_stieltjes import GPT  # noqa: E402
+print("trainer:", TRAINER)
 
 DEVICE = torch.device("cuda")
 
@@ -47,6 +60,9 @@ cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           scale_learnable=getattr(targs, "scale_learnable",
                                                   False),
                           qk_norm=getattr(targs, "qk_norm", False),
+                          modern=getattr(targs, "modern", False),
+                          scale_cap=float(getattr(targs, "scale_cap", 15.0)),
+                          vocab_size=int(getattr(targs, "vocab", 50304)),
                           attn=("sdpa" if targs.attn == "sdpa"
                                 else "stieltjes"))
 hf = StieltjesGPT2ForCausalLM(cfg)
@@ -59,7 +75,16 @@ trainer = GPT(targs).to(DEVICE)
 trainer.load_state_dict(blob["model"])
 trainer.eval()
 
-tok = AutoTokenizer.from_pretrained("gpt2")
+tname = getattr(targs, "tokenizer", "gpt2") or "gpt2"
+tok = AutoTokenizer.from_pretrained(
+    targs.tokenizer_path if tname != "gpt2" else "gpt2")
+eot = tok.convert_tokens_to_ids("<|endoftext|>")
+assert eot is not None and eot < cfg.vocab_size, (tname, eot)
+cfg.bos_token_id = cfg.eos_token_id = eot
+hf.config.bos_token_id = hf.config.eos_token_id = eot
+hf.generation_config.bos_token_id = hf.generation_config.eos_token_id = eot
+hf.generation_config.pad_token_id = eot
+print(f"tokenizer {tname}: vocab {cfg.vocab_size}, <|endoftext|> = {eot}")
 prompt = "The history of mathematics begins with"
 ids = tok(prompt, return_tensors="pt").input_ids.to(DEVICE)
 

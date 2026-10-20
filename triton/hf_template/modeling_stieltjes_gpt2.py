@@ -46,6 +46,9 @@ class Attn(nn.Module):
         self.proj = nn.Linear(config.n_embd, config.n_embd, bias=False)
         if getattr(config, "scale_learnable", False):
             self.scale_mult = nn.Parameter(torch.zeros(config.n_head))
+        # cap C of the learnable scale (mirrors the trainer): eff = 1 + C*tanh(m/C);
+        # C = 0 => uncapped, eff = 1 + m. Configs without the field are C = 15.
+        self.scale_cap = float(getattr(config, "scale_cap", 15.0))
         # QK-norm (mirrors the trainer): unit-RMS q and k over the head dim,
         # times a per-head learnable gain, BEFORE RoPE and the score scale
         self.qk_norm = getattr(config, "qk_norm", False)
@@ -88,8 +91,12 @@ class Attn(nn.Module):
             pos = torch.arange(past_len, past_len + S, device=x.device)
             q = self._rope_apply(q, pos)
             k = self._rope_apply(k, pos)
-        if hasattr(self, "scale_mult"):          # tanh-capped, C=15 (mirror trainer)
-            eff = 1.0 + 15.0 * torch.tanh(self.scale_mult / 15.0)
+        if hasattr(self, "scale_mult"):          # learnable scale (mirror trainer)
+            C = self.scale_cap
+            if C > 0:
+                eff = 1.0 + C * torch.tanh(self.scale_mult / C)
+            else:
+                eff = 1.0 + self.scale_mult
             q = q * eff[None, :, None, None].to(q.dtype)
         if past_key_values is not None:
             k, v = past_key_values.update(k, v, self.layer_idx)
@@ -114,16 +121,39 @@ class Attn(nn.Module):
         return self.proj(o.transpose(1, 2).reshape(B, S, E))
 
 
+class SwiGLU(nn.Module):
+    # gate/up/down MLP (mirrors the trainer): hidden 8d/3 rounded to a multiple of 64
+    def __init__(self, d):
+        super().__init__()
+        h = int(round(8 * d / 3 / 64)) * 64
+        self.gate = nn.Linear(d, h, bias=False)
+        self.up = nn.Linear(d, h, bias=False)
+        self.down = nn.Linear(h, d, bias=False)
+
+    def forward(self, x):
+        return self.down(F.silu(self.gate(x)) * self.up(x))
+
+
+def _norm(config, d):
+    # modern: RMSNorm (weight only, default eps) everywhere, as the trainer; else GPT-2 LayerNorm
+    if getattr(config, "modern", False):
+        return nn.RMSNorm(d)
+    return nn.LayerNorm(d)
+
+
 class Block(nn.Module):
     def __init__(self, config, layer_idx):
         super().__init__()
-        self.ln1 = nn.LayerNorm(config.n_embd)
+        self.ln1 = _norm(config, config.n_embd)
         self.attn = Attn(config, layer_idx)
-        self.ln2 = nn.LayerNorm(config.n_embd)
-        self.mlp = nn.Sequential(
-            nn.Linear(config.n_embd, 4 * config.n_embd, bias=False),
-            nn.GELU(),
-            nn.Linear(4 * config.n_embd, config.n_embd, bias=False))
+        self.ln2 = _norm(config, config.n_embd)
+        if getattr(config, "modern", False):
+            self.mlp = SwiGLU(config.n_embd)
+        else:
+            self.mlp = nn.Sequential(
+                nn.Linear(config.n_embd, 4 * config.n_embd, bias=False),
+                nn.GELU(),
+                nn.Linear(4 * config.n_embd, config.n_embd, bias=False))
 
     def forward(self, x, past_key_values=None, attention_mask=None):
         x = x + self.attn(self.ln1(x), past_key_values, attention_mask)
@@ -145,7 +175,7 @@ class StieltjesGPT2ForCausalLM(PreTrainedModel, GenerationMixin):
             self.wpe = nn.Embedding(config.ctx, config.n_embd)
         self.blocks = nn.ModuleList(
             Block(config, i) for i in range(config.n_layer))
-        self.ln_f = nn.LayerNorm(config.n_embd)
+        self.ln_f = _norm(config, config.n_embd)
         self.head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
         self.post_init()
 

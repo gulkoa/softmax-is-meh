@@ -298,6 +298,7 @@ run_test "score_length_alpha_grid" python scripts/test_score_length_alpha_grid.p
 run_test "score_ef_seed1" python scripts/test_score_ef_seed1.py
 run_test "score_contrast_1e3" python scripts/test_score_contrast_1e3.py
 run_test "score_stilt12" python scripts/test_score_stilt12.py
+run_test "hf_template_modern" python scripts/test_hf_template_modern.py
 
 echo ""
 if [ "$FAILED" -eq 0 ]; then

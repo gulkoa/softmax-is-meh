@@ -15,6 +15,7 @@ class StieltjesGPT2Config(PretrainedConfig):
                  ctx=1024, stj_q=4.0, bisect_iters=50, use_cache=True,
                  attn="stieltjes", nope=False, rope=False,
                  rope_theta=10000.0, scale_learnable=False, qk_norm=False,
+                 modern=False, scale_cap=15.0,
                  bos_token_id=50256, eos_token_id=50256,
                  tie_word_embeddings=True, **kwargs):
         self.attn = attn                     # "stieltjes" | "sdpa"
@@ -23,6 +24,8 @@ class StieltjesGPT2Config(PretrainedConfig):
         self.rope_theta = rope_theta
         self.scale_learnable = scale_learnable  # capped per-head score scale
         self.qk_norm = qk_norm               # RMS-normed q/k with per-head gains
+        self.modern = modern                 # RMSNorm + SwiGLU (no bias) instead of LayerNorm + GELU
+        self.scale_cap = scale_cap           # learnable-scale cap C; 0 = uncapped (eff = 1 + m)
         self.vocab_size = vocab_size
         self.n_layer = n_layer
         self.n_head = n_head
