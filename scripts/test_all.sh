@@ -287,6 +287,7 @@ print(f'OK — max_abs={max_abs:.5f}, argmax_agree={argmax_agree:.4f}')
 "
 
 run_test "prefetch loader = sync batches" python scripts/test_prefetch_loader.py
+run_test "fineweb tok32k prep" python scripts/test_prepare_fineweb_tok32k.py
 
 echo ""
 if [ "$FAILED" -eq 0 ]; then
