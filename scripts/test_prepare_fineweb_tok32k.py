@@ -4,7 +4,8 @@ on exact and whitespace-only matches and nothing else is; one EOT per kept
 document; the shards decode to the kept documents in file order; shards are
 cut at document ends and balanced; meta.json has the trainer's keys, correct
 counts and no gpt2_total_tokens; parts are cleaned up; a second build into the
-same directory is refused."""
+same directory is refused; special-token text inside a document (a literal
+"<|endoftext|>") stays text, so EOT appears only at document ends."""
 import json, os, subprocess, sys, tempfile
 import numpy as np
 import pyarrow as pa
@@ -30,6 +31,8 @@ def main():
         return f"Doc {i}: " + " ".join(rng.choice(WORDS, size=int(rng.integers(5, 60)))) + " ."
 
     files = [[doc(f * 1000 + i) for i in range(n)] for f, n in enumerate([40, 25, 60])]
+    files[1][4] = "Doc 1004: a page that quotes <|endoftext|> in its text ."
+    files[1][5] = "Doc 1005: <|user|> hi <|eot|> and <|pad|> ."
     exact = [files[0][3], files[1][10], files[2][59]]
     ws_only = [files[0][7].replace(" .", "."), files[2][0].replace(" ", "  ", 1)]
     assert all(t not in sum(files, []) for t in ws_only)

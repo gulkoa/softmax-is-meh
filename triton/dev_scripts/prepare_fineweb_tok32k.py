@@ -14,7 +14,10 @@ LFS sha256.
 build: (1) the exclude shard is split at EOT and decoded; each document is
 hashed exactly and with all whitespace removed. (2) Every parquet file becomes
 <out>/parts/part_XXXX.bin, one EOT after each kept document; a document whose
-whitespace-stripped hash is in the exclude set is dropped. Resumable per file.
+whitespace-stripped hash is in the exclude set is dropped. Special-token text
+inside a document (a literal "<|endoftext|>" on a web page) is encoded as plain
+text (encode_special_tokens), so the only special token in the data is the EOT
+after each document; every batch is checked for that. Resumable per file.
 (3) The parts, in file order, are cut into K = round(T / shard_tokens) shards,
 each at the first document end at or after a multiple of T/K, so every shard
 ends with EOT and the LAST shard is the trainer's validation shard. Each part
@@ -90,8 +93,12 @@ def _init(tok_file, threads, exact, stripped, batch_rows):
     os.environ["RAYON_NUM_THREADS"] = str(threads)
     os.environ["TOKENIZERS_PARALLELISM"] = "true"
     from tokenizers import Tokenizer
-    _G["tok"] = Tokenizer.from_file(tok_file)
-    _G["eot"] = _G["tok"].token_to_id("<|endoftext|>")
+    tok = Tokenizer.from_file(tok_file)
+    tok.encode_special_tokens = True      # special-token text in a document stays text
+    _G["tok"], _G["eot"] = tok, tok.token_to_id("<|endoftext|>")
+    special = np.zeros(tok.get_vocab_size(), dtype=bool)
+    special[list(tok.get_added_tokens_decoder())] = True
+    _G["special"] = special
     _G["exact"], _G["stripped"], _G["batch_rows"] = exact, stripped, batch_rows
 
 
@@ -131,6 +138,9 @@ def tokenize_file(job):
                 if rt_n < 20:
                     rt_n += 1
                     rt_ok += tok.decode(e.ids) == t
+            n_special = int(np.count_nonzero(_G["special"][out]))
+            if n_special != len(keep):
+                raise RuntimeError(f"{src}: {n_special} special tokens in a batch of {len(keep)} documents")
             out.tofile(f)
             kept += len(keep)
             toks += len(out)
