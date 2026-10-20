@@ -7,7 +7,9 @@ counts and no gpt2_total_tokens; parts are cleaned up; a second build into the
 same directory is refused; special-token text inside a document (a literal
 "<|endoftext|>") stays text, so EOT appears only at document ends.
 check_fineweb_tok32k.py passes on the build, and fails on a wrong expected
-count and on a stray special id in the validation shard."""
+count and on a stray special id in the validation shard. dryrun_trainer_data.py
+(the trainer's own Shards on a launch script's MIX and TOK) passes on the build
+and fails on a wrong expected step count."""
 import json, os, subprocess, sys, tempfile
 import numpy as np
 import pyarrow as pa
@@ -16,6 +18,8 @@ import pyarrow.parquet as pq
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = os.path.join(REPO, "triton", "dev_scripts", "prepare_fineweb_tok32k.py")
 CHECK = os.path.join(REPO, "triton", "dev_scripts", "check_fineweb_tok32k.py")
+DRYRUN = os.path.join(REPO, "triton", "dev_scripts", "dryrun_trainer_data.py")
+TRAINER = os.path.join(REPO, "triton", "dev_scripts", "train_gpt2_stieltjes.py")
 TOK = "/fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1"
 WORDS = ["alpha", "beta", "γάμμα", "δέλτα", "naïve", "café", "日本語", "😀", "x=1;", "\tTab",
          "line\nbreak", "  spaced  ", "won't", "(paren)", "1,234.5"]
@@ -94,6 +98,19 @@ def main():
                "--expect-excluded", "5", "--expect-excluded-exact", "3", "--expect-exclude-docs", "7"]
         r3 = subprocess.run(chk, capture_output=True, text=True)
         assert r3.returncode == 0 and "ALL CHECKS PASSED" in r3.stdout, r3.stdout + r3.stderr
+
+        launch = os.path.join(d, "launch.sh")
+        open(launch, "w").write(
+            f'MIX="web={out}:1.0"\nTOK=1000000\n'
+            f'python {TRAINER} --micro-bs 2 --grad-accum 4 --ctx 64 '
+            '--total-tokens "$TOK" --data-mix "${MIX}"\n')
+        dry = [sys.executable, DRYRUN, "--launch", launch, "--trainer", TRAINER,
+               "--expect-steps", str(1000000 // 512)]
+        r6 = subprocess.run(dry, capture_output=True, text=True)
+        assert r6.returncode == 0 and "ALL CHECKS PASSED" in r6.stdout, r6.stdout + r6.stderr
+        assert f"val ['{shards[-1]}']" in r6.stdout, r6.stdout
+        r7 = subprocess.run(dry[:-1] + [str(1000000 // 512 + 1)], capture_output=True, text=True)
+        assert r7.returncode == 1 and "FAIL total steps" in r7.stdout, r7.stdout + r7.stderr
         r4 = subprocess.run(chk[:-1] + ["8"], capture_output=True, text=True)
         assert r4.returncode == 1 and "FAIL old validation shard docs" in r4.stdout, r4.stdout + r4.stderr
         val = os.path.join(out, shards[-1])
