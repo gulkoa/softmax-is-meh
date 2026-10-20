@@ -5,12 +5,19 @@ the modern stack (RMSNorm + SwiGLU), the uncapped learnable scale
 same fp32 logits on the same weights, with strict key parity both ways.
 Softmax attention only (the Stieltjes serving path is checked by the
 convert job on the GPU). Also: a config with the wrong cap does NOT match,
-so the cap branch is known to be wired.
+so the cap branch is known to be wired. Then the converter's save path on
+the modern model: save_pretrained with auto_map into a staging-like dir,
+AutoModelForCausalLM.from_pretrained(trust_remote_code) gives the same
+logits with the head still tied, and cached greedy generation equals
+uncached.
 
     python scripts/test_hf_template_modern.py
 """
+import json
 import os
+import shutil
 import sys
+import tempfile
 from types import SimpleNamespace
 
 import torch
@@ -78,7 +85,39 @@ def main():
     legacy_default = hf_model(nope=False, qk_norm=False, scale_learnable=True)   # no modern/scale_cap given
     assert legacy_default.config.modern is False and legacy_default.config.scale_cap == 15.0
     check("legacy through the config defaults", trainer_model(**legacy), legacy_default, ids)
+    round_trip(tr, modern, ids)
     print("ALL OK")
+
+
+def round_trip(tr, kw, ids):
+    """The converter's save path, then the battery's load path (AutoModel, trust_remote_code)."""
+    from transformers import AutoModelForCausalLM
+    hf = hf_model(**kw)
+    hf.load_state_dict(tr.state_dict(), strict=True)
+    hf.config.auto_map = {"AutoConfig": "configuration_stieltjes_gpt2.StieltjesGPT2Config",
+                          "AutoModelForCausalLM": "modeling_stieltjes_gpt2.StieltjesGPT2ForCausalLM"}
+    d = tempfile.mkdtemp()
+    try:
+        for f in ("modeling_stieltjes_gpt2.py", "configuration_stieltjes_gpt2.py"):
+            shutil.copy(os.path.join(T, f), d)
+        hf.save_pretrained(d, safe_serialization=True)
+        cj = json.load(open(os.path.join(d, "config.json")))
+        assert cj["modern"] is True and cj["scale_cap"] == 0.0 and cj["qk_norm"] is True, cj
+        m2 = AutoModelForCausalLM.from_pretrained(d, trust_remote_code=True).eval()
+        assert m2.head.weight.data_ptr() == m2.wte.weight.data_ptr(), "head not tied after reload"
+        a, b = logits(tr, ids, False), logits(m2, ids, True)
+        assert torch.allclose(a, b, atol=1e-5, rtol=1e-5), (a - b).abs().max().item()
+        with torch.no_grad():
+            g = m2.generate(ids[:1, :4], max_new_tokens=5, do_sample=False)
+            cur = ids[:1, :4]
+            for _ in range(5):
+                nxt = m2(input_ids=cur, use_cache=False).logits[0, -1].argmax()[None, None]
+                cur = torch.cat([cur, nxt], 1)
+        assert torch.equal(g, cur), "cached greedy differs from uncached"
+        print(f"  save/AutoModel round trip: max |diff| {(a - b).abs().max().item():.2e}, "
+              "head tied, cached == uncached greedy")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
 
 
 if __name__ == "__main__":
