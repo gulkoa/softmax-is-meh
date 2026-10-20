@@ -5,7 +5,9 @@ document; the shards decode to the kept documents in file order; shards are
 cut at document ends and balanced; meta.json has the trainer's keys, correct
 counts and no gpt2_total_tokens; parts are cleaned up; a second build into the
 same directory is refused; special-token text inside a document (a literal
-"<|endoftext|>") stays text, so EOT appears only at document ends."""
+"<|endoftext|>") stays text, so EOT appears only at document ends.
+check_fineweb_tok32k.py passes on the build, and fails on a wrong expected
+count and on a stray special id in the validation shard."""
 import json, os, subprocess, sys, tempfile
 import numpy as np
 import pyarrow as pa
@@ -13,6 +15,7 @@ import pyarrow.parquet as pq
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = os.path.join(REPO, "triton", "dev_scripts", "prepare_fineweb_tok32k.py")
+CHECK = os.path.join(REPO, "triton", "dev_scripts", "check_fineweb_tok32k.py")
 TOK = "/fs/scratch/PAS2836/alexg/tokenizers/stilt-tok-32k-v1"
 WORDS = ["alpha", "beta", "γάμμα", "δέλτα", "naïve", "café", "日本語", "😀", "x=1;", "\tTab",
          "line\nbreak", "  spaced  ", "won't", "(paren)", "1,234.5"]
@@ -85,6 +88,20 @@ def main():
         assert meta["eot"] == eot == 0 and meta["vocab_size"] == 32768
         assert meta["tokenizer"] == "stilt-tok-32k-v1" and meta["tokenizer_path"] == TOK
         assert len(meta["tokenizer_sha256"]) == 64 and "gpt2_total_tokens" not in meta
+
+        chk = [sys.executable, CHECK, "--out", out, "--parquet", os.path.join(d, "pq"),
+               "--expect-files", "3", "--expect-rows", str(sum(len(f) for f in files)),
+               "--expect-excluded", "5", "--expect-excluded-exact", "3", "--expect-exclude-docs", "7"]
+        r3 = subprocess.run(chk, capture_output=True, text=True)
+        assert r3.returncode == 0 and "ALL CHECKS PASSED" in r3.stdout, r3.stdout + r3.stderr
+        r4 = subprocess.run(chk[:-1] + ["8"], capture_output=True, text=True)
+        assert r4.returncode == 1 and "FAIL old validation shard docs" in r4.stdout, r4.stdout + r4.stderr
+        val = os.path.join(out, shards[-1])
+        x = np.fromfile(val, dtype=np.uint16)
+        x[0] = tok.token_to_id("<|user|>")
+        x.tofile(val)
+        r5 = subprocess.run(chk, capture_output=True, text=True)
+        assert r5.returncode == 1 and f"FAIL {shards[-1][:-4]}" in r5.stdout, r5.stdout + r5.stderr
 
         r2 = subprocess.run(cmd, capture_output=True, text=True)
         assert r2.returncode != 0 and "refusing" in r2.stdout + r2.stderr, "overwrite not refused"
