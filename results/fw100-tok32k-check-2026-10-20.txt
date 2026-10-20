@@ -1,0 +1,32 @@
+ok   source {'repo': 'HuggingFaceFW/fineweb', 'revision': '9bb295ddab0e05d785b879661af7260fed5140fc', 'subdir': 'sample/100BT'}
+ok   parquet files 150
+ok   rows read 147,639,585 (expected 147,639,585)
+ok   excluded 14,700 (expected 14,700)
+ok   excluded exact 14,598 (expected 14,598)
+ok   old validation shard docs 196,652
+ok   tokenizer sha 19e7e7c445be
+ok   kept 147,624,885 + excluded 14,700 = rows 147,639,585
+ok   exact matches are a subset of the whitespace matches
+ok   total tokens 104,674,389,993 = sum of shards
+ok   shard documents sum to the kept documents
+ok   419 shards
+     shard tokens min 249,739,305 max 249,899,997; validation shard_0418: 249,819,400 tokens, 355,225 documents
+ok   round trip [3000, 3000]
+ok   no gpt2_total_tokens key
+ok   trainer key tokenizer
+ok   trainer key tokenizer_sha256
+ok   trainer key vocab_size
+ok   trainer key tokenizer_path
+ok   dtype uint16, vocab 32768
+     tokens per GPT-2 token, no EOT on either side: 1.0145 (the GPT-2 count covers every row read, excluded ones too); UTF-8 bytes per token, no EOT: 4.384
+ok   419 shard files
+ok   parts directory removed
+ok   no .tmp files
+ok   every shard file is 2 bytes x its token count
+ok   every shard ends with EOT
+ok   shard_0000: 358,230 EOT for 358,230 documents, 0 other special ids
+ok   shard_0418: 355,225 EOT for 355,225 documents, 0 other special ids
+ok   150 parquet files on disk
+ok   the first 5 documents of shard_0000 appear in order in 000_00000.parquet
+ok   the last document of shard_0418 is among the last rows of 014_00009.parquet
+ALL CHECKS PASSED

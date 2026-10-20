@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/prepare_fineweb_tok32k.py", line 303, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/prepare_fineweb_tok32k.py", line 299, in main
+    download(a) if a.cmd == "download" else build(a)
+                                            ~~~~~^^^
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/prepare_fineweb_tok32k.py", line 249, in build
+    shards = merge(stats, out, eot, a.shard_tokens)
+  File "/users/PAS2402/alexg/softmax/.worktrees/tok32k/triton/dev_scripts/prepare_fineweb_tok32k.py", line 192, in merge
+    assert di == len(db), f"{p['part']}: {di} document ends vs {len(db)} documents"
+           ^^^^^^^^^^^^^
+AssertionError: /fs/scratch/PAS2836/alexg/fineweb_100bt_tok32k/parts/part_0001: 1056523 document ends vs 1056520 documents
