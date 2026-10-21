@@ -1,0 +1,63 @@
+node c0028.ten.osc.edu 2026-10-21 18:36:22
+mount: scratch         4.7P  3.7P  1.1P  79% /fs/scratch
+shards: 0 npy, 40 bin
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-21_18:34:00 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:58:50 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_04:45:07 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:16:49 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:47:33 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:19:05 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:50:39 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.step5000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:58:56 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:53:11 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_04:45:05 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:16:47 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:47:26 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:19:04 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:49:43 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step5000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:21:38 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step6000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:52:49 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.step7000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_08:07:14 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_08:09:27 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_04:45:07 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:16:50 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_05:47:29 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:19:06 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_06:50:33 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step5000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:21:36 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step6000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-20_07:53:32 ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.step7000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:54:36 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:56:11 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_14:42:39 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_15:19:47 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_15:59:19 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:36:51 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_18:28:18 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_18:29:58 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_15:20:53 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_15:58:24 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:35:55 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_17:14:26 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_17:52:03 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step5000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_18:29:40 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.step6000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_19:26:50 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_19:29:09 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.pt.bak
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:15:14 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step1000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_16:52:40 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step2000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_17:30:14 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step3000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_18:07:50 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step4000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_18:48:28 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step5000.pt
+-rw-r--r--  1 alexg PAS2402 1483430537 2026-10-19_19:28:04 ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.step6000.pt
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.pt: step 4500
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s2.pt.bak: step 4500
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.pt: step 6000
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s3.pt.bak: step 6000
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.pt: step 6000
+ckpt_gpt2-stj-q4-nope-lrsweep-lr0.001_s4.pt.bak: step 6000
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.pt: step 9535
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s2.pt.bak: step 5250
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.pt: step 7250
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s3.pt.bak: step 7000
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.pt: step 7500
+ckpt_gpt2-sdpa-nope-lrsweepls-lr0.001_s4.pt.bak: step 7500
+done 2026-10-21 18:37:08
