@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/users/PAS2402/alexg/softmax/.worktrees/qknorm/triton/dev_scripts/train_gpt2_stieltjes.py", line 515, in <module>
+    main()
+    ~~~~^^
+  File "/users/PAS2402/alexg/softmax/.worktrees/qknorm/triton/dev_scripts/train_gpt2_stieltjes.py", line 347, in main
+    train_d = Shards("train", args.data_mix)
+  File "/users/PAS2402/alexg/softmax/.worktrees/qknorm/triton/dev_scripts/train_gpt2_stieltjes.py", line 59, in __init__
+    assert len(paths) >= 2, f"need >=2 shards in {d}"
+           ^^^^^^^^^^^^^^^
+AssertionError: need >=2 shards in /fs/scratch/PAS2836/alexg/fineweb_edu_10bt
