@@ -17,15 +17,15 @@
 # (1-based, inclusive), seeds each staging dir with the HF template files
 # (the README is already there from scripts/hf_research_cards.py), runs
 # triton/dev_scripts/convert_verify_gpt2_hf.py with STILT_TRAINER set to
-# the line's trainer, keeps its full output in <staging>/convert.log, and
+# the line's trainer (default Hub settings, as convert_gpt2_hf_h100.sh: the
+# 10-30 pilot showed the GPT-2 tokenizer is not loadable from the scratch
+# cache offline), keeps its full output in <staging>/convert.log, and
 # prints one summary line per checkpoint: "VERIFIED <repo>" or "FAILED <repo>".
 #   sbatch slurm/convert_many_hf_h100.sh LIST FIRST LAST
 set -u
 LIST=$1; FIRST=$2; LAST=$3
 R=/users/PAS2402/alexg/softmax/softmax-is-meh
 PY=$R/triton/.venv/bin/python
-export HF_HOME=/fs/scratch/PAS2836/alexg/hf_cache
-export HF_HUB_OFFLINE=1
 echo "node $(hostname) $(date '+%F %T') lines $FIRST-$LAST of $LIST"
 sed -n "${FIRST},${LAST}p" "$LIST" | while read -r CKPT STAGING TRAINER REPO; do
     [ -n "$CKPT" ] || continue

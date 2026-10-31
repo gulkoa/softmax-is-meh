@@ -8,7 +8,6 @@ set -u
 LIST=$1
 R=/users/PAS2402/alexg/softmax/softmax-is-meh
 PY=$R/triton/.venv/bin/python
-export HF_HOME=/fs/scratch/PAS2836/alexg/hf_cache
 n=0; skipped=0; failed=0
 while read -r CKPT STAGING TRAINER REPO; do
     [ -n "$CKPT" ] || continue
