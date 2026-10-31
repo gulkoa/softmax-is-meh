@@ -1,0 +1,12 @@
+node c0805.ten.osc.edu 2026-10-30 21:48:57 lines 1-10 of /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_research_todo.txt
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-logitprobe-lr0.001-s1 (14s) A: max|logit diff| 0.243 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0003-s0 (9s) A: max|logit diff| 0.122 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0003-s1 (9s) A: max|logit diff| 0.305 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0003-s2 (8s) A: max|logit diff| 0.093 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0003-s3 (9s) A: max|logit diff| 0.482 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0003-s4 (9s) A: max|logit diff| 0.393 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0006-s0 (8s) A: max|logit diff| 0.240 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.0006-s1 (9s) A: max|logit diff| 0.412 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.001-s2 (8s) A: max|logit diff| 3.406 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.001-s3 (8s) A: max|logit diff| 0.641 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+done 2026-10-30 21:50:29

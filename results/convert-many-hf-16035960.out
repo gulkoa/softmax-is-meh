@@ -1,0 +1,12 @@
+node c0825.ten.osc.edu 2026-10-30 21:48:57 lines 11-20 of /users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_research_todo.txt
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-lrsweepls-lr0.001-s4 (35s) A: max|logit diff| 2.509 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-lrsweep-lr0.002-s0 (10s) A: max|logit diff| 0.131 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-lrsweep-lr0.004-s0 (9s) A: max|logit diff| 0.101 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-lrsweep-lr0.008-s0 (8s) A: max|logit diff| 0.164 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-stilt-tok-32k-v1-s0 (8s) A: max|logit diff| 0.206 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-s0 (8s) A: max|logit diff| 0.102 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-modern-nocap-qkpilot-lr0.001-s1 (8s) A: max|logit diff| 0.180 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-qkpilot-lr0.0006-s0 (9s) A: max|logit diff| 0.157 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qk-qkpilot-lr0.001-s0 (8s) A: max|logit diff| 0.128 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+VERIFIED GulkoA/stilt-research-124m-sdpa-nope-qkpilot-lr0.0006-s0 (9s) A: max|logit diff| 0.832 (bf16 kernel vs fp32 dense), next-token argmax agree: T
+done 2026-10-30 21:50:50
