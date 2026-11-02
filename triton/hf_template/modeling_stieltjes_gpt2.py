@@ -33,6 +33,15 @@ def stieltjes_probs(scores, q_order, iters=50, eps=1e-20):
     return w / w.sum(-1, keepdim=True).clamp_min(eps)
 
 
+def alibi_slopes(n_head, device=None):
+    """ALiBi slopes 2^(-8h/H), h = 1..H (Press et al. 2022), as the trainer.
+    Computed on the fly, not stored: the checkpoint carries no slopes, and a
+    non-persistent buffer comes back uninitialized from from_pretrained's
+    meta-device init (transformers 5.14, checked 2026-11-02)."""
+    h = torch.arange(1, n_head + 1, device=device, dtype=torch.float32)
+    return 2.0 ** (-8.0 * h / n_head)
+
+
 class Attn(nn.Module):
     def __init__(self, config, layer_idx):
         super().__init__()
@@ -57,6 +66,9 @@ class Attn(nn.Module):
             self.k_gain = nn.Parameter(torch.ones(config.n_head))
         self.rope = getattr(config, "rope", False)
         self.rope_theta = float(getattr(config, "rope_theta", 10000.0))
+        # ALiBi (mirrors the trainer): the bias -slope_h * (query pos - key pos)
+        # is added to the scaled scores in forward; slopes from alibi_slopes()
+        self.alibi = getattr(config, "alibi", False)
 
     @staticmethod
     def _rms_head(x, gain, eps=1e-6):
@@ -104,10 +116,18 @@ class Attn(nn.Module):
 
         scores = torch.einsum("bhsd,bhtd->bhst", q.float(), k.float())
         scores = scores / math.sqrt(self.hd)
+        # absolute positions of the query suffix and of every (cached) key
+        qpos = torch.arange(S_kv - S, S_kv, device=x.device)
+        kpos = torch.arange(S_kv, device=x.device)
+        if self.alibi:
+            # ALiBi: -slope_h * distance in fp32, after the 1/sqrt(hd) scale (as
+            # the trainer's SDPA attn_mask and the stjalibi kernel); absolute
+            # positions keep cached decoding equal to prefill
+            dist = (qpos[:, None] - kpos[None, :]).to(torch.float32).clamp(min=0)
+            scores = scores - (alibi_slopes(self.h, scores.device)[None, :, None, None]
+                               * dist[None, None])
         if S > 1:
             # prefill / training: causal mask over the aligned suffix
-            qpos = torch.arange(S_kv - S, S_kv, device=x.device)
-            kpos = torch.arange(S_kv, device=x.device)
             mask = qpos[:, None] >= kpos[None, :]
             scores = scores.masked_fill(~mask[None, None], -1e9)
         if attention_mask is not None:
@@ -170,7 +190,8 @@ class StieltjesGPT2ForCausalLM(PreTrainedModel, GenerationMixin):
         super().__init__(config)
         self.wte = nn.Embedding(config.vocab_size, config.n_embd)
         self.nope = (getattr(config, "nope", False)
-                     or getattr(config, "rope", False))
+                     or getattr(config, "rope", False)
+                     or getattr(config, "alibi", False))   # ALiBi: no position table
         if not self.nope:
             self.wpe = nn.Embedding(config.ctx, config.n_embd)
         self.blocks = nn.ModuleList(

@@ -10,7 +10,10 @@ dev_scripts). Checkpoints trained with the tok32k trainer (vocab and
 tokenizer in args) need STILT_TRAINER pointed at that worktree's
 dev_scripts; pass it through sbatch with --export=ALL,STILT_TRAINER=...
 The tokenizer saved is the checkpoint's (args.tokenizer_path when it is not
-gpt2), and bos/eos are its <|endoftext|> id."""
+gpt2), and bos/eos are its <|endoftext|> id. ALiBi checkpoints need a
+trainer with --alibi as STILT_TRAINER (the alibi worktree for softmax +
+ALiBi, the stjalibi worktree for Stieltjes + ALiBi, whose kernel carries
+the bias path); main's trainer has no --alibi (port of 2026-11-02)."""
 import json
 import os
 import sys
@@ -62,6 +65,7 @@ cfg = StieltjesGPT2Config(n_layer=targs.n_layer, n_head=targs.n_head,
                           qk_norm=getattr(targs, "qk_norm", False),
                           modern=getattr(targs, "modern", False),
                           scale_cap=float(getattr(targs, "scale_cap", 15.0)),
+                          alibi=getattr(targs, "alibi", False),
                           vocab_size=int(getattr(targs, "vocab", 50304)),
                           attn=("sdpa" if targs.attn == "sdpa"
                                 else "stieltjes"))

@@ -7,8 +7,11 @@ thesis/experiments/2026-10-30-hf-upload-research-checkpoints-124m.md).
 Writes LIST lines "<ckpt> <staging> <trainer dev_scripts dir> <repo>" for
 slurm/convert_many_hf_h100.sh and scripts/hf_upload_verified.sh, and
 README.md into each staging dir. Excluded, with the reason printed: 355M
-checkpoints (published separately), smoke runs, ALiBi runs (no template
-switch yet), probe artifacts, unfinished runs (uploaded at FINAL).
+checkpoints (published separately), smoke runs, probe artifacts,
+unfinished runs (uploaded at FINAL). ALiBi runs are included since the
+template's ALiBi switch of 2026-11-02 (reference trainer: the alibi
+worktree for softmax + ALiBi, the stjalibi worktree for Stieltjes +
+ALiBi, whose kernel carries the bias path).
 
     python scripts/hf_research_cards.py [--scan DIR] [--staging-root DIR]
                                         [--list FILE] [--dry]
@@ -24,7 +27,9 @@ LIST = "/users/PAS2402/alexg/softmax/softmax-is-meh/results/hf_research_list.txt
 WT = "/users/PAS2402/alexg/softmax/.worktrees"
 TRAINERS = {"qknorm": f"{WT}/qknorm/triton/dev_scripts",
             "backbone": f"{WT}/backbone/triton/dev_scripts",
-            "tok32k": f"{WT}/tok32k/triton/dev_scripts"}
+            "tok32k": f"{WT}/tok32k/triton/dev_scripts",
+            "alibi": f"{WT}/alibi/triton/dev_scripts",
+            "stjalibi": f"{WT}/stjalibi/triton/dev_scripts"}
 PREFIX = "stilt-research-124m-"
 THESIS = "https://github.com/gulkoa/softmax-research-thesis"
 
@@ -45,6 +50,8 @@ def repo_name(basename):
 
 
 def trainer_for(args):
+    if args.get("alibi"):
+        return "stjalibi" if args["attn"] == "stj" else "alibi"
     if "vocab" in args:
         return "tok32k"
     if args.get("modern"):
@@ -63,8 +70,6 @@ def classify(basename, args, step):
         return False, "355M checkpoint, published separately"
     if "smoke" in args.get("tag", "") or "smoke" in basename:
         return False, "smoke run"
-    if args.get("alibi") or "alibi" in basename:
-        return False, "ALiBi run: the HF template has no ALiBi switch yet"
     if "fromhf" in basename:
         return False, "round-trip probe artifact"
     if str(args.get("tag", "")).startswith("logitprobe"):
@@ -83,6 +88,13 @@ def arm(args):
     sl = bool(args.get("scale_learnable"))
     cap = float(args.get("scale_cap", 15.0))
     modern = bool(args.get("modern"))
+    if stj and args.get("alibi"):
+        return ("Stieltjes + ALiBi: Stieltjes attention with the ALiBi distance penalty inside the fused "
+                "kernel, on the modern backbone (QK-norm, uncapped learnable score scale); the normalizer "
+                f"was solved with {int(args.get('stj_iters', 3))} Halley iterations in training")
+    if args.get("alibi"):
+        return ("softmax + ALiBi: softmax attention with the ALiBi distance penalty on the modern backbone "
+                "(QK-norm, uncapped learnable score scale), the length baseline")
     if stj and qk and modern:
         return "E: Stieltjes attention on the modern backbone (NoPE, QK-norm, uncapped learnable score scale)"
     if not stj and qk and modern:
@@ -98,9 +110,24 @@ def arm(args):
     return "C: softmax attention with a fixed score scale and no normalization"
 
 
+def positions(args):
+    if args.get("alibi"):
+        return "ALiBi (per-head linear distance penalty, slopes 2^(-8h/H) for h = 1..H, no position table)"
+    if args.get("rope"):
+        return "rotary (RoPE)"
+    if args.get("nope"):
+        return "none (NoPE)"
+    return "learned absolute (GPT-2 position table)"
+
+
 def references(args):
     """Record or finding files behind this run, by campaign."""
     tag = str(args.get("tag", ""))
+    if args.get("alibi"):
+        if args["attn"] == "stj":
+            return ["findings/2026-10-15-stj-alibi-adds-nothing.md", "experiments/2026-10-14-stj-alibi-124m.md"]
+        return ["findings/2026-10-14-alibi-baseline-wins-perplexity.md",
+                "experiments/2026-10-14-alibi-length-baseline-124m.md"]
     lr = float(args["lr"])
     seed = int(args.get("seed", 0))
     if tag.startswith("logitprobe"):
@@ -170,7 +197,7 @@ GPT-2-small shape (12 layers, 12 heads, width 768), context 1024,
 code with seed {int(args.get('seed', 0))} at learning rate {float(args['lr']):g}.
 
 Configuration: {arm(args)}. Attention {'Stieltjes (q = 4)' if stj else 'softmax'};
-positions: none (NoPE); QK-norm {'on' if args.get('qk_norm') else 'off'};
+positions: {positions(args)}; QK-norm {'on' if args.get('qk_norm') else 'off'};
 learnable score scale {scale}; {backbone}.
 
 {run_s} The record and the reading it belongs to, in
