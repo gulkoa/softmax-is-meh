@@ -1,0 +1,20 @@
+cleanup 2026-11-09 start Mon Nov  9 01:13:44 AM EST 2026 DRY=0
+12G	/users/PAS2402/alexg/softmax/softmax-is-meh/results/mqmtar_data
+9.8G	/users/PAS2402/alexg/.cache/huggingface/hub/models--google--gemma-2-2b
+6.8G	/users/PAS2402/alexg/.cache/huggingface/hub/models--canrager--saebench_gemma-2-2b_width-2pow16_date-0107
+4.8G	/users/PAS2402/alexg/.cache/huggingface/hub/models--google--gemma-1.1-2b-it
+1.5G	/users/PAS2402/alexg/.cache/huggingface/hub/models--openai-community--gpt2-medium
+5.6M	/users/PAS2402/alexg/.cache/huggingface/hub/models--gpt2-medium
+234M	/users/PAS2402/alexg/.cache/huggingface/hub/models--google-t5--t5-small
+528M	/users/PAS2402/alexg/.cache/huggingface/hub/models--openai-community--gpt2
+1.4G	/users/PAS2402/alexg/.cache/huggingface/hub/models--GulkoA--stilt.1.1-355m-nope-it
+1.4G	/users/PAS2402/alexg/.cache/huggingface/hub/models--GulkoA--stilt.1.1-355m-nope-softmax-baseline
+24K	/users/PAS2402/alexg/.cache/huggingface/hub/models--GulkoA--stilt.1-124m
+3.5M	/users/PAS2402/alexg/.cache/huggingface/hub/models--GulkoA--stilt.1-124m-it
+24K	/users/PAS2402/alexg/.cache/huggingface/hub/models--GulkoA--stilt.1-355m-it
+kept     /users/PAS2402/alexg/.cache/huggingface/hub/models--gpt2
+14G	/users/PAS2402/alexg/.triton/cache
+4.4G	/users/PAS2402/alexg/.cache/pip
+512	/fs/scratch/PAS2836/alexg/fineweb_edu_100bt
+282G	/fs/scratch/PAS2836/alexg/fineweb_100bt_parquet
+cleanup 2026-11-09 end Mon Nov  9 01:14:11 AM EST 2026: 337 GiB listed and removed
