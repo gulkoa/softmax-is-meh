@@ -1,0 +1,28 @@
+cleanup 2026-11-10 (wikidata dump, python packages) start Tue Nov 10 06:18:31 PM EST 2026 DRY=0
+--- before
+10.11.201.15:/PAS2402
+                   367G    500G    500G            627k   1000k   1000k        
+36G	/users/PAS2402/alexg/.conda
+13G	/users/PAS2402/alexg/.local
+124G	/users/PAS2402/alexg/nlp
+90G	/users/PAS2402/alexg/nlp/ce/latest-all.json.bz2
+verified /users/PAS2402/alexg/nlp/ce/latest-lexemes.json is identical to bzcat /users/PAS2402/alexg/nlp/ce/latest-lexemes.json.bz2
+5.7G	/users/PAS2402/alexg/nlp/ce/latest-lexemes.json
+checked  no env symlink points into /users/PAS2402/alexg/.conda/pkgs
+25G	/users/PAS2402/alexg/.conda/pkgs
+--- /users/PAS2402/alexg/.local/lib/python3.6 dist-info (reinstall record)
+FLAML-1.2.4 joblib-1.1.1 lightgbm-3.3.5 numpy-1.19.5 pandas-1.1.5 scikit_learn-0.24.2 threadpoolctl-3.1.0 xgboost-1.5.2 
+728M	/users/PAS2402/alexg/.local/lib/python3.6
+--- /users/PAS2402/alexg/.local/lib/python3.7 dist-info (reinstall record)
+aiohttp-3.8.6 aiosignal-1.3.1 asynctest-0.13.0 async_timeout-4.0.3 attrs-24.2.0 beartype-0.14.1 charset_normalizer-3.4.1 click-8.1.8 datasets-2.13.2 dill-0.3.6 docker_pycreds-0.4.0 einops-0.6.1 fancy_einsum-0.0.3 filelock-3.12.2 frozenlist-1.3.3 fsspec-2023.1.0 gitdb-4.0.12 GitPython-3.1.44 huggingface_hub-0.16.4 importlib_metadata-6.7.0 jaxtyping-0.2.12 markdown_it_py-2.2.0 mdurl-0.1.2 multidict-6.0.5 multiprocess-0.70.14 numpy-1.21.6 nvidia_cublas_cu11-11.10.3.66 nvidia_cuda_nvrtc_cu11-11.7.99 nvidia_cuda_runtime_cu11-11.7.99 nvidia_cudnn_cu11-8.5.0.96 packaging-24.0 pandas-1.3.5 platformdirs-4.0.0 protobuf-4.24.4 psutil-7.0.0 pyarrow-12.0.1 pygments-2.17.2 python_dateutil-2.9.0.post0 pytz-2025.2 PyYAML-6.0.1 regex-2024.4.16 rich-13.8.1 safetensors-0.4.5 sentry_sdk-2.24.1 setproctitle-1.3.3 smmap-5.0.2 tokenizers-0.13.3 torch-1.13.1 tqdm-4.67.1 transformer_lens-1.7.0 transformers-4.30.2 typeguard-4.1.2 typing_extensions-4.7.1 urllib3-1.26.20 wandb-0.18.7 xxhash-3.5.0 yarl-1.9.4 zipp-3.15.0 
+3.6G	/users/PAS2402/alexg/.local/lib/python3.7
+--- /users/PAS2402/alexg/.local/lib/python3.10 dist-info (reinstall record)
+absl_py-2.1.0 accelerate-1.4.0 aiohappyeyeballs-2.4.4 aiohttp-3.11.11 aiosignal-1.3.2 annotated_types-0.7.0 async_timeout-5.0.1 attrs-25.1.0 beartype-0.14.1 better_abc-0.0.3 bitsandbytes-0.45.3 click-8.1.8 cmapy-0.6.6 contourpy-1.3.1 cycler-0.12.1 dill-0.3.8 docker_pycreds-0.4.0 docstring_parser-0.16 einops-0.8.1 exceptiongroup-1.2.2 fancy_einsum-0.0.3 filelock-3.17.0 fonttools-4.55.8 frozenlist-1.5.0 gitdb-4.0.12 GitPython-3.1.44 grpcio-1.70.0 h5py-3.12.1 hypothesis-6.128.1 imageio-2.37.0 iniconfig-2.0.0 jaxtyping-0.3.0 jinja2-3.1.5 joblib-1.4.2 kiwisolver-1.4.8 lazy_loader-0.4 lightning-2.5.0.post0 lightning_utilities-0.12.0 Markdown-3.7 markdown_it_py-3.0.0 MarkupSafe-3.0.2 mdurl-0.1.2 mpmath-1.3.0 multidict-6.1.0 multiprocess-0.70.16 narwhals-1.29.1 networkx-3.4.2 nltk-3.9.1 nvidia_cublas_cu12-12.4.5.8 nvidia_cuda_cupti_cu12-12.4.127 nvidia_cuda_nvrtc_cu12-12.4.127 nvidia_cuda_runtime_cu12-12.4.127 nvidia_cudnn_cu12-9.1.0.70 nvidia_cufft_cu12-11.2.1.3 nvidia_curand_cu12-10.3.5.147 nvidia_cusolver_cu12-11.6.1.9 nvidia_cusparse_cu12-12.3.1.170 nvidia_cusparselt_cu12-0.6.2 nvidia_nccl_cu12-2.21.5 nvidia_nvjitlink_cu12-12.4.127 nvidia_nvtx_cu12-12.4.127 opencv_python-4.11.0.86 pandas-2.2.3 pillow-11.1.0 pluggy-1.5.0 propcache-0.2.1 protobuf-5.29.3 psutil-7.0.0 pyarrow-19.0.1 pydantic-2.11.1 pydantic_core-2.33.0 pygments-2.19.1 pyparsing-3.2.1 pytest-8.3.5 python_dateutil-2.9.0.post0 pytorch_lightning-2.5.0.post0 pytz-2025.1 PyYAML-6.0.2 regex-2024.11.6 requests-2.32.3 rich-13.9.4 scikit_image-0.25.1 scikit_video-1.1.11 scipy-1.15.1 seaborn-0.13.2 sentencepiece-0.2.0 sentry_sdk-2.24.1 setproctitle-1.3.5 simple_parsing-0.1.7 six-1.17.0 smmap-5.0.2 sortedcontainers-2.4.0 sympy-1.13.1 tensorboard-2.18.0 tensorboard_data_server-0.7.2 tifffile-2025.1.10 tokenizers-0.21.0 tomli-2.2.1 torch-2.6.0 torchaudio-2.6.0 torcheval-0.0.7 torchmetrics-1.6.1 torchvision-0.21.0 tqdm-4.67.1 transformers_stream_generator-0.0.5 triton-3.2.0 typeguard-4.4.2 typing_extensions-4.12.2 typing_inspection-0.4.0 tzdata-2025.1 wadler_lindig-0.1.4 wandb-0.19.8 werkzeug-3.1.3 xxhash-3.5.0 yarl-1.18.3 
+6.4G	/users/PAS2402/alexg/.local/lib/python3.10
+--- after
+10.11.201.15:/PAS2402
+                   244G    500G    500G            483k   1000k   1000k        
+18G	/users/PAS2402/alexg/.conda
+1.6G	/users/PAS2402/alexg/.local
+29G	/users/PAS2402/alexg/nlp
+cleanup 2026-11-10 (wikidata dump, python packages) end Tue Nov 10 06:22:28 PM EST 2026: 130 GiB listed and removed
