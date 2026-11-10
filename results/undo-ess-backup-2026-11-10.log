@@ -1,0 +1,6 @@
+undo start Tue Nov 10 02:07:59 PM EST 2026
+260G	/fs/ess/PAS2402/alexg/stilt-backup
+removed  /fs/ess/PAS2402/alexg/stilt-backup
+removed  /fs/ess/PAS2402/alexg (empty)
+ls: cannot access '/fs/ess/PAS2402/alexg': No such file or directory
+undo end Tue Nov 10 02:08:01 PM EST 2026
