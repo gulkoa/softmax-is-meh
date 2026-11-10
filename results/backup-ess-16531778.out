@@ -1,0 +1,42 @@
+lists: contrast 44, finals 51, other snapshots 138
+=== 2026-11-10_13:47:59 stage 1 held A + contrast snapshots
+
+sent 65,286,881,763 bytes  received 852 bytes  417,168,579.01 bytes/sec
+total size is 65,270,943,628  speedup is 1.00
+rc=0
+=== 2026-11-10_13:50:35 stage 1 finals
+
+sent 80,250,007,927 bytes  received 871 bytes  425,729,489.64 bytes/sec
+total size is 89,131,000,259  speedup is 1.11
+rc=0
+=== 2026-11-10_13:53:43 stage 2 data read by the queued chains
+
+sent 21,987,471,630 bytes  received 2,541 bytes  403,439,893.05 bytes/sec
+total size is 21,982,086,375  speedup is 1.00
+rc=0
+=== 2026-11-10_13:54:37 stage 2 finemath_4plus
+
+sent 13,003,175,602 bytes  received 532 bytes  400,097,727.20 bytes/sec
+total size is 13,000,000,090  speedup is 1.00
+rc=0
+=== 2026-11-10_13:55:09 stage 2 codeparrot_py
+
+sent 10,002,442,658 bytes  received 399 bytes  392,252,668.90 bytes/sec
+total size is 10,000,000,000  speedup is 1.00
+rc=0
+=== 2026-11-10_13:55:34 stage 2 tokenizers
+
+sent 2,310,147 bytes  received 103 bytes  4,620,500.00 bytes/sec
+total size is 2,309,177  speedup is 1.00
+rc=0
+=== 2026-11-10_13:55:34 stage 2 helper_logs
+
+sent 698 bytes  received 133 bytes  1,662.00 bytes/sec
+total size is 144  speedup is 0.17
+rc=0
+=== 2026-11-10_13:55:34 stage 2 hf_cache
+
+sent 8,267,646 bytes  received 387 bytes  16,536,066.00 bytes/sec
+total size is 8,261,484  speedup is 1.00
+rc=0
+=== 2026-11-10_13:55:34 stage 3 analysed snapshots
